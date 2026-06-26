@@ -1,0 +1,17 @@
+# Arduino / build artifacts
+build/
+*.hex
+*.elf
+*.bin
+*.uf2
+*.map
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
+.vscode/
+.idea/
+
+# local source archive (redundant once extracted)
+HalloweenProps-files.zip
