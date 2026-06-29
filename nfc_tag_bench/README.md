@@ -34,14 +34,15 @@ other edge of the board:
 | GND | **GND** | the GND right next to 3V3 (same side) |
 | SDA | **GPIO21** | I²C data |
 | SCL | **GPIO22** | I²C clock |
-| RSTO | **GPIO17** | reset |
-| IRQ | **GPIO16** | interrupt |
+| RSTO | **`TX2`** (GPIO17) | reset |
+| IRQ | **`RX2`** (GPIO16) | interrupt |
 
 **On the PN532 module set the DIP switches to I²C: `SW1 ON`, `SW2 OFF`.**
 
-> IRQ/RST use GPIO16/17 (free on the ESP32-WROOM-32) — chosen to avoid the strapping pins
-> **and** GPIO18/19, which the thermocouple build uses for hardware SPI on this same board. If
-> you ever need them elsewhere, GPIO4 and GPIO23 are the other free pins on the 3V3 side.
+> IRQ/RST use GPIO16/17 — silkscreened **`RX2`** and **`TX2`** on this board (it does *not*
+> print "D16/D17" there). They're free on the ESP32-WROOM-32 and avoid the strapping pins
+> **and** GPIO18/19, which the thermocouple build uses for hardware SPI on this same board.
+> GPIO4 and GPIO23 are the other free pins on the 3V3 side if you ever need them.
 
 ## WiFi credentials (kept out of the repo)
 

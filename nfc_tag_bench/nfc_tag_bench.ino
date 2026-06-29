@@ -25,8 +25,8 @@
  *    PN532 GND  -> GND          (right side, next to 3V3)
  *    PN532 SDA  -> GPIO21  (SDA)
  *    PN532 SCL  -> GPIO22  (SCL)
- *    PN532 RSTO -> GPIO17        (reset)
- *    PN532 IRQ  -> GPIO16        (interrupt)
+ *    PN532 RSTO -> GPIO17 [TX2]  (reset)
+ *    PN532 IRQ  -> GPIO16 [RX2]  (interrupt)
  *    DIP switches on the PN532:  SW1 ON, SW2 OFF  = I2C
  *
  *  LIBRARIES (Arduino Library Manager): "Adafruit PN532" (pulls in
@@ -51,8 +51,8 @@
 // ------------------------------- config (TUNE) -----------------------------
 #define PIN_SDA   21      // all PN532 pins are on the 3V3 (right) side of the board
 #define PIN_SCL   22
-#define PIN_IRQ   16      // (avoids GPIO18/19 = the thermocouple board's SPI pins)
-#define PIN_RST   17
+#define PIN_IRQ   16      // silk "RX2"; avoids GPIO18/19 (thermocouple SPI pins)
+#define PIN_RST   17      // silk "TX2"
 
 #define HOSTNAME  "skullbench"  // -> http://skullbench.local
 #define AP_SSID   "SkullBench"  // fallback access point if WiFi won't join
