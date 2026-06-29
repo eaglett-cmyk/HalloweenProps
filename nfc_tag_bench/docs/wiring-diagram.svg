@@ -1,0 +1,94 @@
+<svg viewBox="0 0 860 600" xmlns="http://www.w3.org/2000/svg" width="100%" role="img" aria-labelledby="ttl dsc">
+  <title id="ttl">NFC Tag Bench wiring diagram</title>
+  <desc id="dsc">An ESP32 (AITRIP 30-pin) connects to a PN532 NFC reader over I2C: 3V3 to VCC, GND common, GPIO21 to SDA, GPIO22 to SCL, GPIO26 to RSTO, GPIO25 to IRQ. The ESP32 is USB powered and joins WiFi network NETGEAR72. An NTAG token is read/written on the PN532 antenna.</desc>
+
+  <rect x="8" y="8" width="844" height="584" rx="16" fill="#fbfcfd" stroke="#e2e8f0"/>
+
+  <text x="28" y="44" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#0f172a">NFC Tag Bench — Wiring Diagram</text>
+  <text x="28" y="66" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#64748b">ESP32 (AITRIP 30-pin) + PN532 (I²C) — all six wires on the 3V3 side · WiFi NETGEAR72</text>
+
+  <g font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#334155">
+    <line x1="28"  y1="98" x2="50"  y2="98" stroke="#dc2626" stroke-width="3"/><text x="56"  y="102">3.3 V</text>
+    <line x1="150" y1="98" x2="172" y2="98" stroke="#1f2937" stroke-width="3"/><text x="178" y="102">Common GND</text>
+    <line x1="320" y1="98" x2="342" y2="98" stroke="#2563eb" stroke-width="3"/><text x="348" y="102">I²C (SDA/SCL)</text>
+    <line x1="490" y1="98" x2="512" y2="98" stroke="#0d9488" stroke-width="3"/><text x="518" y="102">GPIO (reset / IRQ)</text>
+  </g>
+  <line x1="28" y1="112" x2="824" y2="112" stroke="#eef2f6" stroke-width="1"/>
+
+  <!-- ============ connectors (under boxes) ============ -->
+  <!-- I2C + power + control: ESP32 right edge -> PN532 left edge -->
+  <line x1="470" y1="290" x2="600" y2="280" stroke="#dc2626" stroke-width="2.5"/>
+  <line x1="470" y1="320" x2="600" y2="312" stroke="#2563eb" stroke-width="2.5"/>
+  <line x1="470" y1="345" x2="600" y2="336" stroke="#2563eb" stroke-width="2.5"/>
+  <line x1="470" y1="375" x2="600" y2="364" stroke="#0d9488" stroke-width="2.5"/>
+  <line x1="470" y1="400" x2="600" y2="388" stroke="#0d9488" stroke-width="2.5"/>
+
+  <!-- USB power -->
+  <line x1="220" y1="326" x2="270" y2="326" stroke="#64748b" stroke-width="2.5"/>
+  <!-- WiFi (dashed) -->
+  <line x1="280" y1="188" x2="345" y2="255" stroke="#0ea5e9" stroke-width="2" stroke-dasharray="5 4"/>
+  <!-- NFC RF (dashed) -->
+  <line x1="705" y1="188" x2="705" y2="250" stroke="#9333ea" stroke-width="2" stroke-dasharray="5 4"/>
+
+  <!-- ground bus + stubs -->
+  <line x1="370" y1="445" x2="370" y2="495" stroke="#1f2937" stroke-width="2.5"/>
+  <line x1="705" y1="420" x2="705" y2="495" stroke="#1f2937" stroke-width="2.5"/>
+  <line x1="320" y1="495" x2="745" y2="495" stroke="#1f2937" stroke-width="3.5"/>
+  <circle cx="370" cy="495" r="3.2" fill="#1f2937"/>
+  <circle cx="705" cy="495" r="3.2" fill="#1f2937"/>
+
+  <!-- ============ boxes ============ -->
+  <!-- ESP32 hub -->
+  <rect x="270" y="255" width="200" height="190" rx="12" fill="#0f172a"/>
+  <text x="358" y="340" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#ffffff">ESP32</text>
+  <text x="358" y="362" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#cbd5e1">AITRIP 30-pin</text>
+  <text x="358" y="381" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#94a3b8">3.3 V logic · WiFi/BLE</text>
+  <g font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#cbd5e1" text-anchor="end">
+    <text x="462" y="294">3V3</text>
+    <text x="462" y="324">D21</text>
+    <text x="462" y="349">D22</text>
+    <text x="462" y="379">D17</text>
+    <text x="462" y="404">D16</text>
+  </g>
+  <text x="384" y="440" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#cbd5e1">GND</text>
+
+  <!-- PN532 -->
+  <rect x="600" y="250" width="210" height="170" rx="10" fill="#ffffff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="705" y="278" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#0f172a">PN532 NFC</text>
+  <text x="705" y="297" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#64748b">I²C 0x24</text>
+  <text x="705" y="315" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#64748b">SW1 ON / SW2 OFF</text>
+  <g font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#475569">
+    <text x="608" y="284">VCC</text>
+    <text x="608" y="316">SDA</text>
+    <text x="608" y="340">SCL</text>
+    <text x="608" y="368">RSTO</text>
+    <text x="608" y="392">IRQ</text>
+  </g>
+  <text x="716" y="414" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#475569">GND</text>
+
+  <!-- USB -->
+  <rect x="70" y="303" width="150" height="46" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="145" y="331" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="13.5" font-weight="700" fill="#0f172a">USB  5 V (PC)</text>
+
+  <!-- NTAG token -->
+  <rect x="620" y="120" width="170" height="66" rx="10" fill="#ffffff" stroke="#9333ea" stroke-width="1.5"/>
+  <text x="705" y="148" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#0f172a">NTAG token</text>
+  <text x="705" y="167" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#64748b">held on the antenna</text>
+
+  <!-- WiFi cloud -->
+  <rect x="190" y="142" width="180" height="46" rx="22" fill="#ffffff" stroke="#0ea5e9" stroke-width="1.5"/>
+  <text x="280" y="170" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="600" fill="#0369a1">WiFi · NETGEAR72</text>
+
+  <!-- ============ wire labels ============ -->
+  <g font-family="Arial, Helvetica, sans-serif" font-size="11">
+    <text x="535" y="278" text-anchor="middle" fill="#dc2626">3V3→VCC</text>
+    <text x="535" y="332" text-anchor="middle" fill="#2563eb">I²C bus</text>
+    <text x="540" y="398" text-anchor="middle" fill="#0d9488">D17·D16</text>
+    <text x="245" y="319" fill="#64748b">5 V</text>
+    <text x="715" y="222" fill="#9333ea">NFC</text>
+  </g>
+
+  <!-- ground label -->
+  <text x="512" y="514" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="700" fill="#1f2937">COMMON GROUND</text>
+  <text x="512" y="529" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="10" fill="#64748b">ESP32 GND and PN532 GND tie together</text>
+</svg>

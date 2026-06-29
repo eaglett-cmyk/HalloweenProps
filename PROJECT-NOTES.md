@@ -69,8 +69,9 @@ reflashed board never erases anyone's streak).
 | Pages | Bytes | Contents |
 |-------|-------|----------|
 | 4–15  | 48    | NDEF URI record = link to this repo (phone-tappable) |
-| 16    | 4     | marker `SK` + schema ver + visit count (written **last** = commit) |
-| 17–39 | 92    | one page per year: `[number, prizeTier, …]` (23 years) |
+| 16    | 4     | marker `SK` + schema ver (`0x03`) + visit count (written **last** = commit) |
+| 17    | 4     | `charge` = per-token roll modifier (set via the `nfc_tag_bench/` tool) |
+| 18–39 | 88    | one page per year: `[number, prizeTier, …]` (22 years) |
 
 The repo link (NDEF) and the prop's private visit data live in **separate** page ranges and
 never collide: phones stop at the NDEF terminator; the prop reads/writes raw pages past it.

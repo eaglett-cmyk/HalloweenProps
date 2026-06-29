@@ -33,9 +33,9 @@ A Halloween prop. A skull with LED eyes sits on a table. A kid puts a hand in it
 
 ## Behavior (see .ino for the source of truth)
 
-Idle: eyes breathe. Trigger = proximity over `baseline + PROX_MARGIN` **or** the outside button. On trigger, a ~700 ms window latches the mouth button (+10 to the roll, capped at 100) and reads the PN532. Branch: **fresh token** → write the repo NDEF link to pages 4–15 + record visit; **returning token** → append this year; **no token** → plain number. Veterans (3rd year+) get best-of-two rolls. Print: greeting tier + number + prize + full year history. Cooldown, re-arm when the hand clears and the button is released. Serial debug @115200 prints prox values and trigger source.
+Idle: eyes breathe. Trigger = proximity over `baseline + PROX_MARGIN` **or** the outside button. On trigger, a ~700 ms window latches the mouth button (+10 to the roll, capped at 100) and reads the PN532; the token's stored `charge` value is also added to the roll. Branch: **fresh token** → write the repo NDEF link to pages 4–15 + record visit; **returning token** → append this year; **no token** → plain number. Veterans (3rd year+) get best-of-two rolls. Print: greeting tier + number + prize + charge bonus + full year history. Cooldown, re-arm when the hand clears and the button is released. Serial debug @115200 prints prox values and trigger source.
 
-**Token layout (NTAG203 user pages 4–39):** pages 4–15 = NDEF URI record (repo link, phone-tappable); page 16 = marker `SK` + schema + visit count (written LAST = commit); pages 17–39 = one page per year (~23-year capacity). NDEF and visit data never overlap.
+**Token layout (NTAG203 user pages 4–39, schema `0x03`):** pages 4–15 = NDEF URI record (repo link, phone-tappable); page 16 = marker `SK` + schema + visit count (written LAST = commit); page 17 = `charge` (per-token roll modifier, set via the `nfc_tag_bench/` tool); pages 18–39 = one page per year (~22-year capacity). NDEF and visit data never overlap. **Keep this layout in sync with `nfc_tag_bench/nfc_tag_bench.ino`.**
 
 **Tuning knobs (top of .ino):** `PRINTER_BAUD`, `PROX_MARGIN`, `EVENT_YEAR`, `BASE_YEAR` (2024), `VETERAN_YEARS` (2), `PROP_WRITES_URL`. Prize tiers: 100 = JACKPOT, 90–99 = BIG WIN, 40–89 = TREAT, else trick (`prizeTier` / `prizeName`).
 

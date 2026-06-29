@@ -25,9 +25,10 @@
  *  DATA BUDGET (NTAG203 user memory = pages 4..39 = 144 bytes):
  *       pages  4..15 : NDEF URI record = the GitHub link        48 bytes
  *       page   16    : marker "SK" + schema + visit count         4 bytes
- *       pages 17..39 : one page per year -> [number, prize, ...] 92 bytes
- *    A 5-year veteran uses ~70 bytes; the layout holds 23 years of history
- *    before it fills. Your existing tags are plenty — no upgrade needed.
+ *       page   17    : "charge" = per-token roll modifier         4 bytes
+ *       pages 18..39 : one page per year -> [number, prize, ...] 88 bytes
+ *    "Charge" is a bonus ADDED to the drawn number (set on the token with the
+ *    nfc_tag_bench tool). The layout still holds 22 years of history — plenty.
  *
  *  HARDWARE / WIRING   (GPIO numbers; Feather ESP32-S3 silk label in [brackets].
  *  Handy: on this board the D-labels equal the GPIO numbers — D6=GPIO6, etc.)
@@ -67,6 +68,9 @@
  *                          0 = you pre-write the link at the bench with NFC
  *                          Tools + the ACR1252 (makes first-time taps instant)
  *        Prize tiers / names, and the veteran bonus, are all editable below.
+ *  CHARGE: a per-token modifier (0..255) ADDED to the drawn number, clamped to
+ *        NUMBER_MAX. Set it on a token with the nfc_tag_bench web tool; the prop
+ *        reads it and never changes it (a persistent bonus, not consumed).
  *  ============================================================================
  */
 
@@ -123,13 +127,15 @@
 #define PRINT_HISTORY  1          // 1 = print the kid's year-by-year history
 
 // --- token memory layout (NTAG203 user pages 4..39) ---
+//   MUST stay in sync with nfc_tag_bench/nfc_tag_bench.ino
 #define NDEF_START_PAGE 4         // pages 4..15 hold the link
 #define MARKER_PAGE     16        // "SK" + schema + visit count
-#define YEAR_BASE_PAGE  17        // slot for BASE_YEAR; +1 per year after
-#define MAX_YEARS       23        // pages 17..39
+#define CHARGE_PAGE     17        // [charge,0,0,0] = per-token roll modifier
+#define YEAR_BASE_PAGE  18        // slot for BASE_YEAR; +1 per year after
+#define MAX_YEARS       22        // pages 18..39
 #define MAGIC0          0x53      // 'S'
 #define MAGIC1          0x4B      // 'K'
-#define SCHEMA_VER      0x02
+#define SCHEMA_VER      0x03      // bumped for the charge page
 
 // --- prize tiers by drawn number (TUNE freely) ---
 //   returns a tier 0..3 that gets stored on the tag and printed
@@ -173,10 +179,11 @@ bool          seeded       = false;
 void    handleTag(bool mouthBonus);
 uint8_t drawNumber(uint8_t priorYears);
 uint8_t applyBonus(uint8_t n, bool bonus);
+uint8_t applyCharge(uint8_t n, uint8_t charge);
 void    writeNdefUrl();
 bool    readPage(uint8_t page, uint8_t *buf);
 bool    writePage(uint8_t page, uint8_t *buf);
-void    printReward(uint8_t visits, uint8_t number, uint8_t tier);
+void    printReward(uint8_t visits, uint8_t number, uint8_t tier, uint8_t charge);
 void    printNoToken(uint8_t number);
 void    eyesBreathe();
 void    eyesFlare(uint16_t ms);
@@ -277,6 +284,11 @@ void handleTag(bool mouthBonus) {
 
   bool    ours    = (marker[0] == MAGIC0 && marker[1] == MAGIC1);
   uint8_t visits  = ours ? marker[3] : 0;     // years attended so far
+
+  uint8_t chg[4] = {0,0,0,0};                 // per-token "charge" = roll modifier
+  if (ours) readPage(CHARGE_PAGE, chg);
+  uint8_t charge = chg[0];
+
   int     yearIdx = (int)EVENT_YEAR - (int)BASE_YEAR;
   uint8_t slotPage = (uint8_t)(YEAR_BASE_PAGE + yearIdx);
   bool    slotValid = (yearIdx >= 0 && yearIdx < MAX_YEARS);
@@ -288,17 +300,22 @@ void handleTag(bool mouthBonus) {
 
   uint8_t number, tier;
   if (playedThisYear) {
-    number = slot[0];
+    number = slot[0];                         // already includes the charge bonus
     tier   = slot[1];
   } else {
-    number = applyBonus(drawNumber(visits), mouthBonus);   // veteran roll, then +10 if pressed
+    number = drawNumber(visits);              // veteran roll
+    number = applyBonus(number, mouthBonus);  // + in-mouth button (+10)
+    number = applyCharge(number, charge);     // + per-token charge modifier
     tier   = prizeTier(number);
 
     if (!ours) {                              // FRESH TOKEN -> provision it
 #if PROP_WRITES_URL
       writeNdefUrl();                         // pages 3..15 (link is now phone-tappable)
 #endif
+      uint8_t zero[4] = {0,0,0,0};
+      writePage(CHARGE_PAGE, zero);           // charge starts at 0 (set it via the bench)
       visits = 0;
+      charge = 0;
     }
 
     if (slotValid) {                          // record this year's result
@@ -313,10 +330,11 @@ void handleTag(bool mouthBonus) {
 
   if (DEBUG) {
     Serial.print(F("token: visits=")); Serial.print(visits);
+    Serial.print(F(" charge=")); Serial.print(charge);
     Serial.print(F(" number=")); Serial.print(number);
     Serial.print(F(" tier="));   Serial.println(tier);
   }
-  printReward(visits, number, tier);
+  printReward(visits, number, tier, charge);
 }
 
 // veterans (>= VETERAN_YEARS prior years) get the better of two rolls
@@ -332,6 +350,13 @@ uint8_t drawNumber(uint8_t priorYears) {
 // in-mouth button adds MOUTH_BONUS, clamped to NUMBER_MAX
 uint8_t applyBonus(uint8_t n, bool bonus) {
   int v = (int)n + (bonus ? MOUTH_BONUS : 0);
+  if (v > NUMBER_MAX) v = NUMBER_MAX;
+  return (uint8_t)v;
+}
+
+// per-token "charge" is ADDED to the number, clamped to NUMBER_MAX (persistent)
+uint8_t applyCharge(uint8_t n, uint8_t charge) {
+  int v = (int)n + (int)charge;
   if (v > NUMBER_MAX) v = NUMBER_MAX;
   return (uint8_t)v;
 }
@@ -369,7 +394,7 @@ bool writePage(uint8_t page, uint8_t *buf) { return nfc.mifareultralight_WritePa
 
 // ------------------------------- the printout ------------------------------
 //  Everything between CUSTOMIZE markers is yours to reword.
-void printReward(uint8_t visits, uint8_t number, uint8_t tier) {
+void printReward(uint8_t visits, uint8_t number, uint8_t tier, uint8_t charge) {
   printer.wake();
   printer.justify('C');
 
@@ -398,6 +423,11 @@ void printReward(uint8_t visits, uint8_t number, uint8_t tier) {
   printer.setSize('S');            // the prize
   printer.print(F("Prize: "));
   printer.println(prizeName(tier));
+
+  if (charge > 0) {                // per-token charge modifier (set via the bench)
+    printer.print(F("Charge bonus +"));
+    printer.println(charge);
+  }
 
 #if PRINT_HISTORY
   // walk the year slots and print every year they attended
