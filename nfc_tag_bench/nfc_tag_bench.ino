@@ -1,6 +1,8 @@
 /*
  * ============================================================================
- *  NFC TAG BENCH  —  Skull Oracle test rig  (v2: writes the prop's real format)
+ *  NFC TAG BENCH  —  Skull Oracle + Crystal Oracle test rig
+ *  (v3: + Crystal Oracle crystal colour, slot badges, CC write guard;
+ *   v3.1: the three 3D-printed PLA crystal colours, gradient / rainbow swatches)
  *  Board : ESP32 (AITRIP 30-pin WROOM-32, Amazon B0CR5Y2JVD)
  *          Arduino IDE board = "ESP32 Dev Module"  (Espressif esp32 core)
  *  NFC   : PN532 (HiLetgo V3, Amazon B01I1J17LC) in I2C mode
@@ -15,8 +17,35 @@
  *    Use it to set a charge on a token, then tap that token on the prop and
  *    watch the roll come out higher: that is the feature under test.
  *
+ *    v3: the same tags are the CRYSTALS of the Crystal Oracle
+ *    (../crystal_oracle/). The bench can also set a crystal's COLOUR (page 17
+ *    byte 1) and shows the Oracle's per-year extension bytes (flags/chapter)
+ *    as badges in the visit history. Setting the charge no longer wipes the
+ *    colour (page 17 is read-modify-written).
+ *
  *    >>> The TAG LAYOUT below is kept byte-for-byte identical to
- *        ../skull_oracle/skull_oracle.ino  (schema 0x03). Change both together.
+ *        ../skull_oracle/skull_oracle.ino  (schema 0x03) and to the Crystal
+ *        Oracle's firmware/crystal_oracle/token.h. Change them together.
+ *
+ *  TAG LAYOUT  (schema 0x03, NTAG 4-byte pages)
+ *  --------------------------------------------------------------------------
+ *    page  3      CC  E1 10 12 00 -- written ONLY if byte 0 != 0xE1. The CC
+ *                 is one-time-programmable (bits OR in, never clear), so
+ *                 writing it over a factory CC (NTAG216 = E1 10 6D 00) would
+ *                 corrupt the size byte.
+ *    pages 4..15  NDEF URI record (the phone-tappable link) + FE terminator
+ *    page  16     'S' 'K' 0x03 visits                 (written LAST = commit)
+ *    page  17     charge, colour, 0, 0
+ *                   charge = roll bonus 0..255 (the skull adds it)
+ *                   colour = crystal colour id, 0 = unset (Crystal Oracle
+ *                            only): 1..3 in use (CRYSTAL_COLORS below), 4..6
+ *                            kept free for future filaments
+ *    pages 18..39 one page per year (slot = 18 + year - BASE_YEAR):
+ *                   number 1..100, prize 0..3, flags, chapter
+ *                   flags/chapter are Crystal Oracle extensions (the skull and
+ *                   this bench write 0). flags: 01 first visit, 02 charged,
+ *                   04 pity, 08 milestone, 10 circle, 20 reserved,
+ *                   80 written by the Crystal Oracle. chapter = story chapter.
  *
  *  WIRING   (PN532 in I2C mode  ->  ESP32 30-pin)
  *  --------------------------------------------------------------------------
@@ -60,9 +89,12 @@
 
 // --- tag layout: MUST MATCH ../skull_oracle/skull_oracle.ino (schema 0x03) ---
 #define REPO_PATH       "github.com/eaglett-cmyk/HalloweenProps"
+#define CC_PAGE         3       // capability container (OTP -- see writeNdefUrl)
 #define NDEF_START_PAGE 4       // pages 4..15 hold the link
 #define MARKER_PAGE     16      // 'S','K',schema,visits
-#define CHARGE_PAGE     17      // [charge,0,0,0]  per-token roll modifier
+#define CHARGE_PAGE     17      // [charge,colour,0,0]  roll modifier + crystal colour
+#define CHARGE_BYTE     0       //   page 17 byte 0 = charge
+#define COLOR_BYTE      1       //   page 17 byte 1 = crystal colour (0 = unset)
 #define YEAR_BASE_PAGE  18      // slot for BASE_YEAR; +1 per year after
 #define MAX_YEARS       22      // pages 18..39
 #define MAGIC0          0x53    // 'S'
@@ -70,6 +102,36 @@
 #define SCHEMA_VER      0x03
 #define BASE_YEAR       2024
 #define NUMBER_MAX      100
+
+// --- crystal colours (TUNE): the value stored in page 17 byte 1 -------------
+//     The crystals are 3D-printed in translucent PLA: one id per filament, in
+//     this order (1, 2, 3 ...), 0 = unset. Ids 4..6 are free for future
+//     filaments: add a row here AND the matching color.N / color.N_hex words to
+//     the Crystal Oracle's story (manifest -> captions.ini + story_defaults.h).
+//     Names MUST MATCH the Oracle's words "color.N"; the swatch is any CSS
+//     background (the Oracle's "color.N_hex" is #RRGGBB, a 2-4 stop gradient
+//     "#RRGGBB,#RRGGBB", or "rainbow"). The web page builds its colour picker
+//     from this table (via /api/colors), so this is the only place to edit. A
+//     crystal holding an id that isn't in the table shows as "unknown (n)".
+struct CrystalColor {
+  const char* name;       // = the Oracle's color.N
+  const char* css;        // swatch: a CSS background (no double quotes)
+  bool        rainbow;    // animate the swatch round the hue wheel
+  const char* filament;   // what it's printed in (shown under the swatch)
+};
+static const CrystalColor CRYSTAL_COLORS[] = {
+  // 1: full of dreams. Gradient filament, alternating transparent purple and
+  //    blue (each crystal differs). Oracle colour "#A35CFF,#2F7BFF"
+  { "Moonspell",    "linear-gradient(135deg,#A35CFF,#2F7BFF)", false,
+    "VOXELAB PLA Crystal Rainbow, Deep Sea Realm (purple/blue)" },
+  // 2: full of wonder. Oracle colour "#5CD6FF"
+  { "Starfrost",    "#5CD6FF", false,
+    "PLA HS Glitter, Clear Sky Blue" },
+  // 3: full of giggles. Multi-colour gradient filament. Oracle colour "rainbow"
+  { "Rainbow Fizz", "linear-gradient(90deg,#FF5C8A,#FFB84D,#FFF35C,#6DFF8A,#5CD6FF,#A35CFF)", true,
+    "FLASHFORGE Translucent Glitter PLA, Crystal Rainbow Candy" },
+};
+static const uint8_t NUM_COLORS = sizeof(CRYSTAL_COLORS) / sizeof(CRYSTAL_COLORS[0]);
 
 Adafruit_PN532 nfc(PIN_IRQ, PIN_RST);   // I2C mode (uses Wire)
 WebServer server(80);
@@ -103,10 +165,20 @@ static const char PAGE_HTML[] PROGMEM = R"HTMLPAGE(
  td,th{text-align:left;padding:4px 6px;border-bottom:1px solid var(--line)}
  .muted{color:var(--mut)}
  #msg{min-height:18px;font-size:13px}
+ .sw{display:inline-block;width:13px;height:13px;border-radius:50%;margin-right:6px;vertical-align:-1px;border:1px solid #0008}
+ .badge{display:inline-block;padding:0 7px;margin:1px 3px 1px 0;border-radius:999px;font-size:11px;font-weight:600;background:#334155;color:var(--ink)}
+ button.cbtn{color:#0b1220;min-width:118px}
+ button.cbtn.ghost{color:var(--ink)}
+ button.cbtn.on{outline:3px solid var(--ink);outline-offset:2px}
+ #colors{align-items:flex-start}
+ .cwrap{display:flex;flex-direction:column;align-items:center;gap:4px;max-width:150px}
+ .fil{font-size:11px;line-height:1.25;color:var(--mut);text-align:center}
+ .rb{animation:hue 4s linear infinite}
+ @keyframes hue{to{filter:hue-rotate(360deg)}}
 </style></head>
 <body><div class="wrap">
  <h1>&#127875; Skull Oracle &mdash; NFC Bench</h1>
- <div class="sub">writes the prop's real tag format + the charge modifier &middot; hold a tag on the reader</div>
+ <div class="sub">writes the props' real tag format (Skull + Crystal Oracle) + charge + crystal colour &middot; hold a tag on the reader</div>
 
  <div class="card">
    <div class="row" style="justify-content:space-between">
@@ -115,6 +187,7 @@ static const char PAGE_HTML[] PROGMEM = R"HTMLPAGE(
    </div>
    <div style="margin-top:10px">
      <div class="kv"><span>Charge (roll bonus)</span><span class="big acc" id="charge">&mdash;</span></div>
+     <div class="kv"><span>Crystal colour</span><span id="color">&mdash;</span></div>
      <div class="kv"><span>Visits</span><span id="visits">&mdash;</span></div>
      <div class="kv"><span>Phone link (NDEF)</span><span id="link" class="muted">&mdash;</span></div>
      <div class="kv"><span>Schema</span><span id="schema" class="muted">&mdash;</span></div>
@@ -136,6 +209,11 @@ static const char PAGE_HTML[] PROGMEM = R"HTMLPAGE(
  </div>
 
  <div class="card">
+   <label>Crystal colour &mdash; Crystal Oracle crystals only (the skull ignores it); keeps the charge</label>
+   <div class="row" id="colors"><span class="muted">loading colours&hellip;</span></div>
+ </div>
+
+ <div class="card">
    <label>Log a visit &mdash; seed a PAST year (leave the prop's EVENT_YEAR unplayed to test the roll)</label>
    <div class="row">
      <div class="f"><label>Year</label><input type="number" id="year" min="2024" max="2045" value="2025"></div>
@@ -153,7 +231,8 @@ static const char PAGE_HTML[] PROGMEM = R"HTMLPAGE(
      <button class="danger" onclick="fmt()">Erase / format</button>
    </div>
    <div class="muted" style="font-size:12px;margin-top:8px">
-     Provision = write the NDEF link + a blank "SK" marker (a brand-new prop tag).
+     Provision = write the NDEF link + a blank "SK" marker (a brand-new prop tag;
+     also zeroes the charge and colour).
    </div>
  </div>
 
@@ -162,7 +241,32 @@ static const char PAGE_HTML[] PROGMEM = R"HTMLPAGE(
 <script>
  const $=id=>document.getElementById(id), D="—";
  function pname(p){return ['trick','treat','big win','jackpot'][p]||'?';}
+ // Crystal Oracle slot extensions: flags (byte 2) + chapter (byte 3); 0 = none
+ const FLAGS=[[1,'first'],[2,'charged'],[4,'pity'],[8,'milestone'],[16,'circle'],[128,'oracle']];
+ function badges(e){ let h='';
+   for(const [bit,name] of FLAGS) if((e.flags|0)&bit) h+=`<span class="badge">${name}</span>`;
+   if(e.chapter) h+=`<span class="badge">ch ${e.chapter}</span>`;
+   return h; }
+ // crystal colours come from the sketch's CRYSTAL_COLORS table (one source of truth)
+ let COLORS=[], loadingColors=false;
+ async function loadColors(){
+   if(loadingColors) return; loadingColors=true;
+   try{ COLORS=await (await fetch('/api/colors')).json();
+     let h='<div class="cwrap"><button class="cbtn ghost" data-v="0" onclick="setColor(0)">none</button><span class="fil">unset</span></div>';
+     for(const c of COLORS)
+       h+=`<div class="cwrap"><button class="cbtn${c.rainbow?' rb':''}" data-v="${c.value}" style="background:${c.css}" onclick="setColor(${c.value})">${c.name}</button><span class="fil">${c.filament}</span></div>`;
+     $('colors').innerHTML=h;
+   }catch(e){ COLORS=[]; }
+   loadingColors=false; }
+ function showColor(v){          // v = 0..255 (0 = unset), or null = no prop tag
+   const c=COLORS.find(c=>c.value===v);
+   $('color').innerHTML = v===null ? D
+     : v===0 ? '<span class="muted">unset</span>'
+     : c ? `<span class="sw${c.rainbow?' rb':''}" style="background:${c.css}"></span>${c.name} <span class="muted" style="font-size:12px">(${c.filament})</span>`
+     : COLORS.length ? `unknown (${v})` : `colour ${v}`;   // table not loaded yet
+   for(const b of document.querySelectorAll('.cbtn')) b.classList.toggle('on', v!==null && +b.dataset.v===v); }
  async function poll(){
+   if(!COLORS.length) loadColors();
    try{
      const d=await (await fetch('/api/read')).json();
      if(!d.present){ set('no tag','#334155'); $('uid').textContent=D;
@@ -171,17 +275,19 @@ static const char PAGE_HTML[] PROGMEM = R"HTMLPAGE(
      $('link').textContent = d.link ? 'yes' : 'no';
      if(d.ours){ set('prop tag','#15803d');
        $('charge').textContent=d.charge; $('visits').textContent=d.visits;
+       showColor(d.color|0);
        $('schema').textContent='0x'+(d.schema||0).toString(16);
        let h='<tbody>';
        if(d.history&&d.history.length){ for(const e of d.history)
-         h+=`<tr><td>${e.year}</td><td>No. ${e.number}</td><td class="muted">${pname(e.prize)}</td></tr>`; }
+         h+=`<tr><td>${e.year}</td><td>No. ${e.number}</td><td class="muted">${pname(e.prize)}</td><td>${badges(e)}</td></tr>`; }
        else h+='<tr><td class="muted">no visits yet</td></tr>';
        $('hist').innerHTML=h+'</tbody>';
      } else { set('blank / foreign','#b45309'); blank();
-       $('hist').innerHTML='<tbody><tr><td class="muted">not a prop tag &mdash; Provision, Set charge, or Log visit to initialize</td></tr></tbody>'; }
+       $('hist').innerHTML='<tbody><tr><td class="muted">not a prop tag &mdash; Provision, Set charge, Set colour, or Log visit to initialize</td></tr></tbody>'; }
    }catch(e){}
  }
  function blank(){ $('charge').textContent=D; $('visits').textContent=D; $('schema').textContent=D;
+   showColor(null);
    $('hist').innerHTML='<tbody><tr><td class="muted">'+D+'</td></tr></tbody>'; }
  function set(t,c){ $('dot').textContent=t; $('dot').style.background=c; }
  async function call(url){ $('msg').textContent='…';
@@ -192,6 +298,7 @@ static const char PAGE_HTML[] PROGMEM = R"HTMLPAGE(
  function setCharge(){ call('/api/charge?value='+(+$('chargeIn').value||0)); }
  function bump(n){ let v=(parseInt($('charge').textContent)||0)+n; if(v<0)v=0; if(v>255)v=255;
    $('chargeIn').value=v; call('/api/charge?value='+v); }
+ function setColor(v){ call('/api/color?value='+v); }
  function logVisit(){ call(`/api/log?year=${+$('year').value}&number=${+$('num').value}&prize=${+$('prize').value}`); }
  function provision(){ call('/api/provision'); }
  function fmt(){ if(confirm('Erase this tag (clears user pages 4-39)?')) call('/api/format'); }
@@ -208,11 +315,19 @@ bool selectTag(uint16_t timeout) {
   return nfc.readPassiveTargetID(PN532_MIFARE_ISO14443A, uid, &len, timeout);
 }
 
-// Writes the CC + a single NDEF URI record for REPO_PATH into pages 3..15,
-// byte-for-byte the same as the prop's writeNdefUrl().
+// Writes the CC (only if missing) + a single NDEF URI record for REPO_PATH into
+// pages 3..15, byte-for-byte the same as the prop's writeNdefUrl().
+//  The CC (page 3) is one-time-programmable: written bits OR in and can never
+//  be cleared. Factory NTAGs already carry their own CC (NTAG213 = E1 10 12 00,
+//  NTAG216 = E1 10 6D 00), and writing E1 10 12 00 over an NTAG216's CC would
+//  turn its size byte into 0x7F = corrupt. So the CC is written only when byte
+//  0 isn't 0xE1 yet -- and never blind: if page 3 can't be read, leave it alone.
 void writeNdefUrl() {
-  uint8_t cc[4] = { 0xE1, 0x10, 0x12, 0x00 };   // NTAG203 CC: NDEF, 144 bytes
-  wrPage(3, cc);
+  uint8_t cur[4];
+  if (rdPage(CC_PAGE, cur) && cur[0] != 0xE1) {
+    uint8_t cc[4] = { 0xE1, 0x10, 0x12, 0x00 }; // NTAG203 CC: NDEF, 144 bytes
+    wrPage(CC_PAGE, cc);
+  }
 
   uint8_t buf[48];
   memset(buf, 0, sizeof(buf));
@@ -233,10 +348,14 @@ void writeNdefUrl() {
 }
 
 // Make sure the tag is a provisioned prop tag (marker present). Mirrors the
-// prop: a fresh tag gets the NDEF link + a blank marker + charge 0.
+// prop: a BRAND-NEW tag (readable, no "SK" marker) gets the NDEF link + a blank
+// marker + page 17 = {0,0,0,0} (charge 0, colour unset). A tag whose marker
+// page can't be READ is not treated as new -- re-provisioning it would wipe
+// its visits, charge and colour -- so that returns false and writes nothing.
 bool ensureProvisioned(uint8_t* visitsOut) {
   uint8_t m[4];
-  if (rdPage(MARKER_PAGE, m) && m[0] == MAGIC0 && m[1] == MAGIC1) {
+  if (!rdPage(MARKER_PAGE, m)) return false;       // unreadable: never provision blind
+  if (m[0] == MAGIC0 && m[1] == MAGIC1) {
     if (visitsOut) *visitsOut = m[3];
     return true;
   }
@@ -279,7 +398,8 @@ void handleRead() {
     uint8_t c[4] = {0,0,0,0}; rdPage(CHARGE_PAGE, c);
     j += ",\"schema\":" + String(m[2]);
     j += ",\"visits\":" + String(visits);
-    j += ",\"charge\":" + String(c[0]);
+    j += ",\"charge\":" + String(c[CHARGE_BYTE]);
+    j += ",\"color\":"  + String(c[COLOR_BYTE]);   // 0 = unset, 1..NUM_COLORS = CRYSTAL_COLORS (else "unknown (n)")
     j += ",\"history\":[";
     bool first = true;
     for (uint8_t y = 0; y < MAX_YEARS; y++) {
@@ -289,7 +409,9 @@ void handleRead() {
         first = false;
         j += "{\"year\":"    + String(BASE_YEAR + y) +
              ",\"number\":"  + String(s[0]) +
-             ",\"prize\":"   + String(s[1]) + "}";
+             ",\"prize\":"   + String(s[1]) +
+             ",\"flags\":"   + String(s[2]) +      // Crystal Oracle extensions
+             ",\"chapter\":" + String(s[3]) + "}"; //   (skull / bench write 0)
       }
     }
     j += "]";
@@ -308,14 +430,49 @@ void handleProvision() {
   sendJson(ok ? "{\"ok\":true}" : "{\"ok\":false,\"err\":\"write\"}");
 }
 
-void handleCharge() {
-  long v = server.arg("value").toInt();
-  if (v < 0) v = 0; if (v > 255) v = 255;
-  if (!selectTag(300)) { sendJson("{\"ok\":false,\"err\":\"no tag\"}"); return; }
-  ensureProvisioned(nullptr);
-  uint8_t c[4] = { (uint8_t)v, 0, 0, 0 };
+// Page 17 read-modify-write: change ONE byte (CHARGE_BYTE or COLOR_BYTE) and
+// keep the other three exactly as they are, so setting the charge never wipes
+// a crystal's colour and vice versa. Auto-provisions a brand-new tag first,
+// like the prop would. Never writes blind: if page 17 can't be read, nothing
+// is written (writing a guessed page would clobber the other bytes).
+void setChargePageByte(uint8_t idx, uint8_t value) {
+  if (!selectTag(300))             { sendJson("{\"ok\":false,\"err\":\"no tag\"}"); return; }
+  if (!ensureProvisioned(nullptr)) { sendJson("{\"ok\":false,\"err\":\"read/provision failed - hold the tag still\"}"); return; }
+  uint8_t c[4];
+  if (!rdPage(CHARGE_PAGE, c))     { sendJson("{\"ok\":false,\"err\":\"read\"}"); return; }
+  c[idx] = value;
   bool ok = wrPage(CHARGE_PAGE, c);
   sendJson(ok ? "{\"ok\":true}" : "{\"ok\":false,\"err\":\"write\"}");
+}
+
+void handleCharge() {
+  long v = server.arg("value").toInt();
+  if (v < 0)   v = 0;
+  if (v > 255) v = 255;
+  setChargePageByte(CHARGE_BYTE, (uint8_t)v);
+}
+
+// /api/color?value=0..NUM_COLORS  (0 = unset; 1..NUM_COLORS = CRYSTAL_COLORS)
+void handleColor() {
+  long v = server.hasArg("value") ? server.arg("value").toInt() : -1;
+  if (v < 0 || v > NUM_COLORS) { sendJson("{\"ok\":false,\"err\":\"colour out of range\"}"); return; }
+  setChargePageByte(COLOR_BYTE, (uint8_t)v);
+}
+
+// /api/colors -> [{"value":1,"name":"Moonspell","css":"linear-gradient(...)",
+//                 "rainbow":false,"filament":"VOXELAB ..."},...] for the picker
+void handleColors() {
+  String j = "[";
+  for (uint8_t i = 0; i < NUM_COLORS; i++) {
+    if (i) j += ",";
+    j += "{\"value\":" + String(i + 1) +
+         ",\"name\":\"" + CRYSTAL_COLORS[i].name +
+         "\",\"css\":\"" + CRYSTAL_COLORS[i].css +
+         "\",\"rainbow\":" + (CRYSTAL_COLORS[i].rainbow ? "true" : "false") +
+         ",\"filament\":\"" + CRYSTAL_COLORS[i].filament + "\"}";
+  }
+  j += "]";
+  sendJson(j);
 }
 
 void handleLog() {
@@ -328,7 +485,7 @@ void handleLog() {
   if (prize  < 0) prize  = 0; if (prize  > 3) prize = 3;
 
   if (!selectTag(300)) { sendJson("{\"ok\":false,\"err\":\"no tag\"}"); return; }
-  ensureProvisioned(nullptr);
+  if (!ensureProvisioned(nullptr)) { sendJson("{\"ok\":false,\"err\":\"read/provision failed - hold the tag still\"}"); return; }
 
   uint8_t slotPage = YEAR_BASE_PAGE + idx;
   uint8_t old[4] = {0,0,0,0}; rdPage(slotPage, old);
@@ -360,7 +517,7 @@ void handleFormat() {
 void setup() {
   Serial.begin(115200);
   delay(300);
-  Serial.println(F("\nNFC Tag Bench v2"));
+  Serial.println(F("\nNFC Tag Bench v3.1"));
 
   Wire.begin(PIN_SDA, PIN_SCL);
   nfc.begin();
@@ -395,6 +552,8 @@ void setup() {
   server.on("/api/read",      handleRead);
   server.on("/api/provision", handleProvision);
   server.on("/api/charge",    handleCharge);
+  server.on("/api/color",     handleColor);
+  server.on("/api/colors",    handleColors);
   server.on("/api/log",       handleLog);
   server.on("/api/format",    handleFormat);
   server.begin();

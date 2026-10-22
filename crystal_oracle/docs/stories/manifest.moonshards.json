@@ -1,0 +1,2850 @@
+{
+ "schema": 1,
+ "title": "MOONSHARDS - Oona's Halloween Window",
+ "fps": 13,
+ "screen": {
+  "width": 800,
+  "height": 480,
+  "text_band_y": 360,
+  "moon_center": [
+   650,
+   110
+  ]
+ },
+ "voice_style": {
+  "oona": "Warm, playful old ghost grandmother telling a bedtime story. Smiling, slightly whispery, sing-song, bright on exclamations. Never cackles, never spooky. Quick delivery: each line fits in about 2 seconds.",
+  "elevenlabs": "A gentle, older female storyteller voice. Stability ~40%, Similarity ~75%, Style ~30%, Speed 1.05-1.1.",
+  "openai_tts": "gpt-4o-mini-tts with voice 'fable' or 'sage' (or 'marin'/'cedar'), the Oona prompt as instructions. Disclose the AI voice on the parent sign.",
+  "smudge": "Not a separate actor: record Smudge's line with Oona's voice; the builder pitches it up 5 semitones at 1.15x speed (fx: smudge)."
+ },
+ "words": {
+  "title": "Moonshards",
+  "character": "Oona",
+  "rank.1": "Spark",
+  "rank.2": "Apprentice",
+  "rank.3": "Lamplighter",
+  "rank.4": "Wizard",
+  "rank.5": "Starcatcher",
+  "rank.6": "Moon Rider",
+  "rank.7": "Moon Guardian",
+  "tier.0": "SMUDGED!",
+  "tier.0_color": "#B9A8D6",
+  "tier.1": "SILVER MOON",
+  "tier.1_color": "#D9DEE8",
+  "tier.2": "WITCH'S HAT!",
+  "tier.2_color": "#FF3B47",
+  "tier.3": "WISHING STAR!",
+  "tier.3_color": "#FFC83D",
+  "bowl.common": "Silver Circle",
+  "bowl.common_color": "#D9DEE8",
+  "bowl.common_shape": "circle",
+  "bowl.rare": "Red Triangle",
+  "bowl.rare_color": "#FF3B47",
+  "bowl.rare_shape": "triangle",
+  "bowl.legend": "Gold Star",
+  "bowl.legend_color": "#FFC83D",
+  "bowl.legend_shape": "star",
+  "color.1": "Twilight",
+  "color.1_hex": "#A35CFF",
+  "color.2": "Ember",
+  "color.2_hex": "#FF7A1A",
+  "color.3": "Frost",
+  "color.3_hex": "#5CD6FF",
+  "color.4": "Potion",
+  "color.4_hex": "#3DFF7A",
+  "color.5": "Pixie",
+  "color.5_hex": "#FF6FC8",
+  "color.6": "Ghostlight",
+  "color.6_hex": "#EAFBFF",
+  "caption.attract": "Crystal here",
+  "caption.absorb": "",
+  "caption.awaken": "NEW CRYSTAL!",
+  "caption.greet": "Welcome back!",
+  "caption.charge": "PRESS!",
+  "caption.reveal_t0": "SMUDGED!",
+  "caption.reveal_t1": "SILVER MOON",
+  "caption.reveal_t2": "WITCH'S HAT!",
+  "caption.reveal_t3": "WISHING STAR!",
+  "caption.replay": "ALREADY GLOWING",
+  "caption.nocrystal": "STAR-WISP!",
+  "caption.foreign": "STAR-WISP!",
+  "caption.sleepy": "TRY AGAIN",
+  "caption.goodbye": "SEE YOU {next_year}",
+  "caption.milestone": "HOORAY!",
+  "caption.circle": "CRYSTAL CIRCLE!",
+  "caption.keeper": "SHH... SECRET",
+  "caption.chapter": "",
+  "caption.chapter_a": "OONA'S MOON",
+  "caption.chapter_b": "UH-OH, SMUDGE!",
+  "caption.chapter_c": "MOONSHARDS",
+  "caption.chapter_d": "YOUR LIGHT",
+  "caption.chapter_e": "CRYSTAL HERE",
+  "caption.chapter_f": "FILL THE MOON",
+  "caption.moonfull": "MOON SAVED!",
+  "caption.moonfull_b": "OFFICIAL TRICKSTER",
+  "caption.recall": "LAST YEAR",
+  "ui.place": "Crystal on the stone",
+  "ui.hold": "Hold still...",
+  "ui.power": "GLOW",
+  "ui.counter": "crystals awakened",
+  "ui.press": "Press the button!",
+  "ui.or_press": "OR PRESS",
+  "ui.tonight": "TONIGHT",
+  "ui.reader_asleep": "READER ASLEEP",
+  "ui.rush": "RUSH",
+  "ui.touch": "TOUCH FOR A STAR-WISP",
+  "ui.no_card": "NO TF CARD",
+  "meter.style": "moon",
+  "meter.pos": "650,110,46",
+  "meter.name": "Moon",
+  "meter.color": "#E9EEFF",
+  "meter.on": "attract,absorb,greet,recall,charge,reveal_t0,reveal_t1,replay,nocrystal,foreign,sleepy,goodbye,chapter_a,chapter_f",
+  "glow.idle_color": "#CFFFF2",
+  "fx.reveal_t0_1": "sparkles,400,195,400,1800,340,145",
+  "fx.reveal_t0_2": "none",
+  "fx.reveal_t0_3": "burst,400,170,600,600,#FFFFFF"
+ },
+ "stills": [
+  {
+   "id": "bg_window",
+   "kind": "background",
+   "transparent": false,
+   "priority": "MVP",
+   "desc": "Night view through Oona's round window: deep midnight-indigo (#12102A) sky with a few big soft stars; a gentle rounded hill of glossy UNLIT pumpkins and a few tiny far-off town windows across the lower-middle; the upper-right third left as empty dark sky (the device draws the Moon there, centre about 650,110); open centre for Oona; soft plum curtain edges at far left and right; bottom quarter plain near-black and empty. No mist, no bokeh, no tiny stars.",
+   "used_by": [
+    "attract",
+    "absorb",
+    "greet_r2",
+    "greet_r3",
+    "greet_r4",
+    "greet_r5",
+    "greet_r6",
+    "greet_r7",
+    "recall_t0",
+    "charge",
+    "reveal_t0",
+    "reveal_t1",
+    "replay",
+    "nocrystal",
+    "sleepy",
+    "goodbye",
+    "chapter"
+   ],
+   "prompt": "Night view through a round attic window (the window frame is just outside the picture; soft plum curtain edges at the far left and right). A deep midnight-indigo sky with a few big soft glowing stars; a gentle rounded hill of glossy UNLIT pumpkins and a few tiny far-off town windows across the lower middle. Leave the upper-right third as empty dark sky (a Moon will be drawn there later) and leave the centre open (a character floats there). Format: wide landscape, 5:3 (1600x960 if you can choose; otherwise the widest landscape option). Dark midnight-indigo night (#12102A). Keep the BOTTOM QUARTER of the image plain near-black and empty (the screen draws words there). Big simple shapes, clean smooth gradients. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and friendly, never scary."
+  },
+  {
+   "id": "bg_awaken",
+   "kind": "background",
+   "transparent": false,
+   "priority": "MVP",
+   "desc": "The Glowstone Hollow: a dark indigo-and-plum hilltop clearing framed by big soft rounded hill silhouettes and two curling vine shapes; one broad soft column of pale moonlight falls onto a round flat grey stone with a carved crescent in the centre (stone top at about 60% of the height, nothing on it); large simple shapes and clean gradients only; bottom quarter near-black and empty.",
+   "used_by": [
+    "awaken",
+    "reveal_t2",
+    "circle",
+    "chapter"
+   ],
+   "prompt": "The Glowstone Hollow: a dark indigo-and-plum hilltop clearing framed by big soft rounded hill silhouettes and two curling vine shapes. One broad, soft column of pale moonlight falls onto a round flat grey stone pedestal with a carved crescent on its front, in the exact centre; the stone's top surface is at about 60% of the image height and is EMPTY. Format: wide landscape, 5:3 (1600x960 if you can choose; otherwise the widest landscape option). Dark midnight-indigo night (#12102A). Keep the BOTTOM QUARTER of the image plain near-black and empty (the screen draws words there). Big simple shapes, clean smooth gradients. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and friendly, never scary."
+  },
+  {
+   "id": "bg_starburst",
+   "kind": "background",
+   "transparent": false,
+   "priority": "MVP",
+   "desc": "Blue-black night sky with about 12 broad, soft-edged gold (#FFC83D) rays fanning from the exact centre, a soft gold glow at the centre and a few large simple stars; nothing else; bottom quarter fades to near-black.",
+   "used_by": [
+    "reveal_t3",
+    "milestone",
+    "moonfull"
+   ],
+   "prompt": "A blue-black night sky with about 12 broad, soft-edged gold (#FFC83D) rays fanning out from the exact centre of the image, a soft gold glow at the centre and a few large simple stars. Nothing else. Format: wide landscape, 5:3 (1600x960 if you can choose; otherwise the widest landscape option). Dark midnight-indigo night (#12102A). Keep the BOTTOM QUARTER of the image plain near-black and empty (the screen draws words there). Big simple shapes, clean smooth gradients. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and friendly, never scary."
+  },
+  {
+   "id": "oona_base",
+   "kind": "character",
+   "transparent": true,
+   "priority": "MVP",
+   "desc": "MASTER IMAGE. Oona, a small chubby grandmother ghost shaped like a soft teardrop ending in one wispy curl (no legs); moonlight-white body (#F7FBFF) with a faint mint rim glow (#CFFFF2); big kind dark eyes, rosy cheeks, tiny round silver spectacles; floppy indigo nightcap (#3B3A8C) with a small SILVER star on the tip; two stubby arms hold an old dark-iron lantern in front of her tummy with a ROUND, EMPTY, CLEAR glass globe; gentle closed-mouth smile; full figure centred, facing the viewer, isolated on flat pure black. Nothing gold.",
+   "used_by": [
+    "charge",
+    "goodbye",
+    "chapter"
+   ],
+   "prompt": "MASTER CHARACTER IMAGE. Oona, a small chubby grandmother ghost shaped like a soft teardrop that ends in one wispy curl at the bottom (no legs). Moonlight-white body (#F7FBFF) with a faint mint rim glow (#CFFFF2); big kind dark eyes, rosy cheeks, tiny round SILVER spectacles; a floppy indigo nightcap (#3B3A8C) with a small SILVER star on the tip. Two stubby arms hold an old dark-iron lantern in front of her tummy; the lantern's glass globe is ROUND, CLEAR and EMPTY (no flame). Gentle closed-mouth smile, facing the viewer. Nothing gold, nothing sharp. Full figure, centred, nothing cropped, on a TRANSPARENT background (PNG). If you can't make it transparent, use a flat pure green #00FF00 background with no shadow and no floor. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and friendly, never scary.",
+   "anchor": [
+    0.5,
+    0.7
+   ]
+  },
+  {
+   "id": "oona_sleep",
+   "kind": "character",
+   "transparent": true,
+   "priority": "MVP",
+   "desc": "Edit of oona_base: eyes closed in happy sleep, small round snoring mouth, nightcap drooping over one eye; body, lantern position, size and colours identical.",
+   "used_by": [
+    "attract",
+    "sleepy"
+   ],
+   "prompt": "Use the attached oona_base image as Image 1. Edit Image 1: change ONLY the face: eyes closed in happy sleep, a small round snoring mouth, and the nightcap drooping over one eye. Keep her body shape, the lantern (same position, same empty round clear glass globe), size, colours, framing and the transparent background EXACTLY identical. Same style.",
+   "edit_of": "oona_base",
+   "anchor": [
+    0.5,
+    0.7
+   ]
+  },
+  {
+   "id": "oona_peek",
+   "kind": "character",
+   "transparent": true,
+   "priority": "MVP",
+   "desc": "Edit of oona_base: one eye open, the other still closed, sly little smile; everything else identical.",
+   "used_by": [
+    "attract",
+    "replay",
+    "keeper",
+    "chapter"
+   ],
+   "prompt": "Use the attached oona_base image as Image 1. Edit Image 1: change ONLY the face: one eye open, the other still closed, a sly little smile. Keep her body shape, the lantern (same position, same empty round clear glass globe), size, colours, framing and the transparent background EXACTLY identical. Same style.",
+   "edit_of": "oona_base",
+   "anchor": [
+    0.5,
+    0.7
+   ]
+  },
+  {
+   "id": "oona_delight",
+   "kind": "character",
+   "transparent": true,
+   "priority": "MVP",
+   "desc": "Edit of oona_base: huge open smile, sparkly happy eyes, extra-rosy cheeks; everything else identical.",
+   "used_by": [
+    "awaken",
+    "greet_r2",
+    "greet_r3",
+    "greet_r4",
+    "greet_r5",
+    "greet_r6",
+    "greet_r7",
+    "reveal_t1",
+    "reveal_t3",
+    "nocrystal",
+    "goodbye",
+    "milestone",
+    "moonfull"
+   ],
+   "prompt": "Use the attached oona_base image as Image 1. Edit Image 1: change ONLY the face: a huge open smile, sparkly happy eyes, extra-rosy cheeks. Keep her body shape, the lantern (same position, same empty round clear glass globe), size, colours, framing and the transparent background EXACTLY identical. Same style.",
+   "edit_of": "oona_base",
+   "anchor": [
+    0.5,
+    0.7
+   ]
+  },
+  {
+   "id": "oona_surprise",
+   "kind": "character",
+   "transparent": true,
+   "priority": "MVP",
+   "desc": "Edit of oona_base: round O-shaped mouth, eyebrows high, spectacles lifted a little; everything else identical.",
+   "used_by": [
+    "absorb",
+    "awaken",
+    "reveal_t2",
+    "reveal_t3"
+   ],
+   "prompt": "Use the attached oona_base image as Image 1. Edit Image 1: change ONLY the face: a round O-shaped mouth, eyebrows high, spectacles lifted a little. Keep her body shape, the lantern (same position, same empty round clear glass globe), size, colours, framing and the transparent background EXACTLY identical. Same style.",
+   "edit_of": "oona_base",
+   "anchor": [
+    0.5,
+    0.7
+   ]
+  },
+  {
+   "id": "oona_giggle",
+   "kind": "character",
+   "transparent": true,
+   "priority": "MVP",
+   "desc": "Edit of oona_base: eyes squeezed shut laughing, cheeks puffed, tiny tongue-out giggle; everything else identical.",
+   "used_by": [
+    "reveal_t0",
+    "circle"
+   ],
+   "prompt": "Use the attached oona_base image as Image 1. Edit Image 1: change ONLY the face: eyes squeezed shut laughing, cheeks puffed, a tiny tongue-out giggle. Keep her body shape, the lantern (same position, same empty round clear glass globe), size, colours, framing and the transparent background EXACTLY identical. Same style.",
+   "edit_of": "oona_base",
+   "anchor": [
+    0.5,
+    0.7
+   ]
+  },
+  {
+   "id": "oona_pumpkin",
+   "kind": "character",
+   "transparent": true,
+   "priority": "MVP",
+   "desc": "Edit of oona_base: a friendly smiling jack-o'-lantern is stuck over her head down to her eyebrows, her eyes peeking out under its rim, amused; nightcap hidden; body and lantern identical.",
+   "used_by": [
+    "reveal_t0"
+   ],
+   "prompt": "Use the attached oona_base image as Image 1. Edit Image 1: change ONLY her head: a friendly smiling jack-o'-lantern is stuck over her head down to her eyebrows, her amused eyes peeking out under its rim; the nightcap is hidden under the pumpkin. Keep her body shape, the lantern (same position, same empty round clear glass globe), size, colours, framing and the transparent background EXACTLY identical. Same style.",
+   "edit_of": "oona_base",
+   "anchor": [
+    0.5,
+    0.7
+   ]
+  },
+  {
+   "id": "smudge_base",
+   "kind": "character",
+   "transparent": true,
+   "priority": "MVP",
+   "desc": "MASTER IMAGE. Smudge, a marshmallow moth that looks like a plush toy, NOT a real bug: round pom-pom body of lavender-grey fluff (#B9A8D6), fluffy cream collar (#FFF1D6), two tiny fern antennae, huge glossy black eyes with star highlights, one small rounded buck tooth in a cheeky grin, two small soft wings with pale moon-shaped spots, two tiny stubby fluff-paws; no legs, no segments; soft pale rim light; hovering; isolated on flat pure black.",
+   "used_by": [
+    "attract",
+    "reveal_t0",
+    "chapter",
+    "moonfull"
+   ],
+   "prompt": "MASTER CHARACTER IMAGE. Smudge, a marshmallow moth that looks like a PLUSH TOY, not a real bug: a round pom-pom body of lavender-grey fluff (#B9A8D6), a fluffy cream collar (#FFF1D6), two tiny fern antennae, huge glossy black eyes with star highlights, one small rounded buck tooth in a cheeky grin, two small soft wings with pale moon-shaped spots, two tiny stubby fluff paws. No legs, no body segments, nothing insect-like. Soft pale rim light. Hovering, facing the viewer. Full figure, centred, nothing cropped, on a TRANSPARENT background (PNG). If you can't make it transparent, use a flat pure green #00FF00 background with no shadow and no floor. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and friendly, never scary."
+  },
+  {
+   "id": "smudge_munch",
+   "kind": "character",
+   "transparent": true,
+   "priority": "MVP",
+   "desc": "Edit of smudge_base: cheeks stuffed, happily munching a glowing silver moon-crumb held in both paws, a few big sparkle crumbs falling; everything else identical.",
+   "used_by": [
+    "attract",
+    "reveal_t0",
+    "chapter"
+   ],
+   "prompt": "Use the attached smudge_base image as Image 1. Edit Image 1: change ONLY his pose and face: cheeks stuffed, happily munching a glowing silver moon-crumb held in both paws, a few big sparkle crumbs falling. Keep his body, fluff colour, wings, size, colours, framing and the transparent background EXACTLY identical. Same style.",
+   "edit_of": "smudge_base"
+  },
+  {
+   "id": "smudge_sneeze",
+   "kind": "character",
+   "transparent": true,
+   "priority": "MVP",
+   "desc": "Edit of smudge_base: face scrunched mid-sneeze, eyes squeezed shut, a round puff of glitter dust bursting from his nose; everything else identical.",
+   "used_by": [
+    "reveal_t0",
+    "attract"
+   ],
+   "prompt": "Use the attached smudge_base image as Image 1. Edit Image 1: change ONLY his face: scrunched mid-sneeze, eyes squeezed shut, a round puff of glitter dust bursting from his nose. Keep his body, fluff colour, wings, size, colours, framing and the transparent background EXACTLY identical. Same style.",
+   "edit_of": "smudge_base"
+  },
+  {
+   "id": "prop_moon",
+   "kind": "prop",
+   "transparent": true,
+   "priority": "MVP",
+   "desc": "A large full Moon disc, pale silver-white (#E9EEFF), a few big soft round craters, gentle glowing edge, no face; isolated on flat pure black.",
+   "used_by": [
+    "attract",
+    "reveal_t1",
+    "nocrystal",
+    "moonfull",
+    "chapter",
+    "bowl_common",
+    "recall_t1"
+   ],
+   "prompt": "A large full Moon disc, pale silver-white (#E9EEFF), a few big soft round craters, a gentle glowing edge, no face. Front view. Full figure, centred, nothing cropped, on a TRANSPARENT background (PNG). If you can't make it transparent, use a flat pure green #00FF00 background with no shadow and no floor. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and friendly, never scary."
+  },
+  {
+   "id": "prop_crystal",
+   "kind": "prop",
+   "transparent": true,
+   "priority": "MVP",
+   "desc": "One pale clear faceted crystal matching the real resin crystals' shape (give ChatGPT a photo of one), nearly white with soft internal facets and a bright top highlight; isolated on flat pure black.",
+   "used_by": [
+    "awaken",
+    "greet_r2",
+    "greet_r3",
+    "greet_r4",
+    "greet_r5",
+    "greet_r6",
+    "greet_r7",
+    "replay",
+    "circle",
+    "chapter"
+   ],
+   "prompt": "One pale, clear, faceted crystal shaped like the crystal in the attached photo (attach a photo of one of your real resin crystals), nearly white with soft internal facets and a bright top highlight. Front view, standing upright. Full figure, centred, nothing cropped, on a TRANSPARENT background (PNG). If you can't make it transparent, use a flat pure green #00FF00 background with no shadow and no floor. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and friendly, never scary.",
+   "refs": [
+    "a photo of one of your real crystals"
+   ]
+  },
+  {
+   "id": "prop_starwisp",
+   "kind": "prop",
+   "transparent": true,
+   "priority": "MVP",
+   "desc": "A tiny chubby five-point star with a sweet sleepy smile and a long wispy comet tail, pale silver-white with a soft mint glow (NOT gold); isolated on flat pure black.",
+   "used_by": [
+    "nocrystal"
+   ],
+   "prompt": "A tiny chubby five-point star with a sweet sleepy smile and a long wispy comet tail curling up and to the left, pale silver-white with a soft mint glow (NOT gold). Full figure, centred, nothing cropped, on a TRANSPARENT background (PNG). If you can't make it transparent, use a flat pure green #00FF00 background with no shadow and no floor. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and friendly, never scary."
+  },
+  {
+   "id": "prop_witchhat",
+   "kind": "prop",
+   "transparent": true,
+   "priority": "MVP",
+   "desc": "A chunky bright red (#FF3B47) pointed witch's hat with a slightly bent tip and a small silver buckle, front view, clear triangle silhouette, no face; isolated on flat pure black.",
+   "used_by": [
+    "reveal_t2",
+    "bowl_rare",
+    "recall_t2"
+   ],
+   "prompt": "A chunky bright red (#FF3B47) pointed witch's hat with a slightly bent tip and a small silver buckle, front view, a clear triangle silhouette, no face. Full figure, centred, nothing cropped, on a TRANSPARENT background (PNG). If you can't make it transparent, use a flat pure green #00FF00 background with no shadow and no floor. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and friendly, never scary."
+  },
+  {
+   "id": "prop_wishstar",
+   "kind": "prop",
+   "transparent": true,
+   "priority": "MVP",
+   "desc": "A chunky glossy gold (#FFC83D) five-point star with rounded points and a soft glow, no face, front view; isolated on flat pure black.",
+   "used_by": [
+    "reveal_t3",
+    "bowl_legend",
+    "recall_t3",
+    "milestone"
+   ],
+   "prompt": "A chunky glossy gold (#FFC83D) five-point star with rounded points and a soft warm glow, no face, front view. Full figure, centred, nothing cropped, on a TRANSPARENT background (PNG). If you can't make it transparent, use a flat pure green #00FF00 background with no shadow and no floor. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and friendly, never scary."
+  },
+  {
+   "id": "oona_shh",
+   "kind": "character",
+   "transparent": true,
+   "priority": "NICE",
+   "desc": "Edit of oona_base: one finger to her lips (the lantern stays exactly in place in the other hand), half-lidded twinkly eyes, secret smile.",
+   "used_by": [
+    "replay",
+    "keeper"
+   ],
+   "prompt": "Use the attached oona_base image as Image 1. Edit Image 1: change ONLY her free hand and face: one finger to her lips, half-lidded twinkly eyes, a secret smile (the lantern stays exactly in place in the other hand). Keep her body shape, the lantern (same position, same empty round clear glass globe), size, colours, framing and the transparent background EXACTLY identical. Same style.",
+   "edit_of": "oona_base",
+   "anchor": [
+    0.5,
+    0.7
+   ]
+  },
+  {
+   "id": "oona_worried",
+   "kind": "character",
+   "transparent": true,
+   "priority": "NICE",
+   "desc": "Edit of oona_base: cute 'oh dear' face, worried raised eyebrows, small wobbly mouth; everything else identical.",
+   "used_by": [
+    "attract",
+    "chapter"
+   ],
+   "prompt": "Use the attached oona_base image as Image 1. Edit Image 1: change ONLY the face: a cute 'oh dear' look, worried raised eyebrows, a small wobbly mouth. Keep her body shape, the lantern (same position, same empty round clear glass globe), size, colours, framing and the transparent background EXACTLY identical. Same style.",
+   "edit_of": "oona_base",
+   "anchor": [
+    0.5,
+    0.7
+   ]
+  },
+  {
+   "id": "oona_proud",
+   "kind": "character",
+   "transparent": true,
+   "priority": "NICE",
+   "desc": "Edit of oona_base: eyes closed in a proud, happy smile, cheeks glowing; face-only change, everything else identical.",
+   "used_by": [
+    "greet_r2",
+    "greet_r3",
+    "greet_r4",
+    "greet_r5",
+    "greet_r6",
+    "greet_r7",
+    "moonfull"
+   ],
+   "prompt": "Use the attached oona_base image as Image 1. Edit Image 1: change ONLY the face: eyes closed in a proud, happy smile, cheeks glowing. Keep her body shape, the lantern (same position, same empty round clear glass globe), size, colours, framing and the transparent background EXACTLY identical. Same style.",
+   "edit_of": "oona_base",
+   "anchor": [
+    0.5,
+    0.7
+   ]
+  },
+  {
+   "id": "oona_witchhat",
+   "kind": "character",
+   "transparent": true,
+   "priority": "NICE",
+   "desc": "Edit of oona_base: the red witch's hat from prop_witchhat replaces her nightcap; she winks; body and lantern identical.",
+   "used_by": [
+    "reveal_t2"
+   ],
+   "prompt": "Use the attached oona_base image as Image 1. Edit Image 1: change ONLY her hat: the chunky bright red (#FF3B47) witch's hat (same design as prop_witchhat) replaces her nightcap, and she winks. Keep her body shape, the lantern (same position, same empty round clear glass globe), size, colours, framing and the transparent background EXACTLY identical. Same style.",
+   "edit_of": "oona_base",
+   "anchor": [
+    0.5,
+    0.7
+   ]
+  },
+  {
+   "id": "smudge_sheepish",
+   "kind": "character",
+   "transparent": true,
+   "priority": "NICE",
+   "desc": "Edit of smudge_base: guilty big shiny eyes, paws together, tiny blush, small apologetic smile.",
+   "used_by": [
+    "reveal_t0",
+    "moonfull",
+    "keeper"
+   ],
+   "prompt": "Use the attached smudge_base image as Image 1. Edit Image 1: change ONLY his face and paws: guilty big shiny eyes, paws together, a tiny blush, a small apologetic smile. Keep his body, fluff colour, wings, size, colours, framing and the transparent background EXACTLY identical. Same style.",
+   "edit_of": "smudge_base"
+  },
+  {
+   "id": "smudge_dazzled",
+   "kind": "character",
+   "transparent": true,
+   "priority": "NICE",
+   "desc": "Edit of smudge_base: swirly spiral eyes, dizzy wobbly smile, three little silver stars circling his head.",
+   "used_by": [
+    "moonfull",
+    "circle"
+   ],
+   "prompt": "Use the attached smudge_base image as Image 1. Edit Image 1: change ONLY his face: swirly spiral eyes, a dizzy wobbly smile, three little silver stars circling his head. Keep his body, fluff colour, wings, size, colours, framing and the transparent background EXACTLY identical. Same style.",
+   "edit_of": "smudge_base"
+  },
+  {
+   "id": "bg_window_lit",
+   "kind": "background",
+   "transparent": false,
+   "priority": "NICE",
+   "desc": "Edit of bg_window: every pumpkin on the hill now glows warm amber-orange from inside and the town windows are lit; sky, layout and the empty Moon area identical.",
+   "used_by": [
+    "attract",
+    "moonfull",
+    "chapter"
+   ],
+   "prompt": "Use the attached bg_window image as Image 1. Edit Image 1: make every pumpkin on the hill glow warm amber-orange from inside and light up the far-off town windows. Keep the sky, layout, curtains and the empty upper-right Moon area EXACTLY identical. Same style; the bottom quarter stays plain near-black.",
+   "edit_of": "bg_window"
+  },
+  {
+   "id": "chapter_nibble",
+   "kind": "background",
+   "transparent": false,
+   "priority": "NICE",
+   "desc": "Storybook wide shot: Smudge (same design as smudge_base) sitting on a thin silver crescent Moon high in an indigo sky, munching it like a cookie, a few glowing crumbs falling; bottom quarter dark and empty.",
+   "used_by": [
+    "chapter"
+   ],
+   "prompt": "Storybook wide shot: Smudge (use the attached smudge_base image for his exact design) sitting on a thin silver crescent Moon high in an indigo night sky, munching it like a cookie, a few glowing crumbs falling. Format: wide landscape, 5:3 (1600x960 if you can choose; otherwise the widest landscape option). Dark midnight-indigo night (#12102A). Keep the BOTTOM QUARTER of the image plain near-black and empty (the screen draws words there). Big simple shapes, clean smooth gradients. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and friendly, never scary.",
+   "refs": [
+    "smudge_base"
+   ]
+  },
+  {
+   "id": "chapter_shardfall",
+   "kind": "background",
+   "transparent": false,
+   "priority": "NICE",
+   "desc": "Storybook wide shot: a big round silver Moon with a simple friendly laughing face, sparkles falling from it and landing as small glowing crystals in six colours (violet, orange, ice blue, green, pink, white) among pumpkins on a dark hill; bottom quarter dark and empty.",
+   "used_by": [
+    "chapter"
+   ],
+   "prompt": "Storybook wide shot: a big round silver Moon with a simple friendly laughing face high in the sky, sparkles falling from it and landing as small glowing crystals in six colours (violet, orange, ice blue, green, pink, white) among pumpkins on a dark hill. Format: wide landscape, 5:3 (1600x960 if you can choose; otherwise the widest landscape option). Dark midnight-indigo night (#12102A). Keep the BOTTOM QUARTER of the image plain near-black and empty (the screen draws words there). Big simple shapes, clean smooth gradients. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and friendly, never scary."
+  },
+  {
+   "id": "fx_bubble",
+   "kind": "fx",
+   "transparent": true,
+   "priority": "NICE",
+   "desc": "A glossy round soap bubble with a soft rainbow rim and a mostly clear centre, on flat pure black (screen-blend it).",
+   "used_by": [
+    "reveal_t0"
+   ],
+   "prompt": "A glossy round soap bubble with a soft rainbow rim and a mostly clear centre. Nothing else. Full figure, centred, nothing cropped, on a TRANSPARENT background (PNG). If you can't make it transparent, use a flat pure green #00FF00 background with no shadow and no floor. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and friendly, never scary."
+  },
+  {
+   "id": "icon_button",
+   "kind": "icon",
+   "transparent": true,
+   "priority": "NICE",
+   "desc": "Top-down view of one big round glossy arcade button with a white ring and soft glow, simple icon style, isolated on flat pure black.",
+   "used_by": [
+    "attract",
+    "charge",
+    "nocrystal"
+   ],
+   "prompt": "Top-down view of one big round glossy arcade button with a white ring and a soft glow, simple icon style. Full figure, centred, nothing cropped, on a TRANSPARENT background (PNG). If you can't make it transparent, use a flat pure green #00FF00 background with no shadow and no floor. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and friendly, never scary."
+  },
+  {
+   "id": "print_keyart",
+   "kind": "print",
+   "transparent": false,
+   "priority": "NICE",
+   "desc": "Portrait 2:3 key art: Oona holding her glowing lantern, Smudge peeking over her shoulder with a grin, one glowing crystal on a stone below; generous plain dark space at the top and bottom for sign text. Used for the parent sign and the boot/title card.",
+   "used_by": [
+    "attract"
+   ],
+   "prompt": "Portrait 2:3 poster art: Oona (use the attached oona_base for her exact design) holding her glowing lantern, Smudge (attached smudge_base) peeking over her shoulder with a grin, one glowing crystal on a round grey stone below. Generous plain dark space at the top and bottom for sign text. Dark midnight-indigo background. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and friendly, never scary.",
+   "refs": [
+    "oona_base",
+    "smudge_base"
+   ]
+  }
+ ],
+ "clips": [
+  {
+   "id": "attract",
+   "priority": "MVP",
+   "recipe": "layers",
+   "seconds": 12,
+   "loop": true,
+   "bg": {
+    "image": "bg_window"
+   },
+   "layers": [
+    {
+     "sprite": "oona_sleep",
+     "height": 300,
+     "x": 400,
+     "y": 50,
+     "bob": {
+      "amp": 6,
+      "period": 3
+     },
+     "fade_in": 0,
+     "fade_out": 0.25,
+     "t": [
+      0,
+      8.75
+     ]
+    },
+    {
+     "sprite": "oona_peek",
+     "height": 300,
+     "x": 400,
+     "y": 50,
+     "bob": {
+      "amp": 6,
+      "period": 3
+     },
+     "fade_in": 0.25,
+     "fade_out": 0.25,
+     "t": [
+      8.5,
+      11.75
+     ]
+    },
+    {
+     "sprite": "oona_sleep",
+     "height": 300,
+     "x": 400,
+     "y": 50,
+     "bob": {
+      "amp": 6,
+      "period": 3
+     },
+     "fade_in": 0.25,
+     "fade_out": 0,
+     "t": [
+      11.5,
+      12
+     ]
+    },
+    {
+     "sprite": "smudge_base",
+     "height": 110,
+     "x": [
+      880,
+      700
+     ],
+     "y": [
+      30,
+      80
+     ],
+     "t": [
+      3,
+      5.5
+     ],
+     "flutter": true,
+     "fade_in": 0.1,
+     "fade_out": 0.1
+    },
+    {
+     "sprite": "smudge_munch",
+     "height": 110,
+     "x": 700,
+     "y": 80,
+     "t": [
+      5.4,
+      8.1
+     ],
+     "flutter": false,
+     "fade_in": 0.1,
+     "fade_out": 0.1,
+     "bob": {
+      "amp": 3,
+      "period": 0.4
+     }
+    },
+    {
+     "sprite": "smudge_base",
+     "height": 110,
+     "x": [
+      700,
+      900
+     ],
+     "y": [
+      80,
+      20
+     ],
+     "t": [
+      8,
+      10
+     ],
+     "flutter": true,
+     "fade_in": 0.1,
+     "fade_out": 0.1
+    }
+   ],
+   "anchor_layer": 0,
+   "notes": "Oona sleeps/peeks; Smudge flutters to the (device-drawn) Moon, munches, flies off."
+  },
+  {
+   "id": "attract_full",
+   "priority": "NICE",
+   "recipe": "layers",
+   "seconds": 12,
+   "loop": true,
+   "bg": {
+    "image": "bg_window_lit"
+   },
+   "layers": [
+    {
+     "sprite": "oona_sleep",
+     "height": 300,
+     "x": 400,
+     "y": 50,
+     "bob": {
+      "amp": 6,
+      "period": 3
+     },
+     "fade_in": 0,
+     "fade_out": 0.25,
+     "t": [
+      0,
+      8.75
+     ]
+    },
+    {
+     "sprite": "oona_proud",
+     "height": 300,
+     "x": 400,
+     "y": 50,
+     "bob": {
+      "amp": 6,
+      "period": 3
+     },
+     "fade_in": 0.25,
+     "fade_out": 0.25,
+     "t": [
+      8.5,
+      11.75
+     ],
+     "fallback": "oona_peek"
+    },
+    {
+     "sprite": "oona_sleep",
+     "height": 300,
+     "x": 400,
+     "y": 50,
+     "bob": {
+      "amp": 6,
+      "period": 3
+     },
+     "fade_in": 0.25,
+     "fade_out": 0,
+     "t": [
+      11.5,
+      12
+     ]
+    },
+    {
+     "sprite": "smudge_sheepish",
+     "height": 110,
+     "x": [
+      900,
+      690
+     ],
+     "y": [
+      40,
+      70
+     ],
+     "t": [
+      4,
+      9
+     ],
+     "flutter": true,
+     "fade_in": 0.1,
+     "fade_out": 0.1,
+     "optional": true
+    }
+   ],
+   "anchor_layer": 0,
+   "notes": "After the Moon is full: lit pumpkins; Smudge the Official Trickster visits."
+  },
+  {
+   "id": "absorb",
+   "priority": "MVP",
+   "recipe": "layers",
+   "seconds": 1,
+   "loop": false,
+   "bg": {
+    "image": "bg_window"
+   },
+   "layers": [
+    {
+     "sprite": "oona_base",
+     "height": 300,
+     "x": 400,
+     "y": 50,
+     "bob": {
+      "amp": 6,
+      "period": 2.4
+     },
+     "fade_in": 0,
+     "fade_out": 0.12,
+     "t": [
+      0,
+      0.25
+     ]
+    },
+    {
+     "sprite": "oona_surprise",
+     "height": 300,
+     "x": 400,
+     "y": 50,
+     "bob": {
+      "amp": 6,
+      "period": 2.4
+     },
+     "fade_in": 0.12,
+     "fade_out": 0,
+     "t": [
+      0.12,
+      1
+     ]
+    }
+   ],
+   "anchor_layer": 1,
+   "notes": "The device draws the beam of crystal-coloured light into the lantern."
+  },
+  {
+   "id": "awaken",
+   "priority": "MVP",
+   "recipe": "layers",
+   "seconds": 8,
+   "loop": false,
+   "variants": "colors",
+   "bg": {
+    "image": "bg_awaken",
+    "zoom": [
+     1.0,
+     1.05
+    ]
+   },
+   "layers": [
+    {
+     "sprite": "prop_crystal",
+     "tint": "$color",
+     "height": [
+      80,
+      130,
+      130
+     ],
+     "x": 400,
+     "y": [
+      300,
+      175,
+      165
+     ],
+     "t": [
+      0,
+      8
+     ],
+     "fade_in": 0.4,
+     "bob": {
+      "amp": 4,
+      "period": 2
+     }
+    },
+    {
+     "sprite": "oona_surprise",
+     "height": 220,
+     "x": 620,
+     "y": [
+      -260,
+      40
+     ],
+     "t": [
+      0.4,
+      3.2
+     ],
+     "fade_in": 0.2,
+     "fade_out": 0.25,
+     "bob": {
+      "amp": 5,
+      "period": 2.4
+     }
+    },
+    {
+     "sprite": "oona_delight",
+     "height": 220,
+     "x": 620,
+     "y": 40,
+     "t": [
+      3.0,
+      8
+     ],
+     "fade_in": 0.25,
+     "bob": {
+      "amp": 5,
+      "period": 2.4
+     }
+    }
+   ],
+   "anchor_layer": 2,
+   "notes": "6 colour variants awaken_1..awaken_6 (crystal tinted with color.N_hex). The device adds rays/glow + the meter."
+  },
+  {
+   "id": "greet",
+   "priority": "MVP",
+   "recipe": "layers",
+   "seconds": 2.4,
+   "loop": true,
+   "bg": {
+    "image": "bg_window"
+   },
+   "layers": [
+    {
+     "sprite": "oona_delight",
+     "height": 300,
+     "x": 400,
+     "y": 50,
+     "bob": {
+      "amp": 6,
+      "period": 2.4
+     },
+     "fade_in": 0,
+     "fade_out": 0
+    }
+   ],
+   "anchor_layer": 0,
+   "notes": "One visual for every rank; the device draws the crystal, rank aura, meter and rank name."
+  },
+  {
+   "id": "charge",
+   "priority": "MVP",
+   "recipe": "layers",
+   "seconds": 2.4,
+   "loop": true,
+   "bg": {
+    "image": "bg_window"
+   },
+   "layers": [
+    {
+     "sprite": "oona_base",
+     "height": 300,
+     "x": 400,
+     "y": 40,
+     "bob": {
+      "amp": 6,
+      "period": 2.4
+     },
+     "fade_in": 0,
+     "fade_out": 0
+    }
+   ],
+   "anchor_layer": 0,
+   "notes": "The device draws the button prompt, meter fill and sparkles."
+  },
+  {
+   "id": "reveal_t0_1",
+   "priority": "MVP",
+   "recipe": "layers",
+   "seconds": 2.5,
+   "loop": false,
+   "bg": {
+    "image": "bg_window"
+   },
+   "layers": [
+    {
+     "sprite": "oona_giggle",
+     "height": 300,
+     "x": 400,
+     "y": 50,
+     "bob": {
+      "amp": 6,
+      "period": 2.4
+     },
+     "fade_in": 0.15,
+     "fade_out": 0
+    },
+    {
+     "sprite": "smudge_base",
+     "height": 110,
+     "x": [
+      900,
+      580
+     ],
+     "y": [
+      140,
+      120
+     ],
+     "t": [
+      0,
+      0.6
+     ],
+     "flutter": true,
+     "fade_in": 0.1,
+     "fade_out": 0.1
+    },
+    {
+     "sprite": "smudge_sneeze",
+     "height": 110,
+     "x": [
+      580,
+      595
+     ],
+     "y": 120,
+     "t": [
+      0.55,
+      1.25
+     ],
+     "flutter": false,
+     "fade_in": 0.1,
+     "fade_out": 0.1
+    },
+    {
+     "sprite": "smudge_base",
+     "height": 110,
+     "x": [
+      595,
+      900
+     ],
+     "y": [
+      120,
+      30
+     ],
+     "t": [
+      1.2,
+      2.0
+     ],
+     "flutter": true,
+     "fade_in": 0.1,
+     "fade_out": 0.1
+    }
+   ],
+   "anchor_layer": 0,
+   "notes": "Gag 1 The Sneeze. The device sprinkles polka dots in the crystal colour."
+  },
+  {
+   "id": "reveal_t0_2",
+   "priority": "MVP",
+   "recipe": "layers",
+   "seconds": 2.5,
+   "loop": false,
+   "bg": {
+    "image": "bg_window"
+   },
+   "layers": [
+    {
+     "sprite": "oona_giggle",
+     "height": 300,
+     "x": 400,
+     "y": 50,
+     "bob": {
+      "amp": 6,
+      "period": 2.4
+     },
+     "fade_in": 0.15,
+     "fade_out": 0
+    },
+    {
+     "sprite": "smudge_munch",
+     "height": 110,
+     "x": 600,
+     "y": 120,
+     "t": [
+      0,
+      1.0
+     ],
+     "flutter": false,
+     "fade_in": 0.1,
+     "fade_out": 0.1,
+     "bob": {
+      "amp": 3,
+      "period": 0.4
+     }
+    },
+    {
+     "sprite": "smudge_sheepish",
+     "height": 110,
+     "x": 600,
+     "y": 120,
+     "t": [
+      0.95,
+      2.5
+     ],
+     "flutter": true,
+     "fade_in": 0.1,
+     "fade_out": 0.1,
+     "fallback": "smudge_base"
+    },
+    {
+     "sprite": "fx_bubble",
+     "height": [
+      40,
+      90
+     ],
+     "x": [
+      600,
+      400
+     ],
+     "y": [
+      150,
+      330
+     ],
+     "t": [
+      1.0,
+      2.4
+     ],
+     "fade_in": 0.1,
+     "fade_out": 0.2,
+     "blend": "screen",
+     "optional": true
+    }
+   ],
+   "anchor_layer": 0,
+   "notes": "Gag 2 The Bubble Burp (the bubble floats down into the crystal)."
+  },
+  {
+   "id": "reveal_t0_3",
+   "priority": "MVP",
+   "recipe": "layers",
+   "seconds": 2.5,
+   "loop": false,
+   "bg": {
+    "image": "bg_window"
+   },
+   "layers": [
+    {
+     "sprite": "oona_base",
+     "height": 300,
+     "x": 400,
+     "y": 50,
+     "bob": {
+      "amp": 6,
+      "period": 2.4
+     },
+     "fade_in": 0.1,
+     "fade_out": 0.1,
+     "t": [
+      0,
+      0.7
+     ]
+    },
+    {
+     "sprite": "smudge_base",
+     "height": 110,
+     "x": [
+      -100,
+      900
+     ],
+     "y": [
+      200,
+      60
+     ],
+     "t": [
+      0.2,
+      0.9
+     ],
+     "flutter": true,
+     "fade_in": 0.1,
+     "fade_out": 0.1
+    },
+    {
+     "sprite": "oona_pumpkin",
+     "height": 300,
+     "x": 400,
+     "y": 50,
+     "bob": {
+      "amp": 6,
+      "period": 2.4
+     },
+     "fade_in": 0.1,
+     "fade_out": 0,
+     "t": [
+      0.6,
+      2.5
+     ],
+     "rotate": [
+      0,
+      -3,
+      3,
+      -2,
+      0
+     ]
+    }
+   ],
+   "anchor_layer": 2,
+   "notes": "Gag 3 Pumpkin Head (the device adds a sparkle poof at 0.6 s)."
+  },
+  {
+   "id": "reveal_t1",
+   "priority": "MVP",
+   "recipe": "layers",
+   "seconds": 2.5,
+   "loop": false,
+   "bg": {
+    "image": "bg_window"
+   },
+   "layers": [
+    {
+     "sprite": "oona_delight",
+     "height": 300,
+     "x": 400,
+     "y": 50,
+     "bob": {
+      "amp": 6,
+      "period": 2.4
+     },
+     "fade_in": 0.15,
+     "fade_out": 0
+    },
+    {
+     "sprite": "prop_moon",
+     "height": [
+      40,
+      70,
+      50
+     ],
+     "x": [
+      400,
+      420,
+      640
+     ],
+     "y": [
+      250,
+      140,
+      85
+     ],
+     "t": [
+      0.3,
+      2.2
+     ],
+     "fade_in": 0.2,
+     "fade_out": 0.35
+    }
+   ],
+   "anchor_layer": 0,
+   "notes": "A little silver moon rises from the lantern and joins the big Moon."
+  },
+  {
+   "id": "reveal_t2",
+   "priority": "MVP",
+   "recipe": "layers",
+   "seconds": 2.5,
+   "loop": false,
+   "bg": {
+    "image": "bg_awaken"
+   },
+   "layers": [
+    {
+     "sprite": "oona_surprise",
+     "height": 300,
+     "x": 400,
+     "y": 50,
+     "bob": {
+      "amp": 6,
+      "period": 2.4
+     },
+     "fade_in": 0.15,
+     "fade_out": 0
+    },
+    {
+     "sprite": "prop_witchhat",
+     "height": [
+      60,
+      150,
+      150
+     ],
+     "x": 400,
+     "y": [
+      260,
+      95,
+      105
+     ],
+     "t": [
+      0.2,
+      2.5
+     ],
+     "fade_in": 0.15,
+     "spin": 1.5
+    }
+   ],
+   "anchor_layer": 0,
+   "notes": "The Witch's Hat spins up out of the lantern."
+  },
+  {
+   "id": "reveal_t2_2",
+   "priority": "NICE",
+   "recipe": "layers",
+   "seconds": 2.5,
+   "loop": false,
+   "bg": {
+    "image": "bg_awaken"
+   },
+   "layers": [
+    {
+     "sprite": "oona_surprise",
+     "height": 300,
+     "x": 400,
+     "y": 50,
+     "bob": {
+      "amp": 6,
+      "period": 2.4
+     },
+     "fade_in": 0.15,
+     "fade_out": 0.2,
+     "t": [
+      0,
+      1.3
+     ]
+    },
+    {
+     "sprite": "prop_witchhat",
+     "height": [
+      60,
+      110
+     ],
+     "x": 400,
+     "y": [
+      260,
+      20
+     ],
+     "t": [
+      0.1,
+      1.3
+     ],
+     "spin": 1,
+     "fade_out": 0.2
+    },
+    {
+     "sprite": "oona_witchhat",
+     "height": 300,
+     "x": 400,
+     "y": 50,
+     "bob": {
+      "amp": 6,
+      "period": 2.4
+     },
+     "fade_in": 0.2,
+     "fade_out": 0,
+     "t": [
+      1.1,
+      2.5
+     ]
+    }
+   ],
+   "anchor_layer": 0,
+   "notes": "Variant 2: the hat lands on Oona, who winks."
+  },
+  {
+   "id": "reveal_t3",
+   "priority": "MVP",
+   "recipe": "layers",
+   "seconds": 3,
+   "loop": false,
+   "bg": {
+    "image": "bg_starburst",
+    "rotate": [
+     0,
+     15
+    ]
+   },
+   "layers": [
+    {
+     "sprite": "prop_wishstar",
+     "height": [
+      70,
+      240
+     ],
+     "x": 400,
+     "y": [
+      300,
+      70
+     ],
+     "t": [
+      0,
+      3
+     ],
+     "fade_in": 0.3,
+     "bob": {
+      "amp": 4,
+      "period": 1.5
+     }
+    }
+   ],
+   "notes": "The rays turn slowly; the Wishing Star rises and grows (no strobe)."
+  },
+  {
+   "id": "replay",
+   "priority": "MVP",
+   "recipe": "layers",
+   "seconds": 2.4,
+   "loop": true,
+   "bg": {
+    "image": "bg_window"
+   },
+   "layers": [
+    {
+     "sprite": "oona_shh",
+     "height": 300,
+     "x": 400,
+     "y": 50,
+     "bob": {
+      "amp": 6,
+      "period": 2.4
+     },
+     "fade_in": 0,
+     "fade_out": 0,
+     "fallback": "oona_peek"
+    }
+   ],
+   "anchor_layer": 0
+  },
+  {
+   "id": "nocrystal",
+   "priority": "MVP",
+   "recipe": "layers",
+   "seconds": 3.5,
+   "loop": false,
+   "bg": {
+    "image": "bg_window"
+   },
+   "layers": [
+    {
+     "sprite": "oona_delight",
+     "height": 300,
+     "x": 400,
+     "y": 50,
+     "bob": {
+      "amp": 6,
+      "period": 2.4
+     },
+     "fade_in": 0.15,
+     "fade_out": 0
+    },
+    {
+     "sprite": "prop_starwisp",
+     "height": [
+      40,
+      70,
+      60
+     ],
+     "x": [
+      400,
+      300,
+      400
+     ],
+     "y": [
+      240,
+      280,
+      330
+     ],
+     "t": [
+      0.3,
+      3.2
+     ],
+     "fade_in": 0.2,
+     "fade_out": 0.3,
+     "bob": {
+      "amp": 3,
+      "period": 1
+     }
+    }
+   ],
+   "anchor_layer": 0,
+   "notes": "A star-wisp drifts from the lantern to the kid."
+  },
+  {
+   "id": "sleepy",
+   "priority": "MVP",
+   "recipe": "layers",
+   "seconds": 3.2,
+   "loop": true,
+   "bg": {
+    "image": "bg_window"
+   },
+   "layers": [
+    {
+     "sprite": "oona_sleep",
+     "height": 300,
+     "x": 400,
+     "y": 50,
+     "bob": {
+      "amp": 6,
+      "period": 3.2
+     },
+     "fade_in": 0,
+     "fade_out": 0
+    }
+   ],
+   "anchor_layer": 0
+  },
+  {
+   "id": "goodbye",
+   "priority": "MVP",
+   "recipe": "layers",
+   "seconds": 1.6,
+   "loop": false,
+   "bg": {
+    "image": "bg_window"
+   },
+   "layers": [
+    {
+     "sprite": "oona_delight",
+     "height": [
+      300,
+      170
+     ],
+     "x": 400,
+     "y": [
+      50,
+      -40
+     ],
+     "t": [
+      0,
+      1.6
+     ],
+     "fade_out": 0.5
+    }
+   ],
+   "anchor_layer": 0
+  },
+  {
+   "id": "milestone",
+   "priority": "MVP",
+   "recipe": "layers",
+   "seconds": 3,
+   "loop": false,
+   "bg": {
+    "image": "bg_starburst",
+    "rotate": [
+     0,
+     15
+    ]
+   },
+   "layers": [
+    {
+     "sprite": "oona_delight",
+     "height": 300,
+     "x": 400,
+     "y": 50,
+     "bob": {
+      "amp": 6,
+      "period": 2.4
+     },
+     "fade_in": 0.2,
+     "fade_out": 0
+    }
+   ],
+   "anchor_layer": 0,
+   "notes": "The device adds confetti in the six crystal colours + the big counter."
+  },
+  {
+   "id": "circle",
+   "priority": "MVP",
+   "recipe": "layers",
+   "seconds": 2.5,
+   "loop": false,
+   "bg": {
+    "image": "bg_awaken"
+   },
+   "layers": [
+    {
+     "sprite": "oona_giggle",
+     "height": 300,
+     "x": 400,
+     "y": 50,
+     "bob": {
+      "amp": 6,
+      "period": 2.4
+     },
+     "fade_in": 0.15,
+     "fade_out": 0
+    },
+    {
+     "sprite": "smudge_dazzled",
+     "height": 110,
+     "x": [
+      880,
+      700
+     ],
+     "y": 60,
+     "t": [
+      0.8,
+      2.5
+     ],
+     "flutter": true,
+     "fade_in": 0.1,
+     "fade_out": 0.1,
+     "optional": true
+    }
+   ],
+   "anchor_layer": 0,
+   "notes": "The device orbits small crystals in the group's colours."
+  },
+  {
+   "id": "keeper",
+   "priority": "NICE",
+   "recipe": "layers",
+   "seconds": 2.5,
+   "loop": false,
+   "bg": {
+    "image": "bg_window",
+    "zoom": [
+     1.0,
+     1.15
+    ]
+   },
+   "layers": [
+    {
+     "sprite": "oona_shh",
+     "height": [
+      300,
+      380
+     ],
+     "x": 400,
+     "y": [
+      50,
+      10
+     ],
+     "t": [
+      0,
+      2.5
+     ],
+     "fade_in": 0.2,
+     "fallback": "oona_peek"
+    }
+   ],
+   "anchor_layer": 0
+  },
+  {
+   "id": "moonfull",
+   "priority": "NICE",
+   "recipe": "layers",
+   "seconds": 6,
+   "loop": false,
+   "bg": {
+    "image": "bg_window"
+   },
+   "layers": [
+    {
+     "image": "bg_window_lit",
+     "t": [
+      2.5,
+      6
+     ],
+     "fade_in": 1.0,
+     "optional": true
+    },
+    {
+     "sprite": "oona_delight",
+     "height": 300,
+     "x": 400,
+     "y": 50,
+     "bob": {
+      "amp": 6,
+      "period": 2.4
+     },
+     "fade_in": 0.25,
+     "fade_out": 0.25,
+     "t": [
+      0,
+      3.5
+     ]
+    },
+    {
+     "sprite": "oona_proud",
+     "height": 300,
+     "x": 400,
+     "y": 50,
+     "bob": {
+      "amp": 6,
+      "period": 2.4
+     },
+     "fade_in": 0.25,
+     "fade_out": 0,
+     "t": [
+      3.3,
+      6
+     ],
+     "fallback": "oona_delight"
+    },
+    {
+     "sprite": "smudge_dazzled",
+     "height": 110,
+     "x": [
+      880,
+      560,
+      520
+     ],
+     "y": [
+      40,
+      120,
+      200
+     ],
+     "t": [
+      0.5,
+      3.5
+     ],
+     "flutter": true,
+     "fade_in": 0.1,
+     "fade_out": 0.1,
+     "rotate": [
+      0,
+      360,
+      720
+     ],
+     "fallback": "smudge_base"
+    },
+    {
+     "sprite": "smudge_sheepish",
+     "height": 110,
+     "x": 520,
+     "y": 200,
+     "t": [
+      3.4,
+      6
+     ],
+     "flutter": false,
+     "fade_in": 0.1,
+     "fade_out": 0.1,
+     "fallback": "smudge_base"
+    }
+   ],
+   "anchor_layer": 1,
+   "notes": "The finale: Smudge dazzled, then sorry; the pumpkins light up."
+  },
+  {
+   "id": "chapter_a",
+   "priority": "NICE",
+   "recipe": "layers",
+   "seconds": 4.5,
+   "loop": false,
+   "bg": {
+    "image": "bg_window_lit",
+    "fallback": "bg_window"
+   },
+   "layers": [
+    {
+     "sprite": "oona_base",
+     "height": 300,
+     "x": 400,
+     "y": [
+      70,
+      40
+     ],
+     "bob": {
+      "amp": 6,
+      "period": 2.4
+     },
+     "fade_in": 0.3,
+     "fade_out": 0.3
+    }
+   ],
+   "anchor_layer": 0
+  },
+  {
+   "id": "chapter_b",
+   "priority": "NICE",
+   "recipe": "kenburns",
+   "image": "chapter_nibble",
+   "seconds": 4.5,
+   "zoom": [
+    1.05,
+    1.12
+   ],
+   "pan": "up"
+  },
+  {
+   "id": "chapter_c",
+   "priority": "NICE",
+   "recipe": "kenburns",
+   "image": "chapter_shardfall",
+   "seconds": 4.5,
+   "zoom": [
+    1.1,
+    1.1
+   ],
+   "pan": "down"
+  },
+  {
+   "id": "chapter_d",
+   "priority": "NICE",
+   "recipe": "layers",
+   "seconds": 4.5,
+   "loop": false,
+   "bg": {
+    "image": "bg_awaken"
+   },
+   "layers": [
+    {
+     "sprite": "prop_crystal",
+     "tint": "#A35CFF",
+     "height": 130,
+     "x": 400,
+     "y": 165,
+     "t": [
+      0.0,
+      0.95
+     ],
+     "fade_in": 0.2,
+     "fade_out": 0.2,
+     "bob": {
+      "amp": 4,
+      "period": 2
+     }
+    },
+    {
+     "sprite": "prop_crystal",
+     "tint": "#FF7A1A",
+     "height": 130,
+     "x": 400,
+     "y": 165,
+     "t": [
+      0.75,
+      1.7
+     ],
+     "fade_in": 0.2,
+     "fade_out": 0.2,
+     "bob": {
+      "amp": 4,
+      "period": 2
+     }
+    },
+    {
+     "sprite": "prop_crystal",
+     "tint": "#5CD6FF",
+     "height": 130,
+     "x": 400,
+     "y": 165,
+     "t": [
+      1.5,
+      2.45
+     ],
+     "fade_in": 0.2,
+     "fade_out": 0.2,
+     "bob": {
+      "amp": 4,
+      "period": 2
+     }
+    },
+    {
+     "sprite": "prop_crystal",
+     "tint": "#3DFF7A",
+     "height": 130,
+     "x": 400,
+     "y": 165,
+     "t": [
+      2.25,
+      3.2
+     ],
+     "fade_in": 0.2,
+     "fade_out": 0.2,
+     "bob": {
+      "amp": 4,
+      "period": 2
+     }
+    },
+    {
+     "sprite": "prop_crystal",
+     "tint": "#FF6FC8",
+     "height": 130,
+     "x": 400,
+     "y": 165,
+     "t": [
+      3.0,
+      3.95
+     ],
+     "fade_in": 0.2,
+     "fade_out": 0.2,
+     "bob": {
+      "amp": 4,
+      "period": 2
+     }
+    },
+    {
+     "sprite": "prop_crystal",
+     "tint": "#EAFBFF",
+     "height": 130,
+     "x": 400,
+     "y": 165,
+     "t": [
+      3.75,
+      4.7
+     ],
+     "fade_in": 0.2,
+     "fade_out": 0.2,
+     "bob": {
+      "amp": 4,
+      "period": 2
+     }
+    }
+   ]
+  },
+  {
+   "id": "chapter_e",
+   "priority": "NICE",
+   "recipe": "layers",
+   "seconds": 4.5,
+   "loop": false,
+   "bg": {
+    "image": "bg_awaken"
+   },
+   "layers": [
+    {
+     "sprite": "prop_crystal",
+     "tint": "#A35CFF",
+     "height": [
+      90,
+      130
+     ],
+     "x": 400,
+     "y": [
+      290,
+      160
+     ],
+     "t": [
+      0,
+      4.5
+     ],
+     "fade_in": 0.3
+    }
+   ]
+  },
+  {
+   "id": "chapter_f",
+   "priority": "NICE",
+   "recipe": "layers",
+   "seconds": 5,
+   "loop": false,
+   "bg": {
+    "image": "bg_window"
+   },
+   "layers": [
+    {
+     "sprite": "oona_peek",
+     "height": 300,
+     "x": 400,
+     "y": 50,
+     "bob": {
+      "amp": 6,
+      "period": 2.4
+     },
+     "fade_in": 0.25,
+     "fade_out": 0.25
+    },
+    {
+     "sprite": "smudge_base",
+     "height": 110,
+     "x": [
+      -100,
+      900
+     ],
+     "y": [
+      300,
+      60
+     ],
+     "t": [
+      0.8,
+      4.2
+     ],
+     "flutter": true,
+     "fade_in": 0.1,
+     "fade_out": 0.1
+    }
+   ],
+   "anchor_layer": 0
+  }
+ ],
+ "voice": [
+  {
+   "id": "attract_call_1",
+   "group": "attract_call",
+   "variant": 1,
+   "speaker": "Oona",
+   "text": "Crystal on the stone! Wake me up!",
+   "caption": "CRYSTAL HERE",
+   "delivery": "sleepy murmur that brightens on 'Wake me up'; gentle, not loud",
+   "priority": "MVP"
+  },
+  {
+   "id": "attract_call_2",
+   "group": "attract_call",
+   "variant": 2,
+   "speaker": "Oona",
+   "text": "No crystal? Press the big button!",
+   "caption": "OR PRESS",
+   "delivery": "friendly and clear, a touch slower on 'big button'",
+   "priority": "MVP"
+  },
+  {
+   "id": "attract_call_3",
+   "group": "attract_call",
+   "variant": 3,
+   "speaker": "Oona",
+   "text": "Smudge nibbled my Moon! Can you help?",
+   "caption": "HELP OONA!",
+   "delivery": "playfully worried, giggly underneath, never scared",
+   "priority": "MVP"
+  },
+  {
+   "id": "attract_call_4",
+   "group": "attract_call",
+   "variant": 4,
+   "speaker": "Oona",
+   "text": "Every crystal makes the Moon brighter!",
+   "caption": "FILL THE MOON",
+   "delivery": "warm storyteller, hopeful lift at the end",
+   "priority": "MVP"
+  },
+  {
+   "id": "attract_call_5",
+   "group": "attract_call",
+   "variant": 5,
+   "speaker": "Oona",
+   "text": "Shh... I hear crystals coming...",
+   "caption": "SHHH...",
+   "delivery": "excited secret whisper, smiling",
+   "priority": "MVP"
+  },
+  {
+   "id": "attract_call_6",
+   "group": "attract_call",
+   "variant": 6,
+   "speaker": "Oona",
+   "text": "Crystals on the stone! Fill the Moon!",
+   "caption": "CRYSTAL HERE",
+   "delivery": "bright inviting call across the porch, sing-song",
+   "priority": "MVP"
+  },
+  {
+   "id": "attract_call_7",
+   "group": "attract_call",
+   "variant": 7,
+   "speaker": "Oona",
+   "text": "Set your crystal here! I'm awake... almost!",
+   "caption": "SET IT DOWN",
+   "delivery": "yawny and cozy, little giggle on 'almost'",
+   "priority": "MVP"
+  },
+  {
+   "id": "attract_call_8",
+   "group": "attract_call",
+   "variant": 8,
+   "speaker": "Smudge",
+   "text": "Nom nom! Marshmallow moonlight! Hee hee!",
+   "caption": "NOM NOM!",
+   "delivery": "Smudge: Oona's take pitched up 5 semitones and 1.15x, mouth-full munchy giggle, tiny and silly",
+   "priority": "NICE",
+   "fx": "smudge"
+  },
+  {
+   "id": "awaken_a_1",
+   "group": "awaken_a",
+   "variant": 1,
+   "speaker": "Oona",
+   "text": "A brand-new crystal! It's waking up!",
+   "caption": "NEW CRYSTAL!",
+   "delivery": "gasp of wonder, bright and quick",
+   "priority": "MVP"
+  },
+  {
+   "id": "awaken_a_2",
+   "group": "awaken_a",
+   "variant": 2,
+   "speaker": "Oona",
+   "text": "Ooh! Hello, little sleepy crystal!",
+   "caption": "HELLO!",
+   "delivery": "tender delight, like greeting a baby bird",
+   "priority": "MVP"
+  },
+  {
+   "id": "awaken_b_1",
+   "group": "awaken_b",
+   "variant": 1,
+   "speaker": "Oona",
+   "text": "Twilight violet! The crystal of dreamers!",
+   "caption": "TWILIGHT",
+   "delivery": "proud announcement: land the colour name, then dreamy and warm (variant 1 = colour ID 1, violet)",
+   "priority": "MVP"
+  },
+  {
+   "id": "awaken_b_2",
+   "group": "awaken_b",
+   "variant": 2,
+   "speaker": "Oona",
+   "text": "Ember orange! The crystal of brave hearts!",
+   "caption": "EMBER",
+   "delivery": "proud announcement, extra spark on 'brave hearts' (colour ID 2, orange)",
+   "priority": "MVP"
+  },
+  {
+   "id": "awaken_b_3",
+   "group": "awaken_b",
+   "variant": 3,
+   "speaker": "Oona",
+   "text": "Frost blue! The coolest crystal of all!",
+   "caption": "FROST",
+   "delivery": "proud, playful wink on 'coolest' (colour ID 3, ice blue)",
+   "priority": "MVP"
+  },
+  {
+   "id": "awaken_b_4",
+   "group": "awaken_b",
+   "variant": 4,
+   "speaker": "Oona",
+   "text": "Potion green! The crystal of clever tricksters!",
+   "caption": "POTION",
+   "delivery": "proud, sly-fun on 'clever tricksters' (colour ID 4, green)",
+   "priority": "MVP"
+  },
+  {
+   "id": "awaken_b_5",
+   "group": "awaken_b",
+   "variant": 5,
+   "speaker": "Oona",
+   "text": "Pixie pink! The crystal of best friends!",
+   "caption": "PIXIE",
+   "delivery": "proud and huggy-warm (colour ID 5, pink)",
+   "priority": "MVP"
+  },
+  {
+   "id": "awaken_b_6",
+   "group": "awaken_b",
+   "variant": 6,
+   "speaker": "Oona",
+   "text": "Ghostlight! It can see hidden things!",
+   "caption": "GHOSTLIGHT",
+   "delivery": "proud then a mysterious hush on 'hidden things' (colour ID 6, clear)",
+   "priority": "MVP"
+  },
+  {
+   "id": "awaken_c_1",
+   "group": "awaken_c",
+   "variant": 1,
+   "speaker": "Oona",
+   "text": "You're a Spark! Welcome, Lightkeeper!",
+   "caption": "SPARK!",
+   "delivery": "joyful welcome, bright on 'Spark'",
+   "priority": "MVP"
+  },
+  {
+   "id": "awaken_c_2",
+   "group": "awaken_c",
+   "variant": 2,
+   "speaker": "Oona",
+   "text": "Spark! Look, two lights already!",
+   "caption": "SPARK!",
+   "delivery": "delighted, impressed, quick",
+   "priority": "MVP"
+  },
+  {
+   "id": "greet_r2_1",
+   "group": "greet_r2",
+   "variant": 1,
+   "speaker": "Oona",
+   "text": "You came back! Hello, Apprentice!",
+   "caption": "APPRENTICE",
+   "delivery": "thrilled reunion, warm",
+   "priority": "MVP"
+  },
+  {
+   "id": "greet_r2_2",
+   "group": "greet_r2",
+   "variant": 2,
+   "speaker": "Oona",
+   "text": "Your crystal remembers! Welcome, Apprentice!",
+   "caption": "APPRENTICE",
+   "delivery": "tender and proud",
+   "priority": "NICE"
+  },
+  {
+   "id": "greet_r3_1",
+   "group": "greet_r3",
+   "variant": 1,
+   "speaker": "Oona",
+   "text": "Lamplighter! Now you light the way!",
+   "caption": "LAMPLIGHTER",
+   "delivery": "proud announcement, rising",
+   "priority": "MVP"
+  },
+  {
+   "id": "greet_r3_2",
+   "group": "greet_r3",
+   "variant": 2,
+   "speaker": "Oona",
+   "text": "Welcome back, Lamplighter! So bright!",
+   "caption": "LAMPLIGHTER",
+   "delivery": "cozy and admiring",
+   "priority": "NICE"
+  },
+  {
+   "id": "greet_r4_1",
+   "group": "greet_r4",
+   "variant": 1,
+   "speaker": "Oona",
+   "text": "A real Wizard! Your starlight sparkles!",
+   "caption": "WIZARD",
+   "delivery": "impressed, a little awed",
+   "priority": "MVP"
+  },
+  {
+   "id": "greet_r4_2",
+   "group": "greet_r4",
+   "variant": 2,
+   "speaker": "Oona",
+   "text": "Welcome back, Wizard! Cast your light!",
+   "caption": "WIZARD",
+   "delivery": "playful-grand, like a magic show",
+   "priority": "NICE"
+  },
+  {
+   "id": "greet_r5_1",
+   "group": "greet_r5",
+   "variant": 1,
+   "speaker": "Oona",
+   "text": "Starcatcher! Even the stars wave hello!",
+   "caption": "STARCATCHER",
+   "delivery": "twinkly and amazed",
+   "priority": "MVP"
+  },
+  {
+   "id": "greet_r5_2",
+   "group": "greet_r5",
+   "variant": 2,
+   "speaker": "Oona",
+   "text": "Welcome back, Starcatcher! The stars remember!",
+   "caption": "STARCATCHER",
+   "delivery": "warm, slightly hushed wonder",
+   "priority": "NICE"
+  },
+  {
+   "id": "greet_r6_1",
+   "group": "greet_r6",
+   "variant": 1,
+   "speaker": "Oona",
+   "text": "Moon Rider! Climb aboard my Moon!",
+   "caption": "MOON RIDER",
+   "delivery": "excited, adventurous",
+   "priority": "MVP"
+  },
+  {
+   "id": "greet_r6_2",
+   "group": "greet_r6",
+   "variant": 2,
+   "speaker": "Oona",
+   "text": "My Moon Rider is back! Wheee!",
+   "caption": "MOON RIDER",
+   "delivery": "giddy, playful 'Wheee'",
+   "priority": "NICE"
+  },
+  {
+   "id": "greet_r7_1",
+   "group": "greet_r7",
+   "variant": 1,
+   "speaker": "Oona",
+   "text": "Moon Guardian! The Moon bows to you!",
+   "caption": "MOON GUARDIAN",
+   "delivery": "grand and reverent but smiling",
+   "priority": "MVP"
+  },
+  {
+   "id": "greet_r7_2",
+   "group": "greet_r7",
+   "variant": 2,
+   "speaker": "Oona",
+   "text": "Welcome home, Moon Guardian!",
+   "caption": "MOON GUARDIAN",
+   "delivery": "deeply warm, like hugging an old friend",
+   "priority": "NICE"
+  },
+  {
+   "id": "charge_1",
+   "group": "charge",
+   "variant": 1,
+   "speaker": "Oona",
+   "text": "Press the button! Fill the Moon!",
+   "caption": "PRESS!",
+   "delivery": "urgent-fun cheer, quick",
+   "priority": "MVP"
+  },
+  {
+   "id": "charge_2",
+   "group": "charge",
+   "variant": 2,
+   "speaker": "Oona",
+   "text": "Quick, press! Send your light up!",
+   "caption": "PRESS!",
+   "delivery": "bouncy encouragement",
+   "priority": "MVP"
+  },
+  {
+   "id": "reveal_t0_1",
+   "group": "reveal_t0",
+   "variant": 1,
+   "speaker": "Oona",
+   "text": "Bless you, Smudge! Candy's still yours!",
+   "caption": "SMUDGED!",
+   "delivery": "giggling through it, reassuring on 'Candy's still yours' (gag 1: The Sneeze)",
+   "priority": "MVP"
+  },
+  {
+   "id": "reveal_t0_2",
+   "group": "reveal_t0",
+   "variant": 2,
+   "speaker": "Oona",
+   "text": "He burped you a bubble! Candy anyway!",
+   "caption": "SMUDGED!",
+   "delivery": "amused disbelief, then cheerful (gag 2: The Bubble Burp)",
+   "priority": "MVP"
+  },
+  {
+   "id": "reveal_t0_3",
+   "group": "reveal_t0",
+   "variant": 3,
+   "speaker": "Oona",
+   "text": "Pumpkin on my head?! Candy's still yours!",
+   "caption": "SMUDGED!",
+   "delivery": "muffled-silly surprise, then laughing (gag 3: Pumpkin Head)",
+   "priority": "MVP"
+  },
+  {
+   "id": "reveal_t1_1",
+   "group": "reveal_t1",
+   "variant": 1,
+   "speaker": "Oona",
+   "text": "Silver Moon! Your crystal shines so bright!",
+   "caption": "SILVER MOON",
+   "delivery": "happy, admiring, warm",
+   "priority": "MVP"
+  },
+  {
+   "id": "reveal_t1_2",
+   "group": "reveal_t1",
+   "variant": 2,
+   "speaker": "Oona",
+   "text": "Silver Moon! The Moon says thank you!",
+   "caption": "SILVER MOON",
+   "delivery": "sweet and grateful",
+   "priority": "MVP"
+  },
+  {
+   "id": "reveal_t2_1",
+   "group": "reveal_t2",
+   "variant": 1,
+   "speaker": "Oona",
+   "text": "Ooh! A Witch's Hat! So rare!",
+   "caption": "WITCH'S HAT!",
+   "delivery": "genuinely surprised, excited whisper-shout",
+   "priority": "MVP"
+  },
+  {
+   "id": "reveal_t2_2",
+   "group": "reveal_t2",
+   "variant": 2,
+   "speaker": "Oona",
+   "text": "Witch's Hat magic! Hardly anyone finds it!",
+   "caption": "WITCH'S HAT!",
+   "delivery": "thrilled, conspiratorial",
+   "priority": "MVP"
+  },
+  {
+   "id": "reveal_t3_1",
+   "group": "reveal_t3",
+   "variant": 1,
+   "speaker": "Oona",
+   "text": "The Wishing Star! Make a wish!",
+   "caption": "WISHING STAR!",
+   "delivery": "awed hush rising to joy; soft magical whisper on 'Make a wish'",
+   "priority": "MVP"
+  },
+  {
+   "id": "reveal_t3_2",
+   "group": "reveal_t3",
+   "variant": 2,
+   "speaker": "Oona",
+   "text": "Wishing Star! The rarest light of all!",
+   "caption": "WISHING STAR!",
+   "delivery": "breathless wonder, slow and grand",
+   "priority": "MVP"
+  },
+  {
+   "id": "bowl_common_1",
+   "group": "bowl_common",
+   "variant": 1,
+   "speaker": "Oona",
+   "text": "Silver circle! Take one treat!",
+   "caption": "SILVER CIRCLE",
+   "delivery": "clear and friendly, crisp on 'Silver circle'",
+   "priority": "MVP"
+  },
+  {
+   "id": "bowl_rare_1",
+   "group": "bowl_rare",
+   "variant": 1,
+   "speaker": "Oona",
+   "text": "Red triangle! Take one treat!",
+   "caption": "RED TRIANGLE",
+   "delivery": "clear, excited, crisp on 'Red triangle'",
+   "priority": "MVP"
+  },
+  {
+   "id": "bowl_legend_1",
+   "group": "bowl_legend",
+   "variant": 1,
+   "speaker": "Oona",
+   "text": "Gold star! The grown-up has it!",
+   "caption": "GOLD STAR",
+   "delivery": "celebratory, pointing-out tone",
+   "priority": "MVP"
+  },
+  {
+   "id": "replay_1",
+   "group": "replay",
+   "variant": 1,
+   "speaker": "Oona",
+   "text": "Shh! Your crystal already glows tonight!",
+   "caption": "ALREADY GLOWING",
+   "delivery": "secretive and kind, smiling",
+   "priority": "MVP"
+  },
+  {
+   "id": "replay_2",
+   "group": "replay",
+   "variant": 2,
+   "speaker": "Oona",
+   "text": "Your crystal already holds tonight's light!",
+   "caption": "ALREADY GLOWING",
+   "delivery": "gentle and proud, no scolding",
+   "priority": "MVP"
+  },
+  {
+   "id": "nocrystal_1",
+   "group": "nocrystal",
+   "variant": 1,
+   "speaker": "Oona",
+   "text": "A star-wisp for you! Happy Halloween!",
+   "caption": "STAR-WISP!",
+   "delivery": "generous and cheery",
+   "priority": "MVP"
+  },
+  {
+   "id": "nocrystal_2",
+   "group": "nocrystal",
+   "variant": 2,
+   "speaker": "Oona",
+   "text": "Here's a star-wisp! You helped the Moon!",
+   "caption": "STAR-WISP!",
+   "delivery": "warm thank-you, inclusive",
+   "priority": "MVP"
+  },
+  {
+   "id": "sleepy_1",
+   "group": "sleepy",
+   "variant": 1,
+   "speaker": "Oona",
+   "text": "Set it down again! Sleepy crystal.",
+   "caption": "TRY AGAIN",
+   "delivery": "soft and patient, a little yawn in it",
+   "priority": "MVP"
+  },
+  {
+   "id": "sleepy_2",
+   "group": "sleepy",
+   "variant": 2,
+   "speaker": "Oona",
+   "text": "Try again! Your crystal is yawning.",
+   "caption": "TRY AGAIN",
+   "delivery": "giggly and reassuring",
+   "priority": "MVP"
+  },
+  {
+   "id": "goodbye_1",
+   "group": "goodbye",
+   "variant": 1,
+   "speaker": "Oona",
+   "text": "Bring it back next Halloween!",
+   "caption": "SEE YOU 2027",
+   "delivery": "warm send-off, bright",
+   "priority": "MVP"
+  },
+  {
+   "id": "goodbye_2",
+   "group": "goodbye",
+   "variant": 2,
+   "speaker": "Oona",
+   "text": "See you next Halloween, Lightkeeper!",
+   "caption": "SEE YOU 2027",
+   "delivery": "fond, a little wistful, smiling",
+   "priority": "MVP"
+  },
+  {
+   "id": "recall_t0_1",
+   "group": "recall_t0",
+   "variant": 1,
+   "speaker": "Oona",
+   "text": "Last year: a silly trick! Hee hee!",
+   "caption": "LAST YEAR",
+   "delivery": "remembering fondly, giggly",
+   "priority": "NICE"
+  },
+  {
+   "id": "recall_t1_1",
+   "group": "recall_t1",
+   "variant": 1,
+   "speaker": "Oona",
+   "text": "Last year, your crystal found a Silver Moon!",
+   "caption": "LAST YEAR",
+   "delivery": "fond memory, warm",
+   "priority": "NICE"
+  },
+  {
+   "id": "recall_t2_1",
+   "group": "recall_t2",
+   "variant": 1,
+   "speaker": "Oona",
+   "text": "Last year, you found the Witch's Hat!",
+   "caption": "LAST YEAR",
+   "delivery": "impressed memory",
+   "priority": "NICE"
+  },
+  {
+   "id": "recall_t3_1",
+   "group": "recall_t3",
+   "variant": 1,
+   "speaker": "Oona",
+   "text": "Last year, you caught the Wishing Star!",
+   "caption": "LAST YEAR",
+   "delivery": "awed remembering",
+   "priority": "NICE"
+  },
+  {
+   "id": "rush_t0_1",
+   "group": "rush_t0",
+   "variant": 1,
+   "speaker": "Oona",
+   "text": "Silver circle! Smudge got you!",
+   "caption": "SMUDGED!",
+   "delivery": "fast, giggly, bowl words crisp (rush mode)",
+   "priority": "NICE"
+  },
+  {
+   "id": "rush_t1_1",
+   "group": "rush_t1",
+   "variant": 1,
+   "speaker": "Oona",
+   "text": "Silver circle! Silver Moon!",
+   "caption": "SILVER MOON",
+   "delivery": "fast and bright (rush mode)",
+   "priority": "NICE"
+  },
+  {
+   "id": "rush_t2_1",
+   "group": "rush_t2",
+   "variant": 1,
+   "speaker": "Oona",
+   "text": "Red triangle! Witch's Hat!",
+   "caption": "WITCH'S HAT!",
+   "delivery": "fast, excited (rush mode)",
+   "priority": "NICE"
+  },
+  {
+   "id": "rush_t3_1",
+   "group": "rush_t3",
+   "variant": 1,
+   "speaker": "Oona",
+   "text": "Gold star! Wishing Star!",
+   "caption": "WISHING STAR!",
+   "delivery": "fast but awed (rush mode)",
+   "priority": "NICE"
+  },
+  {
+   "id": "chapter_a_1",
+   "group": "chapter_a",
+   "variant": 1,
+   "speaker": "Oona",
+   "text": "Every Halloween, I light the Moon, so everyone finds their way home.",
+   "caption": "OONA'S MOON",
+   "delivery": "bedtime-story opening, unhurried and warm",
+   "priority": "NICE"
+  },
+  {
+   "id": "chapter_b_1",
+   "group": "chapter_b",
+   "variant": 1,
+   "speaker": "Oona",
+   "text": "But this year I overslept... and Smudge nibbled it like a cookie!",
+   "caption": "UH-OH, SMUDGE!",
+   "delivery": "sheepish then mock-outraged, giggling",
+   "priority": "NICE"
+  },
+  {
+   "id": "chapter_c_1",
+   "group": "chapter_c",
+   "variant": 1,
+   "speaker": "Oona",
+   "text": "Long ago, the Moon laughed so hard that sparkles fell as crystals.",
+   "caption": "MOONSHARDS",
+   "delivery": "hushed once-upon-a-time wonder",
+   "priority": "NICE"
+  },
+  {
+   "id": "chapter_d_1",
+   "group": "chapter_d",
+   "variant": 1,
+   "speaker": "Oona",
+   "text": "And now YOU carry them. Each crystal holds its very own light.",
+   "caption": "YOUR LIGHT",
+   "delivery": "leaning in, emphasis on YOU, tender",
+   "priority": "NICE"
+  },
+  {
+   "id": "chapter_e_1",
+   "group": "chapter_e",
+   "variant": 1,
+   "speaker": "Oona",
+   "text": "Set your crystal on the stone, and its light flies up to the Moon!",
+   "caption": "CRYSTAL HERE",
+   "delivery": "clear instruction, rising excitement",
+   "priority": "NICE"
+  },
+  {
+   "id": "chapter_f_1",
+   "group": "chapter_f",
+   "variant": 1,
+   "speaker": "Oona",
+   "text": "Fill the Moon tonight, Lightkeepers... and see what happens to Smudge!",
+   "caption": "FILL THE MOON",
+   "delivery": "rallying, then a mischievous teasing whisper",
+   "priority": "NICE"
+  },
+  {
+   "id": "milestone_1",
+   "group": "milestone",
+   "variant": 1,
+   "speaker": "Oona",
+   "text": "Another hundred crystals! Hooray, Lightkeepers!",
+   "caption": "HOORAY!",
+   "delivery": "party cheer, bubbly",
+   "priority": "NICE"
+  },
+  {
+   "id": "milestone_2",
+   "group": "milestone",
+   "variant": 2,
+   "speaker": "Oona",
+   "text": "A hundred more crystals! The Moon is dancing!",
+   "caption": "HOORAY!",
+   "delivery": "joyful, sing-song",
+   "priority": "NICE"
+  },
+  {
+   "id": "moonfull_a_1",
+   "group": "moonfull_a",
+   "variant": 1,
+   "speaker": "Oona",
+   "text": "The Moon is full! You did it!",
+   "caption": "MOON SAVED!",
+   "delivery": "overjoyed triumph, biggest moment of the night, still warm not shouty",
+   "priority": "NICE"
+  },
+  {
+   "id": "moonfull_b_1",
+   "group": "moonfull_b",
+   "variant": 1,
+   "speaker": "Oona",
+   "text": "Silly Smudge... you're my Official Trickster now!",
+   "caption": "OFFICIAL TRICKSTER",
+   "delivery": "fond forgiving chuckle, then proud announcement",
+   "priority": "NICE"
+  },
+  {
+   "id": "circle_1",
+   "group": "circle",
+   "variant": 1,
+   "speaker": "Oona",
+   "text": "A crystal circle! The Moon loves friends!",
+   "caption": "CRYSTAL CIRCLE!",
+   "delivery": "delighted, gathering-everyone warmth",
+   "priority": "NICE"
+  },
+  {
+   "id": "keeper_1",
+   "group": "keeper",
+   "variant": 1,
+   "speaker": "Oona",
+   "text": "Psst, Guardian... Smudge wants your autograph!",
+   "caption": "SHH... SECRET",
+   "delivery": "close secret whisper, barely holding a giggle",
+   "priority": "NICE"
+  },
+  {
+   "id": "keeper_2",
+   "group": "keeper",
+   "variant": 2,
+   "speaker": "Oona",
+   "text": "Shh... I still sleep with a nightlight.",
+   "caption": "SHH... SECRET",
+   "delivery": "embarrassed confiding whisper, then a tiny giggle",
+   "priority": "NICE"
+  }
+ ],
+ "sfx": [
+  {
+   "id": "absorb",
+   "priority": "MVP",
+   "seconds": 1.0,
+   "synth": "rise",
+   "desc": "Crystal placed: a soft whoosh up into a bright glass chime (light flying into the lantern)."
+  },
+  {
+   "id": "awaken",
+   "priority": "MVP",
+   "seconds": 2.0,
+   "synth": "sparkle",
+   "desc": "A new crystal wakes: rising magical shimmer, twinkly harp glissando, warm and gentle."
+  },
+  {
+   "id": "reveal_t0",
+   "priority": "MVP",
+   "seconds": 1.0,
+   "synth": "wahwah",
+   "desc": "Generic SMUDGED! sting: playful cartoon boing / slide-whistle down (never a fail buzzer)."
+  },
+  {
+   "id": "reveal_t0_1",
+   "priority": "NICE",
+   "seconds": 1.2,
+   "synth": "wahwah",
+   "desc": "Gag 1: a tiny cute 'ah-ah-CHOO!' sneeze + a sprinkle twinkle."
+  },
+  {
+   "id": "reveal_t0_2",
+   "priority": "NICE",
+   "seconds": 1.2,
+   "synth": "bloop",
+   "desc": "Gag 2: a small cute 'hic-burp' + a soap-bubble pop."
+  },
+  {
+   "id": "reveal_t0_3",
+   "priority": "NICE",
+   "seconds": 1.0,
+   "synth": "bloop",
+   "desc": "Gag 3: a soft 'poof' + a hollow pumpkin 'bonk'."
+  },
+  {
+   "id": "reveal_t1",
+   "priority": "MVP",
+   "seconds": 1.5,
+   "synth": "chime",
+   "desc": "SILVER MOON: a twinkly two-chord chime, bright and happy."
+  },
+  {
+   "id": "reveal_t2",
+   "priority": "MVP",
+   "seconds": 1.8,
+   "synth": "sparkle",
+   "desc": "WITCH'S HAT: a magical swirl + sparkle arpeggio, a little mischievous."
+  },
+  {
+   "id": "reveal_t3",
+   "priority": "MVP",
+   "seconds": 3.0,
+   "synth": "fanfare",
+   "desc": "WISHING STAR: harp glissando + a soft warm gong (the host's cue to come over). No harsh brass."
+  },
+  {
+   "id": "tap",
+   "priority": "MVP",
+   "seconds": 0.2,
+   "synth": "blip",
+   "desc": "Each press/tap during charge: a tiny bright blip (it repeats fast)."
+  },
+  {
+   "id": "button",
+   "priority": "MVP",
+   "seconds": 0.3,
+   "synth": "blip",
+   "desc": "The big plinth button when idle: a friendly bloop."
+  },
+  {
+   "id": "charge_full",
+   "priority": "MVP",
+   "seconds": 1.0,
+   "synth": "chime",
+   "desc": "Charge meter full: a quick rising 'ding-ding-DING'."
+  },
+  {
+   "id": "sleepy",
+   "priority": "MVP",
+   "seconds": 1.0,
+   "synth": "bloop",
+   "desc": "Sleepy crystal: a soft descending double-bloop, gentle (never an error buzz)."
+  },
+  {
+   "id": "whoosh",
+   "priority": "MVP",
+   "seconds": 0.6,
+   "synth": "whoosh",
+   "desc": "Soft airy whoosh for transitions (goodbye float-up, star-wisp)."
+  },
+  {
+   "id": "munch",
+   "priority": "NICE",
+   "seconds": 1.5,
+   "synth": "bloop",
+   "desc": "Smudge munching moon-crumbs: cute nom-nom crunches (attract loop)."
+  },
+  {
+   "id": "milestone",
+   "priority": "NICE",
+   "seconds": 2.0,
+   "synth": "fanfare",
+   "desc": "Milestone: a party-horn toot + a cheer + sparkles, kid-friendly."
+  },
+  {
+   "id": "moonfull",
+   "priority": "NICE",
+   "seconds": 3.0,
+   "synth": "fanfare",
+   "desc": "The Moon fills: a big warm magical swell into a happy chord."
+  }
+ ],
+ "music": [
+  {
+   "id": "idle",
+   "priority": "MVP",
+   "seconds": 60,
+   "synth": "drone",
+   "desc": "Seamless 45-90 s loop: gentle spooky-cute music-box / celesta lullaby with soft pizzicato, slow, cozy, never scary. Quiet enough to talk over."
+  },
+  {
+   "id": "idle_full",
+   "priority": "NICE",
+   "seconds": 60,
+   "synth": "drone",
+   "desc": "The same lullaby in a brighter, happier arrangement for after the Moon is full."
+  }
+ ]
+}

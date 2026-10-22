@@ -1,0 +1,6 @@
+{
+ "voice_id": "fdyOZ9JDAGXDTrmohg4r",
+ "voice_name": "Butterscotch - Cozy Rumbly Dragon",
+ "model": "eleven_multilingual_v2",
+ "settings": {"stability": 0.4, "similarity_boost": 0.75, "style": 0.3, "use_speaker_boost": true, "speed": 1.07}
+}

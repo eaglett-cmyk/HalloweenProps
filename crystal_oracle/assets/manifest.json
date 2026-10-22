@@ -1,0 +1,3436 @@
+{
+ "schema": 1,
+ "title": "DRAGONGLOW - The Sleepy Candy Dragon",
+ "fps": 13,
+ "screen": {
+  "width": 800,
+  "height": 480,
+  "text_band_y": 360,
+  "lantern_center": [
+   150,
+   110
+  ],
+  "lantern_glow_r": 70,
+  "dragon": {
+   "x": 420,
+   "y": 40,
+   "height": 300,
+   "chest_anchor": [
+    0.5,
+    0.62
+   ]
+  },
+  "snuffwick": {
+   "height": 115,
+   "floor_top_y": 225
+  }
+ },
+ "voice_style": {
+  "butterscotch": "Warm, slow, cozy old dragon grandpa telling a bedtime story: soft and round, a gentle low purr-rumble, smiling, a little whispery, a yawn hiding in some lines, delighted chuckles, bright on exclamations. Never booming, never growly, never a roar. Quick delivery: each line fits in about 2-2.5 seconds.",
+  "elevenlabs": "A gentle, older male storyteller voice (warm, soft, slightly husky - a kindly grandpa, not a deep booming one). Stability ~40%, Similarity ~75%, Style ~30%, Speed 1.05-1.1.",
+  "openai_tts": "gpt-4o-mini-tts with voice 'ballad' or 'cedar' (or 'ash'; avoid 'onyx', too deep), the Butterscotch prompt as instructions. Disclose the AI voice on the parent sign.",
+  "sidekick": "Snuffwick is not a separate actor and is mostly sound effects (giggle, squeak, 'pfft'). His only 2 lines (attract_call_8, circle_2) are recorded in Butterscotch's voice; the builder pitches them up 5 semitones at 1.15x speed (voice fx \"smudge\" - the effect kept its Moonshards name).",
+  "tts_voice": "David"
+ },
+ "_asset_guide": {
+  "why_stills": "Butterscotch floating like a balloon and changing expressions, Snuffwick tiptoeing in with his rubber chicken, the hoard coin spinning, the Dragon Gem rising out of the Wakestone, the Golden Star climbing",
+  "live_magic": "glows in each kid's crystal colour, sparkles, the Hoard Lantern's growing glow, the numbers and words",
+  "anchor_note": "The Hoard Lantern's glow is placed by the words key `meter.pos` (\"x,y,radius\" in screen pixels, default 150,110,70): once `bg_cave` exists, open `assets/previews/` and, if the painted lantern isn't there, change `meter.pos` (or `/oracle/captions.ini` [meter] pos on the card).",
+  "guardrails": "Butterscotch is CARAMEL / toffee brown, never gold: gold is only for the Golden Star (and its starburst); silver is the hoard coin; red is only the Dragon Gem.",
+  "order": "Day 1 Butterscotch (base + sleep, peek, delight, surprise) · Day 2 Butterscotch giggle + puff, Snuffwick (base + rubber chicken) and the four props · Day 3 the three backgrounds (`bg_cave` first: check where the lantern landed) · Day 4+ the nice-to-haves.",
+  "printables": [
+   "**Bowl signs** — print `prop_coin` (silver circle bowl: HOARD COIN, also the GOBLIN TRICK bowl), `prop_gem` (red triangle bowl: DRAGON GEM) and `prop_star` (gold star, held by the host: GOLDEN STAR) so the bowls match the screen picture-for-picture. Light each sign with a battery LED puck.",
+   "**Parent sign** — `print_keyart` with the sign text from STORY.md §13. Keep the line *\"Butterscotch's voice is AI-generated.\"* (OpenAI's and ElevenLabs' terms ask you to disclose AI voices.)"
+  ]
+ },
+ "words": {
+  "title": "Dragonglow",
+  "character": "Butterscotch",
+  "rank.1": "Sparkfinder",
+  "rank.2": "Apprentice",
+  "rank.3": "Glowcaster",
+  "rank.4": "Hoardguard",
+  "rank.5": "Wizard",
+  "rank.6": "Dragon Rider",
+  "rank.7": "Keeper of the Hoard",
+  "tier.0": "GOBLIN TRICK!",
+  "tier.0_color": "#8DBF6A",
+  "tier.1": "HOARD COIN!",
+  "tier.1_color": "#D9DEE8",
+  "tier.2": "DRAGON GEM!",
+  "tier.2_color": "#FF3B47",
+  "tier.3": "GOLDEN STAR!",
+  "tier.3_color": "#FFC83D",
+  "bowl.common": "Silver Circle",
+  "bowl.common_color": "#D9DEE8",
+  "bowl.common_shape": "circle",
+  "bowl.rare": "Red Triangle",
+  "bowl.rare_color": "#FF3B47",
+  "bowl.rare_shape": "triangle",
+  "bowl.legend": "Gold Star",
+  "bowl.legend_color": "#FFC83D",
+  "bowl.legend_shape": "star",
+  "color.1": "Moonspell",
+  "color.1_hex": "#A35CFF,#2F7BFF",
+  "color.2": "Starfrost",
+  "color.2_hex": "#5CD6FF",
+  "color.3": "Rainbow Fizz",
+  "color.3_hex": "rainbow",
+  "caption.attract": "Crystal here",
+  "caption.absorb": "",
+  "caption.awaken": "NEW CRYSTAL!",
+  "caption.greet": "Welcome back!",
+  "caption.charge": "PRESS!",
+  "caption.reveal_t0": "GOBLIN TRICK!",
+  "caption.reveal_t1": "HOARD COIN!",
+  "caption.reveal_t2": "DRAGON GEM!",
+  "caption.reveal_t3": "GOLDEN STAR!",
+  "caption.replay": "ALREADY GLOWED",
+  "caption.nocrystal": "DRAGON BLESSING!",
+  "caption.foreign": "DRAGON BLESSING!",
+  "caption.sleepy": "AGAIN, PLEASE",
+  "caption.goodbye": "SEE YOU {next_year}",
+  "caption.milestone": "HOORAY, WIZARDS!",
+  "caption.circle": "WIZARD CIRCLE!",
+  "caption.keeper": "SHH... SECRET",
+  "caption.chapter": "",
+  "caption.chapter_a": "BUTTERSCOTCH'S HOARD",
+  "caption.chapter_b": "UH-OH, SNUFFWICK!",
+  "caption.chapter_c": "THE MOONSTONE",
+  "caption.chapter_d": "YOUR GLOW",
+  "caption.chapter_e": "LIGHT THE LANTERN",
+  "caption.chapter_f": "WHAT'S IN THE SOCK?",
+  "caption.moonfull": "LANTERN LIT!",
+  "caption.moonfull_b": "OFFICIAL PRANKSTER",
+  "caption.recall": "LAST YEAR",
+  "ui.place": "Crystal on the Wakestone",
+  "ui.hold": "Hold still...",
+  "ui.power": "GLOW",
+  "ui.counter": "sparks for the lantern",
+  "ui.press": "Press the button!",
+  "ui.or_press": "OR PRESS",
+  "ui.tonight": "TONIGHT",
+  "ui.reader_asleep": "READER ASLEEP",
+  "ui.rush": "RUSH",
+  "ui.touch": "TOUCH FOR A BLESSING",
+  "ui.no_card": "NO TF CARD",
+  "meter.style": "lantern",
+  "meter.pos": "150,110,70",
+  "meter.name": "Lantern",
+  "meter.color": "#FFB347",
+  "meter.on": "attract,absorb,greet,recall,charge,reveal_t0,reveal_t1,replay,nocrystal,foreign,sleepy,goodbye,keeper,chapter_a,chapter_e,chapter_f",
+  "glow.idle_color": "#FFC27A",
+  "fx.reveal_t0_1": "poof,615,230,1100,1100",
+  "fx.reveal_t0_2": "sparkles,440,170,600,1800",
+  "fx.reveal_t0_3": "burst,420,150,1420,1420",
+  "nobutton.voice": "attract_call_2=attract_tap_1;charge=charge_tap",
+  "nobutton.caption.charge": "TAP! TAP!",
+  "nobutton.ui.press": "Tap the window!",
+  "nobutton.ui.or_press": "OR TAP ME",
+  "meter.zoom_keeper": "1,1.15"
+ },
+ "stills": [
+  {
+   "id": "bg_cave",
+   "kind": "background",
+   "transparent": false,
+   "priority": "MVP",
+   "desc": "The Hoard Cave at night (the main scene): a cozy rounded cave in deep indigo and plum framed by a big round smooth stone arch; soft piles of glossy candy (wrapped sweets, round lollipops, gumdrops in muted jewel colours, no gold coins) low on the far left and far right; the HOARD LANTERN hangs UNLIT in the upper-left (globe centre about x 150, y 110 of the 800x480 frame) with empty dark wall around it - the device paints its glow there; the centre is open for Butterscotch; bottom quarter plain near-black and empty.",
+   "used_by": [
+    "attract",
+    "attract_full",
+    "absorb",
+    "greet",
+    "greet_r5",
+    "charge",
+    "reveal_t0_1",
+    "reveal_t0_2",
+    "reveal_t0_3",
+    "reveal_t1",
+    "replay",
+    "nocrystal",
+    "sleepy",
+    "goodbye",
+    "keeper",
+    "moonfull",
+    "chapter_a",
+    "chapter_b",
+    "chapter_e",
+    "chapter_f"
+   ],
+   "prompt": "The Hoard Cave at night: a cozy, rounded cave interior in deep indigo and plum, framed by a big round smooth stone arch. Soft piles of glossy candy - big wrapped sweets, round lollipops and gumdrops in muted jewel colours (NO gold coins, nothing gold) - rest low on the far left and the far right sides of the cave floor. THE HOARD LANTERN: an old, round, dark-iron lantern with a big ROUND, CLEAR, EMPTY glass globe hangs from a short chain in the UPPER-LEFT of the picture - its globe centre about one-fifth of the way in from the left edge and a little less than one-quarter of the way down from the top; the lantern is about one-sixth of the image height. It is clearly visible but UNLIT and dark (no flame, no glow), with plain, empty, dark cave wall all around it (a glow will be painted there later). Leave the CENTRE of the picture open and empty (a floating dragon goes there) and keep the upper-left area around the lantern uncluttered. Format: wide landscape, 5:3 (1600x960 if you can choose; otherwise the widest landscape option). Dark midnight-indigo and plum colours (#140F2E, #2B1650). Keep the BOTTOM QUARTER of the image plain near-black and empty (the screen draws words there). Big simple shapes, clean smooth gradients. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; glossy candy-like materials; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and cozy, never scary."
+  },
+  {
+   "id": "bg_wakestone",
+   "kind": "background",
+   "transparent": false,
+   "priority": "MVP",
+   "desc": "The Wakestone: a deeper chamber of the cave framed by big soft rounded rock shapes; in the exact centre a round, flat-topped stone pedestal with a carved curled-up sleeping-dragon swirl on its front, lit by one broad soft column of warm cream light from above; its top surface at about 60% of the height and EMPTY (the crystal rises from it); bottom quarter near-black and empty.",
+   "used_by": [
+    "awaken",
+    "reveal_t2",
+    "reveal_t2_2",
+    "circle",
+    "chapter_d"
+   ],
+   "prompt": "The Wakestone: a deeper chamber of a cozy cave, dark indigo and plum, framed by big soft rounded rock shapes. In the exact centre stands a round, flat-topped grey stone pedestal (the Wakestone) with a simple carved swirl of a curled-up sleeping dragon on its front. One broad, soft column of warm cream candle-light falls onto it from above. The pedestal's top surface is at about 60% of the image height and is EMPTY (nothing on it). Format: wide landscape, 5:3 (1600x960 if you can choose; otherwise the widest landscape option). Dark midnight-indigo and plum colours (#140F2E, #2B1650). Keep the BOTTOM QUARTER of the image plain near-black and empty (the screen draws words there). Big simple shapes, clean smooth gradients. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; glossy candy-like materials; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and cozy, never scary."
+  },
+  {
+   "id": "bg_starburst",
+   "kind": "background",
+   "transparent": false,
+   "priority": "MVP",
+   "desc": "Golden Star burst: a blue-black night sky with about 12 broad, soft-edged gold (#FFC83D) rays fanning from the exact centre, a soft gold glow at the centre and a few large simple stars; nothing else; bottom quarter fades to near-black. (The only gold background.)",
+   "used_by": [
+    "reveal_t3",
+    "milestone"
+   ],
+   "prompt": "A deep blue-black night sky with about 12 broad, soft-edged gold (#FFC83D) rays fanning out from the exact centre of the image, a soft gold glow at the centre and a few large simple stars. Nothing else. Format: wide landscape, 5:3 (1600x960 if you can choose; otherwise the widest landscape option). Dark midnight-indigo and plum colours (#140F2E, #2B1650). Keep the BOTTOM QUARTER of the image plain near-black and empty (the screen draws words there). Big simple shapes, clean smooth gradients. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; glossy candy-like materials; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and cozy, never scary."
+  },
+  {
+   "id": "butterscotch_base",
+   "kind": "character",
+   "transparent": true,
+   "priority": "MVP",
+   "desc": "MASTER IMAGE. Butterscotch, a chubby, round old dragon shaped like a soft gumdrop or a pear, floating like a balloon (two short stubby feet tucked under, not standing). Glossy, candy-smooth skin with NO scales, in warm CARAMEL / butterscotch-toffee orange-brown (#C77A35, deeper toffee #9A5424 in the shadows) with a smooth cream belly (#FBE3BF) - NOT gold, NOT yellow. Two small rounded horns shaped like caramel swirls; two tiny stubby wings, much too small to fly; big warm amber-brown eyes with bright highlights; small rounded paws; a short curly tail ending in a little round tuft. A crooked, faded purple wizard hat (#6E5A9E) with exactly TWO big simple pale-cream five-point stars (#F3E6C4) sits between his horns. Small rounded paws held together in front of his tummy; gentle closed-mouth smile; facing the viewer; no teeth, no claws, no fire, nothing gold.",
+   "used_by": [
+    "charge",
+    "reveal_t0_2"
+   ],
+   "prompt": "MASTER CHARACTER IMAGE. Butterscotch, a chubby, round old dragon shaped like a soft gumdrop or a pear, floating like a balloon (two short stubby feet tucked under, not standing). Glossy, candy-smooth skin with NO scales, in warm CARAMEL / butterscotch-toffee orange-brown (#C77A35, deeper toffee #9A5424 in the shadows) with a smooth cream belly (#FBE3BF) - NOT gold, NOT yellow. Two small rounded horns shaped like caramel swirls; two tiny stubby wings, much too small to fly; big warm amber-brown eyes with bright highlights; small rounded paws; a short curly tail ending in a little round tuft. A crooked, faded purple wizard hat (#6E5A9E) with exactly TWO big simple pale-cream five-point stars (#F3E6C4) sits between his horns. His small rounded paws are held together in front of his tummy. Gentle closed-mouth smile, facing the viewer. No teeth, no claws, no fire, no smoke, nothing sharp, nothing gold. Keep the design SIMPLE: big clean shapes and only a few small details. Full figure, centred, nothing cropped, on a TRANSPARENT background (PNG). If you can't make it transparent, use a flat pure green #00FF00 background with no shadow and no floor. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; glossy candy-like materials; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and cozy, never scary.",
+   "anchor": [
+    0.5,
+    0.62
+   ]
+  },
+  {
+   "id": "butterscotch_sleep",
+   "kind": "character",
+   "transparent": true,
+   "priority": "MVP",
+   "desc": "Edit of butterscotch_base: eyes closed in cozy sleep, a small round open snoozing mouth; face-only change.",
+   "used_by": [
+    "attract",
+    "attract_full",
+    "sleepy",
+    "chapter_a",
+    "chapter_b"
+   ],
+   "prompt": "Use the attached butterscotch_base image as Image 1. Edit Image 1: change ONLY the face: eyes closed in cozy, happy sleep, a small round open snoozing mouth, relaxed cheeks. Keep his body shape, pose, paws, tiny wings, swirl horns, curly tail, the faded purple wizard hat (same tilt, same two stars), size, colours, framing and the transparent background EXACTLY identical. Same style.",
+   "edit_of": "butterscotch_base",
+   "anchor": [
+    0.5,
+    0.62
+   ]
+  },
+  {
+   "id": "butterscotch_peek",
+   "kind": "character",
+   "transparent": true,
+   "priority": "MVP",
+   "desc": "Edit of butterscotch_base: one eye open and peeking, the other still closed, a sly little smile; face-only.",
+   "used_by": [
+    "attract",
+    "attract_full",
+    "absorb",
+    "replay",
+    "keeper",
+    "chapter_e",
+    "chapter_f"
+   ],
+   "prompt": "Use the attached butterscotch_base image as Image 1. Edit Image 1: change ONLY the face: one eye open and peeking, the other eye still closed, a sly little smile. Keep his body shape, pose, paws, tiny wings, swirl horns, curly tail, the faded purple wizard hat (same tilt, same two stars), size, colours, framing and the transparent background EXACTLY identical. Same style.",
+   "edit_of": "butterscotch_base",
+   "anchor": [
+    0.5,
+    0.62
+   ]
+  },
+  {
+   "id": "butterscotch_delight",
+   "kind": "character",
+   "transparent": true,
+   "priority": "MVP",
+   "desc": "Edit of butterscotch_base: a huge open happy smile (no teeth), sparkly happy eyes, rosy cheeks; face-only.",
+   "used_by": [
+    "attract_full",
+    "awaken",
+    "greet",
+    "greet_r5",
+    "reveal_t1",
+    "reveal_t2_2",
+    "reveal_t3",
+    "nocrystal",
+    "goodbye",
+    "milestone",
+    "moonfull",
+    "chapter_a",
+    "chapter_e"
+   ],
+   "prompt": "Use the attached butterscotch_base image as Image 1. Edit Image 1: change ONLY the face: a huge open happy smile (no teeth, just a soft pink mouth), sparkly happy eyes, rosy cheeks. Keep his body shape, pose, paws, tiny wings, swirl horns, curly tail, the faded purple wizard hat (same tilt, same two stars), size, colours, framing and the transparent background EXACTLY identical. Same style.",
+   "edit_of": "butterscotch_base",
+   "anchor": [
+    0.5,
+    0.62
+   ]
+  },
+  {
+   "id": "butterscotch_surprise",
+   "kind": "character",
+   "transparent": true,
+   "priority": "MVP",
+   "desc": "Edit of butterscotch_base: a round O-shaped mouth, eyebrows raised high, eyes wide and sparkly; face-only.",
+   "used_by": [
+    "absorb",
+    "awaken",
+    "reveal_t0_1",
+    "reveal_t0_3",
+    "reveal_t2",
+    "reveal_t2_2"
+   ],
+   "prompt": "Use the attached butterscotch_base image as Image 1. Edit Image 1: change ONLY the face: a round O-shaped mouth, eyebrows raised high, eyes wide and sparkly with wonder. Keep his body shape, pose, paws, tiny wings, swirl horns, curly tail, the faded purple wizard hat (same tilt, same two stars), size, colours, framing and the transparent background EXACTLY identical. Same style.",
+   "edit_of": "butterscotch_base",
+   "anchor": [
+    0.5,
+    0.62
+   ]
+  },
+  {
+   "id": "butterscotch_giggle",
+   "kind": "character",
+   "transparent": true,
+   "priority": "MVP",
+   "desc": "Edit of butterscotch_base: a silly giggle - eyes squeezed shut into happy arcs, cheeks scrunched, a little pink tongue poking out of the corner of his mouth; face-only. (Trick gags, circle, finale.)",
+   "used_by": [
+    "reveal_t0_1",
+    "reveal_t0_2",
+    "reveal_t0_3",
+    "circle",
+    "moonfull"
+   ],
+   "prompt": "Use the attached butterscotch_base image as Image 1. Edit Image 1: change ONLY the face: a silly giggle - eyes squeezed shut into happy arcs, cheeks scrunched up, a little pink tongue poking out of one corner of his mouth. Keep his body shape, pose, paws, tiny wings, swirl horns, curly tail, the faded purple wizard hat (same tilt, same two stars), size, colours, framing and the transparent background EXACTLY identical. Same style.",
+   "edit_of": "butterscotch_base",
+   "anchor": [
+    0.5,
+    0.62
+   ]
+  },
+  {
+   "id": "butterscotch_puff",
+   "kind": "character",
+   "transparent": true,
+   "priority": "MVP",
+   "desc": "Edit of butterscotch_base: cheeks puffed out big and round, eyes wide, nose scrunched as if about to sneeze or hiccup, lips pressed together; face-only. (Hiccups, the sparkle-sneeze, blowing a blessing.)",
+   "used_by": [
+    "reveal_t0_2",
+    "reveal_t0_3",
+    "nocrystal"
+   ],
+   "prompt": "Use the attached butterscotch_base image as Image 1. Edit Image 1: change ONLY the face: cheeks puffed out big and round like he's holding his breath, eyes wide, nose scrunched up as if he is about to sneeze or hiccup, lips pressed together. Keep his body shape, pose, paws, tiny wings, swirl horns, curly tail, the faded purple wizard hat (same tilt, same two stars), size, colours, framing and the transparent background EXACTLY identical. Same style.",
+   "edit_of": "butterscotch_base",
+   "anchor": [
+    0.5,
+    0.62
+   ]
+  },
+  {
+   "id": "snuffwick_base",
+   "kind": "character",
+   "transparent": true,
+   "priority": "MVP",
+   "desc": "MASTER IMAGE. Snuffwick, a tiny teacup-sized goblin that looks like a plush toy: round soft sage-green (#8DBF6A) face and body, huge floppy ears, big shiny dark eyes with star highlights, a button nose, a wide TOOTHLESS cheeky grin, mismatched striped socks (one plum-and-cream, one teal-and-cream), a little cap shaped like a short unlit cream candle stub; carries a long pewter-grey candle-snuffer over his shoulder like an umbrella; tiptoeing, sneaky and giggly; soft pale rim light.",
+   "used_by": [
+    "attract",
+    "attract_full",
+    "reveal_t0_1",
+    "reveal_t0_2",
+    "reveal_t0_3",
+    "moonfull",
+    "chapter_b",
+    "chapter_f"
+   ],
+   "prompt": "MASTER CHARACTER IMAGE. Snuffwick, a tiny, cute, teacup-sized goblin that looks like a PLUSH TOY, never scary: a round, soft sage-green (#8DBF6A) face and body, huge floppy ears, big shiny dark eyes with star highlights, a button nose and a wide TOOTHLESS cheeky grin; mismatched striped socks (one plum-and-cream, one teal-and-cream); a little cap shaped like a short, UNLIT cream candle stub. He carries a long pewter-grey candle-snuffer (a small cone on a stick) over his shoulder like an umbrella. Tiptoeing pose, sneaky and giggly. Soft pale rim light so he stands out on a dark background. No claws, no teeth, nothing gold. Keep the design SIMPLE. Full figure, centred, nothing cropped, on a TRANSPARENT background (PNG). If you can't make it transparent, use a flat pure green #00FF00 background with no shadow and no floor. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; glossy candy-like materials; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and cozy, never scary."
+  },
+  {
+   "id": "snuffwick_chicken",
+   "kind": "character",
+   "transparent": true,
+   "priority": "MVP",
+   "desc": "Edit of snuffwick_base: instead of the snuffer he hugs a big pale lemon-yellow squeaky rubber chicken with an orange beak, giggling with his eyes squeezed shut. (Trick gag 1.)",
+   "used_by": [
+    "reveal_t0_1"
+   ],
+   "prompt": "Use the attached snuffwick_base image as Image 1. Edit Image 1: change ONLY his arms and face: instead of the snuffer he hugs a big pale lemon-yellow (#F4EE8C) squeaky rubber chicken with an orange beak (a classic cartoon rubber chicken) in both arms, and he giggles with his eyes squeezed shut. Keep his round sage-green body, floppy ears, mismatched striped socks, candle-stub cap, size, colours, framing and the transparent background EXACTLY identical. Same style.",
+   "edit_of": "snuffwick_base"
+  },
+  {
+   "id": "prop_crystal",
+   "kind": "prop",
+   "transparent": true,
+   "priority": "MVP",
+   "desc": "One pale clear faceted crystal with the shape of your real 3D-printed crystals (give ChatGPT a photo of one), nearly white with soft internal facets and a bright top highlight, no colour of its own; the builder tints it for each crystal colour (a purple-to-blue gradient for Moonspell, sky blue for Starfrost, a rainbow for Rainbow Fizz).",
+   "used_by": [
+    "awaken",
+    "chapter_d"
+   ],
+   "prompt": "One pale, clear, faceted crystal shaped like the crystal in the attached photo (attach a photo of one of your 3D-printed crystals), nearly white with soft internal facets and a bright top highlight. Make it colourless - pale white-grey glass, NOT the colour of the photo, and no glitter or sparkles inside. Front view, standing upright. Full figure, centred, nothing cropped, on a TRANSPARENT background (PNG). If you can't make it transparent, use a flat pure green #00FF00 background with no shadow and no floor. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; glossy candy-like materials; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and cozy, never scary.",
+   "refs": [
+    "a photo of one of your 3D-printed crystals"
+   ]
+  },
+  {
+   "id": "prop_coin",
+   "kind": "prop",
+   "transparent": true,
+   "priority": "MVP",
+   "desc": "HOARD COIN: a big round shiny SILVER candy coin (#D9DEE8), like a chocolate coin in silver foil, a simple embossed dragon swirl in the middle, a smooth raised rim; front view, perfectly round; not gold. Also the silver-circle bowl sign.",
+   "used_by": [
+    "reveal_t0_1",
+    "reveal_t1",
+    "bowl sign (silver circle)"
+   ],
+   "prompt": "A big, round, shiny SILVER candy coin (#D9DEE8), like a chocolate coin wrapped in silver foil, with a simple embossed little dragon swirl in the middle and a smooth raised rim. Front view, perfectly round, no text, no numbers, no face. Silver only - NOT gold. Full figure, centred, nothing cropped, on a TRANSPARENT background (PNG). If you can't make it transparent, use a flat pure green #00FF00 background with no shadow and no floor. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; glossy candy-like materials; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and cozy, never scary."
+  },
+  {
+   "id": "prop_gem",
+   "kind": "prop",
+   "transparent": true,
+   "priority": "MVP",
+   "desc": "DRAGON GEM: a big ruby-red (#FF3B47) gem cut as a clear TRIANGLE (point up), chunky glossy facets, a bright highlight; front view; no face. Also the red-triangle bowl sign.",
+   "used_by": [
+    "reveal_t2",
+    "reveal_t2_2",
+    "bowl sign (red triangle)"
+   ],
+   "prompt": "A big RUBY-RED (#FF3B47) dragon gem cut as a clear TRIANGLE with the point up: chunky glossy facets and one bright highlight. Front view, a clear triangle silhouette, no face, no text. Full figure, centred, nothing cropped, on a TRANSPARENT background (PNG). If you can't make it transparent, use a flat pure green #00FF00 background with no shadow and no floor. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; glossy candy-like materials; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and cozy, never scary."
+  },
+  {
+   "id": "prop_star",
+   "kind": "prop",
+   "transparent": true,
+   "priority": "MVP",
+   "desc": "GOLDEN STAR: a chunky glossy gold (#FFC83D) five-point star with rounded points and a soft warm glow; no face; front view. Also the gold-star bowl sign (the host holds it). The only gold prop.",
+   "used_by": [
+    "reveal_t3",
+    "bowl sign (gold star)"
+   ],
+   "prompt": "A chunky glossy GOLD (#FFC83D) five-point star with rounded points and a soft warm glow, no face, front view. Full figure, centred, nothing cropped, on a TRANSPARENT background (PNG). If you can't make it transparent, use a flat pure green #00FF00 background with no shadow and no floor. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; glossy candy-like materials; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and cozy, never scary."
+  },
+  {
+   "id": "bg_cave_lit",
+   "kind": "background",
+   "transparent": false,
+   "priority": "NICE",
+   "desc": "Edit of bg_cave: the Hoard Lantern now BLAZES warm amber (#FFB347) with a soft warm pool of light on the nearby cave walls; the candy catches a few warm highlights; layout, lantern position and the empty centre identical. (After the finale: attract_full, moonfull, chapter.)",
+   "used_by": [
+    "attract_full",
+    "moonfull",
+    "chapter_a",
+    "chapter_b",
+    "chapter_e"
+   ],
+   "prompt": "Use the attached bg_cave image as Image 1. Edit Image 1: make ONLY the Hoard Lantern blaze with warm amber light (#FFB347) - a bright glowing globe and a soft warm pool of light on the nearby cave walls; the candy piles catch a few warm highlights. Keep the cave, the arch, the lantern's exact position and size, the empty centre and the layout EXACTLY identical. Same style; the bottom quarter stays plain near-black.",
+   "edit_of": "bg_cave"
+  },
+  {
+   "id": "butterscotch_yawn",
+   "kind": "character",
+   "transparent": true,
+   "priority": "NICE",
+   "desc": "Edit of butterscotch_base: a big sleepy yawn - round open mouth (no teeth), eyes squeezed shut; face-only. (Sleepy crystal.)",
+   "used_by": [
+    "sleepy"
+   ],
+   "prompt": "Use the attached butterscotch_base image as Image 1. Edit Image 1: change ONLY the face: a big sleepy yawn - his mouth wide open in a round yawn (no teeth, just a soft pink mouth), eyes squeezed shut, one tiny sleepy tear. Keep his body shape, pose, paws, tiny wings, swirl horns, curly tail, the faded purple wizard hat (same tilt, same two stars), size, colours, framing and the transparent background EXACTLY identical. Same style.",
+   "edit_of": "butterscotch_base",
+   "anchor": [
+    0.5,
+    0.62
+   ]
+  },
+  {
+   "id": "butterscotch_wink",
+   "kind": "character",
+   "transparent": true,
+   "priority": "NICE",
+   "desc": "Edit of butterscotch_base (pose edit 1 of 2): his right paw raised to his lips in a 'shh', one eye winking, a secret smile; the other paw unchanged. (Replay, keeper.)",
+   "used_by": [
+    "replay",
+    "keeper"
+   ],
+   "prompt": "Use the attached butterscotch_base image as Image 1. Edit Image 1: change ONLY his RIGHT paw and his face: the right paw is raised to his lips in a 'shh' gesture, he winks one eye, and he has a secret little smile. Keep his body shape, his other paw, tiny wings, swirl horns, curly tail, the faded purple wizard hat (same tilt, same two stars), size, colours, framing and the transparent background EXACTLY identical. Same style.",
+   "edit_of": "butterscotch_base",
+   "anchor": [
+    0.5,
+    0.62
+   ]
+  },
+  {
+   "id": "butterscotch_wave",
+   "kind": "character",
+   "transparent": true,
+   "priority": "NICE",
+   "desc": "Edit of butterscotch_base (pose edit 2 of 2): his right paw raised high, waving goodbye, a big warm smile; the other paw unchanged. (Goodbye.)",
+   "used_by": [
+    "goodbye"
+   ],
+   "prompt": "Use the attached butterscotch_base image as Image 1. Edit Image 1: change ONLY his RIGHT paw and his face: the right paw is raised high, waving goodbye, with a big warm smile and happy eyes. Keep his body shape, his other paw, tiny wings, swirl horns, curly tail, the faded purple wizard hat (same tilt, same two stars), size, colours, framing and the transparent background EXACTLY identical. Same style.",
+   "edit_of": "butterscotch_base",
+   "anchor": [
+    0.5,
+    0.62
+   ]
+  },
+  {
+   "id": "snuffwick_sneeze",
+   "kind": "character",
+   "transparent": true,
+   "priority": "NICE",
+   "desc": "Edit of snuffwick_base: dazzled by the glow, mid-sneeze - eyes squeezed shut, nose scrunched, a round puff of sparkles bursting from his nose, ears flung up. (Snuff-Out gag, circle, finale.)",
+   "used_by": [
+    "reveal_t0_3",
+    "circle",
+    "moonfull"
+   ],
+   "prompt": "Use the attached snuffwick_base image as Image 1. Edit Image 1: change ONLY his face and ears: dazzled by a bright light and caught mid-sneeze - eyes squeezed shut, nose scrunched, a round puff of big simple sparkles bursting from his nose, ears flung up. Keep his round sage-green body, floppy ears, mismatched striped socks, candle-stub cap, size, colours, framing and the transparent background EXACTLY identical. Same style.",
+   "edit_of": "snuffwick_base"
+  },
+  {
+   "id": "snuffwick_shy",
+   "kind": "character",
+   "transparent": true,
+   "priority": "NICE",
+   "desc": "Edit of snuffwick_base: a shy happy smile with a tiny blush, big hopeful eyes, paws clasped in front of his tummy (the snuffer leans on his shoulder) - invited to the feast. (Finale.)",
+   "used_by": [
+    "moonfull"
+   ],
+   "prompt": "Use the attached snuffwick_base image as Image 1. Edit Image 1: change ONLY his face and paws: a shy, happy smile with a tiny blush, big hopeful eyes, both paws clasped together in front of his tummy (the snuffer now leans against his shoulder). Keep his round sage-green body, floppy ears, mismatched striped socks, candle-stub cap, size, colours, framing and the transparent background EXACTLY identical. Same style.",
+   "edit_of": "snuffwick_base"
+  },
+  {
+   "id": "snuffwick_sock",
+   "kind": "character",
+   "transparent": true,
+   "priority": "NICE",
+   "desc": "Edit of snuffwick_base: hugging a big lumpy plum-and-cream striped sock in both arms; something round inside it glows warm gold through the fabric; a sly delighted grin, one eye winking. (The 2027 stinger: chapter, finale, attract after the finale.)",
+   "used_by": [
+    "attract_full",
+    "moonfull",
+    "chapter_f"
+   ],
+   "prompt": "Use the attached snuffwick_base image as Image 1. Edit Image 1: change ONLY his arms and face: instead of the snuffer he hugs a big, lumpy, plum-and-cream striped sock in both arms; something round inside the sock glows warm gold through the fabric; a sly, delighted grin with one eye winking. Keep his round sage-green body, floppy ears, mismatched striped socks, candle-stub cap, size, colours, framing and the transparent background EXACTLY identical. Same style.",
+   "edit_of": "snuffwick_base"
+  },
+  {
+   "id": "prop_hat",
+   "kind": "prop",
+   "transparent": true,
+   "priority": "NICE",
+   "desc": "A small crooked wizard hat in faded purple (#6E5A9E) with two big simple pale-cream stars and a soft floppy tip - the same design as Butterscotch's hat; front view; no face. (Rank 5 'Here's your hat!'.)",
+   "used_by": [
+    "greet_r5"
+   ],
+   "prompt": "A small, crooked wizard hat in faded purple (#6E5A9E) with two big simple pale-cream (#F3E6C4) five-point stars and a soft floppy tip - the SAME design as the hat Butterscotch wears in the attached butterscotch_base image. Front view, no face, no character, just the hat. Full figure, centred, nothing cropped, on a TRANSPARENT background (PNG). If you can't make it transparent, use a flat pure green #00FF00 background with no shadow and no floor. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; glossy candy-like materials; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and cozy, never scary.",
+   "refs": [
+    "butterscotch_base"
+   ]
+  },
+  {
+   "id": "prop_feather",
+   "kind": "prop",
+   "transparent": true,
+   "priority": "NICE",
+   "desc": "One long, curly tickle-feather in soft lavender with a cream tip, a big simple stylised shape (no fine strands), angled diagonally. (Trick gag 2: Snuffwick tickles Butterscotch's nose.)",
+   "used_by": [
+    "reveal_t0_2"
+   ],
+   "prompt": "One long, curly, cartoon tickle-feather in soft lavender with a cream tip: a big, simple, smooth stylised shape (NO fine strands or fluff), angled diagonally from lower right to upper left. Full figure, centred, nothing cropped, on a TRANSPARENT background (PNG). If you can't make it transparent, use a flat pure green #00FF00 background with no shadow and no floor. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; glossy candy-like materials; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and cozy, never scary."
+  },
+  {
+   "id": "fx_bubble",
+   "kind": "fx",
+   "transparent": true,
+   "priority": "NICE",
+   "desc": "A glossy round soap bubble with a soft rainbow rim and a mostly clear centre (screen-blended): hiccup bubbles and the no-crystal blessing bubble.",
+   "used_by": [
+    "reveal_t0_2",
+    "nocrystal"
+   ],
+   "prompt": "A glossy round soap bubble with a soft rainbow rim and a mostly clear centre. Nothing else. Full figure, centred, nothing cropped, on a TRANSPARENT background (PNG). If you can't make it transparent, use a flat pure green #00FF00 background with no shadow and no floor. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; glossy candy-like materials; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and cozy, never scary."
+  },
+  {
+   "id": "fx_eyes",
+   "kind": "fx",
+   "transparent": true,
+   "priority": "NICE",
+   "desc": "Two big round friendly goblin eyes peering out of the dark: sage-green glowing irises, big dark pupils, white star highlights, a little mischievous; ONLY the eyes. (Trick gag 3: Snuff-Out.)",
+   "used_by": [
+    "reveal_t0_3"
+   ],
+   "prompt": "Two big, round, friendly cartoon goblin eyes side by side, peering out of darkness: glowing sage-green irises, big dark pupils, bright white star highlights, slightly mischievous happy lids. ONLY the two eyes - no face, no body, nothing else. Cute, never scary. Full figure, centred, nothing cropped, on a TRANSPARENT background (PNG). If you can't make it transparent, use a flat pure green #00FF00 background with no shadow and no floor. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; glossy candy-like materials; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and cozy, never scary."
+  },
+  {
+   "id": "chapter_moonstone",
+   "kind": "background",
+   "transparent": false,
+   "priority": "NICE",
+   "desc": "Chapter still (lore): a cozy round wizard-tower room long ago; on a stone table a big round pale Moonstone has gently cracked open, and three smooth glowing crystals rest beside it - one purple fading into deep-sea blue (Moonspell), one clear sky blue (Starfrost), one in soft rainbow candy colours (Rainbow Fizz); three purple Candlewizard hats hang on pegs (no people); bottom quarter dark and empty.",
+   "used_by": [
+    "chapter_c"
+   ],
+   "prompt": "Storybook wide shot, long ago: a cozy round wizard-tower room at night in deep indigo and plum, lit by a few thick cream candles. On a round stone table in the centre rests a big round pale Moonstone that has gently cracked open; beside it lie three smooth, chunky, faceted crystals, each glowing softly from inside: one purple fading into deep-sea blue, one clear sky blue, and one in soft rainbow candy colours (pink, yellow, mint and blue bands). Three friendly purple pointed wizard hats hang on pegs on the wall (no people). Format: wide landscape, 5:3 (1600x960 if you can choose; otherwise the widest landscape option). Dark midnight-indigo and plum colours (#140F2E, #2B1650). Keep the BOTTOM QUARTER of the image plain near-black and empty (the screen draws words there). Big simple shapes, clean smooth gradients. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; glossy candy-like materials; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and cozy, never scary."
+  },
+  {
+   "id": "print_keyart",
+   "kind": "print",
+   "transparent": false,
+   "priority": "NICE",
+   "desc": "Portrait 2:3 key art: Butterscotch floating happily with his paws around one glowing crystal, Snuffwick peeking out from behind his tail with a cheeky grin, the Hoard Lantern glowing warm amber above; generous plain dark space at the top and bottom for sign text. Parent sign + title card.",
+   "used_by": [
+    "parent sign",
+    "title card"
+   ],
+   "prompt": "Portrait 2:3 poster art: Butterscotch (use the attached butterscotch_base image for his exact design) floating happily with his paws around one glowing crystal; Snuffwick (use the attached snuffwick_base image) peeking out from behind Butterscotch's tail with a cheeky grin; the Hoard Lantern glowing warm amber above them. Generous plain dark space at the top and the bottom for sign text. Dark midnight-indigo cave background. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; glossy candy-like materials; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and cozy, never scary.",
+   "refs": [
+    "butterscotch_base",
+    "snuffwick_base"
+   ]
+  }
+ ],
+ "clips": [
+  {
+   "id": "attract",
+   "priority": "MVP",
+   "recipe": "layers",
+   "seconds": 12,
+   "loop": true,
+   "bg": {
+    "image": "bg_cave"
+   },
+   "layers": [
+    {
+     "sprite": "butterscotch_sleep",
+     "height": 300,
+     "x": 420,
+     "y": 40,
+     "bob": {
+      "amp": 8,
+      "period": 4
+     },
+     "fade_in": 0,
+     "fade_out": 0.25,
+     "t": [
+      0,
+      8.75
+     ]
+    },
+    {
+     "sprite": "butterscotch_peek",
+     "height": 300,
+     "x": 420,
+     "y": 40,
+     "bob": {
+      "amp": 8,
+      "period": 4
+     },
+     "fade_in": 0.25,
+     "fade_out": 0.25,
+     "t": [
+      8.5,
+      11.75
+     ]
+    },
+    {
+     "sprite": "butterscotch_sleep",
+     "height": 300,
+     "x": 420,
+     "y": 40,
+     "bob": {
+      "amp": 8,
+      "period": 4
+     },
+     "fade_in": 0.25,
+     "fade_out": 0,
+     "t": [
+      11.5,
+      12
+     ]
+    },
+    {
+     "sprite": "snuffwick_base",
+     "height": 115,
+     "x": [
+      880,
+      690
+     ],
+     "y": 225,
+     "t": [
+      4.0,
+      5.4
+     ],
+     "fade_in": 0.1,
+     "fade_out": 0.1,
+     "bob": {
+      "amp": 4,
+      "period": 0.4
+     }
+    },
+    {
+     "sprite": "snuffwick_base",
+     "height": 115,
+     "x": 690,
+     "y": 225,
+     "t": [
+      5.3,
+      6.6
+     ],
+     "fade_in": 0.1,
+     "fade_out": 0.1,
+     "rotate": [
+      0,
+      -6,
+      6,
+      -6,
+      0
+     ]
+    },
+    {
+     "sprite": "snuffwick_base",
+     "height": 115,
+     "x": [
+      690,
+      900
+     ],
+     "y": 225,
+     "t": [
+      6.5,
+      7.6
+     ],
+     "fade_in": 0.1,
+     "fade_out": 0.1,
+     "bob": {
+      "amp": 4,
+      "period": 0.4
+     }
+    }
+   ],
+   "anchor_layer": 0,
+   "notes": "Butterscotch dozes (balloon bob) and peeks one eye open; Snuffwick tiptoes in from the right, giggles (sfx 'munch' at 5.4 s) and scampers off. The device draws the Hoard Lantern's glow (upper-left), the spark counter and the place-crystal hints."
+  },
+  {
+   "id": "attract_full",
+   "priority": "NICE",
+   "recipe": "layers",
+   "seconds": 12,
+   "loop": true,
+   "bg": {
+    "image": "bg_cave_lit",
+    "fallback": "bg_cave"
+   },
+   "layers": [
+    {
+     "sprite": "butterscotch_sleep",
+     "height": 300,
+     "x": 420,
+     "y": 40,
+     "bob": {
+      "amp": 8,
+      "period": 4
+     },
+     "fade_in": 0,
+     "fade_out": 0.25,
+     "t": [
+      0,
+      8.75
+     ]
+    },
+    {
+     "sprite": "butterscotch_delight",
+     "height": 300,
+     "x": 420,
+     "y": 40,
+     "bob": {
+      "amp": 8,
+      "period": 4
+     },
+     "fade_in": 0.25,
+     "fade_out": 0.25,
+     "t": [
+      8.5,
+      11.75
+     ],
+     "fallback": "butterscotch_peek"
+    },
+    {
+     "sprite": "butterscotch_sleep",
+     "height": 300,
+     "x": 420,
+     "y": 40,
+     "bob": {
+      "amp": 8,
+      "period": 4
+     },
+     "fade_in": 0.25,
+     "fade_out": 0,
+     "t": [
+      11.5,
+      12
+     ]
+    },
+    {
+     "sprite": "snuffwick_sock",
+     "height": 115,
+     "x": [
+      880,
+      690
+     ],
+     "y": 225,
+     "t": [
+      3.5,
+      5.0
+     ],
+     "fade_in": 0.1,
+     "fade_out": 0.1,
+     "bob": {
+      "amp": 4,
+      "period": 0.4
+     },
+     "optional": true,
+     "fallback": "snuffwick_base"
+    },
+    {
+     "sprite": "snuffwick_sock",
+     "height": 115,
+     "x": 690,
+     "y": 225,
+     "t": [
+      4.9,
+      6.4
+     ],
+     "fade_in": 0.1,
+     "fade_out": 0.1,
+     "rotate": [
+      0,
+      -6,
+      6,
+      -6,
+      0
+     ],
+     "optional": true,
+     "fallback": "snuffwick_base"
+    },
+    {
+     "sprite": "snuffwick_sock",
+     "height": 115,
+     "x": [
+      690,
+      900
+     ],
+     "y": 225,
+     "t": [
+      6.3,
+      7.4
+     ],
+     "fade_in": 0.1,
+     "fade_out": 0.1,
+     "bob": {
+      "amp": 4,
+      "period": 0.4
+     },
+     "optional": true,
+     "fallback": "snuffwick_base"
+    }
+   ],
+   "anchor_layer": 0,
+   "notes": "After the lantern is lit: the cave glows; Butterscotch dozes happily; Snuffwick, now the Official Prankster, scampers by hugging his glowing sock (the 2027 tease)."
+  },
+  {
+   "id": "absorb",
+   "priority": "MVP",
+   "recipe": "layers",
+   "seconds": 1,
+   "loop": false,
+   "bg": {
+    "image": "bg_cave"
+   },
+   "layers": [
+    {
+     "sprite": "butterscotch_peek",
+     "height": 300,
+     "x": 420,
+     "y": 40,
+     "bob": {
+      "amp": 7,
+      "period": 3.0
+     },
+     "fade_in": 0,
+     "fade_out": 0.12,
+     "t": [
+      0,
+      0.3
+     ]
+    },
+    {
+     "sprite": "butterscotch_surprise",
+     "height": 300,
+     "x": 420,
+     "y": 40,
+     "bob": {
+      "amp": 7,
+      "period": 3.0
+     },
+     "fade_in": 0.12,
+     "fade_out": 0,
+     "t": [
+      0.18,
+      1
+     ]
+    }
+   ],
+   "anchor_layer": 1,
+   "notes": "One eye pops open, then surprise. The device draws the beam of crystal-coloured light into his chest (the anchor) and the colour name."
+  },
+  {
+   "id": "awaken",
+   "priority": "MVP",
+   "recipe": "layers",
+   "seconds": 8,
+   "loop": false,
+   "variants": "colors",
+   "bg": {
+    "image": "bg_wakestone",
+    "zoom": [
+     1.0,
+     1.05
+    ]
+   },
+   "layers": [
+    {
+     "sprite": "prop_crystal",
+     "tint": "$color",
+     "height": [
+      80,
+      130,
+      130
+     ],
+     "x": 400,
+     "y": [
+      300,
+      175,
+      165
+     ],
+     "t": [
+      0,
+      8
+     ],
+     "fade_in": 0.4,
+     "bob": {
+      "amp": 4,
+      "period": 2
+     }
+    },
+    {
+     "sprite": "butterscotch_surprise",
+     "height": 230,
+     "x": 625,
+     "y": [
+      -280,
+      45
+     ],
+     "bob": {
+      "amp": 6,
+      "period": 3.0
+     },
+     "t": [
+      0.4,
+      3.2
+     ],
+     "fade_in": 0.2,
+     "fade_out": 0.25
+    },
+    {
+     "sprite": "butterscotch_delight",
+     "height": 230,
+     "x": 625,
+     "y": 45,
+     "bob": {
+      "amp": 6,
+      "period": 3.0
+     },
+     "t": [
+      3.0,
+      8
+     ],
+     "fade_in": 0.25
+    }
+   ],
+   "anchor_layer": 2,
+   "notes": "One colour variant per crystal colour, awaken_1..awaken_3 (the crystal tinted with color.N_hex: 1 Moonspell, 2 Starfrost, 3 Rainbow Fizz), rises from the Wakestone; Butterscotch floats down (surprise), then beams (his chest glow starts at 3.0 s). The device adds sparkles + the meter."
+  },
+  {
+   "id": "greet",
+   "priority": "MVP",
+   "recipe": "layers",
+   "seconds": 4,
+   "loop": true,
+   "bg": {
+    "image": "bg_cave"
+   },
+   "layers": [
+    {
+     "sprite": "butterscotch_delight",
+     "height": 300,
+     "x": 420,
+     "y": 40,
+     "bob": {
+      "amp": 7,
+      "period": 4
+     },
+     "fade_in": 0,
+     "fade_out": 0
+    }
+   ],
+   "anchor_layer": 0,
+   "notes": "One visual for every rank (except the Wizard hat below); the device draws the rank name and the meter."
+  },
+  {
+   "id": "greet_r5",
+   "priority": "NICE",
+   "recipe": "layers",
+   "seconds": 3.5,
+   "loop": false,
+   "bg": {
+    "image": "bg_cave"
+   },
+   "layers": [
+    {
+     "sprite": "butterscotch_delight",
+     "height": 300,
+     "x": 420,
+     "y": 40,
+     "bob": {
+      "amp": 7,
+      "period": 3.5
+     },
+     "fade_in": 0,
+     "fade_out": 0
+    },
+    {
+     "sprite": "prop_hat",
+     "height": [
+      30,
+      105,
+      95
+     ],
+     "x": [
+      440,
+      600,
+      625
+     ],
+     "y": [
+      210,
+      40,
+      55
+     ],
+     "t": [
+      0.35,
+      3.5
+     ],
+     "fade_in": 0.15,
+     "spin": 1,
+     "bob": {
+      "amp": 4,
+      "period": 1.75
+     }
+    }
+   ],
+   "anchor_layer": 0,
+   "notes": "Rank 5 Wizard: 'Here's your hat!' - a little wizard hat pops out of Butterscotch's paws and twirls up beside him (upper right; it never lands on the device-drawn crystal)."
+  },
+  {
+   "id": "charge",
+   "priority": "MVP",
+   "recipe": "layers",
+   "seconds": 4,
+   "loop": true,
+   "bg": {
+    "image": "bg_cave"
+   },
+   "layers": [
+    {
+     "sprite": "butterscotch_base",
+     "height": 300,
+     "x": 420,
+     "y": 40,
+     "bob": {
+      "amp": 7,
+      "period": 4
+     },
+     "fade_in": 0,
+     "fade_out": 0
+    }
+   ],
+   "anchor_layer": 0,
+   "notes": "The device draws the tap prompt (TAP! TAP!; the button prompt when a plinth button is fitted), the fill bar and sparkles; his chest glow swells with each tap on the window."
+  },
+  {
+   "id": "reveal_t0_1",
+   "priority": "MVP",
+   "recipe": "layers",
+   "seconds": 2.5,
+   "loop": false,
+   "bg": {
+    "image": "bg_cave"
+   },
+   "layers": [
+    {
+     "sprite": "butterscotch_surprise",
+     "height": 300,
+     "x": 420,
+     "y": 40,
+     "bob": {
+      "amp": 7,
+      "period": 3.0
+     },
+     "fade_in": 0.15,
+     "fade_out": 0.12,
+     "t": [
+      0,
+      0.55
+     ]
+    },
+    {
+     "sprite": "butterscotch_giggle",
+     "height": 300,
+     "x": 420,
+     "y": 40,
+     "bob": {
+      "amp": 7,
+      "period": 3.0
+     },
+     "fade_in": 0.12,
+     "fade_out": 0,
+     "t": [
+      0.45,
+      2.5
+     ]
+    },
+    {
+     "sprite": "snuffwick_chicken",
+     "height": 115,
+     "x": [
+      900,
+      645
+     ],
+     "y": [
+      215,
+      220
+     ],
+     "t": [
+      0,
+      0.45
+     ],
+     "fade_in": 0,
+     "fade_out": 0.1,
+     "bob": {
+      "amp": 4,
+      "period": 0.4
+     }
+    },
+    {
+     "sprite": "snuffwick_chicken",
+     "height": 115,
+     "x": 645,
+     "y": 220,
+     "t": [
+      0.4,
+      1.2
+     ],
+     "fade_in": 0.1,
+     "fade_out": 0.1,
+     "rotate": [
+      0,
+      -8,
+      8,
+      -8,
+      0
+     ]
+    },
+    {
+     "sprite": "prop_coin",
+     "height": [
+      20,
+      90,
+      75
+     ],
+     "x": [
+      615,
+      600,
+      560
+     ],
+     "y": [
+      255,
+      170,
+      185
+     ],
+     "t": [
+      1.12,
+      2.5
+     ],
+     "fade_in": 0.1,
+     "spin": 2
+    },
+    {
+     "sprite": "snuffwick_base",
+     "height": 115,
+     "x": [
+      645,
+      900
+     ],
+     "y": [
+      220,
+      215
+     ],
+     "t": [
+      1.15,
+      1.9
+     ],
+     "fade_in": 0.1,
+     "fade_out": 0.1,
+     "bob": {
+      "amp": 4,
+      "period": 0.4
+     }
+    }
+   ],
+   "anchor_layer": 0,
+   "notes": "Gag 1 Rubber Chicken: Snuffwick zips in hugging a squeaky rubber chicken, Butterscotch pulls a silly face, poof - it's a hoard coin! Snuffwick giggles off. (Device: a white poof at about (615, 230) at 1.1 s.)"
+  },
+  {
+   "id": "reveal_t0_2",
+   "priority": "MVP",
+   "recipe": "layers",
+   "seconds": 2.5,
+   "loop": false,
+   "bg": {
+    "image": "bg_cave"
+   },
+   "layers": [
+    {
+     "sprite": "snuffwick_base",
+     "height": 115,
+     "x": 578,
+     "y": [
+      235,
+      112,
+      112,
+      112,
+      235
+     ],
+     "t": [
+      0,
+      1.3
+     ],
+     "fade_in": 0.08,
+     "fade_out": 0.15
+    },
+    {
+     "sprite": "butterscotch_base",
+     "height": 300,
+     "x": 420,
+     "y": 40,
+     "bob": {
+      "amp": 7,
+      "period": 3.0
+     },
+     "fade_in": 0.15,
+     "fade_out": 0.08,
+     "t": [
+      0,
+      0.6
+     ]
+    },
+    {
+     "sprite": "butterscotch_puff",
+     "height": 300,
+     "x": 420,
+     "y": [
+      40,
+      28,
+      40
+     ],
+     "bob": {
+      "amp": 7,
+      "period": 3.0
+     },
+     "fade_in": 0.06,
+     "fade_out": 0.06,
+     "t": [
+      0.55,
+      0.95
+     ]
+    },
+    {
+     "sprite": "butterscotch_giggle",
+     "height": 300,
+     "x": 420,
+     "y": 40,
+     "bob": {
+      "amp": 7,
+      "period": 3.0
+     },
+     "fade_in": 0.06,
+     "fade_out": 0.06,
+     "t": [
+      0.9,
+      1.4
+     ]
+    },
+    {
+     "sprite": "butterscotch_puff",
+     "height": 300,
+     "x": 420,
+     "y": [
+      40,
+      28,
+      40
+     ],
+     "bob": {
+      "amp": 7,
+      "period": 3.0
+     },
+     "fade_in": 0.06,
+     "fade_out": 0.06,
+     "t": [
+      1.35,
+      1.75
+     ]
+    },
+    {
+     "sprite": "butterscotch_giggle",
+     "height": 300,
+     "x": 420,
+     "y": 40,
+     "bob": {
+      "amp": 7,
+      "period": 3.0
+     },
+     "fade_in": 0.06,
+     "fade_out": 0,
+     "t": [
+      1.7,
+      2.5
+     ]
+    },
+    {
+     "sprite": "prop_feather",
+     "height": 90,
+     "x": 500,
+     "y": 100,
+     "t": [
+      0.3,
+      1.2
+     ],
+     "fade_in": 0.1,
+     "fade_out": 0.1,
+     "rotate": [
+      -20,
+      15,
+      -20,
+      15,
+      -20,
+      15
+     ],
+     "optional": true
+    },
+    {
+     "sprite": "fx_bubble",
+     "height": [
+      20,
+      60
+     ],
+     "x": [
+      450,
+      520
+     ],
+     "y": [
+      170,
+      60
+     ],
+     "t": [
+      0.65,
+      1.6
+     ],
+     "fade_in": 0.1,
+     "fade_out": 0.3,
+     "blend": "screen",
+     "optional": true
+    },
+    {
+     "sprite": "fx_bubble",
+     "height": [
+      15,
+      45
+     ],
+     "x": [
+      430,
+      360
+     ],
+     "y": [
+      175,
+      70
+     ],
+     "t": [
+      0.75,
+      1.7
+     ],
+     "fade_in": 0.1,
+     "fade_out": 0.3,
+     "blend": "screen",
+     "optional": true
+    },
+    {
+     "sprite": "fx_bubble",
+     "height": [
+      20,
+      70
+     ],
+     "x": [
+      445,
+      560
+     ],
+     "y": [
+      170,
+      40
+     ],
+     "t": [
+      1.45,
+      2.5
+     ],
+     "fade_in": 0.1,
+     "fade_out": 0.3,
+     "blend": "screen",
+     "optional": true
+    },
+    {
+     "sprite": "fx_bubble",
+     "height": [
+      15,
+      50
+     ],
+     "x": [
+      425,
+      340
+     ],
+     "y": [
+      175,
+      50
+     ],
+     "t": [
+      1.55,
+      2.5
+     ],
+     "fade_in": 0.1,
+     "fade_out": 0.3,
+     "blend": "screen",
+     "optional": true
+    }
+   ],
+   "anchor_layer": 1,
+   "notes": "Gag 2 Hiccup Bubbles: Snuffwick pops up behind Butterscotch's shoulder and tickles his nose with a feather; hic! hic! - bubbles float up. (Device: sparkles in the kid's crystal colour from his mouth.)"
+  },
+  {
+   "id": "reveal_t0_3",
+   "priority": "MVP",
+   "recipe": "layers",
+   "seconds": 2.5,
+   "loop": false,
+   "layers": [
+    {
+     "image": "bg_cave",
+     "t": [
+      0,
+      0.72
+     ],
+     "fade_out": 0.07
+    },
+    {
+     "image": "bg_cave",
+     "t": [
+      1.42,
+      2.5
+     ],
+     "fade_in": 0.06
+    },
+    {
+     "sprite": "butterscotch_surprise",
+     "height": 300,
+     "x": 420,
+     "y": 40,
+     "bob": {
+      "amp": 7,
+      "period": 3.0
+     },
+     "fade_in": 0.15,
+     "fade_out": 0.07,
+     "t": [
+      0,
+      0.72
+     ]
+    },
+    {
+     "sprite": "butterscotch_puff",
+     "height": 300,
+     "x": 420,
+     "y": [
+      28,
+      44,
+      40
+     ],
+     "bob": {
+      "amp": 7,
+      "period": 3.0
+     },
+     "fade_in": 0.04,
+     "fade_out": 0.08,
+     "t": [
+      1.42,
+      1.85
+     ]
+    },
+    {
+     "sprite": "butterscotch_giggle",
+     "height": 300,
+     "x": 420,
+     "y": 40,
+     "bob": {
+      "amp": 7,
+      "period": 3.0
+     },
+     "fade_in": 0.08,
+     "fade_out": 0,
+     "t": [
+      1.8,
+      2.5
+     ]
+    },
+    {
+     "sprite": "snuffwick_base",
+     "height": 115,
+     "x": [
+      900,
+      650
+     ],
+     "y": 225,
+     "t": [
+      0,
+      0.5
+     ],
+     "fade_in": 0,
+     "fade_out": 0.1,
+     "bob": {
+      "amp": 4,
+      "period": 0.4
+     }
+    },
+    {
+     "sprite": "snuffwick_base",
+     "height": 115,
+     "x": 650,
+     "y": [
+      225,
+      212,
+      225
+     ],
+     "t": [
+      0.48,
+      0.72
+     ],
+     "fade_in": 0.02,
+     "fade_out": 0.07
+    },
+    {
+     "sprite": "fx_eyes",
+     "height": 44,
+     "x": 655,
+     "y": 248,
+     "t": [
+      0.8,
+      1.1
+     ],
+     "fade_in": 0.02,
+     "fade_out": 0.02,
+     "optional": true
+    },
+    {
+     "sprite": "fx_eyes",
+     "height": 44,
+     "x": 655,
+     "y": 248,
+     "t": [
+      1.17,
+      1.41
+     ],
+     "fade_in": 0.02,
+     "fade_out": 0.02,
+     "optional": true
+    },
+    {
+     "sprite": "snuffwick_sneeze",
+     "height": 115,
+     "x": [
+      650,
+      900
+     ],
+     "y": [
+      225,
+      205
+     ],
+     "t": [
+      1.42,
+      2.15
+     ],
+     "fade_in": 0.1,
+     "fade_out": 0.1,
+     "rotate": [
+      0,
+      -10,
+      10,
+      0
+     ],
+     "fallback": "snuffwick_base"
+    }
+   ],
+   "anchor_layer": 2,
+   "notes": "Gag 3 Snuff-Out: Snuffwick tiptoes in, 'pfft!' - the cave goes dark (no bg = black; only his eyes blink, and the device's lantern sparks + Butterscotch's tummy glow stay on: the kids' light can't be snuffed), Butterscotch sneezes sparkles at 1.4 s and the lights pop back on; Snuffwick sneezes and scampers off."
+  },
+  {
+   "id": "reveal_t1",
+   "priority": "MVP",
+   "recipe": "layers",
+   "seconds": 2.5,
+   "loop": false,
+   "bg": {
+    "image": "bg_cave"
+   },
+   "layers": [
+    {
+     "sprite": "butterscotch_delight",
+     "height": 300,
+     "x": 420,
+     "y": 40,
+     "bob": {
+      "amp": 7,
+      "period": 3.0
+     },
+     "fade_in": 0.15,
+     "fade_out": 0
+    },
+    {
+     "sprite": "prop_coin",
+     "height": [
+      40,
+      110,
+      100
+     ],
+     "x": [
+      420,
+      605,
+      615
+     ],
+     "y": [
+      215,
+      85,
+      95
+     ],
+     "t": [
+      0.3,
+      2.5
+     ],
+     "fade_in": 0.15,
+     "spin": 2,
+     "bob": {
+      "amp": 3,
+      "period": 1.25
+     }
+    }
+   ],
+   "anchor_layer": 0,
+   "notes": "HOARD COIN: the silver coin flips up out of his paws and spins (upper right, clear of the lantern)."
+  },
+  {
+   "id": "reveal_t2",
+   "priority": "MVP",
+   "recipe": "layers",
+   "seconds": 2.5,
+   "loop": false,
+   "bg": {
+    "image": "bg_wakestone"
+   },
+   "layers": [
+    {
+     "sprite": "butterscotch_surprise",
+     "height": 230,
+     "x": 625,
+     "y": 45,
+     "bob": {
+      "amp": 6,
+      "period": 2.5
+     },
+     "fade_in": 0.15
+    },
+    {
+     "sprite": "prop_gem",
+     "height": [
+      50,
+      150,
+      140
+     ],
+     "x": 400,
+     "y": [
+      285,
+      90,
+      100
+     ],
+     "t": [
+      0.2,
+      2.5
+     ],
+     "fade_in": 0.15,
+     "spin": 1
+    }
+   ],
+   "anchor_layer": 0,
+   "notes": "DRAGON GEM: the ruby triangle rises out of the Wakestone and turns once; Butterscotch gasps."
+  },
+  {
+   "id": "reveal_t2_2",
+   "priority": "NICE",
+   "recipe": "layers",
+   "seconds": 2.5,
+   "loop": false,
+   "bg": {
+    "image": "bg_wakestone",
+    "zoom": [
+     1.0,
+     1.06
+    ]
+   },
+   "layers": [
+    {
+     "sprite": "butterscotch_surprise",
+     "height": 230,
+     "x": 625,
+     "y": 45,
+     "bob": {
+      "amp": 6,
+      "period": 2.5
+     },
+     "t": [
+      0,
+      1.25
+     ],
+     "fade_in": 0.15,
+     "fade_out": 0.2
+    },
+    {
+     "sprite": "butterscotch_delight",
+     "height": 230,
+     "x": 625,
+     "y": 45,
+     "bob": {
+      "amp": 6,
+      "period": 2.5
+     },
+     "t": [
+      1.1,
+      2.5
+     ],
+     "fade_in": 0.2
+    },
+    {
+     "sprite": "prop_gem",
+     "height": [
+      50,
+      150,
+      140
+     ],
+     "x": 400,
+     "y": [
+      285,
+      90,
+      100
+     ],
+     "t": [
+      0.1,
+      2.5
+     ],
+     "fade_in": 0.15,
+     "rotate": [
+      -8,
+      8,
+      -8,
+      0
+     ]
+    }
+   ],
+   "anchor_layer": 0,
+   "notes": "Variant 2 (with reveal_t2_2's line): the gem wobbles up and Butterscotch's gasp turns into a beam."
+  },
+  {
+   "id": "reveal_t3",
+   "priority": "MVP",
+   "recipe": "layers",
+   "seconds": 3,
+   "loop": false,
+   "bg": {
+    "image": "bg_starburst",
+    "rotate": [
+     0,
+     15
+    ]
+   },
+   "layers": [
+    {
+     "sprite": "prop_star",
+     "height": [
+      70,
+      240
+     ],
+     "x": 380,
+     "y": [
+      300,
+      60
+     ],
+     "t": [
+      0,
+      3
+     ],
+     "fade_in": 0.3,
+     "bob": {
+      "amp": 4,
+      "period": 1.5
+     }
+    },
+    {
+     "sprite": "butterscotch_delight",
+     "height": 200,
+     "x": 655,
+     "y": 85,
+     "bob": {
+      "amp": 6,
+      "period": 3.0
+     },
+     "t": [
+      0.5,
+      3
+     ],
+     "fade_in": 0.3
+    }
+   ],
+   "anchor_layer": 1,
+   "notes": "GOLDEN STAR: the gold rays turn slowly, the star rises and grows (no strobe); Butterscotch beams beside it."
+  },
+  {
+   "id": "replay",
+   "priority": "MVP",
+   "recipe": "layers",
+   "seconds": 4,
+   "loop": true,
+   "bg": {
+    "image": "bg_cave"
+   },
+   "layers": [
+    {
+     "sprite": "butterscotch_wink",
+     "height": 300,
+     "x": 420,
+     "y": 40,
+     "bob": {
+      "amp": 7,
+      "period": 4
+     },
+     "fade_in": 0,
+     "fade_out": 0,
+     "fallback": "butterscotch_peek"
+    }
+   ],
+   "anchor_layer": 0,
+   "notes": "Already played tonight: a 'shh' wink (one-eye peek until the wink still exists); the device shows tonight's result dimmed."
+  },
+  {
+   "id": "nocrystal",
+   "priority": "MVP",
+   "recipe": "layers",
+   "seconds": 3.5,
+   "loop": false,
+   "bg": {
+    "image": "bg_cave"
+   },
+   "layers": [
+    {
+     "sprite": "butterscotch_puff",
+     "height": 300,
+     "x": 420,
+     "y": 40,
+     "bob": {
+      "amp": 7,
+      "period": 3.0
+     },
+     "fade_in": 0.15,
+     "fade_out": 0.15,
+     "t": [
+      0,
+      0.9
+     ]
+    },
+    {
+     "sprite": "butterscotch_delight",
+     "height": 300,
+     "x": 420,
+     "y": 40,
+     "bob": {
+      "amp": 7,
+      "period": 3.0
+     },
+     "fade_in": 0.15,
+     "fade_out": 0,
+     "t": [
+      0.8,
+      3.5
+     ]
+    },
+    {
+     "sprite": "fx_bubble",
+     "height": [
+      30,
+      95,
+      85
+     ],
+     "x": [
+      440,
+      330,
+      400
+     ],
+     "y": [
+      150,
+      210,
+      255
+     ],
+     "t": [
+      0.9,
+      3.4
+     ],
+     "fade_in": 0.2,
+     "fade_out": 0.35,
+     "blend": "screen",
+     "optional": true,
+     "bob": {
+      "amp": 3,
+      "period": 1.0
+     }
+    }
+   ],
+   "anchor_layer": 0,
+   "notes": "The dragon blessing: Butterscotch puffs his cheeks and blows a sparkly blessing bubble down to the kid (+1 spark for the lantern)."
+  },
+  {
+   "id": "sleepy",
+   "priority": "MVP",
+   "recipe": "layers",
+   "seconds": 4,
+   "loop": true,
+   "bg": {
+    "image": "bg_cave"
+   },
+   "layers": [
+    {
+     "sprite": "butterscotch_yawn",
+     "height": 300,
+     "x": 420,
+     "y": 40,
+     "bob": {
+      "amp": 7,
+      "period": 4
+     },
+     "fade_in": 0,
+     "fade_out": 0,
+     "fallback": "butterscotch_sleep"
+    }
+   ],
+   "anchor_layer": 0,
+   "notes": "Unreadable crystal: a big yawn (the sleeping face until the yawn still exists)."
+  },
+  {
+   "id": "goodbye",
+   "priority": "MVP",
+   "recipe": "layers",
+   "seconds": 1.6,
+   "loop": false,
+   "bg": {
+    "image": "bg_cave"
+   },
+   "layers": [
+    {
+     "sprite": "butterscotch_wave",
+     "height": [
+      300,
+      170
+     ],
+     "x": [
+      420,
+      470
+     ],
+     "y": [
+      40,
+      -40
+     ],
+     "t": [
+      0,
+      1.6
+     ],
+     "fade_out": 0.5,
+     "fallback": "butterscotch_delight"
+    }
+   ],
+   "anchor_layer": 0,
+   "notes": "He waves and floats up like a balloon (delighted face until the wave still exists)."
+  },
+  {
+   "id": "milestone",
+   "priority": "MVP",
+   "recipe": "layers",
+   "seconds": 3,
+   "loop": false,
+   "bg": {
+    "image": "bg_starburst",
+    "rotate": [
+     0,
+     15
+    ]
+   },
+   "layers": [
+    {
+     "sprite": "butterscotch_delight",
+     "height": 230,
+     "x": 640,
+     "y": 45,
+     "bob": {
+      "amp": 6,
+      "period": 3.0
+     },
+     "fade_in": 0.2
+    }
+   ],
+   "anchor_layer": 0,
+   "notes": "Every 100th crystal: the device adds confetti in the crystal colours + the big station counter in the centre (so Butterscotch sits to the right)."
+  },
+  {
+   "id": "circle",
+   "priority": "MVP",
+   "recipe": "layers",
+   "seconds": 2.5,
+   "loop": false,
+   "bg": {
+    "image": "bg_wakestone"
+   },
+   "layers": [
+    {
+     "sprite": "butterscotch_giggle",
+     "height": 300,
+     "x": 420,
+     "y": 40,
+     "bob": {
+      "amp": 7,
+      "period": 3.0
+     },
+     "fade_in": 0.15,
+     "fade_out": 0
+    },
+    {
+     "sprite": "snuffwick_sneeze",
+     "height": 115,
+     "x": [
+      880,
+      715
+     ],
+     "y": 225,
+     "t": [
+      0.8,
+      2.5
+     ],
+     "fade_in": 0.1,
+     "fade_out": 0.1,
+     "bob": {
+      "amp": 4,
+      "period": 0.4
+     },
+     "optional": true
+    }
+   ],
+   "anchor_layer": 0,
+   "notes": "3+ crystals in one group: the device orbits small crystals in the group's colours around Butterscotch; Snuffwick peeks in and sneezes at all that glow."
+  },
+  {
+   "id": "keeper",
+   "priority": "NICE",
+   "recipe": "layers",
+   "seconds": 2.5,
+   "loop": false,
+   "bg": {
+    "image": "bg_cave",
+    "zoom": [
+     1.0,
+     1.15
+    ]
+   },
+   "layers": [
+    {
+     "sprite": "butterscotch_wink",
+     "height": [
+      300,
+      350
+     ],
+     "x": 420,
+     "y": [
+      40,
+      5
+     ],
+     "t": [
+      0,
+      2.5
+     ],
+     "fade_in": 0.2,
+     "fallback": "butterscotch_peek"
+    }
+   ],
+   "anchor_layer": 0,
+   "notes": "Keeper of the Hoard secret (about 1 visit in 3): a slow push-in on the wink - the only close-up."
+  },
+  {
+   "id": "moonfull",
+   "priority": "NICE",
+   "recipe": "layers",
+   "seconds": 7,
+   "loop": false,
+   "bg": {
+    "image": "bg_cave"
+   },
+   "layers": [
+    {
+     "image": "bg_cave_lit",
+     "t": [
+      2.0,
+      7
+     ],
+     "fade_in": 1.0,
+     "optional": true
+    },
+    {
+     "sprite": "butterscotch_delight",
+     "height": 300,
+     "x": 420,
+     "y": 40,
+     "bob": {
+      "amp": 7,
+      "period": 3.0
+     },
+     "fade_in": 0.25,
+     "fade_out": 0.25,
+     "t": [
+      0,
+      4.0
+     ]
+    },
+    {
+     "sprite": "butterscotch_giggle",
+     "height": 300,
+     "x": 420,
+     "y": 40,
+     "bob": {
+      "amp": 7,
+      "period": 3.0
+     },
+     "fade_in": 0.25,
+     "fade_out": 0,
+     "t": [
+      3.8,
+      7
+     ]
+    },
+    {
+     "sprite": "snuffwick_sneeze",
+     "height": 115,
+     "x": [
+      880,
+      650,
+      640
+     ],
+     "y": [
+      210,
+      225,
+      225
+     ],
+     "t": [
+      0.6,
+      2.9
+     ],
+     "fade_in": 0.1,
+     "fade_out": 0.1,
+     "rotate": [
+      0,
+      -10,
+      10,
+      -10,
+      0
+     ],
+     "fallback": "snuffwick_base"
+    },
+    {
+     "sprite": "snuffwick_shy",
+     "height": 115,
+     "x": 640,
+     "y": 225,
+     "t": [
+      2.8,
+      5.4
+     ],
+     "fade_in": 0.1,
+     "fade_out": 0.1,
+     "fallback": "snuffwick_base"
+    },
+    {
+     "sprite": "snuffwick_sock",
+     "height": 115,
+     "x": [
+      640,
+      900
+     ],
+     "y": [
+      225,
+      215
+     ],
+     "t": [
+      5.3,
+      6.6
+     ],
+     "fade_in": 0.1,
+     "fade_out": 0.1,
+     "bob": {
+      "amp": 4,
+      "period": 0.4
+     },
+     "optional": true
+    }
+   ],
+   "anchor_layer": 1,
+   "notes": "The Hoard Lantern blazes (the lit cave fades in); Snuffwick, dazzled, sneezes, then smiles shyly - invited to the feast as Official Prankster - and scampers off hugging his glowing sock (2027 stinger)."
+  },
+  {
+   "id": "chapter_a",
+   "priority": "NICE",
+   "recipe": "layers",
+   "seconds": 4.5,
+   "loop": false,
+   "bg": {
+    "image": "bg_cave_lit",
+    "fallback": "bg_cave"
+   },
+   "layers": [
+    {
+     "sprite": "butterscotch_sleep",
+     "height": 300,
+     "x": 420,
+     "y": 40,
+     "bob": {
+      "amp": 7,
+      "period": 3.0
+     },
+     "fade_in": 0.3,
+     "fade_out": 0.3,
+     "t": [
+      0,
+      1.6
+     ]
+    },
+    {
+     "sprite": "butterscotch_delight",
+     "height": 300,
+     "x": 420,
+     "y": 40,
+     "bob": {
+      "amp": 7,
+      "period": 3.0
+     },
+     "fade_in": 0.3,
+     "fade_out": 0.3,
+     "t": [
+      1.4,
+      4.5
+     ]
+    }
+   ],
+   "anchor_layer": 0,
+   "notes": "Every Halloween he wakes under the lit lantern to share the hoard."
+  },
+  {
+   "id": "chapter_b",
+   "priority": "NICE",
+   "recipe": "layers",
+   "seconds": 5,
+   "loop": false,
+   "bg": {
+    "image": "bg_cave_lit",
+    "fallback": "bg_cave"
+   },
+   "layers": [
+    {
+     "image": "bg_cave",
+     "t": [
+      2.45,
+      5
+     ],
+     "fade_in": 0.35
+    },
+    {
+     "sprite": "butterscotch_sleep",
+     "height": 300,
+     "x": 440,
+     "y": 40,
+     "bob": {
+      "amp": 8,
+      "period": 4
+     },
+     "fade_in": 0.3
+    },
+    {
+     "sprite": "snuffwick_base",
+     "height": 115,
+     "x": [
+      -70,
+      100,
+      150
+     ],
+     "y": [
+      225,
+      190,
+      160
+     ],
+     "t": [
+      0.3,
+      2.3
+     ],
+     "fade_in": 0.1,
+     "fade_out": 0.1,
+     "bob": {
+      "amp": 4,
+      "period": 0.4
+     }
+    },
+    {
+     "sprite": "snuffwick_base",
+     "height": 115,
+     "x": 150,
+     "y": [
+      160,
+      148,
+      160
+     ],
+     "t": [
+      2.25,
+      2.7
+     ],
+     "fade_in": 0.1,
+     "fade_out": 0.1
+    },
+    {
+     "sprite": "snuffwick_base",
+     "height": 115,
+     "x": [
+      150,
+      -80
+     ],
+     "y": [
+      160,
+      225
+     ],
+     "t": [
+      2.65,
+      3.7
+     ],
+     "fade_in": 0.1,
+     "fade_out": 0.1,
+     "bob": {
+      "amp": 4,
+      "period": 0.4
+     }
+    }
+   ],
+   "notes": "Snuffwick climbs the candy pile under the lantern, 'pfft!' - the lit cave goes dark (the device does not draw the lantern glow in this part)."
+  },
+  {
+   "id": "chapter_c",
+   "priority": "NICE",
+   "recipe": "kenburns",
+   "image": "chapter_moonstone",
+   "seconds": 4.5,
+   "zoom": [
+    1.05,
+    1.12
+   ],
+   "pan": "up",
+   "notes": "Lore: the Candlewizards' Moonstone cracked into the crystals."
+  },
+  {
+   "id": "chapter_d",
+   "priority": "NICE",
+   "recipe": "layers",
+   "seconds": 4.5,
+   "loop": false,
+   "bg": {
+    "image": "bg_wakestone"
+   },
+   "layers": [
+    {
+     "sprite": "prop_crystal",
+     "tint": "#A35CFF,#2F7BFF",
+     "height": 130,
+     "x": 400,
+     "y": 165,
+     "t": [
+      0.0,
+      1.75
+     ],
+     "fade_in": 0.4,
+     "bob": {
+      "amp": 4,
+      "period": 2
+     }
+    },
+    {
+     "sprite": "prop_crystal",
+     "tint": "#5CD6FF",
+     "height": 130,
+     "x": 400,
+     "y": 165,
+     "t": [
+      1.5,
+      3.25
+     ],
+     "fade_in": 0.25,
+     "bob": {
+      "amp": 4,
+      "period": 2
+     }
+    },
+    {
+     "sprite": "prop_crystal",
+     "tint": "rainbow",
+     "height": 130,
+     "x": 400,
+     "y": 165,
+     "t": [
+      3.0,
+      4.5
+     ],
+     "fade_in": 0.25,
+     "bob": {
+      "amp": 4,
+      "period": 2
+     }
+    }
+   ],
+   "notes": "The crystal on the Wakestone changes through every crystal colour (Moonspell, Starfrost, Rainbow Fizz)."
+  },
+  {
+   "id": "chapter_e",
+   "priority": "NICE",
+   "recipe": "layers",
+   "seconds": 4.5,
+   "loop": false,
+   "bg": {
+    "image": "bg_cave"
+   },
+   "layers": [
+    {
+     "image": "bg_cave_lit",
+     "t": [
+      1.2,
+      4.5
+     ],
+     "fade_in": 2.4,
+     "optional": true
+    },
+    {
+     "sprite": "butterscotch_peek",
+     "height": 300,
+     "x": 420,
+     "y": 40,
+     "bob": {
+      "amp": 7,
+      "period": 3.0
+     },
+     "fade_in": 0.3,
+     "fade_out": 0.25,
+     "t": [
+      0,
+      1.9
+     ]
+    },
+    {
+     "sprite": "butterscotch_delight",
+     "height": 300,
+     "x": 420,
+     "y": 40,
+     "bob": {
+      "amp": 7,
+      "period": 3.0
+     },
+     "fade_in": 0.25,
+     "fade_out": 0.3,
+     "t": [
+      1.7,
+      4.5
+     ]
+    }
+   ],
+   "anchor_layer": 1,
+   "notes": "Sparks light the lantern (the lit cave fades in) and Butterscotch wakes up delighted. The device draws tonight's lantern glow over it (meter.on)."
+  },
+  {
+   "id": "chapter_f",
+   "priority": "NICE",
+   "recipe": "layers",
+   "seconds": 5,
+   "loop": false,
+   "bg": {
+    "image": "bg_cave"
+   },
+   "layers": [
+    {
+     "sprite": "butterscotch_peek",
+     "height": 300,
+     "x": 420,
+     "y": 40,
+     "bob": {
+      "amp": 7,
+      "period": 3.0
+     },
+     "fade_in": 0.3,
+     "fade_out": 0.3
+    },
+    {
+     "sprite": "snuffwick_sock",
+     "height": 115,
+     "x": [
+      900,
+      -100
+     ],
+     "y": 222,
+     "t": [
+      0.8,
+      4.4
+     ],
+     "fade_in": 0.1,
+     "fade_out": 0.1,
+     "bob": {
+      "amp": 4,
+      "period": 0.4
+     },
+     "fallback": "snuffwick_base"
+    }
+   ],
+   "anchor_layer": 0,
+   "notes": "The cliffhanger: Snuffwick scampers past hugging a lumpy sock that glows gold inside."
+  }
+ ],
+ "voice": [
+  {
+   "id": "attract_call_1",
+   "group": "attract_call",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Crystal on the Wakestone! Wake me up!",
+   "caption": "CRYSTAL HERE",
+   "delivery": "sleepy rumble that brightens on 'Wake me up'; cozy, not loud",
+   "priority": "MVP"
+  },
+  {
+   "id": "attract_call_2",
+   "group": "attract_call",
+   "variant": 2,
+   "speaker": "Butterscotch",
+   "text": "No crystal? Press the big button!",
+   "caption": "OR PRESS",
+   "delivery": "friendly and clear, a touch slower on 'big button' (only plays when a plinth button is fitted, config.ini button = yes; without one attract_tap_1 plays instead)",
+   "priority": "NICE"
+  },
+  {
+   "id": "attract_call_3",
+   "group": "attract_call",
+   "variant": 3,
+   "speaker": "Butterscotch",
+   "text": "Zzz... a goblin snuffed my lantern... zzz.",
+   "caption": "HELP BUTTERSCOTCH!",
+   "delivery": "half-asleep mumble with a soft snore; playful, never sad",
+   "priority": "MVP"
+  },
+  {
+   "id": "attract_call_4",
+   "group": "attract_call",
+   "variant": 4,
+   "speaker": "Butterscotch",
+   "text": "Every crystal adds a spark to my lantern!",
+   "caption": "LIGHT THE LANTERN",
+   "delivery": "warm storyteller, hopeful lift at the end",
+   "priority": "MVP"
+  },
+  {
+   "id": "attract_call_5",
+   "group": "attract_call",
+   "variant": 5,
+   "speaker": "Butterscotch",
+   "text": "Shh... I hear wizards coming...",
+   "caption": "SHHH...",
+   "delivery": "excited secret whisper, smiling",
+   "priority": "MVP"
+  },
+  {
+   "id": "attract_call_6",
+   "group": "attract_call",
+   "variant": 6,
+   "speaker": "Butterscotch",
+   "text": "Wake me, wizards! My candy hoard is waiting!",
+   "caption": "WAKE ME!",
+   "delivery": "bright inviting call across the porch, a happy yawn after 'wizards'",
+   "priority": "MVP"
+  },
+  {
+   "id": "attract_call_7",
+   "group": "attract_call",
+   "variant": 7,
+   "speaker": "Butterscotch",
+   "text": "Set your crystal here! I'm awake... almost!",
+   "caption": "SET IT DOWN",
+   "delivery": "yawny and cozy, a chuckle on 'almost'",
+   "priority": "MVP"
+  },
+  {
+   "id": "attract_call_8",
+   "group": "attract_call",
+   "variant": 8,
+   "speaker": "Snuffwick",
+   "text": "Pfft! Hee hee! I like the dark!",
+   "caption": "PFFT!",
+   "delivery": "Snuffwick: record in Butterscotch's voice - the builder pitches it up 5 semitones at 1.15x; a tiny shy giggle, mischievous, never mean",
+   "priority": "NICE",
+   "fx": "smudge"
+  },
+  {
+   "id": "attract_tap_1",
+   "group": "attract_tap",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "No crystal? Tap my window!",
+   "caption": "OR TAP ME",
+   "delivery": "friendly and clear, a touch slower on 'tap my window' (the no-crystal kids tap the screen for a dragon blessing; plays instead of attract_call_2)",
+   "priority": "MVP"
+  },
+  {
+   "id": "awaken_a_1",
+   "group": "awaken_a",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Ooh! A brand-new crystal is waking!",
+   "caption": "NEW CRYSTAL!",
+   "delivery": "sleepy gasp of wonder that wakes right up",
+   "priority": "MVP"
+  },
+  {
+   "id": "awaken_a_2",
+   "group": "awaken_a",
+   "variant": 2,
+   "speaker": "Butterscotch",
+   "text": "A new crystal! Hello, little light!",
+   "caption": "HELLO!",
+   "delivery": "tender delight, like greeting a baby bird",
+   "priority": "MVP"
+  },
+  {
+   "id": "awaken_b_1",
+   "group": "awaken_b",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Moonspell! Purple and blue, full of dreams!",
+   "caption": "MOONSPELL",
+   "delivery": "proud announcement of the name, then dreamy and soft on 'full of dreams' (colour ID 1: the purple-and-blue Deep Sea Realm crystals - some look mostly purple, some mostly blue)",
+   "priority": "MVP"
+  },
+  {
+   "id": "awaken_b_2",
+   "group": "awaken_b",
+   "variant": 2,
+   "speaker": "Butterscotch",
+   "text": "Starfrost! Sparkly sky blue, full of wonder!",
+   "caption": "STARFROST",
+   "delivery": "proud, then hushed amazement on 'wonder' (colour ID 2: the glittery sky-blue crystals)",
+   "priority": "MVP"
+  },
+  {
+   "id": "awaken_b_3",
+   "group": "awaken_b",
+   "variant": 3,
+   "speaker": "Butterscotch",
+   "text": "Rainbow Fizz! Every colour, full of giggles!",
+   "caption": "RAINBOW FIZZ",
+   "delivery": "proud and bubbly, then a giggle on 'giggles' (colour ID 3: the rainbow-candy glitter crystals)",
+   "priority": "MVP"
+  },
+  {
+   "id": "awaken_c_1",
+   "group": "awaken_c",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Sparkfinder! Welcome, little wizard!",
+   "caption": "SPARKFINDER!",
+   "delivery": "joyful welcome, bright on 'Sparkfinder' (also the rush-mode line, so the rank comes first)",
+   "priority": "MVP"
+  },
+  {
+   "id": "awaken_c_2",
+   "group": "awaken_c",
+   "variant": 2,
+   "speaker": "Butterscotch",
+   "text": "Sparkfinder! Look, two sparks already!",
+   "caption": "SPARKFINDER!",
+   "delivery": "delighted, impressed, quick",
+   "priority": "MVP"
+  },
+  {
+   "id": "greet_r2_1",
+   "group": "greet_r2",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Apprentice! You came back, wizard!",
+   "caption": "APPRENTICE",
+   "delivery": "thrilled reunion, a warm chuckle",
+   "priority": "MVP"
+  },
+  {
+   "id": "greet_r2_2",
+   "group": "greet_r2",
+   "variant": 2,
+   "speaker": "Butterscotch",
+   "text": "Apprentice! Your crystal remembers you!",
+   "caption": "APPRENTICE",
+   "delivery": "tender and proud",
+   "priority": "NICE"
+  },
+  {
+   "id": "greet_r3_1",
+   "group": "greet_r3",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Glowcaster! Your glow is getting big!",
+   "caption": "GLOWCASTER",
+   "delivery": "proud announcement, rising",
+   "priority": "MVP"
+  },
+  {
+   "id": "greet_r3_2",
+   "group": "greet_r3",
+   "variant": 2,
+   "speaker": "Butterscotch",
+   "text": "Glowcaster! Welcome back! Shine on!",
+   "caption": "GLOWCASTER",
+   "delivery": "cozy and admiring",
+   "priority": "NICE"
+  },
+  {
+   "id": "greet_r4_1",
+   "group": "greet_r4",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Hoardguard! My trusty candy protector!",
+   "caption": "HOARDGUARD",
+   "delivery": "proud and a little grand, like knighting someone",
+   "priority": "MVP"
+  },
+  {
+   "id": "greet_r4_2",
+   "group": "greet_r4",
+   "variant": 2,
+   "speaker": "Butterscotch",
+   "text": "Hoardguard! Keep those goblins away!",
+   "caption": "HOARDGUARD",
+   "delivery": "playful-conspiratorial, a wink in the voice",
+   "priority": "NICE"
+  },
+  {
+   "id": "greet_r5_1",
+   "group": "greet_r5",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Wizard! A true Wizard! Here's your hat!",
+   "caption": "WIZARD",
+   "delivery": "awed and proud, a magic-trick flourish on 'Here's your hat!' (the hat pops out on screen)",
+   "priority": "MVP"
+  },
+  {
+   "id": "greet_r5_2",
+   "group": "greet_r5",
+   "variant": 2,
+   "speaker": "Butterscotch",
+   "text": "Wizard now! Here's your very own hat!",
+   "caption": "WIZARD",
+   "delivery": "warm and delighted, presenting a gift",
+   "priority": "NICE"
+  },
+  {
+   "id": "greet_r6_1",
+   "group": "greet_r6",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Dragon Rider! Climb aboard, old friend!",
+   "caption": "DRAGON RIDER",
+   "delivery": "excited, adventurous, warm",
+   "priority": "MVP"
+  },
+  {
+   "id": "greet_r6_2",
+   "group": "greet_r6",
+   "variant": 2,
+   "speaker": "Butterscotch",
+   "text": "Dragon Rider! You're back! Wheee!",
+   "caption": "DRAGON RIDER",
+   "delivery": "giddy, a floaty 'Wheee'",
+   "priority": "NICE"
+  },
+  {
+   "id": "greet_r7_1",
+   "group": "greet_r7",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Keeper of the Hoard! I bow to you!",
+   "caption": "KEEPER OF THE HOARD",
+   "delivery": "grand and reverent, but smiling",
+   "priority": "MVP"
+  },
+  {
+   "id": "greet_r7_2",
+   "group": "greet_r7",
+   "variant": 2,
+   "speaker": "Butterscotch",
+   "text": "Keeper! The whole hoard rejoices!",
+   "caption": "KEEPER OF THE HOARD",
+   "delivery": "deeply warm, like hugging an old friend",
+   "priority": "NICE"
+  },
+  {
+   "id": "charge_1",
+   "group": "charge",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Press the button! Pump up the glow!",
+   "caption": "PRESS!",
+   "delivery": "urgent-fun cheer, quick (only with a plinth button, button = yes)",
+   "priority": "NICE"
+  },
+  {
+   "id": "charge_2",
+   "group": "charge",
+   "variant": 2,
+   "speaker": "Butterscotch",
+   "text": "Press fast! Fill your crystal!",
+   "caption": "PRESS!",
+   "delivery": "bouncy encouragement (only with a plinth button, button = yes)",
+   "priority": "NICE"
+  },
+  {
+   "id": "charge_tap_1",
+   "group": "charge_tap",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Tap the window! Pump up the glow!",
+   "caption": "TAP! TAP!",
+   "delivery": "urgent-fun cheer, quick (kids tap the screen to fill the glow; plays instead of the charge lines)",
+   "priority": "MVP"
+  },
+  {
+   "id": "charge_tap_2",
+   "group": "charge_tap",
+   "variant": 2,
+   "speaker": "Butterscotch",
+   "text": "Tap tap tap! Fill your crystal!",
+   "caption": "TAP! TAP!",
+   "delivery": "bouncy encouragement, three quick light taps in the voice (plays instead of the charge lines)",
+   "priority": "MVP"
+  },
+  {
+   "id": "reveal_t0_1",
+   "group": "reveal_t0",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "A rubber chicken?! Poof! Candy anyway!",
+   "caption": "GOBLIN TRICK!",
+   "delivery": "gag 1 Rubber Chicken: silly disbelief, a big laugh, then reassuring and warm on 'Candy anyway!'",
+   "priority": "MVP"
+  },
+  {
+   "id": "reveal_t0_2",
+   "group": "reveal_t0",
+   "variant": 2,
+   "speaker": "Butterscotch",
+   "text": "Hic! Snuffwick tickled me! Hic! Candy anyway!",
+   "caption": "GOBLIN TRICK!",
+   "delivery": "gag 2 Hiccup Bubbles: real little hiccups, giggling; reassuring on 'Candy anyway!'",
+   "priority": "MVP"
+  },
+  {
+   "id": "reveal_t0_3",
+   "group": "reveal_t0",
+   "variant": 3,
+   "speaker": "Butterscotch",
+   "text": "Lights out?! Ah... ah... CHOO! Candy anyway!",
+   "caption": "GOBLIN TRICK!",
+   "delivery": "gag 3 Snuff-Out: startled-silly in the dark, a big sparkly sneeze about 1.4 s in (the lights pop back on), then a happy chuckle on 'Candy anyway!'",
+   "priority": "MVP"
+  },
+  {
+   "id": "reveal_t1_1",
+   "group": "reveal_t1",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Hoard coin! A big shiny one!",
+   "caption": "HOARD COIN!",
+   "delivery": "happy, admiring, warm",
+   "priority": "MVP"
+  },
+  {
+   "id": "reveal_t1_2",
+   "group": "reveal_t1",
+   "variant": 2,
+   "speaker": "Butterscotch",
+   "text": "Hoard coin! Shiny silver treasure!",
+   "caption": "HOARD COIN!",
+   "delivery": "sweet and pleased, a little chuckle",
+   "priority": "MVP"
+  },
+  {
+   "id": "reveal_t2_1",
+   "group": "reveal_t2",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Dragon Gem! Whoa, a rare one!",
+   "caption": "DRAGON GEM!",
+   "delivery": "genuinely surprised, an excited whisper-shout",
+   "priority": "MVP"
+  },
+  {
+   "id": "reveal_t2_2",
+   "group": "reveal_t2",
+   "variant": 2,
+   "speaker": "Butterscotch",
+   "text": "Dragon Gem! Not many wizards find those!",
+   "caption": "DRAGON GEM!",
+   "delivery": "thrilled, conspiratorial",
+   "priority": "MVP"
+  },
+  {
+   "id": "reveal_t3_1",
+   "group": "reveal_t3",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "The Golden Star! You're legendary!",
+   "caption": "GOLDEN STAR!",
+   "delivery": "awed hush rising to joy",
+   "priority": "MVP"
+  },
+  {
+   "id": "reveal_t3_2",
+   "group": "reveal_t3",
+   "variant": 2,
+   "speaker": "Butterscotch",
+   "text": "Golden Star! The rarest treasure of all!",
+   "caption": "GOLDEN STAR!",
+   "delivery": "breathless wonder, slow and grand",
+   "priority": "MVP"
+  },
+  {
+   "id": "bowl_common_1",
+   "group": "bowl_common",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Silver circle! Take one treat!",
+   "caption": "SILVER CIRCLE",
+   "delivery": "clear and friendly, crisp on 'Silver circle'",
+   "priority": "MVP"
+  },
+  {
+   "id": "bowl_rare_1",
+   "group": "bowl_rare",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Red triangle! Take one treat!",
+   "caption": "RED TRIANGLE",
+   "delivery": "clear, excited, crisp on 'Red triangle'",
+   "priority": "MVP"
+  },
+  {
+   "id": "bowl_legend_1",
+   "group": "bowl_legend",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Gold star! The grown-up has it!",
+   "caption": "GOLD STAR",
+   "delivery": "celebratory, pointing-out tone",
+   "priority": "MVP"
+  },
+  {
+   "id": "replay_1",
+   "group": "replay",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Shh! Your crystal already glowed tonight!",
+   "caption": "ALREADY GLOWED",
+   "delivery": "secretive and kind, smiling",
+   "priority": "MVP"
+  },
+  {
+   "id": "replay_2",
+   "group": "replay",
+   "variant": 2,
+   "speaker": "Butterscotch",
+   "text": "Still glowing from tonight! Clever crystal!",
+   "caption": "ALREADY GLOWED",
+   "delivery": "gentle and proud, no scolding",
+   "priority": "MVP"
+  },
+  {
+   "id": "nocrystal_1",
+   "group": "nocrystal",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "A dragon blessing! Whoosh, you sparkle!",
+   "caption": "DRAGON BLESSING!",
+   "delivery": "generous and cheery, a soft 'whoosh' like blowing a bubble",
+   "priority": "MVP"
+  },
+  {
+   "id": "nocrystal_2",
+   "group": "nocrystal",
+   "variant": 2,
+   "speaker": "Butterscotch",
+   "text": "Dragon blessing! You added a spark too!",
+   "caption": "DRAGON BLESSING!",
+   "delivery": "warm thank-you, inclusive",
+   "priority": "MVP"
+  },
+  {
+   "id": "sleepy_1",
+   "group": "sleepy",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Again, please! Sleepy crystal.",
+   "caption": "AGAIN, PLEASE",
+   "delivery": "soft and patient, a yawn in it",
+   "priority": "MVP"
+  },
+  {
+   "id": "sleepy_2",
+   "group": "sleepy",
+   "variant": 2,
+   "speaker": "Butterscotch",
+   "text": "Place it again! Your crystal's yawning.",
+   "caption": "AGAIN, PLEASE",
+   "delivery": "giggly and reassuring",
+   "priority": "MVP"
+  },
+  {
+   "id": "goodbye_1",
+   "group": "goodbye",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Bring your crystal back next Halloween!",
+   "caption": "SEE YOU 2027",
+   "delivery": "warm send-off, bright",
+   "priority": "MVP"
+  },
+  {
+   "id": "goodbye_2",
+   "group": "goodbye",
+   "variant": 2,
+   "speaker": "Butterscotch",
+   "text": "Keep it safe, wizard! See you next year!",
+   "caption": "SEE YOU 2027",
+   "delivery": "fond, a sleepy-happy sigh, smiling",
+   "priority": "MVP"
+  },
+  {
+   "id": "recall_t0_1",
+   "group": "recall_t0",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Last year, Snuffwick tricked you! Silly goblin!",
+   "caption": "LAST YEAR",
+   "delivery": "remembering fondly, a chuckle",
+   "priority": "NICE"
+  },
+  {
+   "id": "recall_t1_1",
+   "group": "recall_t1",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Last year, a shiny hoard coin!",
+   "caption": "LAST YEAR",
+   "delivery": "fond memory, warm",
+   "priority": "NICE"
+  },
+  {
+   "id": "recall_t2_1",
+   "group": "recall_t2",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Last year, a Dragon Gem! Remember?",
+   "caption": "LAST YEAR",
+   "delivery": "impressed memory",
+   "priority": "NICE"
+  },
+  {
+   "id": "recall_t3_1",
+   "group": "recall_t3",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Last year, the Golden Star! Legendary!",
+   "caption": "LAST YEAR",
+   "delivery": "awed remembering",
+   "priority": "NICE"
+  },
+  {
+   "id": "rush_t0_1",
+   "group": "rush_t0",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Silver circle! Goblin trick!",
+   "caption": "GOBLIN TRICK!",
+   "delivery": "fast, giggly, bowl words crisp (rush mode)",
+   "priority": "NICE"
+  },
+  {
+   "id": "rush_t1_1",
+   "group": "rush_t1",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Silver circle! Hoard coin!",
+   "caption": "HOARD COIN!",
+   "delivery": "fast and bright (rush mode)",
+   "priority": "NICE"
+  },
+  {
+   "id": "rush_t2_1",
+   "group": "rush_t2",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Red triangle! Dragon Gem!",
+   "caption": "DRAGON GEM!",
+   "delivery": "fast, excited (rush mode)",
+   "priority": "NICE"
+  },
+  {
+   "id": "rush_t3_1",
+   "group": "rush_t3",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Gold star! Golden Star!",
+   "caption": "GOLDEN STAR!",
+   "delivery": "fast but awed (rush mode)",
+   "priority": "NICE"
+  },
+  {
+   "id": "milestone_1",
+   "group": "milestone",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Another hundred crystals! Hooray, wizards!",
+   "caption": "HOORAY, WIZARDS!",
+   "delivery": "party cheer, bubbly",
+   "priority": "NICE"
+  },
+  {
+   "id": "circle_1",
+   "group": "circle",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "A crystal circle! Wizards together!",
+   "caption": "WIZARD CIRCLE!",
+   "delivery": "delighted, gathering-everyone warmth",
+   "priority": "NICE"
+  },
+  {
+   "id": "circle_2",
+   "group": "circle",
+   "variant": 2,
+   "speaker": "Snuffwick",
+   "text": "Eek! Too much glow! Hee hee!",
+   "caption": "EEK!",
+   "delivery": "Snuffwick (pitched up by the builder): a dazzled squeak, then a giggle",
+   "priority": "NICE",
+   "fx": "smudge"
+  },
+  {
+   "id": "keeper_1",
+   "group": "keeper",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Psst, Keeper... my real name's Bartholomew.",
+   "caption": "SHH... SECRET",
+   "delivery": "close secret whisper, barely holding a chuckle",
+   "priority": "NICE"
+  },
+  {
+   "id": "keeper_2",
+   "group": "keeper",
+   "variant": 2,
+   "speaker": "Butterscotch",
+   "text": "Shh... my wings are tiny. I just float!",
+   "caption": "SHH... SECRET",
+   "delivery": "embarrassed confiding whisper, then a tiny giggle",
+   "priority": "NICE"
+  },
+  {
+   "id": "moonfull_a_1",
+   "group": "moonfull_a",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "My lantern is lit! You did it, wizards!",
+   "caption": "LANTERN LIT!",
+   "delivery": "overjoyed triumph, the biggest moment of the night - warm, never booming",
+   "priority": "NICE"
+  },
+  {
+   "id": "moonfull_b_1",
+   "group": "moonfull_b",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Silly Snuffwick... come to the feast! You're my Official Prankster!",
+   "caption": "OFFICIAL PRANKSTER",
+   "delivery": "fond forgiving chuckle, then a proud announcement",
+   "priority": "NICE"
+  },
+  {
+   "id": "chapter_a_1",
+   "group": "chapter_a",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Every Halloween, I wake up to share my candy hoard.",
+   "caption": "BUTTERSCOTCH'S HOARD",
+   "delivery": "bedtime-story opening, unhurried, a little yawn at the start",
+   "priority": "NICE"
+  },
+  {
+   "id": "chapter_b_1",
+   "group": "chapter_b",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "But sneaky Snuffwick snuffed my Hoard Lantern! Pfft!",
+   "caption": "UH-OH, SNUFFWICK!",
+   "delivery": "mock-outraged, giggling; a soft 'Pfft!'",
+   "priority": "NICE"
+  },
+  {
+   "id": "chapter_c_1",
+   "group": "chapter_c",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Long ago, the Candlewizards' Moonstone broke into crystals. Like yours!",
+   "caption": "THE MOONSTONE",
+   "delivery": "hushed once-upon-a-time wonder, leaning in on 'Like yours!'",
+   "priority": "NICE"
+  },
+  {
+   "id": "chapter_d_1",
+   "group": "chapter_d",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Each crystal remembers its wizard's glow... and glow wakes dragons!",
+   "caption": "YOUR GLOW",
+   "delivery": "tender, then delighted",
+   "priority": "NICE"
+  },
+  {
+   "id": "chapter_e_1",
+   "group": "chapter_e",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Every crystal adds a spark. Light my lantern, wizards!",
+   "caption": "LIGHT THE LANTERN",
+   "delivery": "clear instruction, rising excitement",
+   "priority": "NICE"
+  },
+  {
+   "id": "chapter_f_1",
+   "group": "chapter_f",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Psst... what's Snuffwick hiding in that lumpy sock?",
+   "caption": "WHAT'S IN THE SOCK?",
+   "delivery": "curious, teasing whisper (the 2027 cliffhanger)",
+   "priority": "NICE"
+  }
+ ],
+ "sfx": [
+  {
+   "id": "absorb",
+   "priority": "MVP",
+   "seconds": 1.0,
+   "synth": "rise",
+   "desc": "Crystal placed: a soft whoosh up into a warm glass chime (light flying into Butterscotch's tummy).",
+   "_search": "magic whoosh chime, glass chime rise"
+  },
+  {
+   "id": "awaken",
+   "priority": "MVP",
+   "seconds": 2.0,
+   "synth": "sparkle",
+   "desc": "A new crystal wakes: rising magical shimmer, twinkly harp glissando, warm and gentle.",
+   "_search": "magic shimmer, harp glissando, fairy sparkle"
+  },
+  {
+   "id": "reveal_t0",
+   "priority": "MVP",
+   "seconds": 1.0,
+   "synth": "wahwah",
+   "desc": "Generic GOBLIN TRICK! sting: a playful cartoon boing / slide-whistle + a tiny goblin giggle (never a fail buzzer).",
+   "_search": "cartoon boing, slide whistle, small giggle"
+  },
+  {
+   "id": "reveal_t0_1",
+   "priority": "NICE",
+   "seconds": 1.2,
+   "synth": "bloop",
+   "desc": "Gag 1 Rubber Chicken (starts 0.65 s into the gag): two squeaky rubber-chicken squeaks, then a soft magic 'poof' + a coin 'ting' at about 0.5 s.",
+   "_search": "rubber chicken squeak, cartoon poof, coin ting"
+  },
+  {
+   "id": "reveal_t0_2",
+   "priority": "NICE",
+   "seconds": 1.2,
+   "synth": "bloop",
+   "desc": "Gag 2 Hiccup Bubbles: two cute 'hic!' hiccups, each with a soap-bubble pop.",
+   "_search": "cartoon hiccup, bubble pop"
+  },
+  {
+   "id": "reveal_t0_3",
+   "priority": "NICE",
+   "seconds": 1.2,
+   "synth": "whoosh",
+   "desc": "Gag 3 Snuff-Out (starts 0.65 s into the gag): a tiny candle 'pfft' (the lights go out), a beat of quiet with a little goblin giggle, then a bright sparkly shimmer at about 0.75 s (the sneeze relights the cave; Butterscotch's voice says the 'CHOO').",
+   "_search": "candle snuff out, small giggle, magic sparkle burst"
+  },
+  {
+   "id": "reveal_t1",
+   "priority": "MVP",
+   "seconds": 1.5,
+   "synth": "chime",
+   "desc": "HOARD COIN: a bright coin 'ting' + a twinkly two-chord chime, happy.",
+   "_search": "coin ting, twinkle chime, magic bell"
+  },
+  {
+   "id": "reveal_t2",
+   "priority": "MVP",
+   "seconds": 1.8,
+   "synth": "sparkle",
+   "desc": "DRAGON GEM: a magical swirl + sparkle arpeggio, wondrous.",
+   "_search": "magic spell swirl, sparkle arpeggio"
+  },
+  {
+   "id": "reveal_t3",
+   "priority": "MVP",
+   "seconds": 3.0,
+   "synth": "fanfare",
+   "desc": "GOLDEN STAR: harp glissando + a soft warm gong (the host's cue to come over). No harsh brass.",
+   "_search": "harp glissando, soft gong, magical reveal"
+  },
+  {
+   "id": "tap",
+   "priority": "MVP",
+   "seconds": 0.2,
+   "synth": "blip",
+   "desc": "Each tap on the window (or button press) during charge: a tiny bright blip (it repeats fast).",
+   "_search": "ui blip, bubble pop short"
+  },
+  {
+   "id": "button",
+   "priority": "NICE",
+   "seconds": 0.3,
+   "synth": "blip",
+   "desc": "Only with a plinth button (config.ini button = yes; none in 2026): a friendly bloop when it's pressed with no crystal on the stone.",
+   "_search": "button bloop, cartoon pop"
+  },
+  {
+   "id": "charge_full",
+   "priority": "MVP",
+   "seconds": 1.0,
+   "synth": "chime",
+   "desc": "Charge meter full: a quick rising 'ding-ding-DING'.",
+   "_search": "level up ding, power up chime"
+  },
+  {
+   "id": "sleepy",
+   "priority": "MVP",
+   "seconds": 1.0,
+   "synth": "bloop",
+   "desc": "Sleepy crystal: a soft descending double-bloop with a tiny yawn feel, gentle (never an error buzz).",
+   "_search": "soft bloop descending, gentle cartoon"
+  },
+  {
+   "id": "whoosh",
+   "priority": "MVP",
+   "seconds": 0.6,
+   "synth": "whoosh",
+   "desc": "Soft airy whoosh for transitions (goodbye float-up, the blessing bubble, rank-ups).",
+   "_search": "soft whoosh, air swish"
+  },
+  {
+   "id": "munch",
+   "priority": "NICE",
+   "seconds": 1.5,
+   "synth": "bloop",
+   "desc": "Snuffwick in the attract loop (played ~5.4 s into each loop as he peeks in; the id stays 'munch' for the firmware): a tiny shy goblin giggle + a soft candle 'pfft'.",
+   "_search": "cute small giggle, candle blow out"
+  },
+  {
+   "id": "milestone",
+   "priority": "NICE",
+   "seconds": 2.0,
+   "synth": "fanfare",
+   "desc": "Milestone: a party-horn toot + a cheer + sparkles, kid-friendly.",
+   "_search": "party horn kids, celebration cheer"
+  },
+  {
+   "id": "moonfull",
+   "priority": "NICE",
+   "seconds": 3.0,
+   "synth": "fanfare",
+   "desc": "The Hoard Lantern lights (finale): a warm 'whoomph' of a big lantern catching, swelling into a happy magical chord. Never a roar.",
+   "_search": "lantern whoosh ignite soft, magical swell, triumphant fairy chord"
+  }
+ ],
+ "music": [
+  {
+   "id": "idle",
+   "priority": "MVP",
+   "seconds": 60,
+   "synth": "drone",
+   "desc": "Seamless 45-90 s loop: a gentle spooky-cute music-box / celesta lullaby with soft pizzicato and a cozy low bassoon, slow, warm, never scary. Quiet enough to talk over.",
+   "_search": "music box lullaby halloween, celesta spooky cute, cozy halloween loop"
+  },
+  {
+   "id": "idle_full",
+   "priority": "NICE",
+   "seconds": 60,
+   "synth": "drone",
+   "desc": "The same lullaby in a brighter, happier feast-time arrangement for after the Hoard Lantern is lit.",
+   "_search": "happy music box halloween, cozy feast celesta, playful pizzicato loop"
+  }
+ ]
+}

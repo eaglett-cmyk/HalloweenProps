@@ -130,7 +130,8 @@
 //   MUST stay in sync with nfc_tag_bench/nfc_tag_bench.ino
 #define NDEF_START_PAGE 4         // pages 4..15 hold the link
 #define MARKER_PAGE     16        // "SK" + schema + visit count
-#define CHARGE_PAGE     17        // [charge,0,0,0] = per-token roll modifier
+#define CHARGE_PAGE     17        // [charge,colour,0,0]: byte 0 = per-token roll modifier
+                                  //   (byte 1 = Crystal Oracle colour; the skull only zeroes it on fresh tokens)
 #define YEAR_BASE_PAGE  18        // slot for BASE_YEAR; +1 per year after
 #define MAX_YEARS       22        // pages 18..39
 #define MAGIC0          0x53      // 'S'
@@ -362,12 +363,18 @@ uint8_t applyCharge(uint8_t n, uint8_t charge) {
 }
 
 // ------------------------- NDEF link writer (fresh tags) -------------------
-//  Writes the Capability Container + a single NDEF URI record for REPO_PATH
-//  into pages 3..15. The prop never touches these pages again, so the
-//  phone-tappable link can't be corrupted by visit-data writes.
+//  Writes the Capability Container (only if missing) + a single NDEF URI
+//  record for REPO_PATH into pages 3..15. The prop never touches these pages
+//  again, so the phone-tappable link can't be corrupted by visit-data writes.
+//  The CC is one-time-programmable (bits OR in, never clear): writing
+//  E1 10 12 00 over a factory CC like NTAG216's E1 10 6D 00 corrupts its size
+//  byte. So skip it if byte 0 is already 0xE1 -- and if page 3 can't be read.
 void writeNdefUrl() {
-  uint8_t cc[4] = { 0xE1, 0x10, 0x12, 0x00 };   // NTAG203 CC: NDEF, 144 bytes
-  writePage(3, cc);
+  uint8_t cur[4];
+  if (readPage(3, cur) && cur[0] != 0xE1) {
+    uint8_t cc[4] = { 0xE1, 0x10, 0x12, 0x00 }; // NTAG203 CC: NDEF, 144 bytes
+    writePage(3, cc);
+  }
 
   uint8_t buf[48];
   memset(buf, 0, sizeof(buf));
