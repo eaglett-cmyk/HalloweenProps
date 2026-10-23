@@ -28,5 +28,8 @@ crystal_oracle/tools/__pycache__/
 # large source video (keep assets/source/{images,voice,sfx,music} tracked)
 crystal_oracle/assets/source/video/
 
+# Codex image jobs from tools/make_image_codex.py (logs + copies; installed stills live in assets/source/images)
+crystal_oracle/assets/.codex_jobs/
+
 # ElevenLabs API key for tools/make_voice_elevenlabs.py (never commit)
 crystal_oracle/tools/.elevenlabs_key

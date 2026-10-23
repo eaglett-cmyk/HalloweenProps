@@ -119,6 +119,47 @@ HTTP 429/5xx answers are retried with a growing pause. Alternative: in a fresh C
 claude.ai **ElevenLabs connector**, Claude can make the lines through the connector; save each as
 `assets\source\voice\<line id>.mp3` and build as usual.
 
+## Stills through Codex (ChatGPT plan): `make_image_codex.py`
+
+Generates a still with ChatGPT's image model by driving the **Codex CLI** non-interactively, so it uses the
+ChatGPT plan's Codex limits, not API credits, and needs nobody at the keyboard. Python standard library only.
+
+Setup (once): install the **Codex** app from the Microsoft Store and sign in with ChatGPT. The CLI is
+`codex.exe` inside the app package (not on PATH); the script finds it with `Get-AppxPackage OpenAI.Codex`
+on every run (the folder name changes with each app update), or set `CODEX_EXE`.
+
+```powershell
+python -I tools\make_image_codex.py run --id prop_lantern "a glowing candy lantern on a mossy rock"   # wait (~3-8 min)
+python -I tools\make_image_codex.py run --id bg_cave --force --ref bg_cave_lit "..."                 # re-take, style ref
+python -I tools\make_image_codex.py start --id prop_lantern "..."   # detached: prints the job id, returns at once
+python -I tools\make_image_codex.py status [job id]                 # all jobs, or one
+python -I tools\make_image_codex.py wait <job id>                   # block until it ends (exit 0 = done)
+```
+
+| option | meaning |
+|---|---|
+| `--id ID` | install the result as `assets/source/images/<id>.png` (else it stays in the job folder) |
+| `--force` | replace an existing still; the old file is kept as `<name>.old` |
+| `--ref X` | reference image(s) for style/character: a still id or a file path (repeatable) |
+| `--raw` | don't prepend the house style line (landscape for 800x480, storybook, no text) |
+| `--any-shape` | accept portrait/square results (default: landscape only) |
+| `--timeout S` | kill Codex after S seconds (default 1200) |
+
+**Jobs.** Each job gets its own folder `assets/.codex_jobs/<time>-<id>-<rand>/` (git-ignored) with
+`prompt.txt`, `prompt_sent.txt`, `codex.log`, `last.txt`, `job.json` and copies of the image(s). `job.json`
+records the state (`queued` / `running` / `done` / `failed`), the worker and Codex PIDs, the Codex session id
+and every image's format and size. `status` reports a job whose worker process has disappeared (for example
+after a reboot) as `died`.
+
+**How it works (and why).** Codex runs with the settings that were proven to work on 2026-10-23:
+`codex exec --skip-git-repo-check --ephemeral -s workspace-write -C <job dir> -o last.txt -` with the prompt
+on **stdin**. (`-i` takes several files, so it would swallow a positional prompt.) Codex's own file tools
+time out in that sandbox, so it is told not to save anything. Codex always writes its images to
+`~\.codex\generated_images\<session id>\`. The script reads the session id from `codex.log` and collects
+**only that folder**, so parallel jobs never mix. Each image's header is checked: PNG/JPEG/WebP, width and
+height, at least 512 px, landscape unless `--any-shape`. `build_assets.py` does the 800x480 fit as for any
+other still.
+
 ## Options
 
 | option | what it does |
@@ -155,6 +196,7 @@ claude.ai **ElevenLabs connector**, Claude can make the lines through the connec
 | `assets/source/**` | your real pictures, voice and sounds | your call: large binaries |
 | `tools/.elevenlabs_key` | your ElevenLabs API key (`make_voice_elevenlabs.py`) | **never** (git-ignored) |
 | `tools/.elevenlabs_voice.json` | the chosen ElevenLabs voice, model and settings | optional (no secret in it) |
+| `assets/.codex_jobs/` | `make_image_codex.py` job folders (logs, prompts, image copies) | no (git-ignored) |
 
 ## How it builds things
 
