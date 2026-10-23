@@ -9,11 +9,11 @@
  *    porch 8 / front porch 8 on both axes, pclk_active_neg = 1
  *    ->  12e6 / (820 * 500) = 29.27 Hz refresh.
  *    data pins D0..D15 = B3..B7, G2..G7, R3..R7.
- *    THREE framebuffers in PSRAM + two 800x10 px bounce buffers in internal
+ *    THREE framebuffers in PSRAM + two 800x20 px bounce buffers in internal
  *    RAM: the DMA streams from the bounce buffers, which the driver's ISR
  *    refills (memcpy) from the current framebuffer. The panel is created from
- *    a short-lived task pinned to CORE 0, so that ISR (and its PSRAM traffic)
- *    lives on core 0 while drawing happens on the Arduino loop task (core 1).
+ *    a short-lived task pinned to CORE 1 (LCD_ISR_CORE), so that ISR lives on
+ *    core 1, away from the WiFi/ESP-NOW driver on core 0 (it pre-empts drawing).
  *
  *  Swap protocol (no tearing, no copies):
  *    shown  = buffer the bounce ISR is reading from
@@ -75,6 +75,9 @@ constexpr uint32_t PCLK_MIN  = 6000000;
 constexpr uint32_t PCLK_MAX  = 24000000;
 constexpr uint32_t CREATE_TIMEOUT_MS = 3000;     // panel creation (allocates + clears 2.3 MB PSRAM)
 constexpr uint32_t QUEUE_STALL_MS    = 120;      // endFrame gives up waiting for a frame start after this
+// The bounce-buffer ISR lands on the core that creates the panel. Core 1 since 2026-10-23: on core 0 it
+// shared the CPU with the WiFi/ESP-NOW driver, and once the plinth was linked the panel showed torn bands.
+constexpr BaseType_t LCD_ISR_CORE    = 1;
 
 // 4x4 ordered-dither matrix (0..15) for smooth gradients in RGB565.
 constexpr uint8_t BAYER4[4][4] = {{0, 8, 2, 10}, {12, 4, 14, 6}, {3, 11, 1, 9}, {15, 7, 13, 5}};
@@ -100,7 +103,7 @@ uint32_t  s_pclk = PCLK_HZ;
 int8_t    s_back = -1;               // buffer handed out by beginFrame (loop task only)
 bool      s_warnedStall = false;
 
-// Shared with the ISR (core 0).
+// Shared with the ISR (LCD_ISR_CORE).
 portMUX_TYPE      s_mux = portMUX_INITIALIZER_UNLOCKED;
 volatile int8_t   s_shown = 0;       // the driver starts scanning fb[0]
 volatile int8_t   s_queued = -1;
@@ -109,7 +112,7 @@ volatile uint32_t s_refreshes = 0;   // frame wraps seen
 StaticSemaphore_t s_refreshSemBuf;
 SemaphoreHandle_t s_refreshSem = nullptr;   // binary, given at every frame wrap
 
-// Runs in the bounce-buffer ISR (core 0) right after the driver switched its
+// Runs in the bounce-buffer ISR (LCD_ISR_CORE) right after the driver switched its
 // read index to the most recently queued buffer for the next frame.
 bool IRAM_ATTR onFrameBufComplete(esp_lcd_panel_handle_t, const esp_lcd_rgb_panel_event_data_t *, void *) {
   BaseType_t woken = pdFALSE;
@@ -125,7 +128,7 @@ bool IRAM_ATTR onFrameBufComplete(esp_lcd_panel_handle_t, const esp_lcd_rgb_pane
   return woken == pdTRUE;
 }
 
-// ---- panel creation on core 0 --------------------------------------------------
+// ---- panel creation on LCD_ISR_CORE ----------------------------------------------
 // The job lives in static storage so a creator task that finishes after the
 // caller gave up (timeout) never writes into a dead stack frame; it then
 // deletes the panel itself.
@@ -208,7 +211,7 @@ void createTask(void *arg) {
   vTaskDelete(nullptr);
 }
 
-esp_err_t createPanelOnCore0(esp_lcd_panel_handle_t *out) {
+esp_err_t createPanelOnIsrCore(esp_lcd_panel_handle_t *out) {
   if (!s_jobDone) s_jobDone = xSemaphoreCreateBinaryStatic(&s_jobDoneBuf);
   xSemaphoreTake(s_jobDone, 0);
   portENTER_CRITICAL(&s_jobMux);
@@ -217,7 +220,7 @@ esp_err_t createPanelOnCore0(esp_lcd_panel_handle_t *out) {
   const uint32_t gen = s_job.gen;
   portEXIT_CRITICAL(&s_jobMux);
 
-  if (xTaskCreatePinnedToCore(createTask, "lcd_create", 6144, (void *)(uintptr_t)gen, 5, nullptr, 0) != pdPASS) {
+  if (xTaskCreatePinnedToCore(createTask, "lcd_create", 6144, (void *)(uintptr_t)gen, 5, nullptr, LCD_ISR_CORE) != pdPASS) {
     Serial.println("[display] could not start the core-0 creator task - creating on this core");
     return createPanel(out);   // degrade: ISR lands on this core, still works
   }
@@ -276,7 +279,7 @@ bool begin(uint8_t backlightPct) {
 
   const uint32_t t0 = millis();
   esp_lcd_panel_handle_t panel = nullptr;
-  const esp_err_t err = createPanelOnCore0(&panel);
+  const esp_err_t err = createPanelOnIsrCore(&panel);
   if (err != ESP_OK || !panel) {
     Serial.printf("[display] RGB panel creation FAILED: %s (free PSRAM %lu, internal %lu)\n", esp_err_to_name(err),
                   (unsigned long)board::freePsram(), (unsigned long)board::freeInternal());

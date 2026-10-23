@@ -221,6 +221,15 @@ Read `crystal_oracle/README.md` first, then `crystal_oracle/docs/DESIGN.md` (con
      releases reset and waits 4 refreshes before the backlight. 5/5 clean cold boots on a charger after.
   ESP-NOW reminder: the link needs no WiFi/router (fixed channel 1, group 1); move both to 6/11 if the porch's
   channel 1 is busy (plinth log "tx fail" climbing).
+  3. **The bands came back as soon as the plinth linked** (radio on) → the WiFi/ESP-NOW driver runs on core 0,
+     where the bounce-buffer ISR also lived. **The panel is now created from a core-1 task
+     (`display.cpp LCD_ISR_CORE = 1`)**, so its ISR runs on core 1 next to drawing and the audio mixer (both
+     tasks it simply pre-empts). Clean with plinth + voice + stills + clips; audio still clean; cold boot OK.
+  **Core map now:** core 0 = WiFi/ESP-NOW driver, SD streamer, touch/reader housekeeping; core 1 = LCD
+  bounce ISR, audio mixer (prio 18), drawing loop (prio 1). Keep the radio and the LCD ISR on different cores.
+  With-card checklist passed: Butterscotch's voice ✓, Hoard Lantern + spark count on the idle screen ✓ (2 sparks
+  for 2 crystals), settings saved to config.ini across a power cycle ✓ (volume 75 → 60). **Before Halloween:**
+  host menu → *Tonight* → *Reset tonight*, and the two test tags are now "visited 2026".
 
 Orientation file for future Claude Code sessions (or developers). The firmware version
 lives in the sketch's header comment; note the date when you change behavior.
