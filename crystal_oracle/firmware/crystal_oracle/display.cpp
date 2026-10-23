@@ -68,7 +68,9 @@ constexpr int PIN_DATA[16] = {14, 38, 18, 17, 10, 39, 0, 45, 9, 8, 21, 1, 2, 42,
 constexpr int      NUM_FB    = 3;
 constexpr size_t   FB_PIXELS = (size_t)W * H;
 constexpr size_t   FB_BYTES  = FB_PIXELS * sizeof(uint16_t);
-constexpr size_t   BOUNCE_PX = (size_t)W * 10;   // 768000 % 16000 == 0 (driver requirement)
+// 20 lines (was 10): with the TF card's stills memcpy'd from PSRAM every frame, 10-line bounce
+// buffers ran dry and the panel showed torn bands of stale lines (first hardware run, 2026-10-23).
+constexpr size_t   BOUNCE_PX = (size_t)W * 20;   // 768000 % 32000 == 0 (driver requirement)
 constexpr uint32_t PCLK_MIN  = 6000000;
 constexpr uint32_t PCLK_MAX  = 24000000;
 constexpr uint32_t CREATE_TIMEOUT_MS = 3000;     // panel creation (allocates + clears 2.3 MB PSRAM)
@@ -266,7 +268,11 @@ bool begin(uint8_t backlightPct) {
   if (!s_refreshSem) s_refreshSem = xSemaphoreCreateBinaryStatic(&s_refreshSemBuf);
 
   if (!board::expanderOk()) Serial.println("[display] IO expander missing - panel will stay unpowered/dark");
-  board::lcdPower(true);       // EXIO5 bias on, 20 ms, EXIO0 reset released
+  // Bias on but the panel held in RESET until the RGB signal is running (released below). On the first
+  // hardware run (2026-10-23) ~1 cold boot in 3 came up in the panel's own R/G/B/W self-test: released
+  // from reset 20 ms after power-on with no PCLK yet, the ST7262 could latch into it.
+  board::exioWrite(board::EXIO_LCD_RST, false);
+  board::exioWrite(board::EXIO_LCD_VDD, true);
 
   const uint32_t t0 = millis();
   esp_lcd_panel_handle_t panel = nullptr;
@@ -311,6 +317,11 @@ bool begin(uint8_t backlightPct) {
   waitRefresh(100);
   waitRefresh(100);
   if (s_refreshes == r0) Serial.println("[display] WARNING: no frame interrupts yet (panel DMA not running?)");
+
+  // The signal is running and the bias has had > 60 ms: now let the panel out of reset, so it always
+  // wakes into a live PCLK/DE, and give it a few refreshes before the backlight comes on.
+  board::exioWrite(board::EXIO_LCD_RST, true);
+  for (int i = 0; i < 4; i++) waitRefresh(100);
 
   board::backlight(backlightPct);
   Serial.printf("[display] panel ok in %lu ms: 3 FB @%p %p %p, %.2f Hz, backlight %u%%\n",

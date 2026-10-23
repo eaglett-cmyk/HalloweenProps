@@ -23,7 +23,7 @@ namespace display {
 
 constexpr int W = 800;
 constexpr int H = 480;
-constexpr uint32_t PCLK_HZ = 12000000;   // 2026-10-22: 16 MHz made the real panel jump/drift (first boot)
+constexpr uint32_t PCLK_HZ = 12000000;   // 16 MHz made the real panel jump (2026-10-22); 10 gained nothing over 12
 
 // Powers the panel through the IO expander (board::lcdPower), creates the RGB
 // panel (on a short-lived core-0 task so the bounce-buffer ISR lands on core 0),

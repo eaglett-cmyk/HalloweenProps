@@ -678,16 +678,12 @@ bool mount() {
 
   const uint32_t t0 = millis();
   SD_MMC.setPins(board::PIN_SD_CLK, board::PIN_SD_CMD, board::PIN_SD_D0);
-  bool ok = SD_MMC.begin(MOUNT, true /*1-bit*/, false /*never format*/, SDMMC_FREQ_HIGHSPEED, MAX_OPEN_FILES);
-  s_sdKhz = SDMMC_FREQ_HIGHSPEED;
-  if (!ok) {
-    Serial.println("[media] SD mount at 40 MHz failed - retrying at 20 MHz");
-    SD_MMC.end();
-    delay(20);
-    SD_MMC.setPins(board::PIN_SD_CLK, board::PIN_SD_CMD, board::PIN_SD_D0);
-    ok = SD_MMC.begin(MOUNT, true, false, SDMMC_FREQ_DEFAULT, MAX_OPEN_FILES);
-    s_sdKhz = SDMMC_FREQ_DEFAULT;
-  }
+  // 20 MHz, not 40 (first hardware run, 2026-10-23): with the card at 40 MHz the panel showed torn
+  // bands of stale lines even with 20-line bounce buffers; 20 MHz + 20-line buffers together cured it
+  // (the SD DMA adds to the PSRAM/bus pressure the bounce ISR competes with). 1-bit @ 20 MHz (~2 MB/s)
+  // still covers clips + voice.
+  bool ok = SD_MMC.begin(MOUNT, true /*1-bit*/, false /*never format*/, SDMMC_FREQ_DEFAULT, MAX_OPEN_FILES);
+  s_sdKhz = SDMMC_FREQ_DEFAULT;
   if (ok && SD_MMC.cardType() == CARD_NONE) {
     SD_MMC.end();
     ok = false;

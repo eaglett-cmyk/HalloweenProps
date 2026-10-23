@@ -205,6 +205,22 @@ Read `crystal_oracle/README.md` first, then `crystal_oracle/docs/DESIGN.md` (con
   Checklist results: I²C `10 24 40 51 5D` ✓, Reader online ✓, Crystals test-read + provision (Rainbow Fizz) ✓,
   first visit awakens + writes (108 ms) ✓, second placement = Already glowed ✓, tap = blessing (no roll; spark
   counted, max 1 per `tap_spark_sec` 20 s) ✓. Not yet tested: anything with the TF card (voice, clips, meter).
+- **2026-10-23 (TF card in — three more fixes)** — the owner's card is a **64 GB SDXC, delivered exFAT: the
+  screen can't read exFAT** (this core's FatFs has no exFAT) → wiped and re-made as **one 32 GB FAT32
+  partition labelled ORACLE** (Windows won't FAT32-format >32 GB normally; done with Clear-Disk /
+  New-Partition -Size 32GB / Format-Volume FAT32, needs admin → UAC). `sd_card/oracle` copied with robocopy
+  (126 files, 96 MB). The card reader is "Sabrent card reader SD2" = disk 2 / E:. With the card in:
+  1. **Torn bands of stale lines**, worst on stills (each still frame = a 768 KB PSRAM→PSRAM memcpy, ~20 fps)
+     → PSRAM/bus starvation of the bounce-buffer ISR. Cured only by BOTH: **bounce buffers 20 lines** (was 10;
+     internal RAM free at boot now ~73 KB) **and the SD card at 20 MHz** (was 40; reverting to 40 brought the
+     bands back). Not the cause (tested, no effect): PCLK 10 vs 12 MHz, backlight 30 %, PC port vs a wall
+     charger. PCLK stays 12 MHz; `pclk_mhz` now accepts 8..16.
+  2. **Cold boot sometimes landed in the panel's own R/G/B/W self-test** (~1 in 3, only with the card in;
+     audio and everything else ran) → the panel was let out of reset 20 ms after bias-on, *before* the RGB
+     signal existed. `display::begin` now holds EXIO0 (LCD_RST) low, starts the panel + 2 black refreshes, THEN
+     releases reset and waits 4 refreshes before the backlight. 5/5 clean cold boots on a charger after.
+  ESP-NOW reminder: the link needs no WiFi/router (fixed channel 1, group 1); move both to 6/11 if the porch's
+  channel 1 is busy (plinth log "tx fail" climbing).
 
 Orientation file for future Claude Code sessions (or developers). The firmware version
 lives in the sketch's header comment; note the date when you change behavior.

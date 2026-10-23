@@ -544,7 +544,7 @@ const Field FIELDS[] = {
   {"station", "volume", FT::U8, &cfg.volume, 0, 100, "speaker volume 0..100"},
   {"station", "brightness", FT::U8, &cfg.brightness, 5, 100, "screen backlight 5..100"},
   {"station", "ring_brightness", FT::U8, &cfg.ringBrightness, 0, 255, "plinth LED ring brightness cap 0..255"},
-  {"station", "pclk_mhz", FT::U8, &cfg.pclkMhz, 12, 16, "screen pixel clock: 12 (default; 16 made the real panel jump) or 16"},
+  {"station", "pclk_mhz", FT::U8, &cfg.pclkMhz, 8, 16, "screen pixel clock MHz 8..16 (default 12; 16 made the real panel jump)"},
   {"station", "rush", FT::Rush, &cfg.rush, 0, 0, "auto | on | off  (short sequences when it's busy)"},
   {"station", "second_helpings", FT::Bool, &cfg.secondHelpings, 0, 0, "yes = an already-played crystal is sent to the common bowl again"},
   {"station", "allow_fresh", FT::Bool, &cfg.allowFresh, 0, 0, "yes = awaken blank tags that were never bench-provisioned"},

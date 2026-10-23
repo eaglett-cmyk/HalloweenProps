@@ -108,7 +108,7 @@ python -I tools/build_assets.py --placeholders   # → sd_card/oracle/ (Windows 
 ```
 
 Copy **`sd_card/oracle`** to the root of the TF card (so the card has `/oracle/config.ini`, `/oracle/clips/…`).
-The screen also runs with **no card at all** (built-in glowing visuals and chimes, no voice) — handy for a first test.
+**Format the card FAT32** (exFAT is not readable: a 64 GB card has to be repartitioned to one ≤32 GB FAT32 partition first). The screen also runs with **no card at all** (built-in glowing visuals and chimes, no voice) — handy for a first test.
 
 ### 5. Making the crystals (3D-printed PLA)
 
