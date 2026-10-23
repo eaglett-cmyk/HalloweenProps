@@ -7,7 +7,7 @@ Everything the screen needs, in priority order. **MVP** = needed for Halloween n
 | What | MVP | Nice-to-have | Made with |
 |---|---|---|---|
 | Images (stills) | 16 | 13 | **ChatGPT** (Images) |
-| Voice lines (Butterscotch) | 42 | 31 | ElevenLabs or OpenAI text-to-speech (ChatGPT can't export audio) |
+| Voice lines (Butterscotch) | 43 | 31 | ElevenLabs or OpenAI text-to-speech (ChatGPT can't export audio) |
 | Sound effects | 10 | 7 | Pixabay / Freesound / ElevenLabs Sound Effects |
 | Music bed | 1 | 1 | Pixabay Music / ElevenLabs Music |
 | Animated clips | built automatically from the images (28 recipes, 31 clips with the colour variants) | | `tools/build_assets.py` |
@@ -57,7 +57,7 @@ Everything the screen needs, in priority order. **MVP** = needed for Halloween n
 | 25 | `prop_feather.png` | One long, curly tickle-feather in soft lavender with a cream tip, a big simple stylised … | NICE | — | reveal_t0_2 |
 | 26 | `fx_bubble.png` | A glossy round soap bubble with a soft rainbow rim and a mostly clear centre … | NICE | — | reveal_t0_2, nocrystal |
 | 27 | `fx_eyes.png` | Two big round friendly goblin eyes peering out of the dark: sage-green glowing irises, … | NICE | — | reveal_t0_3 |
-| 28 | `chapter_moonstone.png` | Chapter still (lore): a cozy round wizard-tower room long ago; on a stone table a big … | NICE | — | chapter_c |
+| 28 | `chapter_egg.png` | Chapter still (lore): long ago, in the Hoard Cave, a tiny BABY Butterscotch (the same … | NICE | — | chapter_c |
 | 29 | `print_keyart.png` | Portrait 2:3 key art: Butterscotch floating happily with his paws around one glowing … | NICE | — | parent sign, title card |
 
 ## 3. The prompts (copy-paste)
@@ -256,10 +256,12 @@ A glossy round soap bubble with a soft rainbow rim and a mostly clear centre. No
 Two big, round, friendly cartoon goblin eyes side by side, peering out of darkness: glowing sage-green irises, big dark pupils, bright white star highlights, slightly mischievous happy lids. ONLY the two eyes - no face, no body, nothing else. Cute, never scary. Full figure, centred, nothing cropped, on a TRANSPARENT background (PNG). If you can't make it transparent, use a flat pure green #00FF00 background with no shadow and no floor. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; glossy candy-like materials; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and cozy, never scary.
 ```
 
-### `chapter_moonstone` — NICE · background
+### `chapter_egg` — NICE · background
+
+*Attach: butterscotch_base.*
 
 ```text
-Storybook wide shot, long ago: a cozy round wizard-tower room at night in deep indigo and plum, lit by a few thick cream candles. On a round stone table in the centre rests a big round pale Moonstone that has gently cracked open; beside it lie three smooth, chunky, faceted crystals, each glowing softly from inside: one purple fading to light lilac, one clear sky blue, and one in soft rainbow candy colours (pink, yellow, mint and blue bands). Three friendly purple pointed wizard hats hang on pegs on the wall (no people). Format: wide landscape, 5:3 (1600x960 if you can choose; otherwise the widest landscape option). Dark midnight-indigo and plum colours (#140F2E, #2B1650). Keep the BOTTOM QUARTER of the image plain near-black and empty (the screen draws words there). Big simple shapes, clean smooth gradients. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; glossy candy-like materials; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and cozy, never scary.
+Storybook wide shot, long ago, inside a cozy rounded cave at night in deep indigo and plum, framed by a big round smooth stone arch, with low soft piles of glossy candy at the sides (no gold coins, nothing gold). In the centre, a tiny BABY dragon - a newborn version of the dragon in the attached butterscotch_base image: the same glossy caramel skin (#C77A35) with a cream belly, little caramel-swirl horn buds, tiny stubby wings and big warm amber-brown eyes, but much smaller and rounder, and with NO hat - sits happily in the bottom half of a big, chunky, cracked-open CRYSTAL eggshell resting on a soft pile of candy. The broken shell pieces are smooth, chunky, faceted crystal, each glowing softly from inside in one of three colours: purple fading to light lilac, clear sky blue, and soft rainbow candy colours (pink, yellow, mint and blue bands). A few of the pieces float gently upward and drift toward three or four small round glowing doorways in the cave walls (doors to other worlds - each one shows a hint of a different place: a starry sky, a green forest, a pink sunset), as if they are leaving to find someone. No people. Format: wide landscape, 5:3 (1600x960 if you can choose; otherwise the widest landscape option). Dark midnight-indigo and plum colours (#140F2E, #2B1650). Keep the BOTTOM QUARTER of the image plain near-black and empty (the screen draws words there). Big simple shapes, clean smooth gradients. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; glossy candy-like materials; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and cozy, never scary.
 ```
 
 ### `print_keyart` — NICE · print
@@ -280,8 +282,8 @@ A clip is built as soon as its **needed** pictures exist; *extras* are used when
 | `attract_full` | NICE | `bg_cave_lit`, `butterscotch_sleep`, `butterscotch_delight` | `bg_cave`, `butterscotch_peek`, `snuffwick_sock`, `snuffwick_base` | After the lantern is lit: the cave glows; Butterscotch dozes happily; Snuffwick, now the Official Prankster, scampers by hugging his glowing sock (the 2027 tease). |
 | `absorb` | MVP | `bg_cave`, `butterscotch_peek`, `butterscotch_surprise` | — | One eye pops open, then surprise. The device draws the beam of crystal-coloured light into his chest (the anchor) and the colour name. |
 | `awaken` (+ `awaken_1` … `awaken_3`, one per crystal colour) | MVP | `bg_wakestone`, `prop_crystal`, `butterscotch_surprise`, `butterscotch_delight` | — | One colour variant per crystal colour, awaken_1..awaken_3 (the crystal tinted with color.N_hex: 1 Dragonberry, 2 Starfrost, 3 Rainbow Fizz), rises from the Wakestone; Butterscotch floats down (surprise), then beams (his chest glow starts at 3.0 s). The device adds sparkles + the meter. |
-| `greet` | MVP | `bg_cave`, `butterscotch_delight` | — | One visual for every rank (except the Wizard hat below); the device draws the rank name and the meter. |
-| `greet_r5` | NICE | `bg_cave`, `butterscotch_delight`, `prop_hat` | — | Rank 5 Wizard: 'Here's your hat!' - a little wizard hat pops out of Butterscotch's paws and twirls up beside him (upper right; it never lands on the device-drawn crystal). |
+| `greet` | MVP | `bg_cave`, `butterscotch_delight` | — | One visual for every rank (except the Worldwalker hat below); the device draws the rank name and the meter. |
+| `greet_r5` | NICE | `bg_cave`, `butterscotch_delight`, `prop_hat` | — | Rank 5 Worldwalker: 'Here's your traveler's hat!' - a little hat pops out of Butterscotch's paws and twirls up beside him (upper right; it never lands on the device-drawn crystal). |
 | `charge` | MVP | `bg_cave`, `butterscotch_base` | — | The device draws the tap prompt (TAP! TAP!; the button prompt when a plinth button is fitted), the fill bar and sparkles; his chest glow swells with each tap on the window. |
 | `reveal_t0_1` | MVP | `bg_cave`, `butterscotch_surprise`, `butterscotch_giggle`, `snuffwick_chicken`, `prop_coin`, `snuffwick_base` | — | Gag 1 Rubber Chicken: Snuffwick zips in hugging a squeaky rubber chicken, Butterscotch pulls a silly face, poof - it's a hoard coin! Snuffwick giggles off. (Device: a white poof at about (615, 230) at 1.1 s.) |
 | `reveal_t0_2` | MVP | `bg_cave`, `snuffwick_base`, `butterscotch_base`, `butterscotch_puff`, `butterscotch_giggle` | `prop_feather`, `fx_bubble` | Gag 2 Hiccup Bubbles: Snuffwick pops up behind Butterscotch's shoulder and tickles his nose with a feather; hic! hic! - bubbles float up. (Device: sparkles in the kid's crystal colour from his mouth.) |
@@ -300,7 +302,7 @@ A clip is built as soon as its **needed** pictures exist; *extras* are used when
 | `moonfull` | NICE | `bg_cave`, `butterscotch_delight`, `butterscotch_giggle`, `snuffwick_sneeze`, `snuffwick_shy` | `bg_cave_lit`, `snuffwick_base`, `snuffwick_sock` | The Hoard Lantern blazes (the lit cave fades in); Snuffwick, dazzled, sneezes, then smiles shyly - invited to the feast as Official Prankster - and scampers off hugging his glowing sock (2027 stinger). |
 | `chapter_a` | NICE | `bg_cave_lit`, `butterscotch_sleep`, `butterscotch_delight` | `bg_cave` | Every Halloween he wakes under the lit lantern to share the hoard. |
 | `chapter_b` | NICE | `bg_cave_lit`, `bg_cave`, `butterscotch_sleep`, `snuffwick_base` | — | Snuffwick climbs the candy pile under the lantern, 'pfft!' - the lit cave goes dark (the device does not draw the lantern glow in this part). |
-| `chapter_c` | NICE | `chapter_moonstone` | — | Lore: the Candlewizards' Moonstone cracked into the crystals. |
+| `chapter_c` | NICE | `chapter_egg` | — | Lore: Butterscotch hatched from a crystal egg long ago; its shell pieces scattered through the worlds and became the crystals. |
 | `chapter_d` | NICE | `bg_wakestone`, `prop_crystal` | — | The crystal on the Wakestone changes through every crystal colour (Dragonberry, Starfrost, Rainbow Fizz). |
 | `chapter_e` | NICE | `bg_cave`, `butterscotch_peek`, `butterscotch_delight` | `bg_cave_lit` | Sparks light the lantern (the lit cave fades in) and Butterscotch wakes up delighted. The device draws tonight's lantern glow over it (meter.on). |
 | `chapter_f` | NICE | `bg_cave`, `butterscotch_peek`, `snuffwick_sock` | `snuffwick_base` | The cliffhanger: Snuffwick scampers past hugging a lumpy sock that glows gold inside. |
@@ -327,21 +329,22 @@ Save each line as its own file named by its **id** (any of WAV / MP3 / M4A) into
 | `attract_call_1` | Crystal on the Wakestone! Wake me up! | sleepy rumble that brightens on 'Wake me up'; cozy, not loud | MVP |
 | `attract_call_3` | Zzz... a goblin snuffed my lantern... zzz. | half-asleep mumble with a soft snore; playful, never sad | MVP |
 | `attract_call_4` | Every crystal adds a spark to my lantern! | warm storyteller, hopeful lift at the end | MVP |
-| `attract_call_5` | Shh... I hear wizards coming... | excited secret whisper, smiling | MVP |
-| `attract_call_6` | Wake me, wizards! My candy hoard is waiting! | bright inviting call across the porch, a happy yawn after 'wizards' | MVP |
+| `attract_call_5` | Shh... I hear travelers coming... | excited secret whisper, smiling | MVP |
+| `attract_call_6` | Wake me, travelers! My candy hoard is waiting! | bright inviting call across the porch, a happy yawn after 'travelers' | MVP |
 | `attract_call_7` | Set your crystal here! I'm awake... almost! | yawny and cozy, a chuckle on 'almost' | MVP |
+| `attract_call_9` | Travelers from every world! Come in, come in! | warm, welcoming host calling across the porch on Halloween night, a happy chuckle on the second 'come in' | MVP |
 | `attract_tap_1` | No crystal? Tap my window! | friendly and clear, a touch slower on 'tap my window' (the no-crystal kids tap the screen for a dragon blessing; plays instead of attract_call_2) | MVP |
 | `awaken_a_1` | Ooh! A brand-new crystal is waking! | sleepy gasp of wonder that wakes right up | MVP |
 | `awaken_a_2` | A new crystal! Hello, little light! | tender delight, like greeting a baby bird | MVP |
 | `awaken_b_1` | Dragonberry! Purple and sweet, full of dreams! | proud announcement of the name, then dreamy and soft on 'full of dreams' (colour ID 1: the deep-to-light purple Deep Sea Realm crystals - some look darker, some lighter) | MVP |
 | `awaken_b_2` | Starfrost! Sparkly sky blue, full of wonder! | proud, then hushed amazement on 'wonder' (colour ID 2: the glittery sky-blue crystals) | MVP |
 | `awaken_b_3` | Rainbow Fizz! Every colour, full of giggles! | proud and bubbly, then a giggle on 'giggles' (colour ID 3: the rainbow-candy glitter crystals) | MVP |
-| `awaken_c_1` | Sparkfinder! Welcome, little wizard! | joyful welcome, bright on 'Sparkfinder' (also the rush-mode line, so the rank comes first) | MVP |
+| `awaken_c_1` | Sparkfinder! Welcome, little traveler! | joyful welcome, bright on 'Sparkfinder' (also the rush-mode line, so the rank comes first) | MVP |
 | `awaken_c_2` | Sparkfinder! Look, two sparks already! | delighted, impressed, quick | MVP |
-| `greet_r2_1` | Apprentice! You came back, wizard! | thrilled reunion, a warm chuckle | MVP |
+| `greet_r2_1` | Apprentice! You found your way back! | thrilled reunion, a warm chuckle | MVP |
 | `greet_r3_1` | Glowcaster! Your glow is getting big! | proud announcement, rising | MVP |
 | `greet_r4_1` | Hoardguard! My trusty candy protector! | proud and a little grand, like knighting someone | MVP |
-| `greet_r5_1` | Wizard! A true Wizard! Here's your hat! | awed and proud, a magic-trick flourish on 'Here's your hat!' (the hat pops out on screen) | MVP |
+| `greet_r5_1` | Worldwalker! Here's your traveler's hat! | awed and proud, a magic-trick flourish on 'Here's your hat!' (the hat pops out on screen) | MVP |
 | `greet_r6_1` | Dragon Rider! Climb aboard, old friend! | excited, adventurous, warm | MVP |
 | `greet_r7_1` | Keeper of the Hoard! I bow to you! | grand and reverent, but smiling | MVP |
 | `charge_tap_1` | Tap the window! Pump up the glow! | urgent-fun cheer, quick (kids tap the screen to fill the glow; plays instead of the charge lines) | MVP |
@@ -352,7 +355,7 @@ Save each line as its own file named by its **id** (any of WAV / MP3 / M4A) into
 | `reveal_t1_1` | Hoard coin! A big shiny one! | happy, admiring, warm | MVP |
 | `reveal_t1_2` | Hoard coin! Shiny silver treasure! | sweet and pleased, a little chuckle | MVP |
 | `reveal_t2_1` | Dragon Gem! Whoa, a rare one! | genuinely surprised, an excited whisper-shout | MVP |
-| `reveal_t2_2` | Dragon Gem! Not many wizards find those! | thrilled, conspiratorial | MVP |
+| `reveal_t2_2` | Dragon Gem! Not many travelers find those! | thrilled, conspiratorial | MVP |
 | `reveal_t3_1` | The Golden Star! You're legendary! | awed hush rising to joy | MVP |
 | `reveal_t3_2` | Golden Star! The rarest treasure of all! | breathless wonder, slow and grand | MVP |
 | `bowl_common_1` | Silver circle! Take one treat! | clear and friendly, crisp on 'Silver circle' | MVP |
@@ -365,13 +368,13 @@ Save each line as its own file named by its **id** (any of WAV / MP3 / M4A) into
 | `sleepy_1` | Again, please! Sleepy crystal. | soft and patient, a yawn in it | MVP |
 | `sleepy_2` | Place it again! Your crystal's yawning. | giggly and reassuring | MVP |
 | `goodbye_1` | Bring your crystal back next Halloween! | warm send-off, bright | MVP |
-| `goodbye_2` | Keep it safe, wizard! See you next year! | fond, a sleepy-happy sigh, smiling | MVP |
+| `goodbye_2` | Keep it safe, traveler! See you next year! | fond, a sleepy-happy sigh, smiling | MVP |
 | `attract_call_2` | No crystal? Press the big button! | friendly and clear, a touch slower on 'big button' (only plays when a plinth button is fitted, config.ini button = yes; without one attract_tap_1 plays instead) | NICE |
 | `attract_call_8` | *Snuffwick (record in Butterscotch's voice; the builder pitches it up):* Pfft! Hee hee! I like the dark! | Snuffwick: record in Butterscotch's voice - the builder pitches it up 5 semitones at 1.15x; a tiny shy giggle, mischievous, never mean | NICE |
 | `greet_r2_2` | Apprentice! Your crystal remembers you! | tender and proud | NICE |
 | `greet_r3_2` | Glowcaster! Welcome back! Shine on! | cozy and admiring | NICE |
 | `greet_r4_2` | Hoardguard! Keep those goblins away! | playful-conspiratorial, a wink in the voice | NICE |
-| `greet_r5_2` | Wizard now! Here's your very own hat! | warm and delighted, presenting a gift | NICE |
+| `greet_r5_2` | Worldwalker now! Here's your very own hat! | warm and delighted, presenting a gift | NICE |
 | `greet_r6_2` | Dragon Rider! You're back! Wheee! | giddy, a floaty 'Wheee' | NICE |
 | `greet_r7_2` | Keeper! The whole hoard rejoices! | deeply warm, like hugging an old friend | NICE |
 | `charge_1` | Press the button! Pump up the glow! | urgent-fun cheer, quick (only with a plinth button, button = yes) | NICE |
@@ -384,18 +387,18 @@ Save each line as its own file named by its **id** (any of WAV / MP3 / M4A) into
 | `rush_t1_1` | Silver circle! Hoard coin! | fast and bright (rush mode) | NICE |
 | `rush_t2_1` | Red triangle! Dragon Gem! | fast, excited (rush mode) | NICE |
 | `rush_t3_1` | Gold star! Golden Star! | fast but awed (rush mode) | NICE |
-| `milestone_1` | Another hundred crystals! Hooray, wizards! | party cheer, bubbly | NICE |
-| `circle_1` | A crystal circle! Wizards together! | delighted, gathering-everyone warmth | NICE |
+| `milestone_1` | Another hundred crystals! Hooray, travelers! | party cheer, bubbly | NICE |
+| `circle_1` | A crystal circle! All the worlds together! | delighted, gathering-everyone warmth | NICE |
 | `circle_2` | *Snuffwick (record in Butterscotch's voice; the builder pitches it up):* Eek! Too much glow! Hee hee! | Snuffwick (pitched up by the builder): a dazzled squeak, then a giggle | NICE |
 | `keeper_1` | Psst, Keeper... my real name's Bartholomew. | close secret whisper, barely holding a chuckle | NICE |
 | `keeper_2` | Shh... my wings are tiny. I just float! | embarrassed confiding whisper, then a tiny giggle | NICE |
-| `moonfull_a_1` | My lantern is lit! You did it, wizards! | overjoyed triumph, the biggest moment of the night - warm, never booming | NICE |
+| `moonfull_a_1` | My lantern is lit! You did it, travelers! | overjoyed triumph, the biggest moment of the night - warm, never booming | NICE |
 | `moonfull_b_1` | Silly Snuffwick... come to the feast! You're my Official Prankster! | fond forgiving chuckle, then a proud announcement | NICE |
-| `chapter_a_1` | Every Halloween, I wake up to share my candy hoard. | bedtime-story opening, unhurried, a little yawn at the start | NICE |
+| `chapter_a_1` | Every Halloween, the doors between worlds open... and I wake up! | bedtime-story opening, unhurried, a little yawn at the start, waking up bright on 'and I wake up!' | NICE |
 | `chapter_b_1` | But sneaky Snuffwick snuffed my Hoard Lantern! Pfft! | mock-outraged, giggling; a soft 'Pfft!' | NICE |
-| `chapter_c_1` | Long ago, the Candlewizards' Moonstone broke into crystals. Like yours! | hushed once-upon-a-time wonder, leaning in on 'Like yours!' | NICE |
-| `chapter_d_1` | Each crystal remembers its wizard's glow... and glow wakes dragons! | tender, then delighted | NICE |
-| `chapter_e_1` | Every crystal adds a spark. Light my lantern, wizards! | clear instruction, rising excitement | NICE |
+| `chapter_c_1` | Long ago, I hatched from a crystal egg. Its pieces are yours! | hushed once-upon-a-time wonder, a proud little chuckle on 'hatched', leaning in on 'Its pieces are yours!' | NICE |
+| `chapter_d_1` | Each crystal remembers me... and glow wakes dragons! | tender, then delighted | NICE |
+| `chapter_e_1` | Every crystal adds a spark. Light my lantern, travelers! | clear instruction, rising excitement | NICE |
 | `chapter_f_1` | Psst... what's Snuffwick hiding in that lumpy sock? | curious, teasing whisper (the 2027 cliffhanger) | NICE |
 
 Variant numbers matter: the screen picks a random `_1`, `_2`, … of each group and stops counting at the first gap. `awaken_b_1` … `awaken_b_3` are special — the number is the crystal's colour id set on the bench (1 Dragonberry, 2 Starfrost, 3 Rainbow Fizz). A new colour later = a new `color.N` / `color.N_hex` in the manifest words plus its `awaken_b_N` line.

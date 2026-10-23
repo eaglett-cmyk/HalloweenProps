@@ -2,7 +2,8 @@
 
 Self-contained: every ChatGPT prompt, still, clip recipe ("layers"), voice line, sound and on-screen word
 is in this file. Written 2026-10-22 when the owner switched the station from Moonshards (archived in
-docs/stories/) to Dragonglow.
+docs/stories/) to Dragonglow. Revised 2026-10-23: the kids are "travelers" from other worlds (Halloween opens the
+doors between worlds), and the crystals are pieces of the crystal egg Butterscotch hatched from (no Moonstone).
 
     python -I tools/gen_manifest_dragonglow.py          # writes assets/manifest.json
     python -I tools/build_assets.py --check             # then validate it
@@ -249,7 +250,7 @@ STILLS = [
      {"edit_of": "snuffwick_base"}),
     ("prop_hat", "prop", True, "NICE",
      "A small crooked wizard hat in faded purple (#6E5A9E) with two big simple pale-cream stars and a soft floppy tip - "
-     "the same design as Butterscotch's hat; front view; no face. (Rank 5 'Here's your hat!'.)",
+     "the same design as Butterscotch's hat; front view; no face. (Rank 5 Worldwalker: 'Here's your traveler's hat!'.)",
      P("A small, crooked wizard hat in faded purple (#6E5A9E) with two big simple pale-cream (#F3E6C4) five-point stars and "
        "a soft floppy tip - the SAME design as the hat Butterscotch wears in the attached butterscotch_base image. Front "
        "view, no face, no character, just the hat.", SPRITE, STYLE),
@@ -272,18 +273,25 @@ STILLS = [
        "big dark pupils, bright white star highlights, slightly mischievous happy lids. ONLY the two eyes - no face, no "
        "body, nothing else. Cute, never scary.", SPRITE, STYLE),
      {}),
-    ("chapter_moonstone", "background", False, "NICE",
-     "Chapter still (lore): a cozy round wizard-tower room long ago; on a stone table a big round pale Moonstone has "
-     "gently cracked open, and three smooth glowing crystals rest beside it - one deep purple fading to light lilac "
-     "(Dragonberry), one clear sky blue (Starfrost), one in soft rainbow candy colours (Rainbow Fizz); three purple "
-     "Candlewizard hats hang on pegs (no people); bottom quarter dark and empty.",
-     P("Storybook wide shot, long ago: a cozy round wizard-tower room at night in deep indigo and plum, lit by a few "
-       "thick cream candles. On a round stone table in the centre rests a big round pale Moonstone that has gently "
-       "cracked open; beside it lie three smooth, chunky, faceted crystals, each glowing softly from inside: one purple "
-       "fading to light lilac, one clear sky blue, and one in soft rainbow candy colours (pink, yellow, mint and "
-       "blue bands). Three friendly purple pointed wizard hats hang on pegs on the wall (no people).",
+    ("chapter_egg", "background", False, "NICE",
+     "Chapter still (lore): long ago, in the Hoard Cave, a tiny BABY Butterscotch (the same caramel dragon, no hat yet) "
+     "sits in the bottom half of a big cracked-open crystal eggshell on a soft pile of candy; the broken shell pieces "
+     "glow softly in the three crystal colours - deep purple fading to light lilac (Dragonberry), clear sky blue "
+     "(Starfrost), soft rainbow candy colours (Rainbow Fizz) - and a few pieces float up and drift away through small "
+     "round glowing doorways in the cave wall (the doors to other worlds); bottom quarter dark and empty.",
+     P("Storybook wide shot, long ago, inside a cozy rounded cave at night in deep indigo and plum, framed by a big round "
+       "smooth stone arch, with low soft piles of glossy candy at the sides (no gold coins, nothing gold).",
+       "In the centre, a tiny BABY dragon - a newborn version of the dragon in the attached butterscotch_base image: the "
+       "same glossy caramel skin (#C77A35) with a cream belly, little caramel-swirl horn buds, tiny stubby wings and big "
+       "warm amber-brown eyes, but much smaller and rounder, and with NO hat - sits happily in the bottom half of a big, "
+       "chunky, cracked-open CRYSTAL eggshell resting on a soft pile of candy.",
+       "The broken shell pieces are smooth, chunky, faceted crystal, each glowing softly from inside in one of three "
+       "colours: purple fading to light lilac, clear sky blue, and soft rainbow candy colours (pink, yellow, mint and "
+       "blue bands). A few of the pieces float gently upward and drift toward three or four small round glowing "
+       "doorways in the cave walls (doors to other worlds - each one shows a hint of a different place: a starry sky, "
+       "a green forest, a pink sunset), as if they are leaving to find someone. No people.",
        BG, STYLE),
-     {}),
+     {"refs": ["butterscotch_base"]}),
     ("print_keyart", "print", False, "NICE",
      "Portrait 2:3 key art: Butterscotch floating happily with his paws around one glowing crystal, Snuffwick peeking "
      "out from behind his tail with a cheeky grin, the Hoard Lantern glowing warm amber above; generous plain dark space "
@@ -402,13 +410,13 @@ CLIPS = [
               % (len(CRYSTAL_COLORS), ", ".join("%d %s" % (i, n) for i, n, _, _ in CRYSTAL_COLORS))},
     {"id": "greet", "priority": "MVP", "recipe": "layers", "seconds": 4, "loop": True, "bg": {"image": "bg_cave"},
      "layers": [bs("butterscotch_delight", bob=(7, 4), fin=0, fout=0)], "anchor_layer": 0,
-     "notes": "One visual for every rank (except the Wizard hat below); the device draws the rank name and the meter."},
+     "notes": "One visual for every rank (except the Worldwalker hat below); the device draws the rank name and the meter."},
     {"id": "greet_r5", "priority": "NICE", "recipe": "layers", "seconds": 3.5, "loop": False, "bg": {"image": "bg_cave"},
      "layers": [bs("butterscotch_delight", bob=(7, 3.5), fin=0, fout=0),
                 {"sprite": "prop_hat", "height": [30, 105, 95], "x": [440, 600, 625], "y": [210, 40, 55],
                  "t": [0.35, 3.5], "fade_in": 0.15, "spin": 1, "bob": {"amp": 4, "period": 1.75}}],
      "anchor_layer": 0,
-     "notes": "Rank 5 Wizard: 'Here's your hat!' - a little wizard hat pops out of Butterscotch's paws and twirls up "
+     "notes": "Rank 5 Worldwalker: 'Here's your traveler's hat!' - a little hat pops out of Butterscotch's paws and twirls up "
               "beside him (upper right; it never lands on the device-drawn crystal)."},
     {"id": "charge", "priority": "MVP", "recipe": "layers", "seconds": 4, "loop": True, "bg": {"image": "bg_cave"},
      "layers": [bs("butterscotch_base", bob=(7, 4), fin=0, fout=0)], "anchor_layer": 0,
@@ -559,9 +567,9 @@ CLIPS = [
                 sn("snuffwick_base", x=[150, -80], y=[160, 225], t=[2.65, 3.7])],
      "notes": "Snuffwick climbs the candy pile under the lantern, 'pfft!' - the lit cave goes dark (the device does not "
               "draw the lantern glow in this part)."},
-    {"id": "chapter_c", "priority": "NICE", "recipe": "kenburns", "image": "chapter_moonstone", "seconds": 4.5,
+    {"id": "chapter_c", "priority": "NICE", "recipe": "kenburns", "image": "chapter_egg", "seconds": 4.5,
      "zoom": [1.05, 1.12], "pan": "up",
-     "notes": "Lore: the Candlewizards' Moonstone cracked into the crystals."},
+     "notes": "Lore: Butterscotch hatched from a crystal egg long ago; its shell pieces scattered through the worlds and became the crystals."},
     {"id": "chapter_d", "priority": "NICE", "recipe": "layers", "seconds": 4.5, "loop": False,
      "bg": {"image": "bg_wakestone"},
      # One crystal per colour, each fading in OVER the previous one (which stays opaque until it is covered, so the
@@ -600,15 +608,18 @@ VOICE = [
      "half-asleep mumble with a soft snore; playful, never sad", "MVP"),
     ("attract_call", 4, B, "Every crystal adds a spark to my lantern!", "LIGHT THE LANTERN",
      "warm storyteller, hopeful lift at the end", "MVP"),
-    ("attract_call", 5, B, "Shh... I hear wizards coming...", "SHHH...",
+    ("attract_call", 5, B, "Shh... I hear travelers coming...", "SHHH...",
      "excited secret whisper, smiling", "MVP"),
-    ("attract_call", 6, B, "Wake me, wizards! My candy hoard is waiting!", "WAKE ME!",
-     "bright inviting call across the porch, a happy yawn after 'wizards'", "MVP"),
+    ("attract_call", 6, B, "Wake me, travelers! My candy hoard is waiting!", "WAKE ME!",
+     "bright inviting call across the porch, a happy yawn after 'travelers'", "MVP"),
     ("attract_call", 7, B, "Set your crystal here! I'm awake... almost!", "SET IT DOWN",
      "yawny and cozy, a chuckle on 'almost'", "MVP"),
     ("attract_call", 8, S, "Pfft! Hee hee! I like the dark!", "PFFT!",
      "Snuffwick: record in Butterscotch's voice - the builder pitches it up 5 semitones at 1.15x; a tiny shy "
      "giggle, mischievous, never mean", "NICE"),
+    ("attract_call", 9, B, "Travelers from every world! Come in, come in!", "COME IN!",
+     "warm, welcoming host calling across the porch on Halloween night, a happy chuckle on the second 'come in'",
+     "MVP"),
     # no big button (button = no, the 2026 default): plays instead of attract_call_2 (words nobutton.voice)
     ("attract_tap", 1, B, "No crystal? Tap my window!", "OR TAP ME",
      "friendly and clear, a touch slower on 'tap my window' (the no-crystal kids tap the screen for a dragon "
@@ -625,11 +636,11 @@ VOICE = [
      "proud, then hushed amazement on 'wonder' (colour ID 2: the glittery sky-blue crystals)", "MVP"),
     ("awaken_b", 3, B, "Rainbow Fizz! Every colour, full of giggles!", "RAINBOW FIZZ",
      "proud and bubbly, then a giggle on 'giggles' (colour ID 3: the rainbow-candy glitter crystals)", "MVP"),
-    ("awaken_c", 1, B, "Sparkfinder! Welcome, little wizard!", "SPARKFINDER!",
+    ("awaken_c", 1, B, "Sparkfinder! Welcome, little traveler!", "SPARKFINDER!",
      "joyful welcome, bright on 'Sparkfinder' (also the rush-mode line, so the rank comes first)", "MVP"),
     ("awaken_c", 2, B, "Sparkfinder! Look, two sparks already!", "SPARKFINDER!",
      "delighted, impressed, quick", "MVP"),
-    ("greet_r2", 1, B, "Apprentice! You came back, wizard!", "APPRENTICE", "thrilled reunion, a warm chuckle", "MVP"),
+    ("greet_r2", 1, B, "Apprentice! You found your way back!", "APPRENTICE", "thrilled reunion, a warm chuckle", "MVP"),
     ("greet_r2", 2, B, "Apprentice! Your crystal remembers you!", "APPRENTICE", "tender and proud", "NICE"),
     ("greet_r3", 1, B, "Glowcaster! Your glow is getting big!", "GLOWCASTER", "proud announcement, rising", "MVP"),
     ("greet_r3", 2, B, "Glowcaster! Welcome back! Shine on!", "GLOWCASTER", "cozy and admiring", "NICE"),
@@ -637,9 +648,9 @@ VOICE = [
      "proud and a little grand, like knighting someone", "MVP"),
     ("greet_r4", 2, B, "Hoardguard! Keep those goblins away!", "HOARDGUARD",
      "playful-conspiratorial, a wink in the voice", "NICE"),
-    ("greet_r5", 1, B, "Wizard! A true Wizard! Here's your hat!", "WIZARD",
+    ("greet_r5", 1, B, "Worldwalker! Here's your traveler's hat!", "WORLDWALKER",
      "awed and proud, a magic-trick flourish on 'Here's your hat!' (the hat pops out on screen)", "MVP"),
-    ("greet_r5", 2, B, "Wizard now! Here's your very own hat!", "WIZARD",
+    ("greet_r5", 2, B, "Worldwalker now! Here's your very own hat!", "WORLDWALKER",
      "warm and delighted, presenting a gift", "NICE"),
     ("greet_r6", 1, B, "Dragon Rider! Climb aboard, old friend!", "DRAGON RIDER", "excited, adventurous, warm", "MVP"),
     ("greet_r6", 2, B, "Dragon Rider! You're back! Wheee!", "DRAGON RIDER", "giddy, a floaty 'Wheee'", "NICE"),
@@ -668,7 +679,7 @@ VOICE = [
     ("reveal_t1", 2, B, "Hoard coin! Shiny silver treasure!", "HOARD COIN!", "sweet and pleased, a little chuckle", "MVP"),
     ("reveal_t2", 1, B, "Dragon Gem! Whoa, a rare one!", "DRAGON GEM!",
      "genuinely surprised, an excited whisper-shout", "MVP"),
-    ("reveal_t2", 2, B, "Dragon Gem! Not many wizards find those!", "DRAGON GEM!", "thrilled, conspiratorial", "MVP"),
+    ("reveal_t2", 2, B, "Dragon Gem! Not many travelers find those!", "DRAGON GEM!", "thrilled, conspiratorial", "MVP"),
     ("reveal_t3", 1, B, "The Golden Star! You're legendary!", "GOLDEN STAR!", "awed hush rising to joy", "MVP"),
     ("reveal_t3", 2, B, "Golden Star! The rarest treasure of all!", "GOLDEN STAR!",
      "breathless wonder, slow and grand", "MVP"),
@@ -687,7 +698,7 @@ VOICE = [
     ("sleepy", 1, B, "Again, please! Sleepy crystal.", "AGAIN, PLEASE", "soft and patient, a yawn in it", "MVP"),
     ("sleepy", 2, B, "Place it again! Your crystal's yawning.", "AGAIN, PLEASE", "giggly and reassuring", "MVP"),
     ("goodbye", 1, B, "Bring your crystal back next Halloween!", "SEE YOU 2027", "warm send-off, bright", "MVP"),
-    ("goodbye", 2, B, "Keep it safe, wizard! See you next year!", "SEE YOU 2027",
+    ("goodbye", 2, B, "Keep it safe, traveler! See you next year!", "SEE YOU 2027",
      "fond, a sleepy-happy sigh, smiling", "MVP"),
     # ---- nice to have ----
     ("recall_t0", 1, B, "Last year, Snuffwick tricked you! Silly goblin!", "LAST YEAR",
@@ -699,8 +710,8 @@ VOICE = [
     ("rush_t1", 1, B, "Silver circle! Hoard coin!", "HOARD COIN!", "fast and bright (rush mode)", "NICE"),
     ("rush_t2", 1, B, "Red triangle! Dragon Gem!", "DRAGON GEM!", "fast, excited (rush mode)", "NICE"),
     ("rush_t3", 1, B, "Gold star! Golden Star!", "GOLDEN STAR!", "fast but awed (rush mode)", "NICE"),
-    ("milestone", 1, B, "Another hundred crystals! Hooray, wizards!", "HOORAY, WIZARDS!", "party cheer, bubbly", "NICE"),
-    ("circle", 1, B, "A crystal circle! Wizards together!", "WIZARD CIRCLE!",
+    ("milestone", 1, B, "Another hundred crystals! Hooray, travelers!", "HOORAY, TRAVELERS!", "party cheer, bubbly", "NICE"),
+    ("circle", 1, B, "A crystal circle! All the worlds together!", "CRYSTAL CIRCLE!",
      "delighted, gathering-everyone warmth", "NICE"),
     ("circle", 2, S, "Eek! Too much glow! Hee hee!", "EEK!",
      "Snuffwick (pitched up by the builder): a dazzled squeak, then a giggle", "NICE"),
@@ -708,19 +719,19 @@ VOICE = [
      "close secret whisper, barely holding a chuckle", "NICE"),
     ("keeper", 2, B, "Shh... my wings are tiny. I just float!", "SHH... SECRET",
      "embarrassed confiding whisper, then a tiny giggle", "NICE"),
-    ("moonfull_a", 1, B, "My lantern is lit! You did it, wizards!", "LANTERN LIT!",
+    ("moonfull_a", 1, B, "My lantern is lit! You did it, travelers!", "LANTERN LIT!",
      "overjoyed triumph, the biggest moment of the night - warm, never booming", "NICE"),
     ("moonfull_b", 1, B, "Silly Snuffwick... come to the feast! You're my Official Prankster!", "OFFICIAL PRANKSTER",
      "fond forgiving chuckle, then a proud announcement", "NICE"),
-    ("chapter_a", 1, B, "Every Halloween, I wake up to share my candy hoard.", "BUTTERSCOTCH'S HOARD",
-     "bedtime-story opening, unhurried, a little yawn at the start", "NICE"),
+    ("chapter_a", 1, B, "Every Halloween, the doors between worlds open... and I wake up!", "BUTTERSCOTCH'S HOARD",
+     "bedtime-story opening, unhurried, a little yawn at the start, waking up bright on 'and I wake up!'", "NICE"),
     ("chapter_b", 1, B, "But sneaky Snuffwick snuffed my Hoard Lantern! Pfft!", "UH-OH, SNUFFWICK!",
      "mock-outraged, giggling; a soft 'Pfft!'", "NICE"),
-    ("chapter_c", 1, B, "Long ago, the Candlewizards' Moonstone broke into crystals. Like yours!", "THE MOONSTONE",
-     "hushed once-upon-a-time wonder, leaning in on 'Like yours!'", "NICE"),
-    ("chapter_d", 1, B, "Each crystal remembers its wizard's glow... and glow wakes dragons!", "YOUR GLOW",
+    ("chapter_c", 1, B, "Long ago, I hatched from a crystal egg. Its pieces are yours!", "THE CRYSTAL EGG",
+     "hushed once-upon-a-time wonder, a proud little chuckle on 'hatched', leaning in on 'Its pieces are yours!'", "NICE"),
+    ("chapter_d", 1, B, "Each crystal remembers me... and glow wakes dragons!", "YOUR GLOW",
      "tender, then delighted", "NICE"),
-    ("chapter_e", 1, B, "Every crystal adds a spark. Light my lantern, wizards!", "LIGHT THE LANTERN",
+    ("chapter_e", 1, B, "Every crystal adds a spark. Light my lantern, travelers!", "LIGHT THE LANTERN",
      "clear instruction, rising excitement", "NICE"),
     ("chapter_f", 1, B, "Psst... what's Snuffwick hiding in that lumpy sock?", "WHAT'S IN THE SOCK?",
      "curious, teasing whisper (the 2027 cliffhanger)", "NICE"),
@@ -794,7 +805,7 @@ WORDS = {
     "title": "Dragonglow",
     "character": "Butterscotch",
     "rank.1": "Sparkfinder", "rank.2": "Apprentice", "rank.3": "Glowcaster", "rank.4": "Hoardguard",
-    "rank.5": "Wizard", "rank.6": "Dragon Rider", "rank.7": "Keeper of the Hoard",
+    "rank.5": "Worldwalker", "rank.6": "Dragon Rider", "rank.7": "Keeper of the Hoard",
     "tier.0": "GOBLIN TRICK!", "tier.0_color": "#8DBF6A",
     "tier.1": "HOARD COIN!", "tier.1_color": "#D9DEE8",
     "tier.2": "DRAGON GEM!", "tier.2_color": "#FF3B47",
@@ -817,13 +828,13 @@ WORDS = {
     "caption.foreign": "DRAGON BLESSING!",
     "caption.sleepy": "AGAIN, PLEASE",
     "caption.goodbye": "SEE YOU {next_year}",
-    "caption.milestone": "HOORAY, WIZARDS!",
-    "caption.circle": "WIZARD CIRCLE!",
+    "caption.milestone": "HOORAY, TRAVELERS!",
+    "caption.circle": "CRYSTAL CIRCLE!",
     "caption.keeper": "SHH... SECRET",
     "caption.chapter": "",
     "caption.chapter_a": "BUTTERSCOTCH'S HOARD",
     "caption.chapter_b": "UH-OH, SNUFFWICK!",
-    "caption.chapter_c": "THE MOONSTONE",
+    "caption.chapter_c": "THE CRYSTAL EGG",
     "caption.chapter_d": "YOUR GLOW",
     "caption.chapter_e": "LIGHT THE LANTERN",
     "caption.chapter_f": "WHAT'S IN THE SOCK?",
@@ -850,7 +861,7 @@ WORDS = {
     # The visuals that show the lantern glow: every clip on the cave background (bg_cave / bg_cave_lit) except
     # chapter_b (Snuffwick climbs up to the lantern and snuffs it: the story beat is the lantern going OUT).
     # chapter_e is listed: it starts on bg_cave with the painted (unlit) lantern while bg_cave_lit fades in, and
-    # its line is "Every crystal adds a spark. Light my lantern, wizards!" - tonight's glow belongs there.
+    # its line is "Every crystal adds a spark. Light my lantern, travelers!" - tonight's glow belongs there.
     # An id also covers its variants (greet -> greet_r5, reveal_t0 -> reveal_t0_3, attract -> attract_full);
     # recall shows the greet scene. Not listed: awaken, reveal_t2 (bg_wakestone), reveal_t3 / milestone
     # (bg_starburst), circle (bg_wakestone); moonfull flares the lantern itself.

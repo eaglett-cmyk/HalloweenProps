@@ -1,10 +1,10 @@
-<!-- Story bible for the Crystal Oracle station. Written 2026-10-22 when the owner chose DRAGONGLOW (the kids' judge's pick, 8.5/10) over the panel winner Moonshards (archived: docs/stories/MOONSHARDS.md), with every judge fix applied. The asset manifest is generated from tools/gen_manifest_dragonglow.py. -->
+<!-- Story bible for the Crystal Oracle station. Written 2026-10-22 when the owner chose DRAGONGLOW (the kids' judge's pick, 8.5/10) over the panel winner Moonshards (archived: docs/stories/MOONSHARDS.md), with every judge fix applied. Revised 2026-10-23 (owner): the kids are travelers from other worlds, not wizards, and the crystals are pieces of Butterscotch's crystal egg instead of the Moonstone (§1). The asset manifest is generated from tools/gen_manifest_dragonglow.py. -->
 
 # DRAGONGLOW — The Sleepy Candy Dragon
 
 *Station: the Crystal Oracle · Chapter 1, Halloween 2026: "The Night the Lantern Went Out"*
 
-> **Logline.** Once a year, on Halloween, Butterscotch the sleepy candy dragon wakes up to share his hoard of candy with every wizard who visits. This year Snuffwick, a shy little goblin who loves the dark, tiptoed in and snuffed out the Hoard Lantern. The only thing that can light it again is the glow kids carry in their crystals.
+> **Logline.** Once a year, on Halloween, the doors between worlds open, and travelers of every kind (princesses, robots, dinosaurs, ghosts) find their way to Butterscotch's cave by the light of the Hoard Lantern. Butterscotch, the sleepy candy dragon, wakes up to share his hoard with every one of them. This year Snuffwick, a shy little goblin who loves the dark, tiptoed in and snuffed the lantern out. The only thing that can light it again is the glow the travelers carry in their crystals: pieces of the egg Butterscotch hatched from.
 
 **What every kid gets:** your crystal wakes a dragon, you are the light-bringer, and you always get candy.
 
@@ -15,13 +15,20 @@
 | No crystal? | The kid **taps the Dragon's Window** (the screen) and gets a dragon blessing. |
 | Main voice | **Butterscotch**, the sleepy candy dragon. He is the only TTS voice. |
 | Mischief-maker | **Snuffwick**, a teacup-sized goblin. He is almost entirely sound effects (2 optional pitched-up lines). |
-| What the kids are | **wizards** |
-| The crystals | shards of the Candlewizards' Moonstone in the story; always just "crystal" out loud |
+| What the kids are | **travelers** from other worlds. Whatever the costume, to Butterscotch it is real: that's the world they came from |
+| The crystals | pieces of the **crystal egg** Butterscotch hatched from, scattered through all the worlds; always just "crystal" out loud |
 | Tonight's team goal | Light **the Hoard Lantern**. Every visitor adds a spark, with or without a crystal. |
 | Results | GOBLIN TRICK! · HOARD COIN! · DRAGON GEM! · GOLDEN STAR! |
 | Bowls | silver circle · silver circle · red triangle · gold star (the host holds it) |
 
 ## 1. What changed from the pitch
+
+**Revision, 2026-10-23 (owner).** Some ideas carried over from the first story didn't fit:
+- **Travelers, not wizards.** The kids come dressed as anything, so Butterscotch calls them **travelers**: Halloween is the one night the doors between worlds open, and every costume is the world its kid came from. Every "wizard" line was re-recorded, and rank 5 is now **Worldwalker** (it still earns the little hat).
+- **The crystal egg replaces the Moonstone.** The crystals are pieces of the egg Butterscotch hatched from long ago. The pieces scattered through all the worlds, and each one finds its way to one traveler. That's why a crystal wakes him, and it sets up 2027's egg in the sock. The Candlewizards are gone; the hoard was built by travelers over the ages, and Butterscotch's purple hat was a gift from one wizard traveler long ago.
+- **The Hoard Lantern is a beacon.** Its light is how travelers find the cave from their own worlds, so Snuffwick snuffing it is real (but gentle) trouble.
+
+**The original judge fixes:**
 
 Dragonglow was the kids' judge's pick (8.5/10): it has the broadest pull from age 3 to 12, a rank ladder that older kids will actually brag about, and a reason to come back next year (the egg in the sock). It scored lower on production (5/10) and systems (6/10). The owner chose it; this version applies every fix the judges asked for:
 
@@ -54,7 +61,7 @@ The host hands over a crystal with the ritual line (§14), and the kid sets it o
 2. **awaken (1.0 s).** The scene cuts to the Wakestone. The crystal rises out of the stone, glowing in its colour, and Butterscotch floats down, surprised, then beams. He says:
    - "Ooh! A brand-new crystal is waking!"
    - "Dragonberry! Purple and sweet, full of dreams!"
-   - "Sparkfinder! Welcome, little wizard!"
+   - "Sparkfinder! Welcome, little traveler!"
 
    Two of the eight gems light up, with a chime for each.
 3. **reveal (~7.5 s).** HOARD COIN!, DRAGON GEM! or GOLDEN STAR! appears, and the GLOW number counts up. The bowl line plays over the end of the reveal.
@@ -64,7 +71,7 @@ The result is written to the crystal before awaken starts, so lifting the crysta
 
 ### Returning crystal (2027 onward)
 The sequence is absorb (1 s), then **greet** (2 s), then the **reveal** with the bowl line over its end, then goodbye. That's about 5.5 s.
-- **greet** shows the rank name, with last year's gems already lit and the new gem popping on. A kid reaching **Wizard** (visit 5) sees a little wizard hat pop out of Butterscotch's paws: "Here's your hat!"
+- **greet** shows the rank name, with last year's gems already lit and the new gem popping on. A kid reaching **Worldwalker** (visit 5) sees a little traveler's hat pop out of Butterscotch's paws: "Here's your hat!"
 - **recall** ("Last year, a Dragon Gem! Remember?") and the **charge** window (2.5 s) play only when nobody is waiting. In the charge window the kid **taps the window** as fast as they can ("Tap the window! Pump up the glow!") to fill a glow bar, which nudges their GLOW number up a little.
 
 ### No crystal (tap the window)
@@ -106,13 +113,13 @@ Both are optional extras for a later year; the plinth firmware already supports 
 - Glossy, candy-smooth skin with no scales and no stripes, in warm **caramel / butterscotch toffee** (#C77A35, deeper toffee #9A5424 in the shadows), with a smooth **cream belly** (#FBE3BF). Caramel, **never gold or yellow**.
 - Two small rounded horns shaped like caramel swirls, and two tiny stubby wings that are much too small to fly.
 - Big warm amber-brown eyes, small rounded paws, and a short curly tail ending in a little round tuft.
-- A crooked, faded purple **wizard hat** (#6E5A9E) with exactly **two** big simple pale-cream stars (#F3E6C4). It was a gift from the Candlewizards.
+- A crooked, faded purple **wizard hat** (#6E5A9E) with exactly **two** big simple pale-cream stars (#F3E6C4). It was a gift from a wizard traveler, long ago (one costume among many).
 - **No fire, ever:** he breathes sparkles in the colour of the crystal he's looking at. No teeth, no claws, nothing sharp, and he never roars.
 - **Keep him simple.** Every small detail drifts across ChatGPT edits.
 
 **Personality**
 - A cozy grandpa who yawns in the middle of sentences, chuckles a lot and is easily amazed.
-- Fiercely proud of "my wizards".
+- Fiercely proud of "my travelers", and delighted by every world they come from.
 - Never scolds anyone and never sounds scary. When Snuffwick pranks him, he laughs hardest.
 - Two secrets for the Keepers: his real name is Bartholomew, and his wings are just for show (he floats).
 
@@ -143,20 +150,22 @@ Both are optional extras for a later year; the plinth firmware already supports 
 
 **How he moves:** he is small (about 115 px tall) and stays on the cave floor with a tiptoe bounce (4 px every 0.4 s). He always enters from the **right**, because the upper-left belongs to the lantern.
 
-### The Candlewizards (never shown)
-They were the wizards who filled the hoard, built the Hoard Lantern and made the Moonstone. Only their purple hats ever appear on screen (chapter part c, and the little hat Wizards earn).
+### The travelers (the kids)
+On Halloween the doors between worlds open and travelers come through: a princess from a castle world, a robot from a star world, a dinosaur from a jungle world. Butterscotch never questions a costume; it's simply where that traveler is from. Each crystal is a piece of his eggshell that found its way to one of them.
 
 ## 4. Lore
 
-**The hoard.** Long ago the Candlewizards filled a cave with candy to share with every child on Halloween, and asked Butterscotch to guard it. He sleeps on it 364 nights a year.
+**The doors between worlds.** Butterscotch's cave sits at a crossroads where many worlds touch. On one night a year, Halloween, the doors open and travelers come through, following the light of the Hoard Lantern.
 
-**The crystals.** They are shards of the Candlewizards' **Moonstone**, which cracked into crystals of many colours. Three kinds have turned up so far: Dragonberry, Starfrost and Rainbow Fizz. More can turn up in later years (a new filament = a new colour, §5).
+**The hoard.** Over the ages, travelers from every world left a sweet to share, until the cave was full of candy. Butterscotch guards it and sleeps on it 364 nights a year, waking on Halloween to share it.
+
+**The crystals.** Long ago Butterscotch hatched from a **crystal egg**. When it cracked, the pieces scattered through all the worlds, each one a different colour. A piece finds its way to one traveler, and because it remembers him, it can wake him. Three kinds have turned up so far: Dragonberry, Starfrost and Rainbow Fizz. More can turn up in later years (a new filament = a new colour, §5).
 - A crystal wakes for exactly one child.
 - It remembers only numbers: how many Halloweens it has visited, and how brightly it glowed each time. It never remembers names. This is the same promise the parent sign makes.
 
-**The Hoard Lantern.** It wakes Butterscotch and lights the Halloween feast. It runs on **glow**, and glow comes from crystals that kids carry all year, and from a wizard's good wish (a tap on the Dragon's Window). Every visitor adds **one spark**.
+**The Hoard Lantern.** It is the beacon travelers follow from their worlds to the cave, and it lights the Halloween feast. It runs on **glow**, and glow comes from the crystals travelers carry all year, and from a traveler's good wish (a tap on the Dragon's Window). Every visitor adds **one spark**.
 
-**Snuffwick** loves the dark and snuffs out lights to make cozy nap spots. This year, pfft, he snuffed the Hoard Lantern. He isn't after the candy; he just wanted it dark.
+**Snuffwick** loves the dark and snuffs out lights to make cozy nap spots. This year, pfft, he snuffed the Hoard Lantern, so travelers might not find their way. He isn't after the candy; he just wanted it dark.
 
 **How the kids win, together**
 - Every spark makes the lantern glow a little warmer, all night.
@@ -198,7 +207,7 @@ The meter is 8 gems drawn by the device (think of them as dragon scales). It lig
 | 2 | **Apprentice** | Butterscotch starts teaching you glow magic | ring + one orbiting spark |
 | 3 | **Glowcaster** | You can cast light on your own | ring + a candle-flicker on the crystal's tip |
 | 4 | **Hoardguard** | Trusted to guard the candy hoard | double ring + three orbiting sparks |
-| 5 | **Wizard** | A true wizard: you earn the hat | the little wizard hat pops out (`greet_r5` clip) |
+| 5 | **Worldwalker** | You've crossed between worlds five times: you earn the traveler's hat | the little hat pops out (`greet_r5` clip) |
 | 6–7 | **Dragon Rider** | Butterscotch lets you ride | a caramel swirl sweeping around the crystal |
 | 8+ | **Keeper of the Hoard** | Highest honour: you know the secret | full warm halo + a crown of sparks; the keeper secret about 1 visit in 3 |
 
@@ -237,12 +246,12 @@ The firmware picks gag *n* and plays clip `reveal_t0_n`, line `reveal_t0_n` and 
 ## 8. Story
 
 ### Chapter 1 (2026): "The Night the Lantern Went Out"
-1. Every Halloween, Butterscotch wakes beneath the Hoard Lantern to share the candy hoard.
+1. Every Halloween the doors between worlds open, and Butterscotch wakes beneath the Hoard Lantern to share the candy hoard with the travelers who follow its light.
 2. This year Snuffwick, who loves the dark, tiptoed up the candy pile and snuffed the lantern out. *Pfft!*
 3. In the dark, Butterscotch keeps nodding off ("Zzz... a goblin snuffed my lantern... zzz").
-4. Long ago, the Candlewizards' Moonstone broke into crystals, and the kids carry them now. Each crystal remembers its wizard's glow, and glow wakes dragons.
+4. Long ago, Butterscotch hatched from a crystal egg. Its pieces scattered through the worlds, and the travelers carry them now. Each crystal remembers him, and glow wakes dragons.
 5. All night, each crystal on the Wakestone, and each dragon blessing for a kid who taps the window, adds a spark, and the lantern grows warmer (the live meter). Snuffwick keeps playing silly tricks (GOBLIN TRICK!), but all that glow makes him sneeze.
-6. **Finale (the goal is reached).** The lantern blazes. Snuffwick, dazzled, sneezes, giggles and shyly asks to stay. Butterscotch says, "Silly Snuffwick... come to the feast! You're my Official Prankster!" The wizards relit the lantern, and the Halloween feast is saved.
+6. **Finale (the goal is reached).** The lantern blazes. Snuffwick, dazzled, sneezes, giggles and shyly asks to stay. Butterscotch says, "Silly Snuffwick... come to the feast! You're my Official Prankster!" The travelers relit the lantern, and the Halloween feast is saved.
 7. **Stinger for 2027:** Snuffwick scampers off hugging a lumpy sock with something golden glowing inside. (It is also teased in chapter part f and in the attract loop after the finale.)
 
 **Every visit works on its own.** A kid who arrives at 8:30 pm still wakes the dragon and still adds a spark.
@@ -252,7 +261,7 @@ The firmware picks gag *n* and plays clip `reveal_t0_n`, line `reveal_t0_n` and 
 ### Hooks for later years
 The cave, the Wakestone, Butterscotch, Snuffwick and the lantern all stay the same. Each new year needs about 5 new stills and 8 new lines.
 - **2027, "The Egg in the Sock".** The sock held a **dragon egg**. It hatches into baby **Toffee**, who needs crystal glow to learn to fly, and the meter becomes Toffee's flying lessons. Snuffwick, very proud, is the egg-sitter.
-- **2028, "The Lost Wizard Hat".** The first Candlewizard's hat turns up, and the crystals learn a new spell. The 2026 Sparkfinders are Glowcasters by now, and the Wizards' hat (rank 5) starts to matter.
+- **2028, "The Door That Wouldn't Open".** One world's door gets stuck, and the crystals learn a new spell to open it. The 2026 Sparkfinders are Glowcasters by now, and the Worldwalkers' hat (rank 5) starts to matter.
 - **2029, "The All-Night Feast".** Butterscotch tries to stay awake all night for the very first time, and Snuffwick, who used to want the dark, joins the feast as a full member of the hoard. This sets up a new mischief-maker for 2030.
 
 ## 9. Cue sheet
@@ -271,7 +280,7 @@ The cave, the Wakestone, Butterscotch, Snuffwick and the lantern all stay the sa
 | **attract_full** (after the finale) | `bg_cave_lit` (or `bg_cave`). Sleep, then `butterscotch_delight`. Snuffwick, now the Official Prankster, scampers by hugging `snuffwick_sock`. Music switches to `idle_full`. | `attract_call` | CRYSTAL HERE / OR TAP ME |
 | **absorb** (1 s) | `butterscotch_peek` → `butterscotch_surprise`. A beam in the crystal colour rises from the bottom into his chest. | Sound effect only: whoosh + warm glass chime | the colour name |
 | **awaken** (6–8 s) | `bg_wakestone` on a slow push-in. `prop_crystal`, tinted to the crystal colour (clips `awaken_1…3`, one per colour: Dragonberry's deep-to-light purple gradient, Starfrost's sky blue, Rainbow Fizz's rainbow), rises out of the stone. `butterscotch_surprise` floats down on the right, then changes to `butterscotch_delight`; his tummy glow comes on at 3 s. Two gems pop on, each with a chime. | `awaken_a` → `awaken_b` (**variant = colour ID**) → `awaken_c`. Rush mode: `awaken_c` only. | NEW CRYSTAL! / colour / SPARKFINDER! |
-| **greet_r2…r7** (2 s) | `bg_cave` with `butterscotch_delight` (clip `greet`). Rank 5 uses `greet_r5`, where a little wizard hat (`prop_hat`) pops out of his paws and twirls up to his upper right; it never lands on the crystal. The new gem pops on. | one line per rank (see the list below this table) | the rank name |
+| **greet_r2…r7** (2 s) | `bg_cave` with `butterscotch_delight` (clip `greet`). Rank 5 uses `greet_r5`, where a little traveler's hat (`prop_hat`) pops out of his paws and twirls up to his upper right; it never lands on the crystal. The new gem pops on. | one line per rank (see the list below this table) | the rank name |
 | **recall_t0…t3** (nice-to-have) | The greet scene; a faded icon of last year's bowl floats up in a corner. | "Last year, a Dragon Gem! Remember?" | LAST YEAR |
 | **charge** (2.5 s; returning crystals only; skipped in rush) | `butterscotch_base` with his paws out while the tap prompt and fill bar pulse. Each tap on the window swells his tummy glow. When the bar is full, a `charge_full` chime plays. The fill nudges the GLOW number and slightly raises the rare odds, and it counts before the result is written. | `charge_tap`: "Tap the window! Pump up the glow!" (with a button: `charge`, "Press the button! Pump up the glow!") | TAP! TAP! (with a button: PRESS!) |
 | **reveal_t0** (2.5 s) | Visuals `reveal_t0_1…3`, one per gag in §7: Rubber Chicken; Hiccup Bubbles; Snuff-Out (the cave goes dark, only goblin eyes blink). The GLOW number stays hidden. | the line for that gag | GOBLIN TRICK! |
@@ -284,9 +293,9 @@ The cave, the Wakestone, Butterscotch, Snuffwick and the lantern all stay the sa
 | **nocrystal** (3–4 s, then `bowl_common`; a tap on the window with no crystal on the stone) | `butterscotch_puff` → `butterscotch_delight`. A sparkly blessing bubble (`fx_bubble`) drifts down to the kid, and the lantern gains a spark. **foreign** reuses this cue. | "A dragon blessing! Whoosh, you sparkle!" | DRAGON BLESSING! |
 | **sleepy** (2 s) | `butterscotch_yawn` (`butterscotch_sleep` until it exists) and the place-crystal hints. | "Again, please! Sleepy crystal." | AGAIN, PLEASE |
 | **goodbye** (1.5 s; skipped in rush) | `butterscotch_wave` (`butterscotch_delight` until it exists) floats up and away like a balloon, and his tummy glow fades with him. | "Bring your crystal back next Halloween!" | SEE YOU 2027 |
-| **milestone** (every 100th visit) | `bg_starburst` with `butterscotch_delight` on the right; the device puts the big counter in the centre with confetti in the crystal colours. A milestone flag is saved on that crystal. | "Another hundred crystals! Hooray, wizards!" | HOORAY, WIZARDS! |
-| **moonfull** (nice-to-have; once per night) | `bg_cave`, then `bg_cave_lit` fades in as the lantern blazes (the device flares the meter). `butterscotch_delight` → `butterscotch_giggle`. `snuffwick_sneeze` spins in dazzled, turns into `snuffwick_shy`, then scampers off hugging `snuffwick_sock`. | `moonfull_a` "My lantern is lit! You did it, wizards!" → `moonfull_b` "Silly Snuffwick... come to the feast! You're my Official Prankster!" | LANTERN LIT! → OFFICIAL PRANKSTER |
-| **circle** (3 or more crystals in one group) | `bg_wakestone` with `butterscotch_giggle`. Small crystals in the group's colours orbit him, and `snuffwick_sneeze` peeks in. | "A crystal circle! Wizards together!" or *Snuffwick:* "Eek! Too much glow! Hee hee!" | WIZARD CIRCLE! |
+| **milestone** (every 100th visit) | `bg_starburst` with `butterscotch_delight` on the right; the device puts the big counter in the centre with confetti in the crystal colours. A milestone flag is saved on that crystal. | "Another hundred crystals! Hooray, travelers!" | HOORAY, TRAVELERS! |
+| **moonfull** (nice-to-have; once per night) | `bg_cave`, then `bg_cave_lit` fades in as the lantern blazes (the device flares the meter). `butterscotch_delight` → `butterscotch_giggle`. `snuffwick_sneeze` spins in dazzled, turns into `snuffwick_shy`, then scampers off hugging `snuffwick_sock`. | `moonfull_a` "My lantern is lit! You did it, travelers!" → `moonfull_b` "Silly Snuffwick... come to the feast! You're my Official Prankster!" | LANTERN LIT! → OFFICIAL PRANKSTER |
+| **circle** (3 or more crystals in one group) | `bg_wakestone` with `butterscotch_giggle`. Small crystals in the group's colours orbit him, and `snuffwick_sneeze` peeks in. | "A crystal circle! All the worlds together!" or *Snuffwick:* "Eek! Too much glow! Hee hee!" | CRYSTAL CIRCLE! |
 | **keeper** (Keeper of the Hoard; about 1 visit in 3) | `butterscotch_wink` with a slow push-in. This is the only close-up, and only the oldest kids see it. | "Psst, Keeper... my real name's Bartholomew." | SHH... SECRET |
 
 ### attract_call lines
@@ -294,34 +303,35 @@ The cave, the Wakestone, Butterscotch, Snuffwick and the lantern all stay the sa
 2. "No crystal? Tap my window!" (`attract_tap_1`, played in this slot because there is no big button. With a button, `button = yes`, it is `attract_call_2`: "No crystal? Press the big button!")
 3. "Zzz... a goblin snuffed my lantern... zzz."
 4. "Every crystal adds a spark to my lantern!"
-5. "Shh... I hear wizards coming..."
-6. "Wake me, wizards! My candy hoard is waiting!"
+5. "Shh... I hear travelers coming..."
+6. "Wake me, travelers! My candy hoard is waiting!"
 7. "Set your crystal here! I'm awake... almost!"
 8. *Snuffwick (pitched up):* "Pfft! Hee hee! I like the dark!"
+9. "Travelers from every world! Come in, come in!"
 
 ### Greeting lines
 Line 1 is the main line. Line 2 plays at random, including on a repeat visit at the same rank (visit 7 as Dragon Rider, visit 9+ as Keeper).
 
 | Cue | Line 1 | Line 2 |
 |---|---|---|
-| greet_r2 (Apprentice) | "Apprentice! You came back, wizard!" | "Apprentice! Your crystal remembers you!" |
+| greet_r2 (Apprentice) | "Apprentice! You found your way back!" | "Apprentice! Your crystal remembers you!" |
 | greet_r3 (Glowcaster) | "Glowcaster! Your glow is getting big!" | "Glowcaster! Welcome back! Shine on!" |
 | greet_r4 (Hoardguard) | "Hoardguard! My trusty candy protector!" | "Hoardguard! Keep those goblins away!" |
-| greet_r5 (Wizard) | "Wizard! A true Wizard! Here's your hat!" | "Wizard now! Here's your very own hat!" |
+| greet_r5 (Worldwalker) | "Worldwalker! Here's your traveler's hat!" | "Worldwalker now! Here's your very own hat!" |
 | greet_r6 (Dragon Rider) | "Dragon Rider! Climb aboard, old friend!" | "Dragon Rider! You're back! Wheee!" |
 | greet_r7 (Keeper of the Hoard) | "Keeper of the Hoard! I bow to you!" | "Keeper! The whole hoard rejoices!" |
 
 ### Other lines
 - **awaken_a:** "Ooh! A brand-new crystal is waking!" · "A new crystal! Hello, little light!"
-- **awaken_c:** "Sparkfinder! Welcome, little wizard!" · "Sparkfinder! Look, two sparks already!"
+- **awaken_c:** "Sparkfinder! Welcome, little traveler!" · "Sparkfinder! Look, two sparks already!"
 - **charge** (no button, `charge_tap`): "Tap the window! Pump up the glow!" · "Tap tap tap! Fill your crystal!" With a button (`charge`): "Press the button! Pump up the glow!" · "Press fast! Fill your crystal!"
 - **reveal_t1:** "Hoard coin! A big shiny one!" · "Hoard coin! Shiny silver treasure!"
-- **reveal_t2:** "Dragon Gem! Whoa, a rare one!" · "Dragon Gem! Not many wizards find those!"
+- **reveal_t2:** "Dragon Gem! Whoa, a rare one!" · "Dragon Gem! Not many travelers find those!"
 - **reveal_t3:** "The Golden Star! You're legendary!" · "Golden Star! The rarest treasure of all!"
 - **replay:** "Shh! Your crystal already glowed tonight!" · "Still glowing from tonight! Clever crystal!"
 - **nocrystal:** "A dragon blessing! Whoosh, you sparkle!" · "Dragon blessing! You added a spark too!"
 - **sleepy:** "Again, please! Sleepy crystal." · "Place it again! Your crystal's yawning."
-- **goodbye:** "Bring your crystal back next Halloween!" · "Keep it safe, wizard! See you next year!"
+- **goodbye:** "Bring your crystal back next Halloween!" · "Keep it safe, traveler! See you next year!"
 - **recall_t0…t3:** "Last year, Snuffwick tricked you! Silly goblin!" · "Last year, a shiny hoard coin!" · "Last year, a Dragon Gem! Remember?" · "Last year, the Golden Star! Legendary!"
 - **keeper:** "Psst, Keeper... my real name's Bartholomew." · "Shh... my wings are tiny. I just float!"
 
@@ -332,11 +342,11 @@ Every part makes sense if a kid only catches that one. The device draws the lant
 
 | Part | Shot | Voice | Caption |
 |---|---|---|---|
-| a | `bg_cave_lit` (or `bg_cave`): `butterscotch_sleep` wakes into `butterscotch_delight` | "Every Halloween, I wake up to share my candy hoard." | BUTTERSCOTCH'S HOARD |
+| a | `bg_cave_lit` (or `bg_cave`): `butterscotch_sleep` wakes into `butterscotch_delight` | "Every Halloween, the doors between worlds open... and I wake up!" | BUTTERSCOTCH'S HOARD |
 | b | The lit cave. `snuffwick_base` climbs the candy pile under the lantern, *pfft!*, and the cave goes dark (`bg_cave` fades in) while Butterscotch sleeps through it. Snuffwick scampers off. | "But sneaky Snuffwick snuffed my Hoard Lantern! Pfft!" | UH-OH, SNUFFWICK! |
-| c | `chapter_moonstone` on a slow Ken Burns | "Long ago, the Candlewizards' Moonstone broke into crystals. Like yours!" | THE MOONSTONE |
-| d | the crystal on the Wakestone changing through the three crystal colours (Dragonberry, Starfrost, Rainbow Fizz) | "Each crystal remembers its wizard's glow... and glow wakes dragons!" | YOUR GLOW |
-| e | `bg_cave` with `bg_cave_lit` slowly fading in; `butterscotch_peek` → `butterscotch_delight` | "Every crystal adds a spark. Light my lantern, wizards!" | LIGHT THE LANTERN |
+| c | `chapter_egg` on a slow Ken Burns: baby Butterscotch in his cracked crystal eggshell, the glowing pieces drifting off through little doors to other worlds | "Long ago, I hatched from a crystal egg. Its pieces are yours!" | THE CRYSTAL EGG |
+| d | the crystal on the Wakestone changing through the three crystal colours (Dragonberry, Starfrost, Rainbow Fizz) | "Each crystal remembers me... and glow wakes dragons!" | YOUR GLOW |
+| e | `bg_cave` with `bg_cave_lit` slowly fading in; `butterscotch_peek` → `butterscotch_delight` | "Every crystal adds a spark. Light my lantern, travelers!" | LIGHT THE LANTERN |
 | f | `butterscotch_peek` while Snuffwick scampers past hugging the glowing sock (`snuffwick_sock`) | "Psst... what's Snuffwick hiding in that lumpy sock?" | WHAT'S IN THE SOCK? |
 
 ## 10. Counters, milestones and circles
@@ -409,16 +419,16 @@ Every part makes sense if a kid only catches that one. The device draws the lant
 - **Day 1: Butterscotch.** Make `butterscotch_base` and re-roll it until it's right, because every other Butterscotch image is an edit of it. Then make `sleep`, `peek`, `delight` and `surprise`.
 - **Day 2: Butterscotch `giggle` + `puff`, Snuffwick and props.** Make `snuffwick_base` and `snuffwick_chicken`, then the four props. For `prop_crystal`, give ChatGPT a photo of one of your 3D-printed crystals and ask for a colourless version (the builder adds each colour).
 - **Day 3: backgrounds.** Make `bg_cave` first and check where the lantern landed (set `meter.pos`), then `bg_wakestone` and `bg_starburst`. Run `python -I tools/build_assets.py --placeholders` and look at `assets/previews/`.
-- **Days 4–5: nice-to-haves.** Make `bg_cave_lit`, the yawn, wink and wave, Snuffwick's sneeze, shy and sock, the hat, feather, bubble and eyes, `chapter_moonstone` and `print_keyart`, as budget allows.
+- **Days 4–5: nice-to-haves.** Make `bg_cave_lit`, the yawn, wink and wave, Snuffwick's sneeze, shy and sock, the hat, feather, bubble and eyes, `chapter_egg` and `print_keyart`, as budget allows.
 
-### Voice: 73 lines, recorded in batches
+### Voice: 74 lines, recorded in batches
 `tools/make_voice_elevenlabs.py` records them with ElevenLabs straight into `assets/source/voice/` (README → *Voice lines with ElevenLabs*); `--priority MVP` does batch 1 plus the rank lines.
-1. **Needed on night one (38 lines):** `attract_call` 1 and 3–7, `attract_tap_1`, all of awaken (7: two `awaken_a`, one `awaken_b` per crystal colour, two `awaken_c`), `greet_r2` and `greet_r3` line 1 (old Skull tokens can reach rank 3), `charge_tap` (2), all reveals (9), the three bowl lines, replay, nocrystal, sleepy and goodbye.
+1. **Needed on night one (39 lines):** `attract_call` 1, 3–7 and 9, `attract_tap_1`, all of awaken (7: two `awaken_a`, one `awaken_b` per crystal colour, two `awaken_c`), `greet_r2` and `greet_r3` line 1 (old Skull tokens can reach rank 3), `charge_tap` (2), all reveals (9), the three bowl lines, replay, nocrystal, sleepy and goodbye.
 2. **Night-one extras (21 lines):** chapter (6), rush (4), moonfull (2), milestone, circle (2), recall (4), Snuffwick's attract call, and `greet_r2` line 2.
 3. **Only with a big button (3 lines):** `attract_call_2` and `charge` 1–2. They play only when `config.ini` says `button = yes`.
 4. **Before Halloween 2027 (11 lines):** the rest of `greet_r3` to `greet_r7` and keeper. These can't play in 2026 anyway.
 
-The manifest marks 42 lines MVP (every rank's line 1, so the station is complete for any crystal) and 31 NICE. Number variants with no gaps (`_1`, `_2`, `_3`…), because the firmware stops counting at the first missing number.
+The manifest marks 43 lines MVP (every rank's line 1, so the station is complete for any crystal) and 31 NICE. Number variants with no gaps (`_1`, `_2`, `_3`…), because the firmware stops counting at the first missing number.
 
 ### Sound and music
 17 sound effects (10 MVP; `button` is NICE, since it only plays with a big button) and 2 music beds (1 MVP), with the same ids as before and descriptions rewritten for the dragon world: a sparkle-sneeze, rubber-chicken squeaks, a goblin giggle, a candle "pfft", and a warm lantern "whoomph" for the finale. Never a roar or a fire crackle. The full list with search words is in `CHATGPT-ASSETS.md` §5–6.
@@ -443,7 +453,7 @@ Test one first (host menu → **Crystals** → test read, or the bench).
 
 > **DRAGONGLOW — The Sleepy Candy Dragon**
 > Every child gets candy, every time.
-> Your crystal is yours to keep. Bring it back every Halloween to climb the wizard ranks!
+> Your crystal is yours to keep. Bring it back every Halloween to climb the ranks!
 > **The crystal remembers only numbers:** how many Halloweens it has visited and each year's glow number. It never stores names, photos or personal information. (Its tag also holds a plain web link about this project.)
 > No crystal? Tap the dragon's window for a dragon blessing. Every visitor adds a spark to the Hoard Lantern.
 > Butterscotch's voice is AI-generated.
@@ -451,13 +461,13 @@ Test one first (host menu → **Crystals** → test read, or the bench).
 
 ## 14. Host ritual
 
-**Handing out a crystal.** Kneel and hold the crystal out in cupped hands, then say: **"This crystal is a piece of the wizards' Moonstone, and it chose you. Wake the dragon on the Wakestone!"**
+**Handing out a crystal.** Kneel and hold the crystal out in cupped hands, then say: **"Welcome, traveler! This crystal is a piece of a dragon's egg, and it found its way to you. Wake the dragon on the Wakestone!"**
 
-**The Golden Star.** When a kid gets the Golden Star, raise the gold star bowl and say: **"The Golden Star found you, wizard! You're legendary. Pick one!"**
+**The Golden Star.** When a kid gets the Golden Star, raise the gold star bowl and say: **"The Golden Star found you, traveler! You're legendary. Pick one!"**
 
 **A goblin trick** (if a kid looks unsure): "Snuffwick got Butterscotch again! Silver circle, candy anyway!"
 
-**The finale** (when the lantern lights): lead a cheer for the wizards: "You lit the lantern!"
+**The finale** (when the lantern lights): lead a cheer for the travelers: "You lit the lantern!"
 
 ## 15. captions.ini (ready to paste)
 
@@ -472,7 +482,7 @@ character = Butterscotch
 2 = Apprentice
 3 = Glowcaster
 4 = Hoardguard
-5 = Wizard
+5 = Worldwalker
 6 = Dragon Rider
 7 = Keeper of the Hoard
 
@@ -520,13 +530,13 @@ nocrystal = DRAGON BLESSING!
 foreign = DRAGON BLESSING!
 sleepy = AGAIN, PLEASE
 goodbye = SEE YOU {next_year}
-milestone = HOORAY, WIZARDS!
-circle = WIZARD CIRCLE!
+milestone = HOORAY, TRAVELERS!
+circle = CRYSTAL CIRCLE!
 keeper = SHH... SECRET
 chapter =
 chapter_a = BUTTERSCOTCH'S HOARD
 chapter_b = UH-OH, SNUFFWICK!
-chapter_c = THE MOONSTONE
+chapter_c = THE CRYSTAL EGG
 chapter_d = YOUR GLOW
 chapter_e = LIGHT THE LANTERN
 chapter_f = WHAT'S IN THE SOCK?

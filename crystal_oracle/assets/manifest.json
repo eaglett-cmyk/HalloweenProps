@@ -50,7 +50,7 @@
   "rank.2": "Apprentice",
   "rank.3": "Glowcaster",
   "rank.4": "Hoardguard",
-  "rank.5": "Wizard",
+  "rank.5": "Worldwalker",
   "rank.6": "Dragon Rider",
   "rank.7": "Keeper of the Hoard",
   "tier.0": "GOBLIN TRICK!",
@@ -90,13 +90,13 @@
   "caption.foreign": "DRAGON BLESSING!",
   "caption.sleepy": "AGAIN, PLEASE",
   "caption.goodbye": "SEE YOU {next_year}",
-  "caption.milestone": "HOORAY, WIZARDS!",
-  "caption.circle": "WIZARD CIRCLE!",
+  "caption.milestone": "HOORAY, TRAVELERS!",
+  "caption.circle": "CRYSTAL CIRCLE!",
   "caption.keeper": "SHH... SECRET",
   "caption.chapter": "",
   "caption.chapter_a": "BUTTERSCOTCH'S HOARD",
   "caption.chapter_b": "UH-OH, SNUFFWICK!",
-  "caption.chapter_c": "THE MOONSTONE",
+  "caption.chapter_c": "THE CRYSTAL EGG",
   "caption.chapter_d": "YOUR GLOW",
   "caption.chapter_e": "LIGHT THE LANTERN",
   "caption.chapter_f": "WHAT'S IN THE SOCK?",
@@ -525,7 +525,7 @@
    "kind": "prop",
    "transparent": true,
    "priority": "NICE",
-   "desc": "A small crooked wizard hat in faded purple (#6E5A9E) with two big simple pale-cream stars and a soft floppy tip - the same design as Butterscotch's hat; front view; no face. (Rank 5 'Here's your hat!'.)",
+   "desc": "A small crooked wizard hat in faded purple (#6E5A9E) with two big simple pale-cream stars and a soft floppy tip - the same design as Butterscotch's hat; front view; no face. (Rank 5 Worldwalker: 'Here's your traveler's hat!'.)",
    "used_by": [
     "greet_r5"
    ],
@@ -569,15 +569,18 @@
    "prompt": "Two big, round, friendly cartoon goblin eyes side by side, peering out of darkness: glowing sage-green irises, big dark pupils, bright white star highlights, slightly mischievous happy lids. ONLY the two eyes - no face, no body, nothing else. Cute, never scary. Full figure, centred, nothing cropped, on a TRANSPARENT background (PNG). If you can't make it transparent, use a flat pure green #00FF00 background with no shadow and no floor. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; glossy candy-like materials; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and cozy, never scary."
   },
   {
-   "id": "chapter_moonstone",
+   "id": "chapter_egg",
    "kind": "background",
    "transparent": false,
    "priority": "NICE",
-   "desc": "Chapter still (lore): a cozy round wizard-tower room long ago; on a stone table a big round pale Moonstone has gently cracked open, and three smooth glowing crystals rest beside it - one deep purple fading to light lilac (Dragonberry), one clear sky blue (Starfrost), one in soft rainbow candy colours (Rainbow Fizz); three purple Candlewizard hats hang on pegs (no people); bottom quarter dark and empty.",
+   "desc": "Chapter still (lore): long ago, in the Hoard Cave, a tiny BABY Butterscotch (the same caramel dragon, no hat yet) sits in the bottom half of a big cracked-open crystal eggshell on a soft pile of candy; the broken shell pieces glow softly in the three crystal colours - deep purple fading to light lilac (Dragonberry), clear sky blue (Starfrost), soft rainbow candy colours (Rainbow Fizz) - and a few pieces float up and drift away through small round glowing doorways in the cave wall (the doors to other worlds); bottom quarter dark and empty.",
    "used_by": [
     "chapter_c"
    ],
-   "prompt": "Storybook wide shot, long ago: a cozy round wizard-tower room at night in deep indigo and plum, lit by a few thick cream candles. On a round stone table in the centre rests a big round pale Moonstone that has gently cracked open; beside it lie three smooth, chunky, faceted crystals, each glowing softly from inside: one purple fading to light lilac, one clear sky blue, and one in soft rainbow candy colours (pink, yellow, mint and blue bands). Three friendly purple pointed wizard hats hang on pegs on the wall (no people). Format: wide landscape, 5:3 (1600x960 if you can choose; otherwise the widest landscape option). Dark midnight-indigo and plum colours (#140F2E, #2B1650). Keep the BOTTOM QUARTER of the image plain near-black and empty (the screen draws words there). Big simple shapes, clean smooth gradients. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; glossy candy-like materials; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and cozy, never scary."
+   "prompt": "Storybook wide shot, long ago, inside a cozy rounded cave at night in deep indigo and plum, framed by a big round smooth stone arch, with low soft piles of glossy candy at the sides (no gold coins, nothing gold). In the centre, a tiny BABY dragon - a newborn version of the dragon in the attached butterscotch_base image: the same glossy caramel skin (#C77A35) with a cream belly, little caramel-swirl horn buds, tiny stubby wings and big warm amber-brown eyes, but much smaller and rounder, and with NO hat - sits happily in the bottom half of a big, chunky, cracked-open CRYSTAL eggshell resting on a soft pile of candy. The broken shell pieces are smooth, chunky, faceted crystal, each glowing softly from inside in one of three colours: purple fading to light lilac, clear sky blue, and soft rainbow candy colours (pink, yellow, mint and blue bands). A few of the pieces float gently upward and drift toward three or four small round glowing doorways in the cave walls (doors to other worlds - each one shows a hint of a different place: a starry sky, a green forest, a pink sunset), as if they are leaving to find someone. No people. Format: wide landscape, 5:3 (1600x960 if you can choose; otherwise the widest landscape option). Dark midnight-indigo and plum colours (#140F2E, #2B1650). Keep the BOTTOM QUARTER of the image plain near-black and empty (the screen draws words there). Big simple shapes, clean smooth gradients. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; glossy candy-like materials; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and cozy, never scary.",
+   "refs": [
+    "butterscotch_base"
+   ]
   },
   {
    "id": "print_keyart",
@@ -990,7 +993,7 @@
     }
    ],
    "anchor_layer": 0,
-   "notes": "One visual for every rank (except the Wizard hat below); the device draws the rank name and the meter."
+   "notes": "One visual for every rank (except the Worldwalker hat below); the device draws the rank name and the meter."
   },
   {
    "id": "greet_r5",
@@ -1044,7 +1047,7 @@
     }
    ],
    "anchor_layer": 0,
-   "notes": "Rank 5 Wizard: 'Here's your hat!' - a little wizard hat pops out of Butterscotch's paws and twirls up beside him (upper right; it never lands on the device-drawn crystal)."
+   "notes": "Rank 5 Worldwalker: 'Here's your traveler's hat!' - a little hat pops out of Butterscotch's paws and twirls up beside him (upper right; it never lands on the device-drawn crystal)."
   },
   {
    "id": "charge",
@@ -2371,14 +2374,14 @@
    "id": "chapter_c",
    "priority": "NICE",
    "recipe": "kenburns",
-   "image": "chapter_moonstone",
+   "image": "chapter_egg",
    "seconds": 4.5,
    "zoom": [
     1.05,
     1.12
    ],
    "pan": "up",
-   "notes": "Lore: the Candlewizards' Moonstone cracked into the crystals."
+   "notes": "Lore: Butterscotch hatched from a crystal egg long ago; its shell pieces scattered through the worlds and became the crystals."
   },
   {
    "id": "chapter_d",
@@ -2589,7 +2592,7 @@
    "group": "attract_call",
    "variant": 5,
    "speaker": "Butterscotch",
-   "text": "Shh... I hear wizards coming...",
+   "text": "Shh... I hear travelers coming...",
    "caption": "SHHH...",
    "delivery": "excited secret whisper, smiling",
    "priority": "MVP"
@@ -2599,9 +2602,9 @@
    "group": "attract_call",
    "variant": 6,
    "speaker": "Butterscotch",
-   "text": "Wake me, wizards! My candy hoard is waiting!",
+   "text": "Wake me, travelers! My candy hoard is waiting!",
    "caption": "WAKE ME!",
-   "delivery": "bright inviting call across the porch, a happy yawn after 'wizards'",
+   "delivery": "bright inviting call across the porch, a happy yawn after 'travelers'",
    "priority": "MVP"
   },
   {
@@ -2624,6 +2627,16 @@
    "delivery": "Snuffwick: record in Butterscotch's voice - the builder pitches it up 5 semitones at 1.15x; a tiny shy giggle, mischievous, never mean",
    "priority": "NICE",
    "fx": "smudge"
+  },
+  {
+   "id": "attract_call_9",
+   "group": "attract_call",
+   "variant": 9,
+   "speaker": "Butterscotch",
+   "text": "Travelers from every world! Come in, come in!",
+   "caption": "COME IN!",
+   "delivery": "warm, welcoming host calling across the porch on Halloween night, a happy chuckle on the second 'come in'",
+   "priority": "MVP"
   },
   {
    "id": "attract_tap_1",
@@ -2690,7 +2703,7 @@
    "group": "awaken_c",
    "variant": 1,
    "speaker": "Butterscotch",
-   "text": "Sparkfinder! Welcome, little wizard!",
+   "text": "Sparkfinder! Welcome, little traveler!",
    "caption": "SPARKFINDER!",
    "delivery": "joyful welcome, bright on 'Sparkfinder' (also the rush-mode line, so the rank comes first)",
    "priority": "MVP"
@@ -2710,7 +2723,7 @@
    "group": "greet_r2",
    "variant": 1,
    "speaker": "Butterscotch",
-   "text": "Apprentice! You came back, wizard!",
+   "text": "Apprentice! You found your way back!",
    "caption": "APPRENTICE",
    "delivery": "thrilled reunion, a warm chuckle",
    "priority": "MVP"
@@ -2770,8 +2783,8 @@
    "group": "greet_r5",
    "variant": 1,
    "speaker": "Butterscotch",
-   "text": "Wizard! A true Wizard! Here's your hat!",
-   "caption": "WIZARD",
+   "text": "Worldwalker! Here's your traveler's hat!",
+   "caption": "WORLDWALKER",
    "delivery": "awed and proud, a magic-trick flourish on 'Here's your hat!' (the hat pops out on screen)",
    "priority": "MVP"
   },
@@ -2780,8 +2793,8 @@
    "group": "greet_r5",
    "variant": 2,
    "speaker": "Butterscotch",
-   "text": "Wizard now! Here's your very own hat!",
-   "caption": "WIZARD",
+   "text": "Worldwalker now! Here's your very own hat!",
+   "caption": "WORLDWALKER",
    "delivery": "warm and delighted, presenting a gift",
    "priority": "NICE"
   },
@@ -2930,7 +2943,7 @@
    "group": "reveal_t2",
    "variant": 2,
    "speaker": "Butterscotch",
-   "text": "Dragon Gem! Not many wizards find those!",
+   "text": "Dragon Gem! Not many travelers find those!",
    "caption": "DRAGON GEM!",
    "delivery": "thrilled, conspiratorial",
    "priority": "MVP"
@@ -3060,7 +3073,7 @@
    "group": "goodbye",
    "variant": 2,
    "speaker": "Butterscotch",
-   "text": "Keep it safe, wizard! See you next year!",
+   "text": "Keep it safe, traveler! See you next year!",
    "caption": "SEE YOU 2027",
    "delivery": "fond, a sleepy-happy sigh, smiling",
    "priority": "MVP"
@@ -3150,8 +3163,8 @@
    "group": "milestone",
    "variant": 1,
    "speaker": "Butterscotch",
-   "text": "Another hundred crystals! Hooray, wizards!",
-   "caption": "HOORAY, WIZARDS!",
+   "text": "Another hundred crystals! Hooray, travelers!",
+   "caption": "HOORAY, TRAVELERS!",
    "delivery": "party cheer, bubbly",
    "priority": "NICE"
   },
@@ -3160,8 +3173,8 @@
    "group": "circle",
    "variant": 1,
    "speaker": "Butterscotch",
-   "text": "A crystal circle! Wizards together!",
-   "caption": "WIZARD CIRCLE!",
+   "text": "A crystal circle! All the worlds together!",
+   "caption": "CRYSTAL CIRCLE!",
    "delivery": "delighted, gathering-everyone warmth",
    "priority": "NICE"
   },
@@ -3201,7 +3214,7 @@
    "group": "moonfull_a",
    "variant": 1,
    "speaker": "Butterscotch",
-   "text": "My lantern is lit! You did it, wizards!",
+   "text": "My lantern is lit! You did it, travelers!",
    "caption": "LANTERN LIT!",
    "delivery": "overjoyed triumph, the biggest moment of the night - warm, never booming",
    "priority": "NICE"
@@ -3221,9 +3234,9 @@
    "group": "chapter_a",
    "variant": 1,
    "speaker": "Butterscotch",
-   "text": "Every Halloween, I wake up to share my candy hoard.",
+   "text": "Every Halloween, the doors between worlds open... and I wake up!",
    "caption": "BUTTERSCOTCH'S HOARD",
-   "delivery": "bedtime-story opening, unhurried, a little yawn at the start",
+   "delivery": "bedtime-story opening, unhurried, a little yawn at the start, waking up bright on 'and I wake up!'",
    "priority": "NICE"
   },
   {
@@ -3241,9 +3254,9 @@
    "group": "chapter_c",
    "variant": 1,
    "speaker": "Butterscotch",
-   "text": "Long ago, the Candlewizards' Moonstone broke into crystals. Like yours!",
-   "caption": "THE MOONSTONE",
-   "delivery": "hushed once-upon-a-time wonder, leaning in on 'Like yours!'",
+   "text": "Long ago, I hatched from a crystal egg. Its pieces are yours!",
+   "caption": "THE CRYSTAL EGG",
+   "delivery": "hushed once-upon-a-time wonder, a proud little chuckle on 'hatched', leaning in on 'Its pieces are yours!'",
    "priority": "NICE"
   },
   {
@@ -3251,7 +3264,7 @@
    "group": "chapter_d",
    "variant": 1,
    "speaker": "Butterscotch",
-   "text": "Each crystal remembers its wizard's glow... and glow wakes dragons!",
+   "text": "Each crystal remembers me... and glow wakes dragons!",
    "caption": "YOUR GLOW",
    "delivery": "tender, then delighted",
    "priority": "NICE"
@@ -3261,7 +3274,7 @@
    "group": "chapter_e",
    "variant": 1,
    "speaker": "Butterscotch",
-   "text": "Every crystal adds a spark. Light my lantern, wizards!",
+   "text": "Every crystal adds a spark. Light my lantern, travelers!",
    "caption": "LIGHT THE LANTERN",
    "delivery": "clear instruction, rising excitement",
    "priority": "NICE"
