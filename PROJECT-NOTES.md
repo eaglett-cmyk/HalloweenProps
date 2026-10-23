@@ -267,8 +267,8 @@ Read `crystal_oracle/README.md` first, then `crystal_oracle/docs/DESIGN.md` (con
   shows an iron lantern and the technical keys (`meter.style = lantern`, `moon_goal`) are unchanged. chapter_d now
   says why a crystal wakes him: "Each crystal glows when it's near me... and glow wakes dragons!"; chapter_b adds
   the stakes ("...How will travelers find me?"). Re-recorded (same flow/voice): attract_call_3/4, moonfull_a_1,
-  chapter_b/d/e_1. Screen **flashed** (COM3, verified). Card rebuilt; **TF card NOT yet updated** for this round:
-  copy `captions.ini`, `README.txt` and those 6 voice WAVs.
+  chapter_b/d/e_1. Screen **flashed** (COM3, verified). TF card (E:) updated file-by-file and byte-verified:
+  `captions.ini`, `README.txt` and those 6 voice WAVs (config.ini, logs/, state/ untouched).
 
 Orientation file for future Claude Code sessions (or developers). The firmware version
 lives in the sketch's header comment; note the date when you change behavior.
