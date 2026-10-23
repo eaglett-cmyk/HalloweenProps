@@ -1,64 +1,68 @@
-# Halloween Props — Skull Oracle
+# Halloween Props — the Crystal Oracle
 
-A motion-and-NFC Halloween prop. A skull with glowing LED eyes: when a
-trick-or-treater puts a hand in its mouth, an IR proximity sensor triggers it
-to draw a random number (1–100) and print it on a thermal label. Kids who
-carry an NFC token get a personalized, escalating experience that the prop
-**remembers across years** — because the history lives on the token, not on
-the controller.
+**Found this page by tapping a crystal with your phone?** Hello! That crystal belongs to a trick-or-treater
+who visited *Butterscotch, the Sleepy Candy Dragon*. It remembers every Halloween they come back, so keep it
+safe and bring it next year. Nothing on it is personal: it stores how many visits it has had, each year's
+glow number and treat, and its colour. The voices in the prop are AI-generated (ElevenLabs).
 
-## How it works
+---
 
-- A **VCNL4010** IR proximity sensor detects a hand in the skull's mouth.
-- A **PN532** NFC reader checks for a token in that hand:
-  - *First-time token* — the prop writes the link to this repo onto it (so a
-    phone tap opens the repo) and records the first visit.
-  - *Returning token* — the prop appends this year to the token's history;
-    3rd-year-and-up visitors get a bonus roll, so loyalty pays off.
-- A **DP-EH400** thermal printer prints the label: a greeting tier, the number
-  drawn, the prize won, and the visitor's full year-by-year history.
-- The eyes breathe in idle and flare on a hit.
+## Dragonglow: the Sleepy Candy Dragon (2026 →)
 
-All per-visitor state is stored on the NTAG203 token, so replacing or
-reflashing the controller never erases anyone's streak.
+A trick-or-treat storytelling station. Kids set their **NFC crystal** on a crystal-crowned stone plinth (the
+*Wakestone*). A 7" touch screen (*the Dragon's Window*) wakes Butterscotch, a cozy old candy dragon. He greets
+returning kids by rank, rolls tonight's result and tells them which candy bowl to pick from:
 
-## Hardware
+| Result | Bowl |
+|---|---|
+| **Hoard Coin** (most kids) | silver circle |
+| **Dragon Gem** (rare) | red triangle |
+| **Golden Star** (legendary) | gold star, held by the grown-up |
+| **Goblin trick** (Snuffwick's prank) | silver circle, candy anyway |
 
-- Adafruit Feather ESP32-S3 (4MB Flash / 2MB PSRAM, #5477) — controller, with WiFi/BLE
-- Adafruit VCNL4010 IR proximity sensor (I²C)
-- PN532 NFC reader in I²C mode (Adafruit breakout or Elechouse V3)
-- DP-EH400 embedded thermal printer (TTL serial)
-- NTAG203 NFC tokens (e.g. SMARTRAC dry inlays embedded in 3D-printed shells)
-- LEDs for the eyes
-- A separate 5–9 V / 2 A+ supply for the printer, **ground shared** with the Feather
+The result is written **onto the crystal**, so each kid's history travels with them year after year, up the
+ranks: Sparkfinder → Apprentice → Glowcaster → Hoardguard → Wizard → Dragon Rider → Keeper of the Hoard.
+Every visit also adds a spark to the **Hoard Lantern**; when the neighbourhood fills it, there's a finale.
+Kids without a crystal **tap the window** for a dragon blessing and still get candy.
 
-Full pin-by-pin wiring is in the header comment of
-[`skull_oracle/skull_oracle.ino`](skull_oracle/skull_oracle.ino).
+**Everything lives in [`crystal_oracle/`](crystal_oracle/)**. Start with its
+[README](crystal_oracle/README.md) for setup, flashing, the TF card and the host menu.
 
-## Firmware
+| Part | Hardware | Code |
+|---|---|---|
+| Screen | Waveshare ESP32-S3-Touch-LCD-7C-BOX (800×480 touch, speakers, TF card) | [`crystal_oracle/firmware/crystal_oracle/`](crystal_oracle/firmware/crystal_oracle/) |
+| Plinth | AITRIP ESP32-WROOM-32 + Elechouse PN532 NFC V3, in a 3D-printed altar ([`plinth/`](crystal_oracle/plinth/)) | [`crystal_oracle/firmware/crystal_plinth/`](crystal_oracle/firmware/crystal_plinth/) |
+| Link | ESP-NOW between the two boards (no WiFi router needed) | `crystal_link.h` |
+| Crystals | 3D-printed translucent PLA with an NTAG inlay: Moonspell, Starfrost, Rainbow Fizz | set up on the screen's *Crystals* page |
+| Story + assets | ChatGPT stills, ElevenLabs voice / sound effects / music → TF card | [`STORY.md`](crystal_oracle/STORY.md), [`tools/`](crystal_oracle/tools/) |
 
-- Board package: **Espressif "esp32" v3.0+** via Boards Manager (board: "Adafruit Feather ESP32-S3 2MB PSRAM")
-- Libraries (Library Manager): **Adafruit VCNL4010**, **Adafruit PN532**,
-  **Adafruit Thermal Printer Library**
-- Open the sketch, set the values marked `TUNE` (printer baud, proximity
-  threshold, `EVENT_YEAR`), and flash.
+More docs: [`docs/DESIGN.md`](crystal_oracle/docs/DESIGN.md) (technical design),
+[`docs/RESEARCH-NOTES.md`](crystal_oracle/docs/RESEARCH-NOTES.md) (verified board facts),
+[`docs/ODDS.md`](crystal_oracle/docs/ODDS.md) (result odds), and [`PROJECT-NOTES.md`](PROJECT-NOTES.md)
+(dated build log and status).
 
-## NFC token data layout (NTAG203 — 144 bytes of user memory)
+**Status (Oct 2026):** both boards flashed and the first power-on checklist passes; every story asset is
+made (29 stills, 31 clips, 73 voice lines, 17 sound effects, 2 music loops). Next: the full test with the
+TF card, then the dress rehearsal.
 
-| Pages | Bytes | Contents |
-|-------|-------|----------|
-| 4–15  | 48    | NDEF URI record — the link to this repo |
-| 16    | 4     | marker `SK` + schema version + visit count |
-| 17–39 | 92    | one page per year: `[number, prize, …]` |
+## The crystal's data (NTAG203, schema `0x03`)
 
-A 5-year visitor uses ~70 bytes; the layout holds 23 years of history.
+| Pages | Contents |
+|---|---|
+| 4–15 | NDEF link to this page (why a phone tap lands here) |
+| 16 | marker `SK` + schema + visit count (written last = commit) |
+| 17 | byte 0 = per-tag roll bonus (`charge`), byte 1 = crystal colour (1 Moonspell, 2 Starfrost, 3 Rainbow Fizz) |
+| 18–39 | one page per year: `[number, result tier, flags, chapter]` — about 22 years |
 
-## Tag prep
+The same layout is used by the retired Skull Oracle and the bench tool, so old tokens still work.
 
-Test every token before sealing it into a shell — read it, write a page, read
-it back, and confirm range. An ACR1252 reader + NFC Tools on a computer is
-ideal for this, and you can pre-write the repo link during that same step (set
-`PROP_WRITES_URL 0` in the sketch if you do).
+## Also in this repo
+
+- [`nfc_tag_bench/`](nfc_tag_bench/) — a bench tool (ESP32 + PN532) to read, test and set up tags off the prop.
+- [`skull_oracle/`](skull_oracle/) — **retired before it ran.** The earlier plan: a skull with LED eyes, an IR
+  sensor for a hand in its mouth, and a thermal printer for each kid's number and prize. The Crystal Oracle
+  replaced it for 2026; it's kept for reference and because it defined the tag layout.
+  [`docs/wiring-diagram.svg`](docs/wiring-diagram.svg) is its wiring.
 
 ## License
 
