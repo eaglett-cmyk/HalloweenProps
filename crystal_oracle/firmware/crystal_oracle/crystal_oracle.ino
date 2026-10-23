@@ -75,7 +75,8 @@ void setup() {
   status("TF card %s", sd ? "ok" : "MISSING - running on built-in visuals");
   if (sd) {
     settings::load();
-    if (settings::cfg.pclkMhz != 16) display::setPclk(12000000u);   // pclk_mhz = 12 (service menu): next VSYNC
+    if (settings::cfg.pclkMhz * 1000000u != display::pclkHz())        // pclk_mhz from config.ini: next VSYNC
+      display::setPclk(settings::cfg.pclkMhz * 1000000u);
     counters::load(settings::cfg.eventYear);
     vlog::begin(settings::cfg.eventYear);
     board::backlight(settings::cfg.brightness);

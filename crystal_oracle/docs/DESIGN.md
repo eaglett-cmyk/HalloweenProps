@@ -41,7 +41,7 @@ RFID2 at 0x28; < 20 mm range; no ring light).
 | Item | Value |
 |---|---|
 | Module | ESP32-S3-WROOM-2-**N32R16V**: 32 MB octal flash + 16 MB octal PSRAM, VDD_SPI 1.8 V (GPIO47/48 are 1.8 V; the bus is level-shifted to 3.3 V) |
-| Panel | 800×480 IPS, ST7262, RGB565 parallel, PCLK 16 MHz, pulse 4 / bp 8 / fp 8 (H and V), `pclk_active_neg=1` → 39.02 Hz |
+| Panel | 800×480 IPS, ST7262, RGB565 parallel, PCLK **12 MHz** (16 MHz = the Waveshare demo value made the real panel jump, 2026-10-22), pulse 4 / bp 8 / fp 8 (H and V), `pclk_active_neg=1` → 29.3 Hz |
 | RGB pins | DE 5, VSYNC 3, HSYNC 46, PCLK 7; data B3..B7 = 14,38,18,17,10; G2..G7 = 39,0,45,9,8,21; R3..R7 = 1,2,42,41,40 |
 | I²C | SDA 47, SCL 48, 400 kHz. Devices: expander 0x24, ES8389 0x10, ES7210 0x40, RTC 0x51, BQ27220 0x55 (battery only), GT911 0x5D (0x14 alt) |
 | Expander | regs 0x02 dir (1=out), 0x03 out, 0x04 in, 0x05 PWM, 16-bit writes `[reg,lo,hi]`. Dir mask **0x787F**. Not reset by ESP soft reset. |

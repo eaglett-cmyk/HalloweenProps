@@ -32,7 +32,7 @@ struct Settings {
   uint8_t  volume         = 75;     // 0..100
   uint8_t  brightness     = 85;     // backlight 5..100
   uint8_t  ringBrightness = 120;    // plinth LED ring cap 0..255
-  uint8_t  pclkMhz        = 16;     // screen pixel clock: 16, or 12 if the picture ever drifts (service menu)
+  uint8_t  pclkMhz        = 12;     // screen pixel clock: 12 (16 made the real panel jump, 2026-10-22); 16 = service menu
   uint8_t  rush           = RUSH_AUTO;
   bool     secondHelpings = false;  // replay (already played tonight) also points at the common bowl
   bool     allowFresh     = true;   // awaken BLANK tags that were never bench-provisioned

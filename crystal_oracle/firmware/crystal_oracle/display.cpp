@@ -5,8 +5,9 @@
  *  Implements display.h.
  *
  *  Panel (Waveshare 7C demo values, docs/DESIGN.md §2-3):
- *    PCLK 16 MHz, pulse 4 / back porch 8 / front porch 8 on both axes,
- *    pclk_active_neg = 1  ->  16e6 / (820 * 500) = 39.02 Hz refresh.
+ *    PCLK 12 MHz (the demo's 16 MHz made the real panel jump), pulse 4 / back
+ *    porch 8 / front porch 8 on both axes, pclk_active_neg = 1
+ *    ->  12e6 / (820 * 500) = 29.27 Hz refresh.
  *    data pins D0..D15 = B3..B7, G2..G7, R3..R7.
  *    THREE framebuffers in PSRAM + two 800x10 px bounce buffers in internal
  *    RAM: the DMA streams from the bounce buffers, which the driver's ISR

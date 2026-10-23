@@ -112,7 +112,11 @@ constexpr int      MIXER_STACK      = 5120;         // no printf in the mixer; h
 constexpr int      STREAMER_STACK   = 6144;         // FatFs + VFS + sdmmc + printf
 constexpr UBaseType_t MIXER_PRIO    = 18;
 constexpr UBaseType_t STREAMER_PRIO = 6;
-constexpr BaseType_t AUDIO_CORE     = 0;
+constexpr BaseType_t AUDIO_CORE     = 0;   // the SD streamer
+// 2026-10-22 first boot: on core 0 the mixer shared the CPU with the RGB panel's bounce-buffer ISR
+// (16 KB PSRAM copy every ~0.3 ms) and the test tone crackled (I2S auto_clear = silence when late).
+// On core 1 it simply pre-empts the drawing loop (priority 1).
+constexpr BaseType_t MIXER_CORE     = 1;
 
 // ============================================================================
 //  ES8389 (Waveshare's vendored esp_codec_dev es8389.c, slave mode, MCLK from
@@ -148,7 +152,7 @@ const uint8_t ES8389_OPEN_SEQ[][2] = {
 // crackle, silence), set this to true: it applies the driver table's explicit
 // 256x / 12.288 MHz / 48 kHz row ({reg, mask, value}), as the Linux driver does
 // in hw_params().
-constexpr bool ES8389_EXPLICIT_48K_CLOCKS = false;
+constexpr bool ES8389_EXPLICIT_48K_CLOCKS = true;   // 2026-10-22 first boot: the default clocks gave a distorted test tone
 const uint8_t ES8389_48K_COEFFS[][3] = {
   {0x04, 0xFF, 0x01}, {0x05, 0xFF, 0x41}, {0x06, 0xFF, 0x04}, {0x07, 0xFF, 0xD0}, {0x08, 0xFF, 0x10},
   {0x09, 0xFF, 0xD1}, {0x0A, 0xFF, 0x80}, {0x0F, 0xC0, 0x40}, {0x11, 0xFF, 0x00}, {0x21, 0xFF, 0x1F},
@@ -1132,7 +1136,7 @@ bool begin(uint8_t volumePct) {
     s_streamTask = nullptr;
   }
   if (!s_streamTask ||
-      xTaskCreatePinnedToCore(mixerTask, "audio_mix", MIXER_STACK, nullptr, MIXER_PRIO, &s_mixerTask, AUDIO_CORE) != pdPASS) {
+      xTaskCreatePinnedToCore(mixerTask, "audio_mix", MIXER_STACK, nullptr, MIXER_PRIO, &s_mixerTask, MIXER_CORE) != pdPASS) {
     ALOG("task create FAILED - sound disabled");
     vlog::event("audio: task create failed");
     if (s_streamTask) {

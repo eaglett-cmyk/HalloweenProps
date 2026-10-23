@@ -209,7 +209,7 @@ saved to `config.ini`.
 | `[station] button` | no | `no` = no big button: kids tap the window for a blessing, and the tap lines/words play (`nobutton.*` in `captions.ini`); `yes` = a button is wired to the plinth (the button lines, OR PRESS / PRESS! come back) |
 | `[timing] tap_cooldown_sec` / `tap_spark_sec` | 6 / 20 | with `button = no`: taps start nothing for N s after a sequence ends / a tap blessing adds a lantern spark at most every N s (so drumming on the window can't light the lantern alone) |
 | `[station] volume` / `brightness` | 75 / 85 | |
-| `[station] pclk_mhz` | 16 | screen pixel clock; 12 if the picture ever drifts (host menu → *System*; kept across reboots) |
+| `[station] pclk_mhz` | 12 | screen pixel clock; 16 made the real panel jump on first boot (2026-10-22), so 12 is the default (host menu → *System*; kept across reboots) |
 | `[station] rush` | auto | shorter sequences when kids pile up (`on` / `off` to force) |
 | `[station] second_helpings` | 0 | 1 = "already played tonight" also points at the silver bowl |
 | `[odds] trick_pct / rare_pct / legend_pct` | 15 / 18 / 4 | see `docs/ODDS.md` |

@@ -188,6 +188,23 @@ Read `crystal_oracle/README.md` first, then `crystal_oracle/docs/DESIGN.md` (con
   on the card), `tap`/`button` peak-normalized to −3 dBFS instead (too short to measure LUFS — a LUFS
   match gave them +54 dB). Gotcha: the build's per-file `loudnorm` undershoots on short, spiky sfx, and the
   manifest's sfx `gain` field is accepted by `--check` but **not used by the builder**. Owner approved the result.
+- **2026-10-22 (FIRST HARDWARE RUN — both boards flashed, card-less checklist passed)** — ports on the hosting
+  PC: **screen = COM3** (ESP32-S3 native USB, VID 303A), **plinth = COM4** (AITRIP's CP2102, VID 10C4).
+  The AITRIP **won't auto-enter download mode: hold BOOT** for its upload ("Wrong boot mode 0x13" otherwise).
+  arduino-cli lives at `C:\Program Files\Arduino IDE\resources\app\lib\backend\resources\arduino-cli.exe`
+  (not on PATH). Plinth boot: PN532 fw 1.6, ESP-NOW link to the screen in <1 s; it re-links by itself after
+  the screen reboots. Two firmware fixes found on the bench:
+  1. **Panel jumped all over at 16 MHz PCLK** (the Waveshare demo value) → `display.h PCLK_HZ` and the
+     `pclk_mhz` default are now **12 MHz** (29.3 Hz refresh), stable; boot applies config.ini's `pclk_mhz`
+     whichever way it differs. README/DESIGN updated.
+  2. **Test tone crackled** (speakers AND the 3.5 mm jack, at any volume; no underruns logged): the mixer
+     shared core 0 with the RGB bounce-buffer ISR and ESP_I2S has `auto_clear` = silence when late →
+     **mixer moved to core 1** (`MIXER_CORE`, prio 18 pre-empts the drawing loop), clean. The streamer stays
+     on core 0. `ES8389_EXPLICIT_48K_CLOCKS` was also switched on while hunting it (no audible change; kept —
+     it is the Linux driver's 48 kHz table).
+  Checklist results: I²C `10 24 40 51 5D` ✓, Reader online ✓, Crystals test-read + provision (Rainbow Fizz) ✓,
+  first visit awakens + writes (108 ms) ✓, second placement = Already glowed ✓, tap = blessing (no roll; spark
+  counted, max 1 per `tap_spark_sec` 20 s) ✓. Not yet tested: anything with the TF card (voice, clips, meter).
 
 Orientation file for future Claude Code sessions (or developers). The firmware version
 lives in the sketch's header comment; note the date when you change behavior.
