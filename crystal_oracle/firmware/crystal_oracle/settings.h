@@ -38,7 +38,7 @@ struct Settings {
   bool     allowFresh     = true;   // awaken BLANK tags that were never bench-provisioned
   bool     logVisits      = true;   // anonymised CSV on the SD card
   bool     showCounter    = true;   // station-wide "crystals awakened" counter on the attract screen
-  char     ndefUrl[64]    = "github.com/eaglett-cmyk/HalloweenProps";  // written to fresh crystals (https:// prefix implied)
+  char     ndefUrl[64]    = "halloween.ciancio.cloud";                 // written to fresh crystals (https:// prefix implied)
   // [odds]  (percent of crystal visits; trick+treat get the rest)
   uint8_t  trickPct       = 15;
   uint8_t  rarePct        = 18;

@@ -1,6 +1,7 @@
 # Halloween Props — the Crystal Oracle
 
-**Found this page by tapping a crystal with your phone?** Hello! That crystal belongs to a trick-or-treater
+**Found this page by tapping a crystal with your phone?** (Newer crystals open the storybook at
+[halloween.ciancio.cloud](https://halloween.ciancio.cloud) instead; its source is in [`site/`](site/).) Hello! That crystal belongs to a trick-or-treater
 who visited *Butterscotch, the Sleepy Candy Dragon*. It remembers every Halloween they come back, so keep it
 safe and bring it next year. Nothing on it is personal: it stores how many visits it has had, each year's
 glow number and treat, and its colour. The voices in the prop are AI-generated (ElevenLabs).
