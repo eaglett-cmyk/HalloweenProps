@@ -33,3 +33,7 @@ crystal_oracle/assets/.codex_jobs/
 
 # ElevenLabs API key for tools/make_voice_elevenlabs.py (never commit)
 crystal_oracle/tools/.elevenlabs_key
+
+# Still re-takes: kept copies of replaced stills and review candidates (local only)
+crystal_oracle/assets/source/images/*.old
+crystal_oracle/assets/source/images/review-*/

@@ -43,6 +43,17 @@ Read `crystal_oracle/README.md` first, then `crystal_oracle/docs/DESIGN.md` (con
   2027-01-06) → stills from ChatGPT + our ffmpeg "layers" animator; voice from ElevenLabs/OpenAI TTS.
 
 ### Changelog
+- **2026-10-23 (cave re-take: portals + candy hoard)** — owner: with the Moonstone replaced by the crystal egg,
+  the lair needs portals (like `chapter_egg`) and a real dragon hoard made of candy + candy-making tools
+  instead of gold/gems/artifacts. Two rounds of 4 candidates each via `tools/make_image_codex.py`
+  (`start` ×4 in parallel, ~50 s each, refs `bg_cave` + `chapter_egg`, then the chosen D as ref):
+  owner picked **D** (three portals deep in the back wall, lantern corner clear) then **G** of the fuller
+  round (candy cascades up both walls, jar/mould shelves cut into the rock, copper kettles, whisk, taffy,
+  lollipop signposts). Installed as `bg_cave.png`; `bg_cave_lit.png` regenerated as a Codex edit of it
+  (beacon only). Old stills kept as `*.png.old`, candidates in `assets/source/images/review-cave-2026-10-23/`
+  (both git-ignored). `build_assets.py` rebuilt the 20 clips that use the cave; all 20 copied to the card
+  (E:, sizes verified). Storybook `site/img/bg_cave*.webp` refreshed (live immediately). The left jar shelf
+  sits under the painted beacon glow by design (owner accepted).
 - **2026-10-23 (Codex image helper)** — **`crystal_oracle/tools/make_image_codex.py`**: generates stills on
   the owner's ChatGPT plan through the Codex CLI that ships inside the Codex Store app (`codex.exe` in the
   app package, found via `Get-AppxPackage OpenAI.Codex`; ChatGPT plans don't cover the OpenAI API, Codex
