@@ -221,7 +221,7 @@ makes the effect fall back to the idle look (from HELLO_ACK / PING) when it ends
 | `LED_RAINBOW` | Gentle rainbow drifting around the ring |
 | `LED_SOLID` | Steady `color` |
 | `LED_METER` | Fills `level`/255 of the ring clockwise from the top. Empty slots glow faintly. The fill slides smoothly to new levels, and a full meter pulses. |
-| `LED_DUAL` | Two colours crossfading slowly round the ring (a two-colour gradient crystal such as Moonspell's purple/blue): one soft lobe of `color` and one of `color2` drift round once every 3 s by default (`speed` 1..255 = 6 s .. 1.2 s), so each LED fades `color` → `color2` → `color`. `color2` = 0 means `color` only. Added in 1.1.0 |
+| `LED_DUAL` | Two colours crossfading slowly round the ring (a two-colour gradient crystal such as Dragonberry's deep/light purple): one soft lobe of `color` and one of `color2` drift round once every 3 s by default (`speed` 1..255 = 6 s .. 1.2 s), so each LED fades `color` → `color2` → `color`. `color2` = 0 means `color` only. Added in 1.1.0 |
 
 * **Repeats are refreshes.** A command identical to the one running (same mode, colours, speed,
   level, brightness and `ms`) changes nothing: a steady animation doesn't restart, and a timed

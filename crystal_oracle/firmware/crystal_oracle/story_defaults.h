@@ -37,7 +37,7 @@ static const StoryDefault STORY_DEFAULTS[] = {
   {"bowl.rare", "Red Triangle"}, {"bowl.rare_color", "#FF3B47"}, {"bowl.rare_shape", "triangle"},
   {"bowl.legend", "Gold Star"}, {"bowl.legend_color", "#FFC83D"}, {"bowl.legend_shape", "star"},
 
-  {"color.1", "Moonspell"}, {"color.1_hex", "#A35CFF,#2F7BFF"},
+  {"color.1", "Dragonberry"}, {"color.1_hex", "#5A1E9E,#C8A0FF"},
   {"color.2", "Starfrost"}, {"color.2_hex", "#5CD6FF"},
   {"color.3", "Rainbow Fizz"}, {"color.3_hex", "rainbow"},
 

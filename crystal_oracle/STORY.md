@@ -27,7 +27,7 @@ Dragonglow was the kids' judge's pick (8.5/10): it has the broadest pull from ag
 
 - **Snuffwick never wants the candy.** He snuffs out lights because he likes the dark: he's shy, and dark corners are cozy for napping. "All this candy is MINE!" and the candy-in-the-sock framing are gone. Glow makes him sneeze, giggle and scamper off. At the finale Butterscotch invites him to the feast and makes him the **Official Prankster** (taken from *Madame Mira*), so his tricks still make sense after the lantern is lit and in every later year.
 - **One voice.** Butterscotch is the only TTS voice. Snuffwick is giggles, squeaks and "pfft"s, plus at most 2 short lines recorded in Butterscotch's voice and pitched up by the builder.
-- **No crystal shares a colour with a bowl.** The bowls are silver, red and gold. The crystals are 3D-printed in three filaments (since 2026-10-22): purple-and-blue **Moonspell**, sky-blue **Starfrost** and rainbow **Rainbow Fizz** (§5). None of them is silver, red or gold; Rainbow Fizz is every colour at once, which reads as its own thing. The pitch's amber "Sunhoney" is gone.
+- **No crystal shares a colour with a bowl.** The bowls are silver, red and gold. The crystals are 3D-printed in three filaments (since 2026-10-22): deep-to-light purple **Dragonberry**, sky-blue **Starfrost** and rainbow **Rainbow Fizz** (§5). None of them is silver, red or gold; Rainbow Fizz is every colour at once, which reads as its own thing. The pitch's amber "Sunhoney" is gone.
 - **Each result is named after its bowl picture** (from *Moonshards*). HOARD COIN! is the silver coin on the silver circle bowl, DRAGON GEM! is the ruby triangle on the red triangle bowl, and GOLDEN STAR! is the gold star the host holds. The coin, gem and star are printed as the bowl signs. **Bowl lines lead with colour and shape** ("Silver circle! Take one treat!").
 - **Butterscotch is caramel, not gold.** Gold now belongs only to the Golden Star, so the legendary prize stays special.
 - **The upside-down gag is gone.** It is replaced by the **Snuff-Out** gag, which uses the story's own darkness and needs no screen rotation.
@@ -50,10 +50,10 @@ Dragonglow was the kids' judge's pick (8.5/10): it has the broadest pull from ag
 ### First visit (2026: almost every kid)
 The host hands over a crystal with the ritual line (§14), and the kid sets it on the Wakestone.
 
-1. **absorb (0.0 s).** A chime plays and a beam of the crystal's colour rises into Butterscotch's chest. One eye pops open, and the colour name appears ("MOONSPELL").
+1. **absorb (0.0 s).** A chime plays and a beam of the crystal's colour rises into Butterscotch's chest. One eye pops open, and the colour name appears ("DRAGONBERRY").
 2. **awaken (1.0 s).** The scene cuts to the Wakestone. The crystal rises out of the stone, glowing in its colour, and Butterscotch floats down, surprised, then beams. He says:
    - "Ooh! A brand-new crystal is waking!"
-   - "Moonspell! Purple and blue, full of dreams!"
+   - "Dragonberry! Purple and sweet, full of dreams!"
    - "Sparkfinder! Welcome, little wizard!"
 
    Two of the eight gems light up, with a chime for each.
@@ -95,7 +95,7 @@ There is no big button this year. A kid without a crystal **taps the Dragon's Wi
 ### Later: a big button or a light ring
 Both are optional extras for a later year; the plinth firmware already supports them (`firmware/crystal_plinth/README.md`).
 - **A big button.** Wire it, then set `[station] button = yes` in `config.ini`. The button lines then play again: "No crystal? Press the big button!" (`attract_call_2`) instead of "No crystal? Tap my window!", and "Press the button! Pump up the glow!" · "Press fast! Fill your crystal!" (`charge`) instead of the tap lines. The captions go back to OR PRESS and PRESS!, and a press with no crystal on the stone gives the dragon blessing (with the `button` sound). Record those three lines (they are NICE in the manifest) and change the parent sign's no-crystal line before switching it on.
-- **A light ring** under the crystal (the Skylanders glow): it would breathe through the crystal colours in the attract loop, snap to the crystal's colour within 0.1 s of placement, wobble sage green on a GOBLIN TRICK!, chase red and the crystal colour on a Dragon Gem, swirl gold on the Golden Star, glow a random crystal colour for a blessing and breathe a dim white for a sleepy crystal. Moonspell would crossfade purple and blue (`LED_DUAL`) and Rainbow Fizz would drift through the rainbow.
+- **A light ring** under the crystal (the Skylanders glow): it would breathe through the crystal colours in the attract loop, snap to the crystal's colour within 0.1 s of placement, wobble sage green on a GOBLIN TRICK!, chase red and the crystal colour on a Dragon Gem, swirl gold on the Golden Star, glow a random crystal colour for a blessing and breathe a dim white for a sleepy crystal. Dragonberry would crossfade deep and light purple (`LED_DUAL`) and Rainbow Fizz would drift through the rainbow.
 
 ## 3. Characters
 
@@ -150,7 +150,7 @@ They were the wizards who filled the hoard, built the Hoard Lantern and made the
 
 **The hoard.** Long ago the Candlewizards filled a cave with candy to share with every child on Halloween, and asked Butterscotch to guard it. He sleeps on it 364 nights a year.
 
-**The crystals.** They are shards of the Candlewizards' **Moonstone**, which cracked into crystals of many colours. Three kinds have turned up so far: Moonspell, Starfrost and Rainbow Fizz. More can turn up in later years (a new filament = a new colour, §5).
+**The crystals.** They are shards of the Candlewizards' **Moonstone**, which cracked into crystals of many colours. Three kinds have turned up so far: Dragonberry, Starfrost and Rainbow Fizz. More can turn up in later years (a new filament = a new colour, §5).
 - A crystal wakes for exactly one child.
 - It remembers only numbers: how many Halloweens it has visited, and how brightly it glowed each time. It never remembers names. This is the same promise the parent sign makes.
 
@@ -171,12 +171,12 @@ The crystals are **3D-printed in PLA**, one filament per colour; there are **thr
 
 | ID | Filament | Name | Screen colour (`color.N_hex`) | Full of… | Awaken line |
 |---|---|---|---|---|---|
-| 1 | VOXELAB PLA Crystal Rainbow, **Deep Sea Realm**: alternating transparent purple and blue (a gradient filament, so every crystal comes out a little different) | **Moonspell** | `#A35CFF,#2F7BFF`: purple and blue, cycling slowly | dreams | "Moonspell! Purple and blue, full of dreams!" |
+| 1 | VOXELAB PLA Crystal Rainbow, **Deep Sea Realm**: prints deep purple to light purple (a gradient filament, so every crystal comes out a little different) | **Dragonberry** | `#5A1E9E,#C8A0FF`: purple and blue, cycling slowly | dreams | "Dragonberry! Purple and sweet, full of dreams!" |
 | 2 | PLA HS Glitter, **Clear Sky Blue** | **Starfrost** | `#5CD6FF`: sky blue | wonder | "Starfrost! Sparkly sky blue, full of wonder!" |
 | 3 | FLASHFORGE Translucent Glitter PLA, Crystal **Rainbow Candy** (a multi-colour gradient) | **Rainbow Fizz** | `rainbow`: the full rainbow, cycling | giggles | "Rainbow Fizz! Every colour, full of giggles!" |
 
 **How they look.**
-- **Moonspell:** the screen's glows (the absorb beam, Butterscotch's tummy glow, the sparkles) blend slowly back and forth between purple and blue, about 4 s for a full cycle. In the awaken clip (`awaken_1`) the crystal is tinted as a purple-to-blue gradient, top to bottom, like the colour bands of the print.
+- **Dragonberry:** the screen's glows (the absorb beam, Butterscotch's tummy glow, the sparkles) blend slowly back and forth between deep and light purple, about 4 s for a full cycle. In the awaken clip (`awaken_1`) the crystal is tinted as a purple-to-blue gradient, top to bottom, like the colour bands of the print.
 - **Starfrost:** a steady sky blue.
 - **Rainbow Fizz:** the glows run through the whole rainbow, about 4 s per turn. In `awaken_3` the crystal is a candy rainbow gradient (pink, orange, yellow, green, sky, violet).
 
@@ -270,7 +270,7 @@ The cave, the Wakestone, Butterscotch, Snuffwick and the lantern all stay the sa
 | **attract** (12 s loop) | `bg_cave`. `butterscotch_sleep` floats with a slow balloon bob and switches to `butterscotch_peek` from 8.5 to 11.75 s. From 4 to 7.6 s `snuffwick_base` tiptoes in from the right, wobbles and scampers off; sfx `munch` is his giggle + "pfft" at 5.4 s. The device draws the lantern glow, the counter and the place-crystal hints on top. | `attract_call` every ~30 s (see the list below this table) | CRYSTAL HERE / OR TAP ME |
 | **attract_full** (after the finale) | `bg_cave_lit` (or `bg_cave`). Sleep, then `butterscotch_delight`. Snuffwick, now the Official Prankster, scampers by hugging `snuffwick_sock`. Music switches to `idle_full`. | `attract_call` | CRYSTAL HERE / OR TAP ME |
 | **absorb** (1 s) | `butterscotch_peek` → `butterscotch_surprise`. A beam in the crystal colour rises from the bottom into his chest. | Sound effect only: whoosh + warm glass chime | the colour name |
-| **awaken** (6–8 s) | `bg_wakestone` on a slow push-in. `prop_crystal`, tinted to the crystal colour (clips `awaken_1…3`, one per colour: Moonspell's purple-to-blue gradient, Starfrost's sky blue, Rainbow Fizz's rainbow), rises out of the stone. `butterscotch_surprise` floats down on the right, then changes to `butterscotch_delight`; his tummy glow comes on at 3 s. Two gems pop on, each with a chime. | `awaken_a` → `awaken_b` (**variant = colour ID**) → `awaken_c`. Rush mode: `awaken_c` only. | NEW CRYSTAL! / colour / SPARKFINDER! |
+| **awaken** (6–8 s) | `bg_wakestone` on a slow push-in. `prop_crystal`, tinted to the crystal colour (clips `awaken_1…3`, one per colour: Dragonberry's deep-to-light purple gradient, Starfrost's sky blue, Rainbow Fizz's rainbow), rises out of the stone. `butterscotch_surprise` floats down on the right, then changes to `butterscotch_delight`; his tummy glow comes on at 3 s. Two gems pop on, each with a chime. | `awaken_a` → `awaken_b` (**variant = colour ID**) → `awaken_c`. Rush mode: `awaken_c` only. | NEW CRYSTAL! / colour / SPARKFINDER! |
 | **greet_r2…r7** (2 s) | `bg_cave` with `butterscotch_delight` (clip `greet`). Rank 5 uses `greet_r5`, where a little wizard hat (`prop_hat`) pops out of his paws and twirls up to his upper right; it never lands on the crystal. The new gem pops on. | one line per rank (see the list below this table) | the rank name |
 | **recall_t0…t3** (nice-to-have) | The greet scene; a faded icon of last year's bowl floats up in a corner. | "Last year, a Dragon Gem! Remember?" | LAST YEAR |
 | **charge** (2.5 s; returning crystals only; skipped in rush) | `butterscotch_base` with his paws out while the tap prompt and fill bar pulse. Each tap on the window swells his tummy glow. When the bar is full, a `charge_full` chime plays. The fill nudges the GLOW number and slightly raises the rare odds, and it counts before the result is written. | `charge_tap`: "Tap the window! Pump up the glow!" (with a button: `charge`, "Press the button! Pump up the glow!") | TAP! TAP! (with a button: PRESS!) |
@@ -335,7 +335,7 @@ Every part makes sense if a kid only catches that one. The device draws the lant
 | a | `bg_cave_lit` (or `bg_cave`): `butterscotch_sleep` wakes into `butterscotch_delight` | "Every Halloween, I wake up to share my candy hoard." | BUTTERSCOTCH'S HOARD |
 | b | The lit cave. `snuffwick_base` climbs the candy pile under the lantern, *pfft!*, and the cave goes dark (`bg_cave` fades in) while Butterscotch sleeps through it. Snuffwick scampers off. | "But sneaky Snuffwick snuffed my Hoard Lantern! Pfft!" | UH-OH, SNUFFWICK! |
 | c | `chapter_moonstone` on a slow Ken Burns | "Long ago, the Candlewizards' Moonstone broke into crystals. Like yours!" | THE MOONSTONE |
-| d | the crystal on the Wakestone changing through the three crystal colours (Moonspell, Starfrost, Rainbow Fizz) | "Each crystal remembers its wizard's glow... and glow wakes dragons!" | YOUR GLOW |
+| d | the crystal on the Wakestone changing through the three crystal colours (Dragonberry, Starfrost, Rainbow Fizz) | "Each crystal remembers its wizard's glow... and glow wakes dragons!" | YOUR GLOW |
 | e | `bg_cave` with `bg_cave_lit` slowly fading in; `butterscotch_peek` → `butterscotch_delight` | "Every crystal adds a spark. Light my lantern, wizards!" | LIGHT THE LANTERN |
 | f | `butterscotch_peek` while Snuffwick scampers past hugging the glowing sock (`snuffwick_sock`) | "Psst... what's Snuffwick hiding in that lumpy sock?" | WHAT'S IN THE SOCK? |
 
@@ -425,8 +425,8 @@ The manifest marks 42 lines MVP (every rank's line 1, so the station is complete
 
 ### Firmware features this story uses
 1. **The Hoard Lantern meter**: the words `meter.style = lantern`, `meter.pos = 150,110,70` (x, y, glow radius in screen px), `meter.name = Lantern` and `meter.color = #FFB347` tell the screen to draw a warm glow on the lantern painted into `bg_cave`, instead of the old Moon in the top-right sky. Fill = tonight's sparks ÷ `moon_goal` (config.ini, default 50; crystal visits and no-crystal blessings each add 1). It is drawn on the visuals listed in `meter.on` (every cave scene except chapter part b, where Snuffwick snuffs it; in `keeper` it follows the push-in via `meter.zoom_keeper`), with the station counter under it. The host menu has **Fill the Lantern** and **Reset Lantern**. When it fills, `moonfull` plays once and the attract loop switches to `attract_full`. The finale is triggered by the meter or by the host, not by the clock.
-2. **Awaken colour line:** the screen plays `awaken_b_<colourId>` (the crystal's bench colour: 1 Moonspell, 2 Starfrost, 3 Rainbow Fizz). Crystals without a bench colour skip that line.
-3. **Crystal colours that move:** a colour in the words (`color.N_hex`) can be one colour (`#5CD6FF`), 2–4 stops (`#A35CFF,#2F7BFF`) or `rainbow`. The screen blends the stops (or runs the rainbow) round and round, about 4 s per cycle, in every glow, beam and sparkle. The plinth ring crossfades a two-colour crystal (`LED_DUAL`) and drifts through the rainbow for a rainbow one. The number of colours is the highest N with a `color.N_hex`, counting from 1 without gaps (3 now). The builder tints the awaken clip of each colour as a gradient (`awaken_1…3`). (An optional plinth ring would crossfade a two-colour crystal, `LED_DUAL`, and drift through the rainbow for a rainbow one.)
+2. **Awaken colour line:** the screen plays `awaken_b_<colourId>` (the crystal's bench colour: 1 Dragonberry, 2 Starfrost, 3 Rainbow Fizz). Crystals without a bench colour skip that line.
+3. **Crystal colours that move:** a colour in the words (`color.N_hex`) can be one colour (`#5CD6FF`), 2–4 stops (`#5A1E9E,#C8A0FF`) or `rainbow`. The screen blends the stops (or runs the rainbow) round and round, about 4 s per cycle, in every glow, beam and sparkle. The plinth ring crossfades a two-colour crystal (`LED_DUAL`) and drifts through the rainbow for a rainbow one. The number of colours is the highest N with a `color.N_hex`, counting from 1 without gaps (3 now). The builder tints the awaken clip of each colour as a gradient (`awaken_1…3`). (An optional plinth ring would crossfade a two-colour crystal, `LED_DUAL`, and drift through the rainbow for a rainbow one.)
 4. **Tricks:** the GLOW number is hidden on GOBLIN TRICK! results, the same gag never plays twice in a row, and never on a first visit.
 5. **Rush lines:** in rush mode the screen plays `rush_t<tier>` (bowl first); if that line doesn't exist it plays the bowl line.
 6. **Tummy glow:** each clip carries an anchor (generated from the stills' `anchor` into `captions.ini [anchor]`); the screen draws a glow there in the crystal colour that pulses with Butterscotch's voice. The absorb beam aims at it.
@@ -498,8 +498,8 @@ legend_color = #FFC83D
 legend_shape = star
 
 [color]
-1 = Moonspell
-1_hex = #A35CFF,#2F7BFF
+1 = Dragonberry
+1_hex = #5A1E9E,#C8A0FF
 2 = Starfrost
 2_hex = #5CD6FF
 3 = Rainbow Fizz

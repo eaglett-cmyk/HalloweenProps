@@ -121,9 +121,9 @@ struct CrystalColor {
 };
 static const CrystalColor CRYSTAL_COLORS[] = {
   // 1: full of dreams. Gradient filament, alternating transparent purple and
-  //    blue (each crystal differs). Oracle colour "#A35CFF,#2F7BFF"
-  { "Moonspell",    "linear-gradient(135deg,#A35CFF,#2F7BFF)", false,
-    "VOXELAB PLA Crystal Rainbow, Deep Sea Realm (purple/blue)" },
+  //    (prints deep to light purple; each crystal differs). Oracle colour "#5A1E9E,#C8A0FF"
+  { "Dragonberry",    "linear-gradient(135deg,#5A1E9E,#C8A0FF)", false,
+    "VOXELAB PLA Crystal Rainbow, Deep Sea Realm (deep to light purple)" },
   // 2: full of wonder. Oracle colour "#5CD6FF"
   { "Starfrost",    "#5CD6FF", false,
     "PLA HS Glitter, Clear Sky Blue" },
@@ -459,7 +459,7 @@ void handleColor() {
   setChargePageByte(COLOR_BYTE, (uint8_t)v);
 }
 
-// /api/colors -> [{"value":1,"name":"Moonspell","css":"linear-gradient(...)",
+// /api/colors -> [{"value":1,"name":"Dragonberry","css":"linear-gradient(...)",
 //                 "rainbow":false,"filament":"VOXELAB ..."},...] for the picker
 void handleColors() {
   String j = "[";

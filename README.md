@@ -33,7 +33,7 @@ Kids without a crystal **tap the window** for a dragon blessing and still get ca
 | Screen | Waveshare ESP32-S3-Touch-LCD-7C-BOX (800×480 touch, speakers, TF card) | [`crystal_oracle/firmware/crystal_oracle/`](crystal_oracle/firmware/crystal_oracle/) |
 | Plinth | AITRIP ESP32-WROOM-32 + Elechouse PN532 NFC V3, in a 3D-printed altar ([`plinth/`](crystal_oracle/plinth/)) | [`crystal_oracle/firmware/crystal_plinth/`](crystal_oracle/firmware/crystal_plinth/) |
 | Link | ESP-NOW between the two boards (no WiFi router needed) | `crystal_link.h` |
-| Crystals | 3D-printed translucent PLA with an NTAG inlay: Moonspell, Starfrost, Rainbow Fizz | set up on the screen's *Crystals* page |
+| Crystals | 3D-printed translucent PLA with an NTAG inlay: Dragonberry, Starfrost, Rainbow Fizz | set up on the screen's *Crystals* page |
 | Story + assets | ChatGPT stills, ElevenLabs voice / sound effects / music → TF card | [`STORY.md`](crystal_oracle/STORY.md), [`tools/`](crystal_oracle/tools/) |
 
 More docs: [`docs/DESIGN.md`](crystal_oracle/docs/DESIGN.md) (technical design),
@@ -51,7 +51,7 @@ TF card, then the dress rehearsal.
 |---|---|
 | 4–15 | NDEF link to this page (why a phone tap lands here) |
 | 16 | marker `SK` + schema + visit count (written last = commit) |
-| 17 | byte 0 = per-tag roll bonus (`charge`), byte 1 = crystal colour (1 Moonspell, 2 Starfrost, 3 Rainbow Fizz) |
+| 17 | byte 0 = per-tag roll bonus (`charge`), byte 1 = crystal colour (1 Dragonberry, 2 Starfrost, 3 Rainbow Fizz) |
 | 18–39 | one page per year: `[number, result tier, flags, chapter]` — about 22 years |
 
 The same layout is used by the retired Skull Oracle and the bench tool, so old tokens still work.

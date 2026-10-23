@@ -98,7 +98,7 @@ Rebuild the firmware afterwards, so a card without `captions.ini` shows the same
 | spec | example | on the device | as a clip `tint` |
 |---|---|---|---|
 | `#RRGGBB` | `#5CD6FF` | a steady colour | a flat multiply-tint |
-| 2–4 stops `#RRGGBB,#RRGGBB[,#RRGGBB[,#RRGGBB]]` | `#A35CFF,#2F7BFF` | the stops blend smoothly round and round, about 4 s per full cycle (a gradient filament); the plinth ring crossfades a 2-stop colour (`LED_DUAL`) | a gradient across the sprite box, first stop at the top, last at the bottom (with a slight diagonal) |
+| 2–4 stops `#RRGGBB,#RRGGBB[,#RRGGBB[,#RRGGBB]]` | `#5A1E9E,#C8A0FF` | the stops blend smoothly round and round, about 4 s per full cycle (a gradient filament); the plinth ring crossfades a 2-stop colour (`LED_DUAL`) | a gradient across the sprite box, first stop at the top, last at the bottom (with a slight diagonal) |
 | `rainbow` | `rainbow` | the full hue wheel, about 4 s per turn; the ring drifts through the rainbow | a candy rainbow gradient (pink, orange, yellow, green, sky, violet) top to bottom |
 
 * Write the stops with commas and **no blanks**; `rainbow` in lowercase. `--check`
@@ -107,7 +107,7 @@ Rebuild the firmware afterwards, so a card without `captions.ini` shows the same
   manifest in the one form every tool reads.)
 * **How many colours there are:** the highest N (1…6) with a non-empty
   `color.N_hex`, counting from 1 without gaps. Leave the unused ids out (or
-  empty): Dragonglow defines 1 Moonspell `#A35CFF,#2F7BFF`, 2 Starfrost `#5CD6FF`,
+  empty): Dragonglow defines 1 Dragonberry `#5A1E9E,#C8A0FF`, 2 Starfrost `#5CD6FF`,
   3 Rainbow Fizz `rainbow`, and ids 4–6 are free for future filaments. `--check`
   warns about a colour after a gap (never used), a number outside 1…6, a
   colour without a name, and a name without a colour.

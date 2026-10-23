@@ -38,7 +38,7 @@ Kids without a crystal **tap the window** for a dragon blessing (there is no big
   (`[station] button = no`, the default). Both can be added later (see the plinth README; `STORY.md` §2
   *Later: a big button or a light ring*).
 * **The crystal remembers, not the board.** Same tag format as the Skull Oracle and `nfc_tag_bench`
-  (schema `0x03`): visits, each year's GLOW number and result, plus the crystal's colour (1 Moonspell,
+  (schema `0x03`): visits, each year's GLOW number and result, plus the crystal's colour (1 Dragonberry,
   2 Starfrost, 3 Rainbow Fizz; set in the host menu's *Crystals* page). A crystal plays
   **once per year** across all stations; re-tapping shows tonight's result again.
 * **Everything is tweakable without reflashing** — `config.ini` and `captions.ini` on the TF card.
@@ -54,7 +54,7 @@ Kids without a crystal **tap the window** for a dragon blessing (there is no big
 | LED ring / big button | **not this year** (both optional later: the plinth firmware supports them; see the plinth README) |
 | **TF card** (microSD, 8–32 GB, FAT32) | |
 | Power: **12 V 2 A** barrel→screw terminal (or 5 V 3 A USB-C) for the screen; **5 V USB-C** into the plinth's front port | |
-| Crystals: **3D-printed PLA**, **≥ 40 mm every way**, flat base with an NTAG203/213 inlay sealed in a pocket ≈ 0.6–1.2 mm above the bottom face (see step 5). Three filaments = three colours: VOXELAB Crystal Rainbow *Deep Sea Realm* (purple/blue) = **Moonspell**, PLA HS Glitter *Clear Sky Blue* = **Starfrost**, FLASHFORGE Translucent Glitter *Rainbow Candy* = **Rainbow Fizz** | making (3 colours) |
+| Crystals: **3D-printed PLA**, **≥ 40 mm every way**, flat base with an NTAG203/213 inlay sealed in a pocket ≈ 0.6–1.2 mm above the bottom face (see step 5). Three filaments = three colours: VOXELAB Crystal Rainbow *Deep Sea Realm* (deep to light purple) = **Dragonberry**, PLA HS Glitter *Clear Sky Blue* = **Starfrost**, FLASHFORGE Translucent Glitter *Rainbow Candy* = **Rainbow Fizz** | making (3 colours) |
 | Optional: powered speaker on the 3.5 mm jack (louder than the onboard amps; plugging in mutes them) | |
 | Bowls: **silver circle** (common), **red triangle** (Dragon Gem), **gold star** (host holds it) | |
 
@@ -117,7 +117,7 @@ crystal first** and check its read range before printing a batch.
 
 **Crystal prep happens in the host menu's *Crystals* page**, through the plinth (hold the screen's top-left
 corner for 3 s → *Crystals*): put a tag or a crystal on the Wakestone, **test-read** it, **set its colour**
-(1 Moonspell / 2 Starfrost / 3 Rainbow Fizz) and, if you like, **provision** it. The `nfc_tag_bench` web tool
+(1 Dragonberry / 2 Starfrost / 3 Rainbow Fizz) and, if you like, **provision** it. The `nfc_tag_bench` web tool
 (`../nfc_tag_bench/`) does the same jobs and still works if a spare ESP32 is ever free (it runs on the same
 AITRIP + PN532 wiring as the plinth).
 
@@ -141,9 +141,9 @@ AITRIP + PN532 wiring as the plinth).
    light, so the translucent plastic catches the porch light less — and a hollow core is what a light ring
    under the crystal would need in a later year.
 6. **Test it and set its colour on the Crystals page** right after the tag test, while it's still on the
-   Wakestone: **1 Moonspell** (Deep Sea Realm, purple/blue) · **2 Starfrost** (Clear Sky Blue glitter) ·
+   Wakestone: **1 Dragonberry** (Deep Sea Realm, deep to light purple) · **2 Starfrost** (Clear Sky Blue glitter) ·
    **3 Rainbow Fizz** (Rainbow Candy). Butterscotch then names the right colour, and the screen glows to match:
-   Moonspell blends purple and blue, Starfrost is a steady sky blue, Rainbow Fizz runs through the rainbow.
+   Dragonberry blends deep and light purple, Starfrost is a steady sky blue, Rainbow Fizz runs through the rainbow.
    (Ids 4–6 are free for future filaments, see `STORY.md` §5.)
 7. Optional: **Provision** it on the Crystals page (writes the parent-info link + marker). Blank,
    never-provisioned crystals also work: the station "awakens" them on first contact.
@@ -196,7 +196,7 @@ The button lines (`attract_call_2`, `charge_1`, `charge_2`) are NICE: with no bu
 Hold the **top-left corner** of the screen for **3 seconds** while it's idle. Pages: *Tonight* (counts, prizes
 given), *Sound & light* (volume, brightness, ring brightness — only matters with a ring — test tone), *Mode*
 (rush auto/on/off, second helpings, prize stock), *Reader* (status, simulate a crystal/button), **Crystals**
-(crystal prep through the plinth: test read, set colour 1 Moonspell / 2 Starfrost / 3 Rainbow Fizz, provision),
+(crystal prep through the plinth: test read, set colour 1 Dragonberry / 2 Starfrost / 3 Rainbow Fizz, provision),
 *Media* (what's missing, play any scene, card speed), *System* (I²C scan, memory, reboot, credits). Changes are
 saved to `config.ini`.
 

@@ -230,6 +230,15 @@ Read `crystal_oracle/README.md` first, then `crystal_oracle/docs/DESIGN.md` (con
   With-card checklist passed: Butterscotch's voice ✓, Hoard Lantern + spark count on the idle screen ✓ (2 sparks
   for 2 crystals), settings saved to config.ini across a power cycle ✓ (volume 75 → 60). **Before Halloween:**
   host menu → *Tonight* → *Reset tonight*, and the two test tags are now "visited 2026".
+- **2026-10-23 (colour 1 renamed Moonspell → Dragonberry)** — the owner's VOXELAB *Deep Sea Realm* filament
+  prints **deep purple to light purple**, not purple/blue. Colour id 1 is now **Dragonberry**, spec
+  `#5A1E9E,#C8A0FF` (tags unchanged: page 17 byte 1 is still `1`). Changed at the source
+  (`tools/gen_manifest_dragonglow.py`) and regenerated: manifest, `CHATGPT-ASSETS.md`, `story_defaults.h`
+  (screen reflashed). `awaken_b_1` re-recorded: "Dragonberry! Purple and sweet, full of dreams!" (5.6 s, same
+  flow + voice). Docs, root README, `nfc_tag_bench` labels updated (bench sketch not reflashed). Card update
+  copied file-by-file (captions.ini, awaken_1 + chapter_d clips, awaken_b_1, README.txt) — **never robocopy
+  over a card in use: its `config.ini` holds the host-menu settings (now volume 100, brightness 30) and
+  `logs/`, `state/` hold tonight's counters.** The `chapter_moonstone` still still shows a purple/blue crystal.
 
 Orientation file for future Claude Code sessions (or developers). The firmware version
 lives in the sketch's header comment; note the date when you change behavior.

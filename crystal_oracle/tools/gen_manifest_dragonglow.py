@@ -171,7 +171,7 @@ STILLS = [
     ("prop_crystal", "prop", True, "MVP",
      "One pale clear faceted crystal with the shape of your real 3D-printed crystals (give ChatGPT a photo of one), "
      "nearly white with soft internal facets and a bright top highlight, no colour of its own; the builder tints it "
-     "for each crystal colour (a purple-to-blue gradient for Moonspell, sky blue for Starfrost, a rainbow for "
+     "for each crystal colour (a deep-to-light purple gradient for Dragonberry, sky blue for Starfrost, a rainbow for "
      "Rainbow Fizz).",
      P("One pale, clear, faceted crystal shaped like the crystal in the attached photo (attach a photo of one of your "
        "3D-printed crystals), nearly white with soft internal facets and a bright top highlight. Make it colourless - "
@@ -274,13 +274,13 @@ STILLS = [
      {}),
     ("chapter_moonstone", "background", False, "NICE",
      "Chapter still (lore): a cozy round wizard-tower room long ago; on a stone table a big round pale Moonstone has "
-     "gently cracked open, and three smooth glowing crystals rest beside it - one purple fading into deep-sea blue "
-     "(Moonspell), one clear sky blue (Starfrost), one in soft rainbow candy colours (Rainbow Fizz); three purple "
+     "gently cracked open, and three smooth glowing crystals rest beside it - one deep purple fading to light lilac "
+     "(Dragonberry), one clear sky blue (Starfrost), one in soft rainbow candy colours (Rainbow Fizz); three purple "
      "Candlewizard hats hang on pegs (no people); bottom quarter dark and empty.",
      P("Storybook wide shot, long ago: a cozy round wizard-tower room at night in deep indigo and plum, lit by a few "
        "thick cream candles. On a round stone table in the centre rests a big round pale Moonstone that has gently "
        "cracked open; beside it lie three smooth, chunky, faceted crystals, each glowing softly from inside: one purple "
-       "fading into deep-sea blue, one clear sky blue, and one in soft rainbow candy colours (pink, yellow, mint and "
+       "fading to light lilac, one clear sky blue, and one in soft rainbow candy colours (pink, yellow, mint and "
        "blue bands). Three friendly purple pointed wizard hats hang on pegs on the wall (no people).",
        BG, STYLE),
      {}),
@@ -350,8 +350,8 @@ WOBBLE = [0, -6, 6, -6, 0]
 # or "rainbow". Ids 4..6 are free for future filaments: add the name + spec here and an awaken_b_<id> line below.
 CRYSTAL_COLORS = [
     # (id, name, spec, filament)
-    (1, "Moonspell", "#A35CFF,#2F7BFF", "VOXELAB PLA Crystal Rainbow 'Deep Sea Realm' (alternating transparent purple "
-                                        "and blue; every crystal differs)"),
+    (1, "Dragonberry", "#5A1E9E,#C8A0FF", "VOXELAB PLA Crystal Rainbow 'Deep Sea Realm' (prints deep purple to light "
+                                          "purple; every crystal differs)"),
     (2, "Starfrost", "#5CD6FF", "PLA HS Glitter, Clear Sky Blue"),
     (3, "Rainbow Fizz", "rainbow", "FLASHFORGE Translucent Glitter PLA, Crystal 'Rainbow Candy' (multi-colour gradient)"),
 ]
@@ -618,9 +618,9 @@ VOICE = [
     ("awaken_a", 2, B, "A new crystal! Hello, little light!", "HELLO!",
      "tender delight, like greeting a baby bird", "MVP"),
     # awaken_b_<n> names crystal colour n (CRYSTAL_COLORS): the name first, then what it looks like, then its gift.
-    ("awaken_b", 1, B, "Moonspell! Purple and blue, full of dreams!", "MOONSPELL",
-     "proud announcement of the name, then dreamy and soft on 'full of dreams' (colour ID 1: the purple-and-blue "
-     "Deep Sea Realm crystals - some look mostly purple, some mostly blue)", "MVP"),
+    ("awaken_b", 1, B, "Dragonberry! Purple and sweet, full of dreams!", "DRAGONBERRY",
+     "proud announcement of the name, then dreamy and soft on 'full of dreams' (colour ID 1: the deep-to-light "
+     "purple Deep Sea Realm crystals - some look darker, some lighter)", "MVP"),
     ("awaken_b", 2, B, "Starfrost! Sparkly sky blue, full of wonder!", "STARFROST",
      "proud, then hushed amazement on 'wonder' (colour ID 2: the glittery sky-blue crystals)", "MVP"),
     ("awaken_b", 3, B, "Rainbow Fizz! Every colour, full of giggles!", "RAINBOW FIZZ",

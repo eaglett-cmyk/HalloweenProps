@@ -29,7 +29,7 @@ v3 of the bench adds:
 
   | Id | Name | Filament | Swatch on the page | On the Oracle (`color.N_hex`) |
   |---|---|---|---|---|
-  | `1` | **Moonspell** (full of dreams) | VOXELAB PLA Crystal Rainbow, *Deep Sea Realm*: alternating transparent purple and blue (each crystal differs) | purple → blue gradient | `#A35CFF,#2F7BFF` (a slow purple/blue cycle) |
+  | `1` | **Dragonberry** (full of dreams) | VOXELAB PLA Crystal Rainbow, *Deep Sea Realm*: deep purple to light purple (each crystal differs) | deep → light purple gradient | `#5A1E9E,#C8A0FF` (a slow purple/blue cycle) |
   | `2` | **Starfrost** (full of wonder) | PLA HS Glitter, *Clear Sky Blue* | sky blue | `#5CD6FF` |
   | `3` | **Rainbow Fizz** (full of giggles) | FLASHFORGE Translucent Glitter PLA, Crystal *Rainbow Candy* (multi-colour gradient) | an animated rainbow | `rainbow` (the full hue cycle) |
 
@@ -111,7 +111,7 @@ The board joins that network; if it can't in 15 s it falls back to an access poi
    - **Provision fresh tag** — write the NDEF link + a blank `SK` marker (a brand-new prop tag;
      also zeroes the charge and colour).
    - **Set charge / +10 / −10** — the roll modifier (keeps the colour).
-   - **Crystal colour** — one swatch button per colour (Moonspell's is a purple→blue
+   - **Crystal colour** — one swatch button per colour (Dragonberry's is a deep→light purple
      gradient, Rainbow Fizz's cycles through the rainbow), with the filament's name under
      it, plus **none** (= unset). Keeps the charge. Auto-provisions a blank tag, like *Set
      charge*.
@@ -143,7 +143,7 @@ filled · `0x04` pity (bad-luck protection) · `0x08` station milestone · `0x10
 (3+ together) · `0x20` reserved · `0x80` written by the Crystal Oracle. `chapter` = the story
 chapter told that year (0 = none).
 
-Colours (page 17 byte 1): `1` Moonspell · `2` Starfrost · `3` Rainbow Fizz (`4`–`6` free).
+Colours (page 17 byte 1): `1` Dragonberry · `2` Starfrost · `3` Rainbow Fizz (`4`–`6` free).
 
 ## End-to-end test flow
 

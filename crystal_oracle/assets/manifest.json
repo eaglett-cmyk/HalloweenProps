@@ -70,8 +70,8 @@
   "bowl.legend": "Gold Star",
   "bowl.legend_color": "#FFC83D",
   "bowl.legend_shape": "star",
-  "color.1": "Moonspell",
-  "color.1_hex": "#A35CFF,#2F7BFF",
+  "color.1": "Dragonberry",
+  "color.1_hex": "#5A1E9E,#C8A0FF",
   "color.2": "Starfrost",
   "color.2_hex": "#5CD6FF",
   "color.3": "Rainbow Fizz",
@@ -367,7 +367,7 @@
    "kind": "prop",
    "transparent": true,
    "priority": "MVP",
-   "desc": "One pale clear faceted crystal with the shape of your real 3D-printed crystals (give ChatGPT a photo of one), nearly white with soft internal facets and a bright top highlight, no colour of its own; the builder tints it for each crystal colour (a purple-to-blue gradient for Moonspell, sky blue for Starfrost, a rainbow for Rainbow Fizz).",
+   "desc": "One pale clear faceted crystal with the shape of your real 3D-printed crystals (give ChatGPT a photo of one), nearly white with soft internal facets and a bright top highlight, no colour of its own; the builder tints it for each crystal colour (a deep-to-light purple gradient for Dragonberry, sky blue for Starfrost, a rainbow for Rainbow Fizz).",
    "used_by": [
     "awaken",
     "chapter_d"
@@ -573,11 +573,11 @@
    "kind": "background",
    "transparent": false,
    "priority": "NICE",
-   "desc": "Chapter still (lore): a cozy round wizard-tower room long ago; on a stone table a big round pale Moonstone has gently cracked open, and three smooth glowing crystals rest beside it - one purple fading into deep-sea blue (Moonspell), one clear sky blue (Starfrost), one in soft rainbow candy colours (Rainbow Fizz); three purple Candlewizard hats hang on pegs (no people); bottom quarter dark and empty.",
+   "desc": "Chapter still (lore): a cozy round wizard-tower room long ago; on a stone table a big round pale Moonstone has gently cracked open, and three smooth glowing crystals rest beside it - one deep purple fading to light lilac (Dragonberry), one clear sky blue (Starfrost), one in soft rainbow candy colours (Rainbow Fizz); three purple Candlewizard hats hang on pegs (no people); bottom quarter dark and empty.",
    "used_by": [
     "chapter_c"
    ],
-   "prompt": "Storybook wide shot, long ago: a cozy round wizard-tower room at night in deep indigo and plum, lit by a few thick cream candles. On a round stone table in the centre rests a big round pale Moonstone that has gently cracked open; beside it lie three smooth, chunky, faceted crystals, each glowing softly from inside: one purple fading into deep-sea blue, one clear sky blue, and one in soft rainbow candy colours (pink, yellow, mint and blue bands). Three friendly purple pointed wizard hats hang on pegs on the wall (no people). Format: wide landscape, 5:3 (1600x960 if you can choose; otherwise the widest landscape option). Dark midnight-indigo and plum colours (#140F2E, #2B1650). Keep the BOTTOM QUARTER of the image plain near-black and empty (the screen draws words there). Big simple shapes, clean smooth gradients. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; glossy candy-like materials; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and cozy, never scary."
+   "prompt": "Storybook wide shot, long ago: a cozy round wizard-tower room at night in deep indigo and plum, lit by a few thick cream candles. On a round stone table in the centre rests a big round pale Moonstone that has gently cracked open; beside it lie three smooth, chunky, faceted crystals, each glowing softly from inside: one purple fading to light lilac, one clear sky blue, and one in soft rainbow candy colours (pink, yellow, mint and blue bands). Three friendly purple pointed wizard hats hang on pegs on the wall (no people). Format: wide landscape, 5:3 (1600x960 if you can choose; otherwise the widest landscape option). Dark midnight-indigo and plum colours (#140F2E, #2B1650). Keep the BOTTOM QUARTER of the image plain near-black and empty (the screen draws words there). Big simple shapes, clean smooth gradients. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; glossy candy-like materials; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and cozy, never scary."
   },
   {
    "id": "print_keyart",
@@ -964,7 +964,7 @@
     }
    ],
    "anchor_layer": 2,
-   "notes": "One colour variant per crystal colour, awaken_1..awaken_3 (the crystal tinted with color.N_hex: 1 Moonspell, 2 Starfrost, 3 Rainbow Fizz), rises from the Wakestone; Butterscotch floats down (surprise), then beams (his chest glow starts at 3.0 s). The device adds sparkles + the meter."
+   "notes": "One colour variant per crystal colour, awaken_1..awaken_3 (the crystal tinted with color.N_hex: 1 Dragonberry, 2 Starfrost, 3 Rainbow Fizz), rises from the Wakestone; Butterscotch floats down (surprise), then beams (his chest glow starts at 3.0 s). The device adds sparkles + the meter."
   },
   {
    "id": "greet",
@@ -2392,7 +2392,7 @@
    "layers": [
     {
      "sprite": "prop_crystal",
-     "tint": "#A35CFF,#2F7BFF",
+     "tint": "#5A1E9E,#C8A0FF",
      "height": 130,
      "x": 400,
      "y": 165,
@@ -2439,7 +2439,7 @@
      }
     }
    ],
-   "notes": "The crystal on the Wakestone changes through every crystal colour (Moonspell, Starfrost, Rainbow Fizz)."
+   "notes": "The crystal on the Wakestone changes through every crystal colour (Dragonberry, Starfrost, Rainbow Fizz)."
   },
   {
    "id": "chapter_e",
@@ -2660,9 +2660,9 @@
    "group": "awaken_b",
    "variant": 1,
    "speaker": "Butterscotch",
-   "text": "Moonspell! Purple and blue, full of dreams!",
-   "caption": "MOONSPELL",
-   "delivery": "proud announcement of the name, then dreamy and soft on 'full of dreams' (colour ID 1: the purple-and-blue Deep Sea Realm crystals - some look mostly purple, some mostly blue)",
+   "text": "Dragonberry! Purple and sweet, full of dreams!",
+   "caption": "DRAGONBERRY",
+   "delivery": "proud announcement of the name, then dreamy and soft on 'full of dreams' (colour ID 1: the deep-to-light purple Deep Sea Realm crystals - some look darker, some lighter)",
    "priority": "MVP"
   },
   {
