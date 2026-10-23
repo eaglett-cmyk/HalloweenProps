@@ -256,7 +256,8 @@ Read `crystal_oracle/README.md` first, then `crystal_oracle/docs/DESIGN.md` (con
   until it lands in `assets/source/images/`, the card keeps the old moonstone `chapter_c` clip.
   Later the same day: **screen reflashed** (COM3, verified; boot not watched) and `chapter_egg.png` arrived
   (1619×971, baby Butterscotch in the cracked crystal egg, four world-doors) → `chapter_c` rebuilt REAL (2.70 MB).
-  Still to copy to the TF card: `captions.ini`, the 16 voice WAVs and `clips/chapter_c.omj`.
+  TF card (E:, label ORACLE) updated file-by-file: captions.ini, README.txt, chapter_c.omj, the 16 voice WAVs
+  (19 files, byte-verified; config.ini, logs/, state/ untouched). Not yet run on the screen with the new card.
 
 Orientation file for future Claude Code sessions (or developers). The firmware version
 lives in the sketch's header comment; note the date when you change behavior.
