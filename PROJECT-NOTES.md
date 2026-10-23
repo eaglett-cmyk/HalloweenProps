@@ -70,6 +70,10 @@ Read `crystal_oracle/README.md` first, then `crystal_oracle/docs/DESIGN.md` (con
 - **2026-10-23 (evening) — LIVE.** Owner added the CF CNAME + Origin Rule in the dashboard; verified from
   this PC through Cloudflare: `/health`, `/`, `style.css` and an image all 200 (HTML DYNAMIC, assets
   edge-cacheable), beacon + vms unaffected.
+  **TF card done too:** only the `ndef_url` line of `E:\oracle\config.ini` was edited in place (the card's copy
+  carries owner-tuned keys the local template lacks: volume 60, brightness 30, pclk_mhz 12, legend 10 %,
+  tap_cooldown/tap_spark) — never overwrite the card's config.ini with `sd_card\oracle\config.ini`.
+  The other 126 card files matched the local build byte-for-size.
 - **2026-10-22** — Crystal Oracle written: screen firmware (13 modules), plinth firmware, asset
   builder (`tools/build_assets.py`, layered clips from stills, placeholders incl. Windows-TTS voice),
   story bible (STORY.md, 4 concepts judged → Moonshards), ChatGPT asset list (30 images, 73 lines).
