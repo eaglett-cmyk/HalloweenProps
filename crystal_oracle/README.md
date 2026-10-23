@@ -8,7 +8,7 @@ Kids without a crystal **tap the window** for a dragon blessing (there is no big
 
 | Doc | What's in it |
 |---|---|
-| [`STORY.md`](STORY.md) | The story bible: Butterscotch the sleepy candy dragon, Snuffwick, the Hoard Lantern meter, ranks, results/bowls, every scene and line, the parent sign |
+| [`STORY.md`](STORY.md) | The story bible: Butterscotch the sleepy candy dragon, Snuffwick, the Hoard Beacon meter, ranks, results/bowls, every scene and line, the parent sign |
 | [`CHATGPT-ASSETS.md`](CHATGPT-ASSETS.md) | **The list of things to make** — 29 ChatGPT image prompts (16 must-have), 73 voice lines (42 must-have), sound effects, music |
 | [`docs/stories/`](docs/stories/) | Archived story versions: Moonshards (bible + manifest), swappable back in |
 | [`docs/DESIGN.md`](docs/DESIGN.md) | Technical design: hardware facts, rendering, audio, the show's timing, token layout, asset pipeline |
@@ -195,7 +195,8 @@ The button lines (`attract_call_2`, `charge_1`, `charge_2`) are NICE: with no bu
 
 Hold the **top-left corner** of the screen for **3 seconds** while it's idle. Pages: *Tonight* (counts, prizes
 given), *Sound & light* (volume, brightness, ring brightness — only matters with a ring — test tone), *Mode*
-(rush auto/on/off, second helpings, prize stock), *Reader* (status, simulate a crystal/button), **Crystals**
+(rush auto/on/off, second helpings, prize stock), **Odds** (legendary / rare / goblin-trick chance, rare bonus
+per return visit, pity; shows what a first visit gets; live from the next visit), *Reader* (status, simulate a crystal/button), **Crystals**
 (crystal prep through the plinth: test read, set colour 1 Dragonberry / 2 Starfrost / 3 Rainbow Fizz, provision),
 *Media* (what's missing, play any scene, card speed), *System* (I²C scan, memory, reboot, credits). Changes are
 saved to `config.ini`.
@@ -207,14 +208,14 @@ saved to `config.ini`.
 | `[station] event_year` | 2026 | **Bump every Halloween** (which year slot is written) |
 | `[station] reader` | plinth | `plinth` · `rfid2` · `none` |
 | `[station] button` | no | `no` = no big button: kids tap the window for a blessing, and the tap lines/words play (`nobutton.*` in `captions.ini`); `yes` = a button is wired to the plinth (the button lines, OR PRESS / PRESS! come back) |
-| `[timing] tap_cooldown_sec` / `tap_spark_sec` | 6 / 20 | with `button = no`: taps start nothing for N s after a sequence ends / a tap blessing adds a lantern spark at most every N s (so drumming on the window can't light the lantern alone) |
+| `[timing] tap_cooldown_sec` / `tap_spark_sec` | 6 / 20 | with `button = no`: taps start nothing for N s after a sequence ends / a tap blessing adds a beacon spark at most every N s (so drumming on the window can't light the beacon alone) |
 | `[station] volume` / `brightness` | 75 / 85 | |
 | `[station] pclk_mhz` | 12 | screen pixel clock; 16 made the real panel jump on first boot (2026-10-22), so 12 is the default (host menu → *System*; kept across reboots) |
 | `[station] rush` | auto | shorter sequences when kids pile up (`on` / `off` to force) |
 | `[station] second_helpings` | 0 | 1 = "already played tonight" also points at the silver bowl |
 | `[odds] trick_pct / rare_pct / legend_pct` | 15 / 18 / 4 | see `docs/ODDS.md` |
 | `[stock] rare / legend` | 0 / 0 | 0 = unlimited; otherwise paced across `expected_kids` |
-| `[story] moon_goal` | 50 | Hoard Lantern sparks (crystal visits + no-crystal blessings) to light the lantern and trigger the finale (the key keeps its old name) |
+| `[story] moon_goal` | 50 | Hoard Beacon sparks (crystal visits + no-crystal blessings) to light the beacon and trigger the finale (the key keeps its old name) |
 
 ## Plan to Halloween (Sat Oct 31)
 
@@ -222,10 +223,10 @@ saved to `config.ini`.
 |---|---|
 | Oct 22–23 | Flash both boards, test a blank tag on the *Crystals* page; build the TF card with placeholders. **Print one test crystal** with a tag (step 5) and check its read range. Start the v7 plinth body print. ChatGPT: Butterscotch base + 4 edits. |
 | Oct 24–25 | ChatGPT: Snuffwick + props + backgrounds (the 16 MVP images). Voice: record the 42 MVP lines (`tools/make_voice_elevenlabs.py --priority MVP`, step 6). |
-| Oct 26 | Build the real TF card; tune clip positions/anchors and the lantern's glow spot (`meter.pos`) from `assets/previews/`. Sounds + music. |
+| Oct 26 | Build the real TF card; tune clip positions/anchors and the beacon's glow spot (`meter.pos`) from `assets/previews/`. Sounds + music. |
 | Oct 27–28 | Assemble the v7 plinth (board on its corner frame, PN532 in its pocket, 2 mm lid on); re-check a crystal's range through the lid; print the crystal batch (test + colour each on the *Crystals* page); bowl signs. |
 | Oct 29–30 | Full dress rehearsal at the door at dusk (brightness, volume, glare, rush mode); print the parent sign. |
-| Oct 31 | Start by 5:30 pm. `event_year = 2026`. **Before the first kid: host menu → *Tonight* → *Reset tonight* (tap twice)** — clears the rehearsal's lantern sparks, finale and stock (the boot screen shows "Tonight so far: ..." when there is something to clear). Keep spare crystals handy; a doubtful one gets a test read on the *Crystals* page. |
+| Oct 31 | Start by 5:30 pm. `event_year = 2026`. **Before the first kid: host menu → *Tonight* → *Reset tonight* (tap twice)** — clears the rehearsal's beacon sparks, finale and stock (the boot screen shows "Tonight so far: ..." when there is something to clear). Keep spare crystals handy; a doubtful one gets a test read on the *Crystals* page. |
 
 ## Repo notes
 

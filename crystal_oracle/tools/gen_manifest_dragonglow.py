@@ -3,7 +3,8 @@
 Self-contained: every ChatGPT prompt, still, clip recipe ("layers"), voice line, sound and on-screen word
 is in this file. Written 2026-10-22 when the owner switched the station from Moonshards (archived in
 docs/stories/) to Dragonglow. Revised 2026-10-23: the kids are "travelers" from other worlds (Halloween opens the
-doors between worlds), and the crystals are pieces of the crystal egg Butterscotch hatched from (no Moonstone).
+doors between worlds), the crystals are pieces of the crystal egg Butterscotch hatched from (no Moonstone),
+and the Hoard Lantern is now the Hoard Beacon (it still looks like an old iron lantern).
 
     python -I tools/gen_manifest_dragonglow.py          # writes assets/manifest.json
     python -I tools/build_assets.py --check             # then validate it
@@ -17,7 +18,7 @@ so either make lasting changes here and re-run, or stop using this script once y
 Screen layout used by every clip (800x480, see STORY.md "Cue sheet"):
   * bottom band y >= 360: the device draws captions, the GLOW number (right), the 8-gem meter (centre)
     and the bowl icon (left) - nothing important of ours goes below y = 360;
-  * the Hoard Lantern is PAINTED into bg_cave at about (150, 110) and the device draws its growing glow
+  * the Hoard Beacon is PAINTED into bg_cave at about (150, 110) and the device draws its growing glow
     there (words meter.pos) - no sprite goes into the upper-left corner of a cave scene;
   * Butterscotch floats centred at x = 420, height 300, top y = 40; his chest/belly anchor [0.5, 0.62]
     is where the voice-pulsed glow sits and where the absorb beam lands;
@@ -77,13 +78,13 @@ STILLS = [
     ("bg_cave", "background", False, "MVP",
      "The Hoard Cave at night (the main scene): a cozy rounded cave in deep indigo and plum framed by a big round "
      "smooth stone arch; soft piles of glossy candy (wrapped sweets, round lollipops, gumdrops in muted jewel colours, "
-     "no gold coins) low on the far left and far right; the HOARD LANTERN hangs UNLIT in the upper-left (globe centre "
+     "no gold coins) low on the far left and far right; the HOARD BEACON hangs UNLIT in the upper-left (globe centre "
      "about x 150, y 110 of the 800x480 frame) with empty dark wall around it - the device paints its glow there; the "
      "centre is open for Butterscotch; bottom quarter plain near-black and empty.",
      P("The Hoard Cave at night: a cozy, rounded cave interior in deep indigo and plum, framed by a big round smooth "
        "stone arch. Soft piles of glossy candy - big wrapped sweets, round lollipops and gumdrops in muted jewel colours "
        "(NO gold coins, nothing gold) - rest low on the far left and the far right sides of the cave floor.",
-       "THE HOARD LANTERN: an old, round, dark-iron lantern with a big ROUND, CLEAR, EMPTY glass globe hangs from a short "
+       "THE HOARD BEACON: an old, round, dark-iron lantern with a big ROUND, CLEAR, EMPTY glass globe hangs from a short "
        "chain in the UPPER-LEFT of the picture - its globe centre about one-fifth of the way in from the left edge and a "
        "little less than one-quarter of the way down from the top; the lantern is about one-sixth of the image height. "
        "It is clearly visible but UNLIT and dark (no flame, no glow), with plain, empty, dark cave wall all around it "
@@ -201,10 +202,10 @@ STILLS = [
      {}),
     # ---- NICE ----
     ("bg_cave_lit", "background", False, "NICE",
-     "Edit of bg_cave: the Hoard Lantern now BLAZES warm amber (#FFB347) with a soft warm pool of light on the nearby "
+     "Edit of bg_cave: the Hoard Beacon now BLAZES warm amber (#FFB347) with a soft warm pool of light on the nearby "
      "cave walls; the candy catches a few warm highlights; layout, lantern position and the empty centre identical. "
      "(After the finale: attract_full, moonfull, chapter.)",
-     P("Use the attached bg_cave image as Image 1. Edit Image 1: make ONLY the Hoard Lantern blaze with warm amber light "
+     P("Use the attached bg_cave image as Image 1. Edit Image 1: make ONLY the Hoard Beacon blaze with warm amber light "
        "(#FFB347) - a bright glowing globe and a soft warm pool of light on the nearby cave walls; the candy piles catch a "
        "few warm highlights.",
        "Keep the cave, the arch, the lantern's exact position and size, the empty centre and the layout EXACTLY identical. "
@@ -294,11 +295,11 @@ STILLS = [
      {"refs": ["butterscotch_base"]}),
     ("print_keyart", "print", False, "NICE",
      "Portrait 2:3 key art: Butterscotch floating happily with his paws around one glowing crystal, Snuffwick peeking "
-     "out from behind his tail with a cheeky grin, the Hoard Lantern glowing warm amber above; generous plain dark space "
+     "out from behind his tail with a cheeky grin, the Hoard Beacon glowing warm amber above; generous plain dark space "
      "at the top and bottom for sign text. Parent sign + title card.",
      P("Portrait 2:3 poster art: Butterscotch (use the attached butterscotch_base image for his exact design) floating "
        "happily with his paws around one glowing crystal; Snuffwick (use the attached snuffwick_base image) peeking out "
-       "from behind Butterscotch's tail with a cheeky grin; the Hoard Lantern glowing warm amber above them.",
+       "from behind Butterscotch's tail with a cheeky grin; the Hoard Beacon glowing warm amber above them.",
        "Generous plain dark space at the top and the bottom for sign text. Dark midnight-indigo cave background.", STYLE),
      {"refs": ["butterscotch_base", "snuffwick_base"]}),
 ]
@@ -376,7 +377,7 @@ CLIPS = [
                 sn("snuffwick_base", x=[690, 900], y=225, t=[6.5, 7.6])],
      "anchor_layer": 0,
      "notes": "Butterscotch dozes (balloon bob) and peeks one eye open; Snuffwick tiptoes in from the right, giggles "
-              "(sfx 'munch' at 5.4 s) and scampers off. The device draws the Hoard Lantern's glow (upper-left), the "
+              "(sfx 'munch' at 5.4 s) and scampers off. The device draws the Hoard Beacon's glow (upper-left), the "
               "spark counter and the place-crystal hints."},
     {"id": "attract_full", "priority": "NICE", "recipe": "layers", "seconds": 12, "loop": True,
      "bg": {"image": "bg_cave_lit", "fallback": "bg_cave"},
@@ -548,7 +549,7 @@ CLIPS = [
                 sn("snuffwick_shy", x=640, y=225, t=[2.8, 5.4], hop=False, fallback="snuffwick_base"),
                 sn("snuffwick_sock", x=[640, 900], y=[225, 215], t=[5.3, 6.6], optional=True)],
      "anchor_layer": 1,
-     "notes": "The Hoard Lantern blazes (the lit cave fades in); Snuffwick, dazzled, sneezes, then smiles shyly - "
+     "notes": "The Hoard Beacon blazes (the lit cave fades in); Snuffwick, dazzled, sneezes, then smiles shyly - "
               "invited to the feast as Official Prankster - and scampers off hugging his glowing sock (2027 stinger)."},
     # ---------------------------------------------------------------- chapter 1 (idle rotation)
     {"id": "chapter_a", "priority": "NICE", "recipe": "layers", "seconds": 4.5, "loop": False,
@@ -604,9 +605,9 @@ VOICE = [
     ("attract_call", 2, B, "No crystal? Press the big button!", "OR PRESS",
      "friendly and clear, a touch slower on 'big button' (only plays when a plinth button is fitted, config.ini "
      "button = yes; without one attract_tap_1 plays instead)", "NICE"),
-    ("attract_call", 3, B, "Zzz... a goblin snuffed my lantern... zzz.", "HELP BUTTERSCOTCH!",
+    ("attract_call", 3, B, "Zzz... a goblin snuffed my beacon... zzz.", "HELP BUTTERSCOTCH!",
      "half-asleep mumble with a soft snore; playful, never sad", "MVP"),
-    ("attract_call", 4, B, "Every crystal adds a spark to my lantern!", "LIGHT THE LANTERN",
+    ("attract_call", 4, B, "Every crystal adds a spark to my beacon!", "LIGHT THE BEACON",
      "warm storyteller, hopeful lift at the end", "MVP"),
     ("attract_call", 5, B, "Shh... I hear travelers coming...", "SHHH...",
      "excited secret whisper, smiling", "MVP"),
@@ -719,19 +720,19 @@ VOICE = [
      "close secret whisper, barely holding a chuckle", "NICE"),
     ("keeper", 2, B, "Shh... my wings are tiny. I just float!", "SHH... SECRET",
      "embarrassed confiding whisper, then a tiny giggle", "NICE"),
-    ("moonfull_a", 1, B, "My lantern is lit! You did it, travelers!", "LANTERN LIT!",
+    ("moonfull_a", 1, B, "My beacon is lit! You did it, travelers!", "BEACON LIT!",
      "overjoyed triumph, the biggest moment of the night - warm, never booming", "NICE"),
     ("moonfull_b", 1, B, "Silly Snuffwick... come to the feast! You're my Official Prankster!", "OFFICIAL PRANKSTER",
      "fond forgiving chuckle, then a proud announcement", "NICE"),
     ("chapter_a", 1, B, "Every Halloween, the doors between worlds open... and I wake up!", "BUTTERSCOTCH'S HOARD",
      "bedtime-story opening, unhurried, a little yawn at the start, waking up bright on 'and I wake up!'", "NICE"),
-    ("chapter_b", 1, B, "But sneaky Snuffwick snuffed my Hoard Lantern! Pfft!", "UH-OH, SNUFFWICK!",
-     "mock-outraged, giggling; a soft 'Pfft!'", "NICE"),
+    ("chapter_b", 1, B, "But sneaky Snuffwick snuffed my beacon! Pfft! How will travelers find me?", "UH-OH, SNUFFWICK!",
+     "mock-outraged, giggling; a soft 'Pfft!', then a worried-silly little gasp on 'How will travelers find me?'", "NICE"),
     ("chapter_c", 1, B, "Long ago, I hatched from a crystal egg. Its pieces are yours!", "THE CRYSTAL EGG",
      "hushed once-upon-a-time wonder, a proud little chuckle on 'hatched', leaning in on 'Its pieces are yours!'", "NICE"),
-    ("chapter_d", 1, B, "Each crystal remembers me... and glow wakes dragons!", "YOUR GLOW",
+    ("chapter_d", 1, B, "Each crystal glows when it's near me... and glow wakes dragons!", "YOUR GLOW",
      "tender, then delighted", "NICE"),
-    ("chapter_e", 1, B, "Every crystal adds a spark. Light my lantern, travelers!", "LIGHT THE LANTERN",
+    ("chapter_e", 1, B, "Every crystal adds a spark. Light my beacon, travelers!", "LIGHT THE BEACON",
      "clear instruction, rising excitement", "NICE"),
     ("chapter_f", 1, B, "Psst... what's Snuffwick hiding in that lumpy sock?", "WHAT'S IN THE SOCK?",
      "curious, teasing whisper (the 2027 cliffhanger)", "NICE"),
@@ -787,7 +788,7 @@ SFX = [
      "desc": "Milestone: a party-horn toot + a cheer + sparkles, kid-friendly.",
      "_search": "party horn kids, celebration cheer"},
     {"id": "moonfull", "priority": "NICE", "seconds": 3.0, "synth": "fanfare",
-     "desc": "The Hoard Lantern lights (finale): a warm 'whoomph' of a big lantern catching, swelling into a happy "
+     "desc": "The Hoard Beacon lights (finale): a warm 'whoomph' of a big lantern catching, swelling into a happy "
              "magical chord. Never a roar.", "_search": "lantern whoosh ignite soft, magical swell, triumphant fairy chord"},
 ]
 MUSIC = [
@@ -796,7 +797,7 @@ MUSIC = [
              "bassoon, slow, warm, never scary. Quiet enough to talk over.",
      "_search": "music box lullaby halloween, celesta spooky cute, cozy halloween loop"},
     {"id": "idle_full", "priority": "NICE", "seconds": 60, "synth": "drone",
-     "desc": "The same lullaby in a brighter, happier feast-time arrangement for after the Hoard Lantern is lit.",
+     "desc": "The same lullaby in a brighter, happier feast-time arrangement for after the Hoard Beacon is lit.",
      "_search": "happy music box halloween, cozy feast celesta, playful pizzicato loop"},
 ]
 
@@ -836,15 +837,15 @@ WORDS = {
     "caption.chapter_b": "UH-OH, SNUFFWICK!",
     "caption.chapter_c": "THE CRYSTAL EGG",
     "caption.chapter_d": "YOUR GLOW",
-    "caption.chapter_e": "LIGHT THE LANTERN",
+    "caption.chapter_e": "LIGHT THE BEACON",
     "caption.chapter_f": "WHAT'S IN THE SOCK?",
-    "caption.moonfull": "LANTERN LIT!",
+    "caption.moonfull": "BEACON LIT!",
     "caption.moonfull_b": "OFFICIAL PRANKSTER",
     "caption.recall": "LAST YEAR",
     "ui.place": "Crystal on the Wakestone",
     "ui.hold": "Hold still...",
     "ui.power": "GLOW",
-    "ui.counter": "sparks for the lantern",
+    "ui.counter": "sparks for the beacon",
     "ui.press": "Press the button!",
     "ui.or_press": "OR PRESS",
     "ui.tonight": "TONIGHT",
@@ -852,16 +853,16 @@ WORDS = {
     "ui.rush": "RUSH",
     "ui.touch": "TOUCH FOR A BLESSING",
     "ui.no_card": "NO TF CARD",
-    # The communal meter: the Hoard Lantern painted into bg_cave; the device draws its glow (x,y,glow radius in
+    # The communal meter: the Hoard Beacon painted into bg_cave; the device draws its glow (x,y,glow radius in
     # screen px). Fill = tonight's sparks / config.ini [story] moon_goal (the key keeps its old name).
     "meter.style": "lantern",
     "meter.pos": "150,110,70",
-    "meter.name": "Lantern",          # host menu "Fill the Lantern" / "Reset Lantern", boot screen "Lantern 12/50"
+    "meter.name": "Beacon",           # host menu "Fill the Beacon" / "Reset Beacon", boot screen "Beacon 12/50"
     "meter.color": "#FFB347",
     # The visuals that show the lantern glow: every clip on the cave background (bg_cave / bg_cave_lit) except
     # chapter_b (Snuffwick climbs up to the lantern and snuffs it: the story beat is the lantern going OUT).
     # chapter_e is listed: it starts on bg_cave with the painted (unlit) lantern while bg_cave_lit fades in, and
-    # its line is "Every crystal adds a spark. Light my lantern, travelers!" - tonight's glow belongs there.
+    # its line is "Every crystal adds a spark. Light my beacon, travelers!" - tonight's glow belongs there.
     # An id also covers its variants (greet -> greet_r5, reveal_t0 -> reveal_t0_3, attract -> attract_full);
     # recall shows the greet scene. Not listed: awaken, reveal_t2 (bg_wakestone), reveal_t3 / milestone
     # (bg_starburst), circle (bg_wakestone); moonfull flares the lantern itself.
@@ -938,8 +939,8 @@ ASSET_GUIDE = {
     "why_stills": "Butterscotch floating like a balloon and changing expressions, Snuffwick tiptoeing in with his "
                   "rubber chicken, the hoard coin spinning, the Dragon Gem rising out of the Wakestone, the Golden "
                   "Star climbing",
-    "live_magic": "glows in each kid's crystal colour, sparkles, the Hoard Lantern's growing glow, the numbers and words",
-    "anchor_note": "The Hoard Lantern's glow is placed by the words key `meter.pos` (\"x,y,radius\" in screen pixels, "
+    "live_magic": "glows in each kid's crystal colour, sparkles, the Hoard Beacon's growing glow, the numbers and words",
+    "anchor_note": "The Hoard Beacon's glow is placed by the words key `meter.pos` (\"x,y,radius\" in screen pixels, "
                    "default 150,110,70): once `bg_cave` exists, open `assets/previews/` and, if the painted lantern "
                    "isn't there, change `meter.pos` (or `/oracle/captions.ini` [meter] pos on the card).",
     "guardrails": "Butterscotch is CARAMEL / toffee brown, never gold: gold is only for the Golden Star (and its "

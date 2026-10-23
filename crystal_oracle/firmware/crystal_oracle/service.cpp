@@ -17,6 +17,8 @@
  *    Sound & light  volume / screen / ring brightness, test tone / voice / ring
  *    Mode           rush auto-on-off, second helpings, counter, blank tags,
  *                   rare / legend stock, expected kids
+ *    Odds           legendary / rare / trick chance, loyalty bonus, pity (config.ini
+ *                   [odds]; live for the next visit) + what a first visit gets
  *    Reader         backend, online, last packet, packets, crystal present;
  *                   simulate a new (bench-coloured) / returning / played /
  *                   foreign / unreadable crystal and the plinth button (leaves the menu so the show
@@ -76,7 +78,7 @@ constexpr uint8_t  SIM_UID0     = 0xF5;      // simulated crystal marker (show.c
 
 // ---- layout (800 x 480)
 constexpr int16_t HEADER_H = 60;
-constexpr int16_t TAB_X = 8, TAB_W = 196, TAB_H = 52, TAB_Y0 = 66, TAB_STEP = 58;   // 7 tabs: 66 .. 466
+constexpr int16_t TAB_X = 8, TAB_W = 196, TAB_H = 46, TAB_Y0 = 66, TAB_STEP = 51;   // 8 tabs: 66 .. 469
 constexpr int16_t X0 = 222;                  // content area x
 constexpr int16_t XR = 792;                  // content area right edge
 constexpr int16_t CW = XR - X0;
@@ -102,8 +104,9 @@ const uint8_t *const FONT_H = u8g2_font_fub20_tr;   // header
 const uint8_t *const FONT_B = u8g2_font_fub14_tr;   // buttons + rows
 const uint8_t *const FONT_S = u8g2_font_fub11_tr;   // small print
 
-enum Page : uint8_t { P_TONIGHT = 0, P_SOUND, P_MODE, P_READER, P_CRYSTALS, P_MEDIA, P_SYSTEM, P_COUNT };
-const char *const PAGE_NAME[P_COUNT] = {"Tonight", "Sound & light", "Mode", "Reader", "Crystals", "Media", "System"};
+enum Page : uint8_t { P_TONIGHT = 0, P_SOUND, P_MODE, P_ODDS, P_READER, P_CRYSTALS, P_MEDIA, P_SYSTEM, P_COUNT };
+const char *const PAGE_NAME[P_COUNT] = {"Tonight", "Sound & light", "Mode", "Odds", "Reader", "Crystals",
+                                        "Media", "System"};
 
 enum Style : uint8_t { S_NORMAL, S_ACCENT, S_DANGER, S_ON, S_OFF };
 
@@ -687,6 +690,46 @@ void pageMode(uint32_t now) {
   if (d) bump(cfg.expectedKids, d, 25, 25, 2000);
 }
 
+// The [odds] that decide a visit (oracle.cpp). "Normal" = the silver-circle bowl = trick + treat.
+void pageOdds(uint32_t now) {
+  (void)now;
+  char v[24];
+  snprintf(v, sizeof v, "%u %%", cfg.legendPct);
+  int d = stepper(70, "Legendary", v);
+  if (d) bump(cfg.legendPct, d, 1, 0, 50);
+  snprintf(v, sizeof v, "%u %%", cfg.rarePct);
+  d = stepper(124, "Rare", v);
+  if (d) bump(cfg.rarePct, d, 1, 0, 90);
+  snprintf(v, sizeof v, "%u %%", cfg.trickPct);
+  d = stepper(178, "Goblin trick", v);
+  if (d) bump(cfg.trickPct, d, 1, 0, 100);
+  snprintf(v, sizeof v, "+%u %%", cfg.loyaltyRarePct);
+  d = stepper(232, "Rare per return", v);
+  if (d) bump(cfg.loyaltyRarePct, d, 1, 0, 20);
+  if (cfg.pityAfter) snprintf(v, sizeof v, "%u misses", cfg.pityAfter);
+  else snprintf(v, sizeof v, "off");
+  d = stepper(286, "Pity rare after", v);
+  if (d) bump(cfg.pityAfter, d, 1, 0, 10);
+
+  // What a crystal's first visit gets (no loyalty, no pity, no charge, unlimited stock)
+  const int L = cfg.legendPct, R = cfg.rarePct;
+  const int T = cfg.firstNoTrick ? 0 : cfg.trickPct;
+  const int N = 100 - L - R;
+  textf(X0, 362, FONT_B, N >= 0 ? C_WARN : C_BAD, "1st visit:  Legendary %d%%   Rare %d%%   Normal %d%%", L, R,
+        N > 0 ? N : 0);
+  if (N >= 0)
+    textf(X0, 388, FONT_S, C_DIM, "Normal = %d%% hoard coin + %d%% goblin trick (%s)", N - (T < N ? T : N),
+          T < N ? T : N, cfg.firstNoTrick ? "no tricks on a first visit" : "tricks on first visits too");
+  else
+    text(X0, 388, "Legendary + rare are over 100 % - lower one of them.", FONT_S, C_BAD);
+  const int lo = (int)cfg.loyaltyRarePct * 3 < cfg.loyaltyCapPct ? cfg.loyaltyRarePct * 3 : cfg.loyaltyCapPct;
+  textf(X0, 410, FONT_S, C_DIM, "Returning: rare +%u%% per earlier visit (max +%d%%)%s", cfg.loyaltyRarePct,
+        lo, cfg.pityAfter ? "; pity = a sure rare" : "");
+  textf(X0, 432, FONT_S, (cfg.rareStock || cfg.legendStock) ? C_WARN : C_DIM, "%s",
+        (cfg.rareStock || cfg.legendStock) ? "Stock limits are on (Mode page): they pace these chances."
+                                           : "Changes count from the next visit; saved on EXIT.");
+}
+
 void pageReader(uint32_t now) {
   int16_t y = 100;
   constexpr int16_t L = 34;
@@ -1223,6 +1266,7 @@ void drawFrame(uint32_t now) {
     case P_TONIGHT: pageTonight(now); break;
     case P_SOUND:   pageSound(now); break;
     case P_MODE:    pageMode(now); break;
+    case P_ODDS:    pageOdds(now); break;
     case P_READER:  pageReader(now); break;
     case P_CRYSTALS: pageCrystals(now); break;
     case P_MEDIA:   pageMedia(now); break;

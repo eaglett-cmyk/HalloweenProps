@@ -12,7 +12,7 @@ Everything the screen needs, in priority order. **MVP** = needed for Halloween n
 | Music bed | 1 | 1 | Pixabay Music / ElevenLabs Music |
 | Animated clips | built automatically from the images (28 recipes, 31 clips with the colour variants) | | `tools/build_assets.py` |
 
-> **Why stills, not videos?** As of October 2026 ChatGPT no longer makes video or audio files (OpenAI shut Sora down in 2026). ChatGPT Images still makes excellent stills, transparent cut-outs and consistent edits of one character. The asset builder turns those stills into the screen's animations: Butterscotch floating like a balloon and changing expressions, Snuffwick tiptoeing in with his rubber chicken, the hoard coin spinning, the Dragon Gem rising out of the Wakestone, the Golden Star climbing. The screen adds the live magic on top (glows in each kid's crystal colour, sparkles, the Hoard Lantern's growing glow, the numbers and words). If you do get real video clips from another tool, drop the MP4s in `assets/source/video/` — the builder can use them too.
+> **Why stills, not videos?** As of October 2026 ChatGPT no longer makes video or audio files (OpenAI shut Sora down in 2026). ChatGPT Images still makes excellent stills, transparent cut-outs and consistent edits of one character. The asset builder turns those stills into the screen's animations: Butterscotch floating like a balloon and changing expressions, Snuffwick tiptoeing in with his rubber chicken, the hoard coin spinning, the Dragon Gem rising out of the Wakestone, the Golden Star climbing. The screen adds the live magic on top (glows in each kid's crystal colour, sparkles, the Hoard Beacon's growing glow, the numbers and words). If you do get real video clips from another tool, drop the MP4s in `assets/source/video/` — the builder can use them too.
 
 ## 1. How to make the images in ChatGPT
 
@@ -21,7 +21,7 @@ Everything the screen needs, in priority order. **MVP** = needed for Halloween n
 3. **Paste the prompt exactly** (each image's prompt is below). Ask for a **transparent background** on characters and props. If ChatGPT gives you a solid background instead, ask it once more for transparency; if it still can't, a flat pure green (#00FF00) background is fine — the builder removes it.
 4. **Backgrounds are wide (5:3).** Pick the widest landscape shape (1536×1024 is fine — the builder crops it). Keep the bottom quarter dark and empty — the screen writes words and numbers there.
 5. **Download each image and name it exactly by its id** — `butterscotch_base.png`, `bg_cave.png`, … — into `crystal_oracle/assets/source/images/`. PNG, JPG and WebP all work.
-6. **Run the builder** (`python -I tools/build_assets.py --placeholders` from `crystal_oracle/`), look at `assets/previews/` (or the screen), and tweak. If Butterscotch's glow lands in the wrong spot, adjust that still's `"anchor": [x, y]` (fractions of the image) in the manifest. The Hoard Lantern's glow is placed by the words key `meter.pos` ("x,y,radius" in screen pixels, default 150,110,70): once `bg_cave` exists, open `assets/previews/` and, if the painted lantern isn't there, change `meter.pos` (or `/oracle/captions.ini` [meter] pos on the card).
+6. **Run the builder** (`python -I tools/build_assets.py --placeholders` from `crystal_oracle/`), look at `assets/previews/` (or the screen), and tweak. If Butterscotch's glow lands in the wrong spot, adjust that still's `"anchor": [x, y]` (fractions of the image) in the manifest. The Hoard Beacon's glow is placed by the words key `meter.pos` ("x,y,radius" in screen pixels, default 150,110,70): once `bg_cave` exists, open `assets/previews/` and, if the painted lantern isn't there, change `meter.pos` (or `/oracle/captions.ini` [meter] pos on the card).
 7. **Style guardrails** (already inside every prompt): soft storybook-3D look, big round shapes, dark indigo night, one bright subject, **no grain / mist / bokeh / tiny stars / text** (they turn blocky on this screen). Butterscotch is CARAMEL / toffee brown, never gold: gold is only for the Golden Star (and its starburst); silver is the hoard coin; red is only the Dragon Gem.
 
 **Suggested order:** Day 1 Butterscotch (base + sleep, peek, delight, surprise) · Day 2 Butterscotch giggle + puff, Snuffwick (base + rubber chicken) and the four props · Day 3 the three backgrounds (`bg_cave` first: check where the lantern landed) · Day 4+ the nice-to-haves.
@@ -46,7 +46,7 @@ Everything the screen needs, in priority order. **MVP** = needed for Halloween n
 | 14 | `prop_coin.png` | HOARD COIN: a big round shiny SILVER candy coin (#D9DEE8), like a chocolate coin in … | MVP | — | reveal_t0_1, reveal_t1 |
 | 15 | `prop_gem.png` | DRAGON GEM: a big ruby-red (#FF3B47) gem cut as a clear TRIANGLE (point up), chunky … | MVP | — | reveal_t2, reveal_t2_2 |
 | 16 | `prop_star.png` | GOLDEN STAR: a chunky glossy gold (#FFC83D) five-point star with rounded points and a … | MVP | — | reveal_t3 |
-| 17 | `bg_cave_lit.png` | the Hoard Lantern now BLAZES warm amber (#FFB347) with a soft warm pool of light on the … | NICE | bg_cave | attract_full, moonfull, chapter_a, chapter_b, chapter_e |
+| 17 | `bg_cave_lit.png` | the Hoard Beacon now BLAZES warm amber (#FFB347) with a soft warm pool of light on the … | NICE | bg_cave | attract_full, moonfull, chapter_a, chapter_b, chapter_e |
 | 18 | `butterscotch_yawn.png` | a big sleepy yawn - round open mouth (no teeth), eyes squeezed shut; face-only. (Sleepy … | NICE | butterscotch_base | sleepy |
 | 19 | `butterscotch_wink.png` | his right paw raised to his lips in a 'shh', one eye winking, a secret smile; the other … | NICE | butterscotch_base | replay, keeper |
 | 20 | `butterscotch_wave.png` | his right paw raised high, waving goodbye, a big warm smile; the other paw unchanged. … | NICE | butterscotch_base | goodbye |
@@ -65,7 +65,7 @@ Everything the screen needs, in priority order. **MVP** = needed for Halloween n
 ### `bg_cave` — MVP · background
 
 ```text
-The Hoard Cave at night: a cozy, rounded cave interior in deep indigo and plum, framed by a big round smooth stone arch. Soft piles of glossy candy - big wrapped sweets, round lollipops and gumdrops in muted jewel colours (NO gold coins, nothing gold) - rest low on the far left and the far right sides of the cave floor. THE HOARD LANTERN: an old, round, dark-iron lantern with a big ROUND, CLEAR, EMPTY glass globe hangs from a short chain in the UPPER-LEFT of the picture - its globe centre about one-fifth of the way in from the left edge and a little less than one-quarter of the way down from the top; the lantern is about one-sixth of the image height. It is clearly visible but UNLIT and dark (no flame, no glow), with plain, empty, dark cave wall all around it (a glow will be painted there later). Leave the CENTRE of the picture open and empty (a floating dragon goes there) and keep the upper-left area around the lantern uncluttered. Format: wide landscape, 5:3 (1600x960 if you can choose; otherwise the widest landscape option). Dark midnight-indigo and plum colours (#140F2E, #2B1650). Keep the BOTTOM QUARTER of the image plain near-black and empty (the screen draws words there). Big simple shapes, clean smooth gradients. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; glossy candy-like materials; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and cozy, never scary.
+The Hoard Cave at night: a cozy, rounded cave interior in deep indigo and plum, framed by a big round smooth stone arch. Soft piles of glossy candy - big wrapped sweets, round lollipops and gumdrops in muted jewel colours (NO gold coins, nothing gold) - rest low on the far left and the far right sides of the cave floor. THE HOARD BEACON: an old, round, dark-iron lantern with a big ROUND, CLEAR, EMPTY glass globe hangs from a short chain in the UPPER-LEFT of the picture - its globe centre about one-fifth of the way in from the left edge and a little less than one-quarter of the way down from the top; the lantern is about one-sixth of the image height. It is clearly visible but UNLIT and dark (no flame, no glow), with plain, empty, dark cave wall all around it (a glow will be painted there later). Leave the CENTRE of the picture open and empty (a floating dragon goes there) and keep the upper-left area around the lantern uncluttered. Format: wide landscape, 5:3 (1600x960 if you can choose; otherwise the widest landscape option). Dark midnight-indigo and plum colours (#140F2E, #2B1650). Keep the BOTTOM QUARTER of the image plain near-black and empty (the screen draws words there). Big simple shapes, clean smooth gradients. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; glossy candy-like materials; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and cozy, never scary.
 ```
 
 ### `bg_wakestone` — MVP · background
@@ -179,7 +179,7 @@ A chunky glossy GOLD (#FFC83D) five-point star with rounded points and a soft wa
 *Attach / edit: `bg_cave`.*
 
 ```text
-Use the attached bg_cave image as Image 1. Edit Image 1: make ONLY the Hoard Lantern blaze with warm amber light (#FFB347) - a bright glowing globe and a soft warm pool of light on the nearby cave walls; the candy piles catch a few warm highlights. Keep the cave, the arch, the lantern's exact position and size, the empty centre and the layout EXACTLY identical. Same style; the bottom quarter stays plain near-black.
+Use the attached bg_cave image as Image 1. Edit Image 1: make ONLY the Hoard Beacon blaze with warm amber light (#FFB347) - a bright glowing globe and a soft warm pool of light on the nearby cave walls; the candy piles catch a few warm highlights. Keep the cave, the arch, the lantern's exact position and size, the empty centre and the layout EXACTLY identical. Same style; the bottom quarter stays plain near-black.
 ```
 
 ### `butterscotch_yawn` — NICE · transparent
@@ -269,7 +269,7 @@ Storybook wide shot, long ago, inside a cozy rounded cave at night in deep indig
 *Attach: butterscotch_base, snuffwick_base.*
 
 ```text
-Portrait 2:3 poster art: Butterscotch (use the attached butterscotch_base image for his exact design) floating happily with his paws around one glowing crystal; Snuffwick (use the attached snuffwick_base image) peeking out from behind Butterscotch's tail with a cheeky grin; the Hoard Lantern glowing warm amber above them. Generous plain dark space at the top and the bottom for sign text. Dark midnight-indigo cave background. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; glossy candy-like materials; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and cozy, never scary.
+Portrait 2:3 poster art: Butterscotch (use the attached butterscotch_base image for his exact design) floating happily with his paws around one glowing crystal; Snuffwick (use the attached snuffwick_base image) peeking out from behind Butterscotch's tail with a cheeky grin; the Hoard Beacon glowing warm amber above them. Generous plain dark space at the top and the bottom for sign text. Dark midnight-indigo cave background. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; glossy candy-like materials; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and cozy, never scary.
 ```
 
 ### Which pictures each animated clip needs
@@ -278,7 +278,7 @@ A clip is built as soon as its **needed** pictures exist; *extras* are used when
 
 | Clip | Priority | Needs | Extras / stand-ins | What happens |
 |---|---|---|---|---|
-| `attract` | MVP | `bg_cave`, `butterscotch_sleep`, `butterscotch_peek`, `snuffwick_base` | — | Butterscotch dozes (balloon bob) and peeks one eye open; Snuffwick tiptoes in from the right, giggles (sfx 'munch' at 5.4 s) and scampers off. The device draws the Hoard Lantern's glow (upper-left), the spark counter and the place-crystal hints. |
+| `attract` | MVP | `bg_cave`, `butterscotch_sleep`, `butterscotch_peek`, `snuffwick_base` | — | Butterscotch dozes (balloon bob) and peeks one eye open; Snuffwick tiptoes in from the right, giggles (sfx 'munch' at 5.4 s) and scampers off. The device draws the Hoard Beacon's glow (upper-left), the spark counter and the place-crystal hints. |
 | `attract_full` | NICE | `bg_cave_lit`, `butterscotch_sleep`, `butterscotch_delight` | `bg_cave`, `butterscotch_peek`, `snuffwick_sock`, `snuffwick_base` | After the lantern is lit: the cave glows; Butterscotch dozes happily; Snuffwick, now the Official Prankster, scampers by hugging his glowing sock (the 2027 tease). |
 | `absorb` | MVP | `bg_cave`, `butterscotch_peek`, `butterscotch_surprise` | — | One eye pops open, then surprise. The device draws the beam of crystal-coloured light into his chest (the anchor) and the colour name. |
 | `awaken` (+ `awaken_1` … `awaken_3`, one per crystal colour) | MVP | `bg_wakestone`, `prop_crystal`, `butterscotch_surprise`, `butterscotch_delight` | — | One colour variant per crystal colour, awaken_1..awaken_3 (the crystal tinted with color.N_hex: 1 Dragonberry, 2 Starfrost, 3 Rainbow Fizz), rises from the Wakestone; Butterscotch floats down (surprise), then beams (his chest glow starts at 3.0 s). The device adds sparkles + the meter. |
@@ -299,7 +299,7 @@ A clip is built as soon as its **needed** pictures exist; *extras* are used when
 | `milestone` | MVP | `bg_starburst`, `butterscotch_delight` | — | Every 100th crystal: the device adds confetti in the crystal colours + the big station counter in the centre (so Butterscotch sits to the right). |
 | `circle` | MVP | `bg_wakestone`, `butterscotch_giggle` | `snuffwick_sneeze` | 3+ crystals in one group: the device orbits small crystals in the group's colours around Butterscotch; Snuffwick peeks in and sneezes at all that glow. |
 | `keeper` | NICE | `bg_cave`, `butterscotch_wink` | `butterscotch_peek` | Keeper of the Hoard secret (about 1 visit in 3): a slow push-in on the wink - the only close-up. |
-| `moonfull` | NICE | `bg_cave`, `butterscotch_delight`, `butterscotch_giggle`, `snuffwick_sneeze`, `snuffwick_shy` | `bg_cave_lit`, `snuffwick_base`, `snuffwick_sock` | The Hoard Lantern blazes (the lit cave fades in); Snuffwick, dazzled, sneezes, then smiles shyly - invited to the feast as Official Prankster - and scampers off hugging his glowing sock (2027 stinger). |
+| `moonfull` | NICE | `bg_cave`, `butterscotch_delight`, `butterscotch_giggle`, `snuffwick_sneeze`, `snuffwick_shy` | `bg_cave_lit`, `snuffwick_base`, `snuffwick_sock` | The Hoard Beacon blazes (the lit cave fades in); Snuffwick, dazzled, sneezes, then smiles shyly - invited to the feast as Official Prankster - and scampers off hugging his glowing sock (2027 stinger). |
 | `chapter_a` | NICE | `bg_cave_lit`, `butterscotch_sleep`, `butterscotch_delight` | `bg_cave` | Every Halloween he wakes under the lit lantern to share the hoard. |
 | `chapter_b` | NICE | `bg_cave_lit`, `bg_cave`, `butterscotch_sleep`, `snuffwick_base` | — | Snuffwick climbs the candy pile under the lantern, 'pfft!' - the lit cave goes dark (the device does not draw the lantern glow in this part). |
 | `chapter_c` | NICE | `chapter_egg` | — | Lore: Butterscotch hatched from a crystal egg long ago; its shell pieces scattered through the worlds and became the crystals. |
@@ -327,8 +327,8 @@ Save each line as its own file named by its **id** (any of WAV / MP3 / M4A) into
 | id | Line | Delivery | Priority |
 |---|---|---|---|
 | `attract_call_1` | Crystal on the Wakestone! Wake me up! | sleepy rumble that brightens on 'Wake me up'; cozy, not loud | MVP |
-| `attract_call_3` | Zzz... a goblin snuffed my lantern... zzz. | half-asleep mumble with a soft snore; playful, never sad | MVP |
-| `attract_call_4` | Every crystal adds a spark to my lantern! | warm storyteller, hopeful lift at the end | MVP |
+| `attract_call_3` | Zzz... a goblin snuffed my beacon... zzz. | half-asleep mumble with a soft snore; playful, never sad | MVP |
+| `attract_call_4` | Every crystal adds a spark to my beacon! | warm storyteller, hopeful lift at the end | MVP |
 | `attract_call_5` | Shh... I hear travelers coming... | excited secret whisper, smiling | MVP |
 | `attract_call_6` | Wake me, travelers! My candy hoard is waiting! | bright inviting call across the porch, a happy yawn after 'travelers' | MVP |
 | `attract_call_7` | Set your crystal here! I'm awake... almost! | yawny and cozy, a chuckle on 'almost' | MVP |
@@ -392,13 +392,13 @@ Save each line as its own file named by its **id** (any of WAV / MP3 / M4A) into
 | `circle_2` | *Snuffwick (record in Butterscotch's voice; the builder pitches it up):* Eek! Too much glow! Hee hee! | Snuffwick (pitched up by the builder): a dazzled squeak, then a giggle | NICE |
 | `keeper_1` | Psst, Keeper... my real name's Bartholomew. | close secret whisper, barely holding a chuckle | NICE |
 | `keeper_2` | Shh... my wings are tiny. I just float! | embarrassed confiding whisper, then a tiny giggle | NICE |
-| `moonfull_a_1` | My lantern is lit! You did it, travelers! | overjoyed triumph, the biggest moment of the night - warm, never booming | NICE |
+| `moonfull_a_1` | My beacon is lit! You did it, travelers! | overjoyed triumph, the biggest moment of the night - warm, never booming | NICE |
 | `moonfull_b_1` | Silly Snuffwick... come to the feast! You're my Official Prankster! | fond forgiving chuckle, then a proud announcement | NICE |
 | `chapter_a_1` | Every Halloween, the doors between worlds open... and I wake up! | bedtime-story opening, unhurried, a little yawn at the start, waking up bright on 'and I wake up!' | NICE |
-| `chapter_b_1` | But sneaky Snuffwick snuffed my Hoard Lantern! Pfft! | mock-outraged, giggling; a soft 'Pfft!' | NICE |
+| `chapter_b_1` | But sneaky Snuffwick snuffed my beacon! Pfft! How will travelers find me? | mock-outraged, giggling; a soft 'Pfft!', then a worried-silly little gasp on 'How will travelers find me?' | NICE |
 | `chapter_c_1` | Long ago, I hatched from a crystal egg. Its pieces are yours! | hushed once-upon-a-time wonder, a proud little chuckle on 'hatched', leaning in on 'Its pieces are yours!' | NICE |
-| `chapter_d_1` | Each crystal remembers me... and glow wakes dragons! | tender, then delighted | NICE |
-| `chapter_e_1` | Every crystal adds a spark. Light my lantern, travelers! | clear instruction, rising excitement | NICE |
+| `chapter_d_1` | Each crystal glows when it's near me... and glow wakes dragons! | tender, then delighted | NICE |
+| `chapter_e_1` | Every crystal adds a spark. Light my beacon, travelers! | clear instruction, rising excitement | NICE |
 | `chapter_f_1` | Psst... what's Snuffwick hiding in that lumpy sock? | curious, teasing whisper (the 2027 cliffhanger) | NICE |
 
 Variant numbers matter: the screen picks a random `_1`, `_2`, … of each group and stops counting at the first gap. `awaken_b_1` … `awaken_b_3` are special — the number is the crystal's colour id set on the bench (1 Dragonberry, 2 Starfrost, 3 Rainbow Fizz). A new colour later = a new `color.N` / `color.N_hex` in the manifest words plus its `awaken_b_N` line.
@@ -427,7 +427,7 @@ Free sources: **Pixabay Sound Effects** (free, no attribution needed), **Freesou
 | `whoosh` | Soft airy whoosh for transitions (goodbye float-up, the blessing bubble, rank-ups). | soft whoosh, air swish | MVP |
 | `munch` | Snuffwick in the attract loop (played ~5.4 s into each loop as he peeks in; the id stays 'munch' for the firmware): a tiny shy goblin giggle + a soft candle 'pfft'. | cute small giggle, candle blow out | NICE |
 | `milestone` | Milestone: a party-horn toot + a cheer + sparkles, kid-friendly. | party horn kids, celebration cheer | NICE |
-| `moonfull` | The Hoard Lantern lights (finale): a warm 'whoomph' of a big lantern catching, swelling into a happy magical chord. Never a roar. | lantern whoosh ignite soft, magical swell, triumphant fairy chord | NICE |
+| `moonfull` | The Hoard Beacon lights (finale): a warm 'whoomph' of a big lantern catching, swelling into a happy magical chord. Never a roar. | lantern whoosh ignite soft, magical swell, triumphant fairy chord | NICE |
 
 ## 6. Music
 
@@ -436,7 +436,7 @@ Save as `assets/source/music/<id>.mp3` (or .wav). It loops under everything and 
 | id | What | Search words | Priority |
 |---|---|---|---|
 | `idle` | Seamless 45-90 s loop: a gentle spooky-cute music-box / celesta lullaby with soft pizzicato and a cozy low bassoon, slow, warm, never scary. Quiet enough to talk over. | music box lullaby halloween, celesta spooky cute, cozy halloween loop | MVP |
-| `idle_full` | The same lullaby in a brighter, happier feast-time arrangement for after the Hoard Lantern is lit. | happy music box halloween, cozy feast celesta, playful pizzicato loop | NICE |
+| `idle_full` | The same lullaby in a brighter, happier feast-time arrangement for after the Hoard Beacon is lit. | happy music box halloween, cozy feast celesta, playful pizzicato loop | NICE |
 
 ## 7. Printables (nice to have)
 

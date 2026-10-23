@@ -258,6 +258,17 @@ Read `crystal_oracle/README.md` first, then `crystal_oracle/docs/DESIGN.md` (con
   (1619×971, baby Butterscotch in the cracked crystal egg, four world-doors) → `chapter_c` rebuilt REAL (2.70 MB).
   TF card (E:, label ORACLE) updated file-by-file: captions.ini, README.txt, chapter_c.omj, the 16 voice WAVs
   (19 files, byte-verified; config.ini, logs/, state/ untouched). Not yet run on the screen with the new card.
+- **2026-10-23 (host menu Odds page; Hoard Lantern → Hoard Beacon)** — new host-menu tab **Odds** (8 tabs now,
+  `service.cpp` TAB_H 46 / TAB_STEP 51): steppers for `legend_pct`, `rare_pct`, `trick_pct`, `loyalty_rare_pct`,
+  `pity_after` (the existing `config.ini [odds]` keys; `oracle::decide()` reads them live, so a change counts from
+  the next visit; saved to config.ini on EXIT) + a summary of what a first visit gets (Legendary / Rare / Normal =
+  coin + trick). Owner: the lantern is now **the beacon** everywhere it's spoken or shown (words `meter.name =
+  Beacon` → host menu *Fill the Beacon*; BEACON LIT!, LIGHT THE BEACON, "sparks for the beacon"); the art still
+  shows an iron lantern and the technical keys (`meter.style = lantern`, `moon_goal`) are unchanged. chapter_d now
+  says why a crystal wakes him: "Each crystal glows when it's near me... and glow wakes dragons!"; chapter_b adds
+  the stakes ("...How will travelers find me?"). Re-recorded (same flow/voice): attract_call_3/4, moonfull_a_1,
+  chapter_b/d/e_1. Screen **flashed** (COM3, verified). Card rebuilt; **TF card NOT yet updated** for this round:
+  copy `captions.ini`, `README.txt` and those 6 voice WAVs.
 
 Orientation file for future Claude Code sessions (or developers). The firmware version
 lives in the sketch's header comment; note the date when you change behavior.

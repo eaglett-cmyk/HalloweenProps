@@ -22,7 +22,7 @@ returning kids by rank, rolls tonight's result and tells them which candy bowl t
 
 The result is written **onto the crystal**, so each kid's history travels with them year after year, up the
 ranks: Sparkfinder → Apprentice → Glowcaster → Hoardguard → Wizard → Dragon Rider → Keeper of the Hoard.
-Every visit also adds a spark to the **Hoard Lantern**; when the neighbourhood fills it, there's a finale.
+Every visit also adds a spark to the **Hoard Beacon**; when the neighbourhood fills it, there's a finale.
 Kids without a crystal **tap the window** for a dragon blessing and still get candy.
 
 **Everything lives in [`crystal_oracle/`](crystal_oracle/)**. Start with its

@@ -34,8 +34,8 @@
  },
  "_asset_guide": {
   "why_stills": "Butterscotch floating like a balloon and changing expressions, Snuffwick tiptoeing in with his rubber chicken, the hoard coin spinning, the Dragon Gem rising out of the Wakestone, the Golden Star climbing",
-  "live_magic": "glows in each kid's crystal colour, sparkles, the Hoard Lantern's growing glow, the numbers and words",
-  "anchor_note": "The Hoard Lantern's glow is placed by the words key `meter.pos` (\"x,y,radius\" in screen pixels, default 150,110,70): once `bg_cave` exists, open `assets/previews/` and, if the painted lantern isn't there, change `meter.pos` (or `/oracle/captions.ini` [meter] pos on the card).",
+  "live_magic": "glows in each kid's crystal colour, sparkles, the Hoard Beacon's growing glow, the numbers and words",
+  "anchor_note": "The Hoard Beacon's glow is placed by the words key `meter.pos` (\"x,y,radius\" in screen pixels, default 150,110,70): once `bg_cave` exists, open `assets/previews/` and, if the painted lantern isn't there, change `meter.pos` (or `/oracle/captions.ini` [meter] pos on the card).",
   "guardrails": "Butterscotch is CARAMEL / toffee brown, never gold: gold is only for the Golden Star (and its starburst); silver is the hoard coin; red is only the Dragon Gem.",
   "order": "Day 1 Butterscotch (base + sleep, peek, delight, surprise) · Day 2 Butterscotch giggle + puff, Snuffwick (base + rubber chicken) and the four props · Day 3 the three backgrounds (`bg_cave` first: check where the lantern landed) · Day 4+ the nice-to-haves.",
   "printables": [
@@ -98,15 +98,15 @@
   "caption.chapter_b": "UH-OH, SNUFFWICK!",
   "caption.chapter_c": "THE CRYSTAL EGG",
   "caption.chapter_d": "YOUR GLOW",
-  "caption.chapter_e": "LIGHT THE LANTERN",
+  "caption.chapter_e": "LIGHT THE BEACON",
   "caption.chapter_f": "WHAT'S IN THE SOCK?",
-  "caption.moonfull": "LANTERN LIT!",
+  "caption.moonfull": "BEACON LIT!",
   "caption.moonfull_b": "OFFICIAL PRANKSTER",
   "caption.recall": "LAST YEAR",
   "ui.place": "Crystal on the Wakestone",
   "ui.hold": "Hold still...",
   "ui.power": "GLOW",
-  "ui.counter": "sparks for the lantern",
+  "ui.counter": "sparks for the beacon",
   "ui.press": "Press the button!",
   "ui.or_press": "OR PRESS",
   "ui.tonight": "TONIGHT",
@@ -116,7 +116,7 @@
   "ui.no_card": "NO TF CARD",
   "meter.style": "lantern",
   "meter.pos": "150,110,70",
-  "meter.name": "Lantern",
+  "meter.name": "Beacon",
   "meter.color": "#FFB347",
   "meter.on": "attract,absorb,greet,recall,charge,reveal_t0,reveal_t1,replay,nocrystal,foreign,sleepy,goodbye,keeper,chapter_a,chapter_e,chapter_f",
   "glow.idle_color": "#FFC27A",
@@ -135,7 +135,7 @@
    "kind": "background",
    "transparent": false,
    "priority": "MVP",
-   "desc": "The Hoard Cave at night (the main scene): a cozy rounded cave in deep indigo and plum framed by a big round smooth stone arch; soft piles of glossy candy (wrapped sweets, round lollipops, gumdrops in muted jewel colours, no gold coins) low on the far left and far right; the HOARD LANTERN hangs UNLIT in the upper-left (globe centre about x 150, y 110 of the 800x480 frame) with empty dark wall around it - the device paints its glow there; the centre is open for Butterscotch; bottom quarter plain near-black and empty.",
+   "desc": "The Hoard Cave at night (the main scene): a cozy rounded cave in deep indigo and plum framed by a big round smooth stone arch; soft piles of glossy candy (wrapped sweets, round lollipops, gumdrops in muted jewel colours, no gold coins) low on the far left and far right; the HOARD BEACON hangs UNLIT in the upper-left (globe centre about x 150, y 110 of the 800x480 frame) with empty dark wall around it - the device paints its glow there; the centre is open for Butterscotch; bottom quarter plain near-black and empty.",
    "used_by": [
     "attract",
     "attract_full",
@@ -158,7 +158,7 @@
     "chapter_e",
     "chapter_f"
    ],
-   "prompt": "The Hoard Cave at night: a cozy, rounded cave interior in deep indigo and plum, framed by a big round smooth stone arch. Soft piles of glossy candy - big wrapped sweets, round lollipops and gumdrops in muted jewel colours (NO gold coins, nothing gold) - rest low on the far left and the far right sides of the cave floor. THE HOARD LANTERN: an old, round, dark-iron lantern with a big ROUND, CLEAR, EMPTY glass globe hangs from a short chain in the UPPER-LEFT of the picture - its globe centre about one-fifth of the way in from the left edge and a little less than one-quarter of the way down from the top; the lantern is about one-sixth of the image height. It is clearly visible but UNLIT and dark (no flame, no glow), with plain, empty, dark cave wall all around it (a glow will be painted there later). Leave the CENTRE of the picture open and empty (a floating dragon goes there) and keep the upper-left area around the lantern uncluttered. Format: wide landscape, 5:3 (1600x960 if you can choose; otherwise the widest landscape option). Dark midnight-indigo and plum colours (#140F2E, #2B1650). Keep the BOTTOM QUARTER of the image plain near-black and empty (the screen draws words there). Big simple shapes, clean smooth gradients. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; glossy candy-like materials; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and cozy, never scary."
+   "prompt": "The Hoard Cave at night: a cozy, rounded cave interior in deep indigo and plum, framed by a big round smooth stone arch. Soft piles of glossy candy - big wrapped sweets, round lollipops and gumdrops in muted jewel colours (NO gold coins, nothing gold) - rest low on the far left and the far right sides of the cave floor. THE HOARD BEACON: an old, round, dark-iron lantern with a big ROUND, CLEAR, EMPTY glass globe hangs from a short chain in the UPPER-LEFT of the picture - its globe centre about one-fifth of the way in from the left edge and a little less than one-quarter of the way down from the top; the lantern is about one-sixth of the image height. It is clearly visible but UNLIT and dark (no flame, no glow), with plain, empty, dark cave wall all around it (a glow will be painted there later). Leave the CENTRE of the picture open and empty (a floating dragon goes there) and keep the upper-left area around the lantern uncluttered. Format: wide landscape, 5:3 (1600x960 if you can choose; otherwise the widest landscape option). Dark midnight-indigo and plum colours (#140F2E, #2B1650). Keep the BOTTOM QUARTER of the image plain near-black and empty (the screen draws words there). Big simple shapes, clean smooth gradients. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; glossy candy-like materials; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and cozy, never scary."
   },
   {
    "id": "bg_wakestone",
@@ -420,7 +420,7 @@
    "kind": "background",
    "transparent": false,
    "priority": "NICE",
-   "desc": "Edit of bg_cave: the Hoard Lantern now BLAZES warm amber (#FFB347) with a soft warm pool of light on the nearby cave walls; the candy catches a few warm highlights; layout, lantern position and the empty centre identical. (After the finale: attract_full, moonfull, chapter.)",
+   "desc": "Edit of bg_cave: the Hoard Beacon now BLAZES warm amber (#FFB347) with a soft warm pool of light on the nearby cave walls; the candy catches a few warm highlights; layout, lantern position and the empty centre identical. (After the finale: attract_full, moonfull, chapter.)",
    "used_by": [
     "attract_full",
     "moonfull",
@@ -428,7 +428,7 @@
     "chapter_b",
     "chapter_e"
    ],
-   "prompt": "Use the attached bg_cave image as Image 1. Edit Image 1: make ONLY the Hoard Lantern blaze with warm amber light (#FFB347) - a bright glowing globe and a soft warm pool of light on the nearby cave walls; the candy piles catch a few warm highlights. Keep the cave, the arch, the lantern's exact position and size, the empty centre and the layout EXACTLY identical. Same style; the bottom quarter stays plain near-black.",
+   "prompt": "Use the attached bg_cave image as Image 1. Edit Image 1: make ONLY the Hoard Beacon blaze with warm amber light (#FFB347) - a bright glowing globe and a soft warm pool of light on the nearby cave walls; the candy piles catch a few warm highlights. Keep the cave, the arch, the lantern's exact position and size, the empty centre and the layout EXACTLY identical. Same style; the bottom quarter stays plain near-black.",
    "edit_of": "bg_cave"
   },
   {
@@ -587,12 +587,12 @@
    "kind": "print",
    "transparent": false,
    "priority": "NICE",
-   "desc": "Portrait 2:3 key art: Butterscotch floating happily with his paws around one glowing crystal, Snuffwick peeking out from behind his tail with a cheeky grin, the Hoard Lantern glowing warm amber above; generous plain dark space at the top and bottom for sign text. Parent sign + title card.",
+   "desc": "Portrait 2:3 key art: Butterscotch floating happily with his paws around one glowing crystal, Snuffwick peeking out from behind his tail with a cheeky grin, the Hoard Beacon glowing warm amber above; generous plain dark space at the top and bottom for sign text. Parent sign + title card.",
    "used_by": [
     "parent sign",
     "title card"
    ],
-   "prompt": "Portrait 2:3 poster art: Butterscotch (use the attached butterscotch_base image for his exact design) floating happily with his paws around one glowing crystal; Snuffwick (use the attached snuffwick_base image) peeking out from behind Butterscotch's tail with a cheeky grin; the Hoard Lantern glowing warm amber above them. Generous plain dark space at the top and the bottom for sign text. Dark midnight-indigo cave background. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; glossy candy-like materials; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and cozy, never scary.",
+   "prompt": "Portrait 2:3 poster art: Butterscotch (use the attached butterscotch_base image for his exact design) floating happily with his paws around one glowing crystal; Snuffwick (use the attached snuffwick_base image) peeking out from behind Butterscotch's tail with a cheeky grin; the Hoard Beacon glowing warm amber above them. Generous plain dark space at the top and the bottom for sign text. Dark midnight-indigo cave background. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; glossy candy-like materials; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and cozy, never scary.",
    "refs": [
     "butterscotch_base",
     "snuffwick_base"
@@ -717,7 +717,7 @@
     }
    ],
    "anchor_layer": 0,
-   "notes": "Butterscotch dozes (balloon bob) and peeks one eye open; Snuffwick tiptoes in from the right, giggles (sfx 'munch' at 5.4 s) and scampers off. The device draws the Hoard Lantern's glow (upper-left), the spark counter and the place-crystal hints."
+   "notes": "Butterscotch dozes (balloon bob) and peeks one eye open; Snuffwick tiptoes in from the right, giggles (sfx 'munch' at 5.4 s) and scampers off. The device draws the Hoard Beacon's glow (upper-left), the spark counter and the place-crystal hints."
   },
   {
    "id": "attract_full",
@@ -2226,7 +2226,7 @@
     }
    ],
    "anchor_layer": 1,
-   "notes": "The Hoard Lantern blazes (the lit cave fades in); Snuffwick, dazzled, sneezes, then smiles shyly - invited to the feast as Official Prankster - and scampers off hugging his glowing sock (2027 stinger)."
+   "notes": "The Hoard Beacon blazes (the lit cave fades in); Snuffwick, dazzled, sneezes, then smiles shyly - invited to the feast as Official Prankster - and scampers off hugging his glowing sock (2027 stinger)."
   },
   {
    "id": "chapter_a",
@@ -2572,7 +2572,7 @@
    "group": "attract_call",
    "variant": 3,
    "speaker": "Butterscotch",
-   "text": "Zzz... a goblin snuffed my lantern... zzz.",
+   "text": "Zzz... a goblin snuffed my beacon... zzz.",
    "caption": "HELP BUTTERSCOTCH!",
    "delivery": "half-asleep mumble with a soft snore; playful, never sad",
    "priority": "MVP"
@@ -2582,8 +2582,8 @@
    "group": "attract_call",
    "variant": 4,
    "speaker": "Butterscotch",
-   "text": "Every crystal adds a spark to my lantern!",
-   "caption": "LIGHT THE LANTERN",
+   "text": "Every crystal adds a spark to my beacon!",
+   "caption": "LIGHT THE BEACON",
    "delivery": "warm storyteller, hopeful lift at the end",
    "priority": "MVP"
   },
@@ -3214,8 +3214,8 @@
    "group": "moonfull_a",
    "variant": 1,
    "speaker": "Butterscotch",
-   "text": "My lantern is lit! You did it, travelers!",
-   "caption": "LANTERN LIT!",
+   "text": "My beacon is lit! You did it, travelers!",
+   "caption": "BEACON LIT!",
    "delivery": "overjoyed triumph, the biggest moment of the night - warm, never booming",
    "priority": "NICE"
   },
@@ -3244,9 +3244,9 @@
    "group": "chapter_b",
    "variant": 1,
    "speaker": "Butterscotch",
-   "text": "But sneaky Snuffwick snuffed my Hoard Lantern! Pfft!",
+   "text": "But sneaky Snuffwick snuffed my beacon! Pfft! How will travelers find me?",
    "caption": "UH-OH, SNUFFWICK!",
-   "delivery": "mock-outraged, giggling; a soft 'Pfft!'",
+   "delivery": "mock-outraged, giggling; a soft 'Pfft!', then a worried-silly little gasp on 'How will travelers find me?'",
    "priority": "NICE"
   },
   {
@@ -3264,7 +3264,7 @@
    "group": "chapter_d",
    "variant": 1,
    "speaker": "Butterscotch",
-   "text": "Each crystal remembers me... and glow wakes dragons!",
+   "text": "Each crystal glows when it's near me... and glow wakes dragons!",
    "caption": "YOUR GLOW",
    "delivery": "tender, then delighted",
    "priority": "NICE"
@@ -3274,8 +3274,8 @@
    "group": "chapter_e",
    "variant": 1,
    "speaker": "Butterscotch",
-   "text": "Every crystal adds a spark. Light my lantern, travelers!",
-   "caption": "LIGHT THE LANTERN",
+   "text": "Every crystal adds a spark. Light my beacon, travelers!",
+   "caption": "LIGHT THE BEACON",
    "delivery": "clear instruction, rising excitement",
    "priority": "NICE"
   },
@@ -3424,7 +3424,7 @@
    "priority": "NICE",
    "seconds": 3.0,
    "synth": "fanfare",
-   "desc": "The Hoard Lantern lights (finale): a warm 'whoomph' of a big lantern catching, swelling into a happy magical chord. Never a roar.",
+   "desc": "The Hoard Beacon lights (finale): a warm 'whoomph' of a big lantern catching, swelling into a happy magical chord. Never a roar.",
    "_search": "lantern whoosh ignite soft, magical swell, triumphant fairy chord"
   }
  ],
@@ -3442,7 +3442,7 @@
    "priority": "NICE",
    "seconds": 60,
    "synth": "drone",
-   "desc": "The same lullaby in a brighter, happier feast-time arrangement for after the Hoard Lantern is lit.",
+   "desc": "The same lullaby in a brighter, happier feast-time arrangement for after the Hoard Beacon is lit.",
    "_search": "happy music box halloween, cozy feast celesta, playful pizzicato loop"
   }
  ]
