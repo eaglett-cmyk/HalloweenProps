@@ -154,16 +154,16 @@ a { color: var(--hat); }
 .page-art .bg-dark { filter: brightness(.55) saturate(.8); }
 .sprite {
   position: absolute;
-  width: auto;
+  height: auto;
   filter: drop-shadow(0 12px 18px rgba(0,0,0,.5));
 }
-.s-dragon       { height: 72%; left: 50%; top: 10%; transform: translateX(-50%); }
-.s-dragon-right { height: 62%; right: 2%; top: 14%; }
-.s-goblin       { height: 70%; left: 50%; bottom: 4%; transform: translateX(-50%); }
-.s-goblin-small { height: 40%; left: 6%; bottom: 5%; }
-.s-crystal      { height: 48%; left: 14%; bottom: 14%; }
-.s-hat          { height: 22%; right: 10%; top: 10%; }
-.s-prop { height: 42%; top: 29%; }
+.s-dragon       { width: 46%; left: 50%; top: 8%; transform: translateX(-50%); }
+.s-dragon-right { width: 40%; right: 3%; top: 12%; }
+.s-goblin       { width: 40%; left: 50%; bottom: 4%; transform: translateX(-50%); }
+.s-goblin-small { width: 22%; left: 6%; bottom: 5%; }
+.s-crystal      { width: 30%; left: 12%; bottom: 14%; }
+.s-hat          { width: 20%; right: 6%; bottom: 8%; }
+.s-prop { width: 26%; top: 28%; }
 .s-prop-1 { left: 4%; }
 .s-prop-2 { left: 50%; transform: translateX(-50%); }
 .s-prop-3 { right: 4%; }
