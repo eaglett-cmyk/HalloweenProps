@@ -9,7 +9,8 @@
   if (pages.length < 2) return;
 
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var FLIP_MS = 850;
+  var FLIP_MS = 1000;
+  var finishTurn = null;
   var current = 0;
   var turning = false;
   var opening = false;
@@ -54,6 +55,25 @@
     if (history.replaceState) history.replaceState(null, '', '#p' + (current + 1));
   }
 
+  // Keep a full-size spread inside each half-width face: text and mirrored art
+  // retain exactly the same layout as the real pages, including the gutter.
+  function leafFace(page, side, back) {
+    var face = document.createElement('div');
+    face.className = 'leaf-face' + (back ? ' leaf-back' : '');
+    var clone = page.cloneNode(true);
+    clone.classList.remove('is-current', 'is-turning', 'turn-forward', 'turn-back', 'is-under', 'is-leaf-base');
+    clone.classList.add('leaf-spread');
+    clone.setAttribute('aria-hidden', 'true');
+    clone.setAttribute('inert', '');
+    // A visual copy must never introduce duplicate IDs or lazy blank artwork.
+    clone.removeAttribute('id');
+    Array.prototype.forEach.call(clone.querySelectorAll('[id]'), function (el) { el.removeAttribute('id'); });
+    Array.prototype.forEach.call(clone.querySelectorAll('img'), function (img) { img.loading = 'eager'; });
+    clone.style.left = side === 'right' ? '-100%' : '0';
+    face.appendChild(clone);
+    return face;
+  }
+
   function go(to) {
     if (stage.classList.contains('is-closed') || opening || turning || to < 0 || to >= pages.length || to === current) return;
     var from = current;
@@ -69,24 +89,54 @@
     }
 
     turning = true;
+    var desktop = !window.matchMedia('(max-width: 760px)').matches;
+    var duration = desktop ? FLIP_MS : 350;
+    var direction = forward ? 'turn-forward' : 'turn-back';
+    var leaf = null, shadow = null;
+    stage.classList.add('has-turned', 'is-page-turning');
     inn.classList.add('is-current');
-    inn.setAttribute('aria-hidden', 'false');
-    if (forward) {
-      // The old page lifts at its right edge and folds over the spine, uncovering the new page beneath.
-      out.classList.add('is-turning', 'turn-forward');
+    if (desktop) {
+      out.classList.add('is-turning', 'is-leaf-base', direction);
+      leaf = document.createElement('div');
+      leaf.className = 'turning-leaf ' + direction;
+      leaf.setAttribute('aria-hidden', 'true');
+      leaf.setAttribute('inert', '');
+      leaf.appendChild(leafFace(out, forward ? 'right' : 'left', false));
+      leaf.appendChild(leafFace(inn, forward ? 'left' : 'right', true));
+      shadow = document.createElement('div');
+      shadow.className = 'leaf-cast-shadow ' + direction;
+      shadow.setAttribute('aria-hidden', 'true');
+      stage.appendChild(shadow);
+      stage.appendChild(leaf);
     } else {
-      // Turning back: the new page comes in folded and lays flat over the old one.
-      inn.classList.add('is-turning', 'turn-back');
-      out.classList.add('is-under');
+      inn.classList.add('is-turning', direction);
     }
-    window.setTimeout(function () {
-      out.classList.remove('is-current', 'is-turning', 'turn-forward', 'is-under');
+    var timer;
+    var animated = leaf || inn;
+    function ended(e) {
+      if (e.target === animated && finishTurn) finishTurn();
+    }
+    finishTurn = function () {
+      window.clearTimeout(timer);
+      animated.removeEventListener('animationend', ended);
+      if (leaf) leaf.remove();
+      if (shadow) shadow.remove();
+      out.classList.remove('is-current', 'is-turning', 'is-leaf-base', 'turn-forward', 'turn-back');
       out.setAttribute('aria-hidden', 'true');
-      inn.classList.remove('is-turning', 'turn-back');
+      inn.classList.remove('is-turning', 'turn-forward', 'turn-back');
+      inn.setAttribute('aria-hidden', 'false');
+      stage.classList.remove('is-page-turning');
       turning = false;
+      finishTurn = null;
       render();
-    }, FLIP_MS);
+    };
+    // The timer is also a fallback if animationend is suppressed by the browser.
+    animated.addEventListener('animationend', ended);
+    timer = window.setTimeout(function () { if (finishTurn) finishTurn(); }, duration + 50);
   }
+
+  // A resize can cross the one/two-column boundary in the middle of a turn.
+  window.addEventListener('resize', function () { if (finishTurn) finishTurn(); });
 
   prevBtns.forEach(function (b) { b.addEventListener('click', function () { go(current - 1); }); });
   nextBtns.forEach(function (b) { b.addEventListener('click', function () {
@@ -165,6 +215,7 @@
   }
   function closeBook() {
     if (opening) return;
+    if (finishTurn) finishTurn();
     stage.classList.remove('is-open');
     stage.classList.add('is-closed');
     setShut(true);

@@ -43,6 +43,18 @@ Read `crystal_oracle/README.md` first, then `crystal_oracle/docs/DESIGN.md` (con
   2027-01-06) → stills from ChatGPT + our ffmpeg "layers" animator; voice from ElevenLabs/OpenAI TTS.
 
 ### Changelog
+- **2026-10-24 (page turn by Codex)** — owner: my whole-sheet rotation "does not look like a book page turn";
+  asked for Codex to do the animation. Ran the Codex CLI as a coding agent on `site/` (brief in
+  `crystal_oracle/docs/codex/page-turn-task.md`, its summary in `page-turn-result.md`): `codex exec
+  --skip-git-repo-check -s workspace-write -C site -o last.txt -` with the prompt on stdin, ~5 min, exit 0.
+  Result (kept as delivered): desktop turns build a temporary two-sided half-width **leaf** hinged at the
+  gutter (`.turning-leaf` with two `.leaf-face`s, each a full-size `.leaf-spread` clone of a page shifted
+  so the face shows one half; `aria-hidden` + `inert`, ids stripped, images eager), the outgoing page is
+  clipped to its stationary half (`.is-leaf-base` + `clip-path`), 1 s eased `rotateY` with a moving paper
+  shade and a cast shadow; phones get a 350 ms clipped slide; reduced motion stays instant. Verified in
+  headless Chrome with animations frozen at 150/350/500/650 ms (plain timed screenshots lag ~0.7 s and
+  miss the motion — freeze via `getAnimations().forEach(a => {a.pause(); a.currentTime = N})` after
+  neutralising the fallback `setTimeout`), plus double-click, back-turn and DOM-cleanup checks. `?v=g6`.
 - **2026-10-24 (hardcover v2: the cover is ON the book)** — owner: the v1 open state "is not what a book looks
   like" (a board swung off to the side next to a blank page block; on phones the cover left the screen and
   opened onto a blank page). Rebuilt: the shut book IS the story stage's right half with the front board
