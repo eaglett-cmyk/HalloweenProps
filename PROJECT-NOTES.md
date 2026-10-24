@@ -43,6 +43,16 @@ Read `crystal_oracle/README.md` first, then `crystal_oracle/docs/DESIGN.md` (con
   2027-01-06) → stills from ChatGPT + our ffmpeg "layers" animator; voice from ElevenLabs/OpenAI TTS.
 
 ### Changelog
+- **2026-10-24 (storybook: page turns + art refresh)** — `site/book.js` (progressive enhancement: without JS the
+  pages still stack and scroll) puts one story page on stage at a time and turns it with a 3D rotate around
+  the spine (`.book-stage` grid-stacks all pages in one cell so the stage never changes height; forward =
+  the current page folds away, back = the previous page folds in; backface hidden; reduced-motion = instant).
+  Arrows (top + bottom), ←/→/Space/PageUp/PageDown, swipe, click on the outer 12 % of a page, `#pN` deep
+  links, counter, The End only on page 8, bottom button → *For grown-ups* on the last page. Also: new
+  `print_keyart` (Codex, inside the new hoard cave) for the cover, sprites sized by column width (page 7's
+  tall rank list had blown Butterscotch up under the Worldwalker hat). **Cache rule:** `site/img/*` and
+  `style.css`/`book.js` are edge-cached 1 day — when a file is replaced under the same name, bump its
+  `?v=` tag in `index.html` (or purge in the CF dashboard); the HTML itself is `no-cache`.
 - **2026-10-23 (cave re-take: portals + candy hoard)** — owner: with the Moonstone replaced by the crystal egg,
   the lair needs portals (like `chapter_egg`) and a real dragon hoard made of candy + candy-making tools
   instead of gold/gems/artifacts. Two rounds of 4 candidates each via `tools/make_image_codex.py`

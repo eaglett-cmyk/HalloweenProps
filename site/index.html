@@ -13,7 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=g2">
+<link rel="stylesheet" href="style.css?v=g3">
 </head>
 <body>
 
@@ -40,6 +40,12 @@
 
 <!-- ===================== STORY ===================== -->
 <main id="story" class="book">
+  <div class="book-nav book-nav-top" hidden>
+    <button type="button" class="nav-btn nav-prev" aria-label="Previous page">&#x2039;</button>
+    <span class="page-counter" aria-live="polite">Page 1 of 8</span>
+    <button type="button" class="nav-btn nav-next" aria-label="Next page">&#x203A;</button>
+  </div>
+  <div class="book-stage">
 
   <section class="page" aria-label="Page 1">
     <div class="page-art">
@@ -172,7 +178,13 @@
     </div>
   </section>
 
+  </div>
   <p class="the-end">The End <small>(until next year)</small></p>
+  <div class="book-nav book-nav-bottom" hidden>
+    <button type="button" class="nav-btn nav-prev" aria-label="Previous page">&#x2039; Back</button>
+    <span class="book-hint">Tap the arrows, swipe, or use the arrow keys</span>
+    <button type="button" class="nav-btn nav-next" aria-label="Next page">Turn the page &#x203A;</button>
+  </div>
 </main>
 
 <!-- ===================== GROWN-UPS ===================== -->
@@ -226,5 +238,6 @@
   </div>
 </section>
 
+<script src="book.js?v=g3" defer></script>
 </body>
 </html>

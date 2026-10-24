@@ -327,3 +327,94 @@ a { color: var(--hat); }
   .page-art-props { aspect-ratio: 3 / 1; }
   .page-text { font-size: 1.04rem; }
 }
+
+/* ---------- Book mode (book.js): one page on stage, turned like a real book ---------- */
+.book-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: .4rem .2rem;
+  color: var(--parchment);
+  font-family: var(--display);
+}
+.book-nav-top { justify-content: center; gap: 1.2rem; }
+.page-counter { font-size: .95rem; opacity: .8; min-width: 7.5em; text-align: center; }
+.book-hint { font-family: var(--serif); font-style: italic; font-size: .85rem; opacity: .6; text-align: center; }
+.nav-btn {
+  font: inherit;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #3a2200;
+  background: linear-gradient(180deg, var(--gold), var(--amber));
+  border: 0;
+  border-radius: 999px;
+  padding: .6rem 1.2rem;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(255,179,71,.3);
+  transition: transform .12s ease, opacity .2s ease;
+}
+.book-nav-top .nav-btn { width: 2.6rem; height: 2.6rem; padding: 0; font-size: 1.6rem; line-height: 1; }
+.nav-btn:hover:not(:disabled) { transform: translateY(-2px); }
+.nav-btn:disabled { opacity: .25; cursor: default; box-shadow: none; }
+
+.book-mode .book-stage {
+  display: grid;
+  perspective: 2200px;
+  position: relative;
+  margin: .4rem 0 .8rem;
+}
+.book-mode .book-stage > .page {
+  grid-area: 1 / 1;              /* every page in the same cell: the stage is as tall as the tallest page */
+  margin: 0;
+  visibility: hidden;
+  transform-origin: left center; /* the spine */
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform;
+}
+.book-mode .book-stage > .page.is-current { visibility: visible; }
+.book-mode .book-stage > .page.is-turning { visibility: visible; z-index: 3; }
+.book-mode .book-stage > .page.is-under { z-index: 1; }
+.book-mode .book-stage > .page.is-current:not(.is-turning) { z-index: 2; }
+
+/* The paper darkens as it lifts, with a moving crease shadow near the spine. */
+.book-mode .book-stage > .page::after {
+  content: "";
+  position: absolute; inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(90deg, rgba(40,20,0,.55), rgba(40,20,0,.08) 35%, rgba(255,255,255,0) 60%);
+  transition: opacity .3s ease;
+  z-index: 4;
+}
+.book-mode .book-stage > .page.is-turning::after { opacity: 1; }
+
+@keyframes page-forward {
+  0%   { transform: rotateY(0deg); }
+  100% { transform: rotateY(-180deg); }
+}
+@keyframes page-back {
+  0%   { transform: rotateY(-180deg); }
+  100% { transform: rotateY(0deg); }
+}
+.book-mode .page.turn-forward { animation: page-forward .85s cubic-bezier(.45,.05,.35,1) forwards; }
+.book-mode .page.turn-back    { animation: page-back    .85s cubic-bezier(.45,.05,.35,1) forwards; }
+
+.book-mode .the-end { display: none; }
+.book-mode .the-end.is-visible { display: block; }
+
+/* Clickable page edges get a hint cursor. */
+.book-mode .book-stage > .page.is-current { cursor: default; }
+
+@media (max-width: 760px) {
+  .book-nav-bottom .book-hint { display: none; }
+  .book-nav-bottom { justify-content: space-between; }
+  .book-mode .book-stage { perspective: 1400px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .book-mode .page.turn-forward, .book-mode .page.turn-back { animation: none; }
+}
