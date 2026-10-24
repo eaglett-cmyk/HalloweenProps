@@ -418,3 +418,166 @@ a { color: var(--hat); }
 @media (prefers-reduced-motion: reduce) {
   .book-mode .page.turn-forward, .book-mode .page.turn-back { animation: none; }
 }
+
+/* ---------- Hardcover body ---------- */
+:root {
+  --cloth: #1e1340;
+  --cloth-deep: #120b2a;
+  --cloth-edge: #3a2a6a;
+}
+.hardcover {
+  display: flex;
+  justify-content: center;
+  perspective: 2400px;
+  padding: 1.2rem 0 1.6rem 3rem;      /* room on the left for the opened board */
+}
+.hc-book {
+  position: relative;
+  width: min(100%, 340px);
+  aspect-ratio: 2 / 3;
+  transform-style: preserve-3d;
+  cursor: pointer;
+  outline: none;
+  transition: transform .9s cubic-bezier(.4,.05,.3,1);
+  transform: rotateY(-8deg);
+}
+.hc-book:focus-visible { box-shadow: 0 0 0 4px rgba(255,200,61,.6); border-radius: 6px 14px 14px 6px; }
+.hc-book.is-open { transform: rotateY(0deg) translateX(50%); }
+/* While open, the hero gives the two-board spread the whole width; the text drops below. */
+.cover.is-open { grid-template-columns: 1fr; text-align: center; }
+.cover.is-open .cover-text { max-width: 40em; margin: 0 auto; }
+.cover.is-open .cover-lede { margin-left: auto; margin-right: auto; }
+.cover.is-open .cover-actions { justify-content: center; }
+.cover { overflow: clip; }
+/* back board */
+.hc-back {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, var(--cloth-edge), var(--cloth) 30%, var(--cloth-deep));
+  border-radius: 4px 14px 14px 4px;
+  box-shadow: 0 30px 60px rgba(0,0,0,.6), inset 0 0 0 1px rgba(255,255,255,.06);
+  transform: translateZ(-14px);
+}
+/* page block seen between the boards */
+.hc-pages {
+  position: absolute; inset: 2.2% 1.6% 2.2% 2%;
+  background:
+    repeating-linear-gradient(90deg, #efe2c4 0 2px, #d9c8a3 2px 3px),
+    #efe2c4;
+  border-radius: 2px 8px 8px 2px;
+  transform: translateZ(-7px);
+  box-shadow: inset -6px 0 10px rgba(0,0,0,.18);
+}
+/* front board: hinged on the left */
+.hc-front {
+  position: absolute; inset: 0;
+  transform-origin: left center;
+  transform-style: preserve-3d;
+  transition: transform 1.15s cubic-bezier(.45,.05,.3,1);
+  border-radius: 4px 14px 14px 4px;
+}
+.hc-book.is-open .hc-front { transform: rotateY(-178deg); }
+.hc-face, .hc-inside {
+  position: absolute; inset: 0;
+  border-radius: 4px 14px 14px 4px;
+  overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.hc-face {
+  background: var(--cloth);
+  box-shadow: 0 18px 40px rgba(0,0,0,.55), inset 0 0 0 1px rgba(255,255,255,.08);
+}
+.hc-cover { width: 100%; height: 100%; object-fit: cover; display: block; }
+.hc-inside {
+  transform: rotateY(180deg);
+  background: linear-gradient(180deg, var(--parchment), var(--parchment-2));
+  box-shadow: inset 0 0 40px rgba(80,50,20,.25), 0 18px 40px rgba(0,0,0,.45);
+  padding: 5%;
+}
+.hc-inside img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; box-shadow: 0 6px 18px rgba(0,0,0,.35); }
+/* light sheen across the front board */
+.hc-face::after {
+  content: "";
+  position: absolute; inset: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(255,255,255,.14), rgba(255,255,255,0) 12%, rgba(255,255,255,0) 85%, rgba(255,255,255,.08));
+}
+/* title over the cover's calm top band (the cover art is text-free) */
+.hc-title {
+  position: absolute; left: 9%; right: 9%; top: 5.5%;
+  text-align: center;
+  container-type: inline-size;
+}
+.hc-title h1 {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(2rem, 19cqw, 4.6rem);
+  line-height: .95;
+  margin: 0;
+  color: var(--gold);
+  text-shadow: 0 0 22px rgba(255,179,71,.5), 0 3px 0 var(--toffee), 0 6px 14px rgba(0,0,0,.6);
+  letter-spacing: .01em;
+}
+.hc-title .cover-sub {
+  font-size: clamp(.8rem, 6.4cqw, 1.3rem);
+  margin: .3em 0 0;
+  color: var(--parchment);
+  text-shadow: 0 2px 8px rgba(0,0,0,.8);
+}
+.hc-open-hint {
+  position: absolute; left: 0; right: 0; bottom: 3.5%;
+  margin: 0;
+  text-align: center;
+  font-family: var(--display);
+  font-size: .85rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(246,234,210,.9);
+  text-shadow: 0 2px 6px rgba(0,0,0,.9);
+  animation: hint-pulse 2.4s ease-in-out infinite;
+}
+.hc-open-hint span {
+  display: inline-block;
+  padding: .35em .9em;
+  border-radius: 999px;
+  background: rgba(20,15,46,.72);
+  box-shadow: 0 2px 10px rgba(0,0,0,.5), inset 0 0 0 1px rgba(255,200,61,.35);
+}
+@keyframes hint-pulse { 0%,100% { opacity: .55; } 50% { opacity: 1; } }
+.hc-book.is-open .hc-open-hint { display: none; }
+.cover-text .cover-lede { margin-top: .6rem; }
+
+/* The story pages sit inside the same cloth boards. */
+.book-mode .book-stage {
+  background: linear-gradient(135deg, var(--cloth-edge), var(--cloth) 25%, var(--cloth-deep));
+  padding: 14px 14px 14px 30px;
+  border-radius: 6px 16px 16px 6px;
+  box-shadow: 0 30px 70px rgba(0,0,0,.6), inset 0 0 0 1px rgba(255,255,255,.06);
+}
+.book-mode .book-stage::before {        /* spine */
+  content: "";
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 22px;
+  border-radius: 6px 0 0 6px;
+  background: linear-gradient(90deg, var(--cloth-deep), var(--cloth-edge) 55%, var(--cloth-deep));
+  box-shadow: inset -2px 0 4px rgba(0,0,0,.5);
+}
+.book-mode .book-stage::after {         /* page-block edge on the right */
+  content: "";
+  position: absolute; right: 8px; top: 20px; bottom: 20px;
+  width: 7px;
+  border-radius: 0 3px 3px 0;
+  background: repeating-linear-gradient(180deg, #efe2c4 0 2px, #d9c8a3 2px 3px);
+  opacity: .9;
+}
+.book-mode .book-stage > .page { border-radius: 4px 10px 10px 4px; }
+@media (max-width: 760px) {
+  .hardcover { padding-left: 0; }
+  .hc-book.is-open { transform: rotateY(0deg) translateX(28%) scale(.56); margin-bottom: -38%; }
+  .book-mode .book-stage { padding: 10px 10px 10px 22px; }
+  .book-mode .book-stage::before { width: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hc-front, .hc-book { transition: none; }
+  .hc-open-hint { animation: none; }
+}

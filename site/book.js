@@ -129,11 +129,43 @@
     else if (x < r.width * 0.12) go(current - 1);
   });
 
-  // "Read the story" on the cover starts at page 1.
-  var readBtn = document.querySelector('a[href="#story"]');
-  if (readBtn) readBtn.addEventListener('click', function () {
+  // The hardcover: tap the closed book (or "Open the book") and the front board swings open,
+  // then the story scrolls into view on page 1.
+  var hc = document.querySelector('.hc-book');
+  var cover = document.querySelector('.cover');
+  var OPEN_MS = reduced ? 0 : 1150;
+  function openBook(scroll) {
+    if (!hc) return;
+    var already = hc.classList.contains('is-open');
+    hc.classList.add('is-open');
+    hc.setAttribute('aria-expanded', 'true');
+    if (cover) cover.classList.add('is-open');
     if (current !== 0) go(0);
+    if (scroll) window.setTimeout(function () {
+      book.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
+    }, already ? 0 : OPEN_MS);
+  }
+  function closeBook() {
+    if (!hc) return;
+    hc.classList.remove('is-open');
+    hc.setAttribute('aria-expanded', 'false');
+    if (cover) cover.classList.remove('is-open');
+  }
+  if (hc) {
+    hc.addEventListener('click', function () {
+      if (hc.classList.contains('is-open')) closeBook(); else openBook(true);
+    });
+    hc.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); hc.click(); }
+    });
+  }
+  var readBtn = document.querySelector('a[href="#story"]');
+  if (readBtn) readBtn.addEventListener('click', function (e) {
+    e.preventDefault();
+    openBook(true);
   });
+  // Arriving on a deep link (#story or #pN) means the book is already open.
+  if (hc && /^#(story|p\d+)$/.test(location.hash)) { hc.classList.add('is-open'); hc.setAttribute('aria-expanded', 'true'); if (cover) cover.classList.add('is-open'); }
 
   render();
 })();

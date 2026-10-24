@@ -13,26 +13,40 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=g3">
+<link rel="stylesheet" href="style.css?v=g4">
 </head>
 <body>
 
 <!-- ===================== COVER ===================== -->
 <header class="cover" id="top">
-  <div class="cover-art">
-    <img src="img/print_keyart.webp?v=g2" alt="Butterscotch the candy dragon floats in his cave hugging a glowing crystal, with Snuffwick the goblin peeking over his shoulder and the Hoard Beacon hanging above." width="640" height="960" fetchpriority="high">
+  <div class="hardcover" id="hardcover">
+    <div class="hc-book" role="button" tabindex="0" aria-label="Open the book" aria-expanded="false">
+      <div class="hc-back"></div>
+      <div class="hc-pages"></div>
+      <div class="hc-front">
+        <div class="hc-face">
+          <img class="hc-cover" src="img/hardcover.webp?v=g4" alt="A hardcover storybook: Butterscotch the candy dragon hugging a glowing red dragon gem in a carved stone medallion, three crystals below him, a border of candy and candy-making tools." width="900" height="1350" fetchpriority="high">
+          <div class="hc-title">
+            <h1>Dragonglow</h1>
+            <p class="cover-sub">The Sleepy Candy Dragon</p>
+          </div>
+          <p class="hc-open-hint"><span>Tap to open</span></p>
+        </div>
+        <div class="hc-inside">
+          <img src="img/print_keyart.webp?v=g2" alt="Butterscotch floats in his candy hoard hugging a glowing crystal, Snuffwick peeking over his shoulder." width="640" height="960" loading="lazy">
+        </div>
+      </div>
+    </div>
   </div>
   <div class="cover-text">
     <p class="cover-kicker">A Halloween storybook</p>
-    <h1>Dragonglow</h1>
-    <p class="cover-sub">The Sleepy Candy Dragon</p>
     <p class="cover-lede">
       <strong>Did you tap a crystal with your phone?</strong> Then this book is for you.
       That crystal belongs to a traveler who woke a dragon on Halloween night.
       Keep it safe. It remembers.
     </p>
     <div class="cover-actions">
-      <a class="btn btn-gold" href="#story">Read the story</a>
+      <a class="btn btn-gold" href="#story">Open the book</a>
       <a class="btn btn-ghost" href="#grownups">For grown-ups</a>
     </div>
   </div>
@@ -238,6 +252,6 @@
   </div>
 </section>
 
-<script src="book.js?v=g3" defer></script>
+<script src="book.js?v=g4" defer></script>
 </body>
 </html>

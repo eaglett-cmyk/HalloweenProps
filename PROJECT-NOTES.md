@@ -43,6 +43,18 @@ Read `crystal_oracle/README.md` first, then `crystal_oracle/docs/DESIGN.md` (con
   2027-01-06) → stills from ChatGPT + our ffmpeg "layers" animator; voice from ElevenLabs/OpenAI TTS.
 
 ### Changelog
+- **2026-10-24 (hardcover body)** — the landing page is now a closed hardcover: cover art = Codex
+  (`review-cover-2026-10-24/`: 4 designs → owner picked B → 4 "real book" refinements with a hinge groove →
+  F → 3 Butterscotch variants → **J**: Butterscotch in the stone medallion hugging the red Dragon Gem, the
+  three crystals on a candy heap below, tooled caramel frame, candy border, no gold, text-free top band).
+  Installed as `assets/source/images/print_cover.png` (not in the manifest; for printing) and
+  `site/img/hardcover.webp`. `index.html`: `.hc-book` = back board + page block + front board hinged on
+  the left (`rotateY(-178deg)` on open), title + subtitle overlaid on the top band (container-query units),
+  "Tap to open" pill; the inside of the front board shows `print_keyart`. Opening (tap, Enter/Space, or
+  "Open the book") swings the board, switches the hero to one full-width column so the spread fits
+  (`.cover.is-open`; phones scale the open book to .56), then scrolls to page 1; tapping the open book
+  closes it. The story stage got the same cloth boards (spine strip left, page-block edge right).
+  Versions bumped to `?v=g4`.
 - **2026-10-24 (storybook: page turns + art refresh)** — `site/book.js` (progressive enhancement: without JS the
   pages still stack and scroll) puts one story page on stage at a time and turns it with a 3D rotate around
   the spine (`.book-stage` grid-stacks all pages in one cell so the stage never changes height; forward =
