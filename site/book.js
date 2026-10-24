@@ -12,6 +12,7 @@
   var FLIP_MS = 850;
   var current = 0;
   var turning = false;
+  var opening = false;
 
   document.body.classList.add('book-mode');
   var navs = Array.prototype.slice.call(book.querySelectorAll('.book-nav'));
@@ -54,7 +55,7 @@
   }
 
   function go(to) {
-    if (turning || to < 0 || to >= pages.length || to === current) return;
+    if (stage.classList.contains('is-closed') || opening || turning || to < 0 || to >= pages.length || to === current) return;
     var from = current;
     var forward = to > from;
     var out = pages[from], inn = pages[to];
@@ -101,7 +102,7 @@
   document.addEventListener('keydown', function (e) {
     if (e.target && /^(INPUT|TEXTAREA|SELECT|BUTTON)$/.test(e.target.tagName)) return;
     var r = stage.getBoundingClientRect();
-    if (r.bottom < 0 || r.top > window.innerHeight) return;
+    if (r.bottom < 0 || r.top > window.innerHeight || stage.classList.contains('is-closed')) return;
     if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); go(current + 1); }
     else if (e.key === 'ArrowLeft' || e.key === 'PageUp' || e.key === 'Backspace') { e.preventDefault(); go(current - 1); }
   });
@@ -121,6 +122,7 @@
 
   // Clicking the outer edge of a page turns it, like lifting a corner.
   stage.addEventListener('click', function (e) {
+    if (stage.classList.contains('is-closed') || opening) return;
     if (window.getSelection && String(window.getSelection())) return;
     var page = pages[current];
     var r = page.getBoundingClientRect();
@@ -129,43 +131,61 @@
     else if (x < r.width * 0.12) go(current - 1);
   });
 
-  // The hardcover: tap the closed book (or "Open the book") and the front board swings open,
-  // then the story scrolls into view on page 1.
-  var hc = document.querySelector('.hc-book');
-  var cover = document.querySelector('.cover');
-  var OPEN_MS = reduced ? 0 : 1150;
-  function openBook(scroll) {
-    if (!hc) return;
-    var already = hc.classList.contains('is-open');
-    hc.classList.add('is-open');
-    hc.setAttribute('aria-expanded', 'true');
-    if (cover) cover.classList.add('is-open');
+  // The hardcover. The shut book is the stage's right half with the front board on top; opening
+  // swings the board across the spine (it becomes the left board, key art inside), the cloth slab
+  // grows to the whole spread, and page 1 appears between the boards.
+  var front = stage.querySelector('.hc-front');
+  var OPEN_MS = reduced ? 0 : 1250;
+  function setShut(shut) {
+    navs.forEach(function (n) { n.classList.toggle('is-shut', shut); });
+    if (front) front.setAttribute('aria-expanded', shut ? 'false' : 'true');
+  }
+  function openBook(scroll, instant) {
+    if (opening) return;
+    if (!stage.classList.contains('is-closed')) {
+      if (scroll) stage.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'center' });
+      return;
+    }
     if (current !== 0) go(0);
-    if (scroll) window.setTimeout(function () {
-      book.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
-    }, already ? 0 : OPEN_MS);
+    stage.classList.remove('is-closed');
+    if (instant || reduced) {
+      stage.classList.add('is-open'); setShut(false);
+      if (scroll) stage.scrollIntoView({ block: 'center' });
+      return;
+    }
+    opening = true;
+    stage.classList.add('is-opening');
+    if (scroll) stage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    window.setTimeout(function () {
+      stage.classList.remove('is-opening');
+      stage.classList.add('is-open');
+      setShut(false);
+      opening = false;
+    }, OPEN_MS);
   }
   function closeBook() {
-    if (!hc) return;
-    hc.classList.remove('is-open');
-    hc.setAttribute('aria-expanded', 'false');
-    if (cover) cover.classList.remove('is-open');
+    if (opening) return;
+    stage.classList.remove('is-open');
+    stage.classList.add('is-closed');
+    setShut(true);
+    stage.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'center' });
   }
-  if (hc) {
-    hc.addEventListener('click', function () {
-      if (hc.classList.contains('is-open')) closeBook(); else openBook(true);
+  if (front) {
+    front.addEventListener('click', function (e) {
+      if (stage.classList.contains('is-closed')) { e.stopPropagation(); openBook(true); }
     });
-    hc.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); hc.click(); }
+    front.addEventListener('keydown', function (e) {
+      if ((e.key === 'Enter' || e.key === ' ') && stage.classList.contains('is-closed')) { e.preventDefault(); openBook(true); }
     });
   }
   var readBtn = document.querySelector('a[href="#story"]');
-  if (readBtn) readBtn.addEventListener('click', function (e) {
-    e.preventDefault();
-    openBook(true);
+  if (readBtn) readBtn.addEventListener('click', function (e) { e.preventDefault(); openBook(true); });
+  Array.prototype.forEach.call(book.querySelectorAll('.nav-close'), function (b) {
+    b.addEventListener('click', closeBook);
   });
+  setShut(true);
   // Arriving on a deep link (#story or #pN) means the book is already open.
-  if (hc && /^#(story|p\d+)$/.test(location.hash)) { hc.classList.add('is-open'); hc.setAttribute('aria-expanded', 'true'); if (cover) cover.classList.add('is-open'); }
+  if (/^#(story|p\d+)$/.test(location.hash)) openBook(false, true);
 
   render();
 })();

@@ -43,14 +43,11 @@ a { color: var(--hat); }
 
 /* ---------- Cover ---------- */
 .cover {
-  display: grid;
-  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
-  gap: clamp(1rem, 4vw, 3rem);
-  align-items: center;
-  max-width: 1080px;
+  max-width: 44em;
   margin: 0 auto;
-  padding: clamp(1.5rem, 5vw, 4rem) clamp(1rem, 4vw, 2rem);
+  padding: clamp(1.5rem, 4vw, 3rem) clamp(1rem, 4vw, 2rem) .5rem;
   color: var(--parchment);
+  text-align: center;
 }
 .cover-art img {
   border-radius: 18px;
@@ -317,10 +314,6 @@ a { color: var(--hat); }
 
 /* ---------- Small screens ---------- */
 @media (max-width: 760px) {
-  .cover { grid-template-columns: 1fr; text-align: center; }
-  .cover-art { max-width: 300px; margin: 0 auto; }
-  .cover-lede { margin-left: auto; margin-right: auto; }
-  .cover-actions { justify-content: center; }
   .page, .page-flip { grid-template-columns: 1fr; direction: ltr; }
   .page::before { display: none; }
   .page-art { min-height: 0; aspect-ratio: 5 / 3; }
@@ -419,90 +412,104 @@ a { color: var(--hat); }
   .book-mode .page.turn-forward, .book-mode .page.turn-back { animation: none; }
 }
 
-/* ---------- Hardcover body ---------- */
+/* ---------- Hardcover body (v2): the cover sits on the book itself ---------- */
 :root {
   --cloth: #1e1340;
   --cloth-deep: #120b2a;
   --cloth-edge: #3a2a6a;
 }
-.hardcover {
-  display: flex;
-  justify-content: center;
-  perspective: 2400px;
-  padding: 1.2rem 0 1.6rem 3rem;      /* room on the left for the opened board */
-}
-.hc-book {
+.cover-kicker { margin-bottom: .6rem; }
+.cover-lede { margin: 0 auto 1.2rem; }
+.cover-actions { justify-content: center; }
+.link-btn { font: inherit; color: inherit; background: none; border: 0; padding: 0; text-decoration: underline; cursor: pointer; opacity: .9; }
+.link-btn:hover { opacity: 1; }
+
+/* Closed: the right half of the stage is the shut book, slid over so it sits centred.
+   Open: the front board has swung across the spine to become the left board, the stage is
+   centred and the pages (art left, words right) sit between the boards. */
+.book-mode .book-stage {
   position: relative;
-  width: min(100%, 340px);
-  aspect-ratio: 2 / 3;
-  transform-style: preserve-3d;
-  cursor: pointer;
-  outline: none;
-  transition: transform .9s cubic-bezier(.4,.05,.3,1);
-  transform: rotateY(-8deg);
+  display: grid;
+  perspective: 2600px;
+  margin: .6rem 0 .8rem;
+  padding: 14px 14px 14px 14px;
+  background: none;
+  box-shadow: none;
+  border-radius: 0;
+  transition: transform .95s cubic-bezier(.45,.05,.3,1);
 }
-.hc-book:focus-visible { box-shadow: 0 0 0 4px rgba(255,200,61,.6); border-radius: 6px 14px 14px 6px; }
-.hc-book.is-open { transform: rotateY(0deg) translateX(50%); }
-/* While open, the hero gives the two-board spread the whole width; the text drops below. */
-.cover.is-open { grid-template-columns: 1fr; text-align: center; }
-.cover.is-open .cover-text { max-width: 40em; margin: 0 auto; }
-.cover.is-open .cover-lede { margin-left: auto; margin-right: auto; }
-.cover.is-open .cover-actions { justify-content: center; }
-.cover { overflow: clip; }
-/* back board */
+.book-mode .book-stage::before, .book-mode .book-stage::after { content: none; }
+.book-mode .book-stage.is-closed { transform: translateX(-25%); }
+.book-mode .book-stage.is-closed > .page { visibility: hidden !important; animation: none !important; }
+/* while the board swings, page 1 is already lying under it (no blank cloth) */
+.book-mode .book-stage.is-opening > .page.is-current { visibility: visible; animation: none !important; z-index: 2; }
+
+/* boards + page block: a cloth slab that is the right half when closed and the whole spread when open */
 .hc-back {
-  position: absolute; inset: 0;
-  background: linear-gradient(135deg, var(--cloth-edge), var(--cloth) 30%, var(--cloth-deep));
-  border-radius: 4px 14px 14px 4px;
-  box-shadow: 0 30px 60px rgba(0,0,0,.6), inset 0 0 0 1px rgba(255,255,255,.06);
-  transform: translateZ(-14px);
+  position: absolute; top: 0; bottom: 0; right: 0; left: 50%;
+  z-index: 0;
+  border-radius: 4px 16px 16px 4px;
+  background: linear-gradient(135deg, var(--cloth-edge), var(--cloth) 25%, var(--cloth-deep));
+  box-shadow: 0 30px 70px rgba(0,0,0,.6), inset 0 0 0 1px rgba(255,255,255,.06);
+  transition: left .95s cubic-bezier(.45,.05,.3,1), border-radius .95s;
 }
-/* page block seen between the boards */
-.hc-pages {
-  position: absolute; inset: 2.2% 1.6% 2.2% 2%;
-  background:
-    repeating-linear-gradient(90deg, #efe2c4 0 2px, #d9c8a3 2px 3px),
-    #efe2c4;
-  border-radius: 2px 8px 8px 2px;
-  transform: translateZ(-7px);
-  box-shadow: inset -6px 0 10px rgba(0,0,0,.18);
+.book-stage:not(.is-closed) .hc-back { left: 0; border-radius: 16px; }
+.hc-back::before {            /* spine, visible once open */
+  content: "";
+  position: absolute; top: 10px; bottom: 10px; left: 50%;
+  width: 26px; margin-left: -13px;
+  background: linear-gradient(90deg, rgba(0,0,0,0), rgba(0,0,0,.45) 50%, rgba(0,0,0,0));
+  opacity: 0; transition: opacity .6s .5s;
 }
-/* front board: hinged on the left */
+.book-stage:not(.is-closed) .hc-back::before { opacity: 1; }
+.hc-back::after {             /* page-block edge on the fore-edge */
+  content: "";
+  position: absolute; right: 7px; top: 22px; bottom: 22px; width: 6px;
+  border-radius: 0 3px 3px 0;
+  background: repeating-linear-gradient(180deg, #efe2c4 0 2px, #d9c8a3 2px 3px);
+  opacity: .9;
+}
+
+/* the front board, hinged on the spine (its left edge) */
 .hc-front {
-  position: absolute; inset: 0;
+  position: absolute; top: 14px; bottom: 14px; left: 50%; right: 14px;
+  z-index: 6;
   transform-origin: left center;
   transform-style: preserve-3d;
-  transition: transform 1.15s cubic-bezier(.45,.05,.3,1);
-  border-radius: 4px 14px 14px 4px;
+  transition: transform 1.2s cubic-bezier(.45,.05,.3,1);
+  cursor: pointer;
+  outline: none;
 }
-.hc-book.is-open .hc-front { transform: rotateY(-178deg); }
+.hc-front:focus-visible { box-shadow: 0 0 0 4px rgba(255,200,61,.6); }
+.book-stage:not(.is-closed) .hc-front { transform: rotateY(-180deg); }
+.book-stage.is-open .hc-front { z-index: 1; cursor: default; }
 .hc-face, .hc-inside {
   position: absolute; inset: 0;
-  border-radius: 4px 14px 14px 4px;
   overflow: hidden;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
 .hc-face {
+  border-radius: 4px 12px 12px 4px;
   background: var(--cloth);
-  box-shadow: 0 18px 40px rgba(0,0,0,.55), inset 0 0 0 1px rgba(255,255,255,.08);
+  box-shadow: 0 10px 30px rgba(0,0,0,.5), inset 0 0 0 1px rgba(255,255,255,.08);
 }
-.hc-cover { width: 100%; height: 100%; object-fit: cover; display: block; }
-.hc-inside {
-  transform: rotateY(180deg);
-  background: linear-gradient(180deg, var(--parchment), var(--parchment-2));
-  box-shadow: inset 0 0 40px rgba(80,50,20,.25), 0 18px 40px rgba(0,0,0,.45);
-  padding: 5%;
-}
-.hc-inside img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; box-shadow: 0 6px 18px rgba(0,0,0,.35); }
-/* light sheen across the front board */
-.hc-face::after {
+.hc-face::after {             /* sheen + hinge shadow */
   content: "";
-  position: absolute; inset: 0;
-  pointer-events: none;
-  background: linear-gradient(90deg, rgba(255,255,255,.14), rgba(255,255,255,0) 12%, rgba(255,255,255,0) 85%, rgba(255,255,255,.08));
+  position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(90deg, rgba(0,0,0,.35), rgba(0,0,0,0) 7%, rgba(255,255,255,0) 86%, rgba(255,255,255,.08));
 }
-/* title over the cover's calm top band (the cover art is text-free) */
+.hc-cover { width: 100%; height: 100%; object-fit: cover; object-position: center 35%; display: block; }
+.hc-inside {                  /* the pastedown: key art inside the front board */
+  transform: rotateY(180deg);
+  border-radius: 12px 4px 4px 12px;
+  background: linear-gradient(180deg, var(--parchment), var(--parchment-2));
+  box-shadow: inset 0 0 40px rgba(80,50,20,.25);
+  padding: 4%;
+}
+.hc-inside img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; box-shadow: 0 6px 18px rgba(0,0,0,.35); display: block; }
+
+/* title over the calm top band of the cover */
 .hc-title {
   position: absolute; left: 9%; right: 9%; top: 5.5%;
   text-align: center;
@@ -511,73 +518,58 @@ a { color: var(--hat); }
 .hc-title h1 {
   font-family: var(--display);
   font-weight: 700;
-  font-size: clamp(2rem, 19cqw, 4.6rem);
+  font-size: clamp(1.8rem, 19cqw, 5rem);
   line-height: .95;
   margin: 0;
   color: var(--gold);
   text-shadow: 0 0 22px rgba(255,179,71,.5), 0 3px 0 var(--toffee), 0 6px 14px rgba(0,0,0,.6);
-  letter-spacing: .01em;
 }
 .hc-title .cover-sub {
-  font-size: clamp(.8rem, 6.4cqw, 1.3rem);
+  font-size: clamp(.8rem, 6.4cqw, 1.5rem);
   margin: .3em 0 0;
   color: var(--parchment);
   text-shadow: 0 2px 8px rgba(0,0,0,.8);
 }
 .hc-open-hint {
   position: absolute; left: 0; right: 0; bottom: 3.5%;
-  margin: 0;
-  text-align: center;
+  margin: 0; text-align: center;
   font-family: var(--display);
-  font-size: .85rem;
-  letter-spacing: .14em;
-  text-transform: uppercase;
+  font-size: .85rem; letter-spacing: .14em; text-transform: uppercase;
   color: rgba(246,234,210,.9);
-  text-shadow: 0 2px 6px rgba(0,0,0,.9);
   animation: hint-pulse 2.4s ease-in-out infinite;
 }
 .hc-open-hint span {
-  display: inline-block;
-  padding: .35em .9em;
-  border-radius: 999px;
+  display: inline-block; padding: .35em .9em; border-radius: 999px;
   background: rgba(20,15,46,.72);
   box-shadow: 0 2px 10px rgba(0,0,0,.5), inset 0 0 0 1px rgba(255,200,61,.35);
 }
 @keyframes hint-pulse { 0%,100% { opacity: .55; } 50% { opacity: 1; } }
-.hc-book.is-open .hc-open-hint { display: none; }
-.cover-text .cover-lede { margin-top: .6rem; }
 
-/* The story pages sit inside the same cloth boards. */
-.book-mode .book-stage {
-  background: linear-gradient(135deg, var(--cloth-edge), var(--cloth) 25%, var(--cloth-deep));
-  padding: 14px 14px 14px 30px;
-  border-radius: 6px 16px 16px 6px;
-  box-shadow: 0 30px 70px rgba(0,0,0,.6), inset 0 0 0 1px rgba(255,255,255,.06);
-}
-.book-mode .book-stage::before {        /* spine */
-  content: "";
-  position: absolute; left: 0; top: 0; bottom: 0;
-  width: 22px;
-  border-radius: 6px 0 0 6px;
-  background: linear-gradient(90deg, var(--cloth-deep), var(--cloth-edge) 55%, var(--cloth-deep));
-  box-shadow: inset -2px 0 4px rgba(0,0,0,.5);
-}
-.book-mode .book-stage::after {         /* page-block edge on the right */
-  content: "";
-  position: absolute; right: 8px; top: 20px; bottom: 20px;
-  width: 7px;
-  border-radius: 0 3px 3px 0;
-  background: repeating-linear-gradient(180deg, #efe2c4 0 2px, #d9c8a3 2px 3px);
-  opacity: .9;
-}
-.book-mode .book-stage > .page { border-radius: 4px 10px 10px 4px; }
+/* pages inside the boards */
+.book-mode .book-stage > .page { border-radius: 4px 10px 10px 4px; z-index: 2; }
+.book-mode .book-stage.is-open > .page.is-current:not(.is-turning) { animation: page-appear .4s ease-out; }
+@keyframes page-appear { from { opacity: 0; } to { opacity: 1; } }
+
+/* nav hidden while the book is shut */
+.book-mode .book-nav.is-shut { visibility: hidden; }
+
 @media (max-width: 760px) {
-  .hardcover { padding-left: 0; }
-  .hc-book.is-open { transform: rotateY(0deg) translateX(28%) scale(.56); margin-bottom: -38%; }
-  .book-mode .book-stage { padding: 10px 10px 10px 22px; }
-  .book-mode .book-stage::before { width: 16px; }
+  /* one column: the shut book is the whole stage width, the pages stack below once open */
+  .book-mode .book-stage { padding: 10px; }
+  .book-mode .book-stage.is-closed { transform: none; aspect-ratio: 2 / 3; }
+  .book-mode .book-stage.is-closed > .page { display: none; }
+  .hc-back { left: 0; border-radius: 10px; }
+  .hc-front { left: 10px; right: 10px; top: 10px; bottom: 10px; }
+  .hc-face { border-radius: 8px; }
+  .hc-cover { object-position: center center; }
+  .book-stage:not(.is-closed) .hc-front { transform: rotateY(-180deg) scaleX(.06); opacity: .0; transition: transform 1s cubic-bezier(.45,.05,.3,1), opacity .4s .6s; }
+  .hc-back::before { display: none; }
+  /* phones: each page keeps its natural height instead of stretching to the tallest one */
+  .book-mode .book-stage > .page { align-self: start; align-content: start; }
+  .book-mode .book-stage > .page .page-art { min-height: 0; height: auto; aspect-ratio: 5 / 3; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .hc-front, .hc-book { transition: none; }
+  .hc-front, .hc-back, .book-mode .book-stage { transition: none; }
   .hc-open-hint { animation: none; }
+  .book-mode .book-stage.is-open > .page.is-current { animation: none; }
 }

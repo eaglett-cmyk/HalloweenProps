@@ -43,6 +43,16 @@ Read `crystal_oracle/README.md` first, then `crystal_oracle/docs/DESIGN.md` (con
   2027-01-06) → stills from ChatGPT + our ffmpeg "layers" animator; voice from ElevenLabs/OpenAI TTS.
 
 ### Changelog
+- **2026-10-24 (hardcover v2: the cover is ON the book)** — owner: the v1 open state "is not what a book looks
+  like" (a board swung off to the side next to a blank page block; on phones the cover left the screen and
+  opened onto a blank page). Rebuilt: the shut book IS the story stage's right half with the front board
+  (`.hc-front`, cover J + title) lying on it and the cloth slab (`.hc-back`) under it; the stage is slid
+  `translateX(-25%)` so the shut book sits centred. Opening (tap the cover / "Open the book" / Enter) swings
+  the board across the spine onto the left half (`rotateY(-180deg)`, key art on its inside = pastedown),
+  the slab widens to the whole spread, page 1 is already lying underneath (art left, words right) and the
+  nav appears; "Close the book" (bottom hint) reverses it. Phones: the shut book is full width (2:3), the
+  board swings away and page 1 (art above words) sits inside the boards; pages keep natural height there
+  (`align-self: start`). Hero text (kicker/lede/buttons) is now a centred block above the book. `?v=g5`.
 - **2026-10-24 (hardcover body)** — the landing page is now a closed hardcover: cover art = Codex
   (`review-cover-2026-10-24/`: 4 designs → owner picked B → 4 "real book" refinements with a hinge groove →
   F → 3 Butterscotch variants → **J**: Butterscotch in the stone medallion hugging the red Dragon Gem, the
