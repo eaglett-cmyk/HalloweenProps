@@ -47,6 +47,29 @@ Receivers check `magic`, `version` and `group` (`linkHeaderOk()`) before anythin
 else. They also accept packets **longer** than the struct they expect, so a future
 field can be appended without breaking anything.
 
+### 1b. The Wi-Fi / WebSocket carrier (plinth `PLINTH_LINK_WIFI 1`, 2026-10-24)
+
+For the **station web app** (`crystal_oracle/station/`, the show on an iPad) the plinth can
+carry exactly these packets over a **WebSocket** instead of ESP-NOW (`firmware/crystal_plinth/
+plinth_wifi.h`, plinth firmware 1.3.0): the plinth joins the house Wi-Fi as a station
+(`wifi_secrets.h`), announces itself as `dragonglow-plinth.local` (mDNS) and serves
+`ws://<plinth>:81/`; every packet below travels as one WebSocket **binary** message, byte for
+byte the same struct, little-endian, same `LinkHeader` (version + group checks included). What
+changes is only what the radio used to do:
+
+| | ESP-NOW | WebSocket |
+|---|---|---|
+| Discovery / adoption | broadcast HELLO, HELLO_ACK, unicast peer | none: a connected socket is the link; up to 2 browsers at once (every plinth→screen packet goes to all, any may send screen→plinth) |
+| Reliability | TAG_PLACED resent on a reported radio failure | TCP: never resent (`placedWatch` off) |
+| Standalone | nothing from the screen for 3 s → broadcast HELLO again | nothing from any browser for 3 s (or no socket) → same `standalone` state; the browser PINGs every 1 s, sends HELLO_ACK on connect |
+| Back in touch | the crystal still on the reader is re-read and announced again | identical (same code path) |
+| Channel / group | both boards on the same channel | channel irrelevant; `group` still checked |
+| Status | serial only | also a JSON status for a plain HTTP `GET http://<plinth>:81/` (CORS) |
+
+The browser side is `station/js/link.js` (codec + the screen's `reader.cpp` behaviour: write
+resends every 250 ms, 2 s give-up, presence resync from HELLO.tagPresent, ignore-until-lifted).
+`station/fake_plinth.js` is a node stand-in for the plinth that speaks the same carrier.
+
 ## 2. Packet types
 
 | Type | Dir | Struct | Meaning |

@@ -1,6 +1,8 @@
 /*
  * ============================================================================
  *  CRYSTAL PLINTH  --  the reader half of the Crystal Oracle (the "Wakestone")
+ *  v1.3.0 (2026-10-24: optional Wi-Fi / WebSocket carrier for the iPad station
+ *          web app, PLINTH_LINK_WIFI 1 + plinth_wifi.h; the packets are unchanged)
  *  v1.2.0 (2026-10-22: the owner's v7 plinth has NO LED ring and NO big button:
  *          both are compile-time options, PLINTH_HAS_RING / PLINTH_HAS_BUTTON,
  *          default 0; TAG_PLACED reports how long the read took (readMs); the
@@ -135,9 +137,19 @@
 #include "crystal_link.h"
 
 // ============================ configuration (TUNE) ==========================
-#define FW_VERSION          120        // 1.2.0 -> LinkHello.fwVersion (1.1 = understands LED_DUAL,
-                                       //   1.2 = TAG_PLACED carries readMs)
+#define FW_VERSION          130        // 1.3.0 -> LinkHello.fwVersion (1.1 = understands LED_DUAL,
+                                       //   1.2 = TAG_PLACED carries readMs, 1.3 = Wi-Fi/WebSocket transport option)
 #define DEBUG               1          // 1 = log to Serial @115200
+
+// --- how this plinth talks to the show (TUNE) ---
+//   0 = ESP-NOW to the Waveshare screen (the 2026 rig; crystal_link.h, LINK-PROTOCOL.md)
+//   1 = Wi-Fi station + WebSocket server on port 81 for the STATION WEB APP on an iPad / any
+//       browser (crystal_oracle/station/). Same binary packets, carried over a WebSocket.
+//       Needs wifi_secrets.h next to this sketch (copy wifi_secrets.example.h). Details:
+//       plinth_wifi.h. Override on the command line: -DPLINTH_LINK_WIFI=1
+#ifndef PLINTH_LINK_WIFI
+  #define PLINTH_LINK_WIFI  0          // TUNE: 1 = Wi-Fi / WebSocket for the iPad station app
+#endif
 
 // --- what this plinth has (TUNE) ---
 // The owner's v7 plinth (2026) has neither: the screen runs with config.ini
@@ -373,6 +385,10 @@ static LinkTagPlaced placedPkt;
 static bool     placedWatch = false;
 static uint8_t  placedResends = 0;
 static uint32_t placedSentMs = 0, placedFailMark = 0;
+
+#if PLINTH_LINK_WIFI
+  #include "plinth_wifi.h"             // the Wi-Fi / WebSocket carrier (needs RxPacket + the globals above)
+#endif
 
 // --- ring ---
 static RingState rs;
@@ -817,7 +833,36 @@ static void statusService(uint32_t now) {
 // =============================== ESP-NOW link ==============================
 //  The receive callback runs in the WiFi task: it only copies the packet into
 //  a queue; loop() does the real work.
+//  (PLINTH_LINK_WIFI 1: the radio functions below are replaced by the WebSocket
+//   carrier in plinth_wifi.h; everything from sendPlaced() on is shared.)
 
+#if PLINTH_LINK_WIFI
+// The JSON a plain HTTP GET on port 81 gets (plinth_wifi.h): a glance at the plinth from any browser.
+static const char *statusJson() {
+  static char buf[260];
+  char u[TAG_UID_MAX * 3 + 1] = "";
+  if (tagPresent) hexStr(curTag.uid, curTag.uidLen, u, sizeof(u));
+  snprintf(buf, sizeof(buf),
+           "{\"plinth\":\"%s\",\"fw\":%d,\"board\":\"%s\",\"readerOk\":%s,\"tagPresent\":%s,\"uid\":\"%s\","
+           "\"clients\":%u,\"standalone\":%s,\"uptimeMs\":%lu,\"placed\":%lu,\"writes\":%lu,\"heap\":%lu}",
+           PLINTH_HOSTNAME, FW_VERSION, BOARD_NAME, readerOk ? "true" : "false", tagPresent ? "true" : "false", u,
+           (unsigned)plinth_wifi::clients(), standalone ? "true" : "false", (unsigned long)millis(),
+           (unsigned long)statPlaced, (unsigned long)statWrites, (unsigned long)ESP.getFreeHeap());
+  return buf;
+}
+
+static void linkBegin() {
+  plinth_wifi::begin(statusJson);
+  espnowOk = true;                     // "the carrier is up" (the Wi-Fi join itself is asynchronous)
+}
+
+// Every connected browser gets every packet. TCP is reliable: no resends needed.
+static bool linkSend(const void *pkt, size_t len) {
+  const bool ok = plinth_wifi::send(pkt, len);
+  if (ok) txOk++;
+  return ok;
+}
+#else
 static void onRecv(const esp_now_recv_info_t *info, const uint8_t *data, int len) {
   if (!rxQ || !info || !info->src_addr || !data) return;
   if (len < (int)sizeof(LinkHeader) || len > ESP_NOW_MAX_DATA_LEN) return;
@@ -884,6 +929,7 @@ static bool linkSend(const void *pkt, size_t len) {
   }
   return true;
 }
+#endif  // PLINTH_LINK_WIFI
 
 // TAG_PLACED is the one packet the screen can't recover if it is lost (a lost
 // REMOVED is repaired from HELLO.tagPresent): if the radio reports a failed
@@ -892,7 +938,7 @@ static void sendPlaced() {
   placedPkt.h.seq = txSeq++;
   placedFailMark = txFail.load();
   const bool queued = linkSend(&placedPkt, sizeof(placedPkt));
-  placedWatch = linked;                // broadcasts get no delivery report
+  placedWatch = linked && !PLINTH_LINK_WIFI;   // broadcasts get no delivery report; TCP needs no resend
   placedSentMs = millis();
   if (!queued && linked) placedFailMark--;   // not even queued: treat as a failure (resend)
 }
@@ -945,6 +991,10 @@ static void sendWriteResult(uint16_t reqId, uint8_t status, uint8_t failedPage, 
 // plinth it adopted, so a PING / LED / WRITE_REQ reaching us proves it knows us
 // (covers a lost HELLO_ACK). There is one screen per group.
 static void adoptScreen(const uint8_t *mac) {
+#if PLINTH_LINK_WIFI
+  (void)mac;                           // a connected WebSocket is the link; nothing to adopt
+  linked = plinth_wifi::clients() > 0;
+#else
   if (linked && memcmp(mac, screenMac, 6) == 0) return;
   if (!addPeer(mac)) return;           // keep broadcasting; the screen ACKs every broadcast HELLO
   if (linked) esp_now_del_peer(screenMac);
@@ -953,6 +1003,7 @@ static void adoptScreen(const uint8_t *mac) {
   char s[24];
   hexStr(mac, 6, s, sizeof(s));
   logLine("link: screen %s - unicast from now on", s);
+#endif
 }
 
 // Nothing from the screen for SCREEN_TIMEOUT_MS: the ring runs its own look
@@ -961,7 +1012,9 @@ static void adoptScreen(const uint8_t *mac) {
 // (it is the owner's setting).
 static void enterStandalone() {
   if (linked) {
+#if !PLINTH_LINK_WIFI
     esp_now_del_peer(screenMac);
+#endif
     linked = false;
   }
   placedWatch = false;
@@ -1528,6 +1581,14 @@ static void handlePacket(const RxPacket &p) {
 }
 
 static void linkService(uint32_t now) {
+#if PLINTH_LINK_WIFI
+  plinth_wifi::service(now);           // Wi-Fi join / reconnect, new sockets, incoming frames -> handlePacket()
+  linked = plinth_wifi::clients() > 0;
+  now = millis();                      // packet handling (writes) can take a while
+  if (!standalone && (!linked || now - lastHeardMs > SCREEN_TIMEOUT_MS)) enterStandalone();
+  if (linked && now - lastHelloMs >= HELLO_MS) { lastHelloMs = now; sendHello(); }
+  return;
+#endif
   if (!espnowOk) {
     if (now - lastLinkTryMs >= 5000) { lastLinkTryMs = now; linkBegin(); }
     return;
@@ -1620,14 +1681,24 @@ static void pump() {
 // ============================ serial console ===============================
 static void printStatus() {
   char mac[24] = "-";
+#if PLINTH_LINK_WIFI
+  snprintf(mac, sizeof(mac), "%s", plinth_wifi::ip());
+  linked = plinth_wifi::clients() > 0;
+#else
   if (linked) hexStr(screenMac, 6, mac, sizeof(mac));
+#endif
   char u[TAG_UID_MAX * 3 + 1] = "none";
   if (tagPresent) hexStr(curTag.uid, curTag.uidLen, u, sizeof(u));
   uint32_t now = millis();
   logLine("status: up %lu s | link %s %s (heard %ld ms ago) | reader %s | tag %s | polls %lu placed %lu "
        "readfail %lu resets %lu writes %lu | rx %lu drop %lu ign %lu | tx ok %lu fail %lu err %lu | "
        "ring %s%s cap %u%s | heap %lu",
-       (unsigned long)(now / 1000), linked ? "screen" : "broadcast", mac,
+       (unsigned long)(now / 1000),
+#if PLINTH_LINK_WIFI
+       linked ? "browser(s) via" : (plinth_wifi::connected() ? "waiting for a browser on" : "no wifi"), mac,
+#else
+       linked ? "screen" : "broadcast", mac,
+#endif
        lastHeardMs ? (long)(now - lastHeardMs) : -1L, readerOk ? "ok" : "MISSING", u,
        (unsigned long)statPolls, (unsigned long)statPlaced, (unsigned long)statReadFails,
        (unsigned long)statResets, (unsigned long)statWrites, (unsigned long)rxCount.load(),
@@ -1722,11 +1793,16 @@ void setup() {
   esp_wifi_get_mac(WIFI_IF_STA, mac);
   char ms[24];
   hexStr(mac, 6, ms, sizeof(ms));
+#if PLINTH_LINK_WIFI
+  logLine("link: Wi-Fi / WebSocket mode, plinth MAC %s, group %d - the station app connects to ws://%s.local:%d/ "
+          "(IP follows once joined)", ms, LINK_GROUP, PLINTH_HOSTNAME, WS_PORT);
+#else
   uint8_t ch = 0;
   wifi_second_chan_t sec = WIFI_SECOND_CHAN_NONE;
   esp_wifi_get_channel(&ch, &sec);
   logLine("link: %s, plinth MAC %s, channel %u, group %d - broadcasting HELLO until the screen answers",
        espnowOk ? "ESP-NOW up" : "ESP-NOW FAILED (retrying every 5 s)", ms, (unsigned)ch, LINK_GROUP);
+#endif
   logLine("type h for serial commands");
 }
 

@@ -123,6 +123,34 @@ arduino-cli compile --fqbn esp32:esp32:esp32 \
   board gets the AITRIP map; any other chip stops the build with an error.
 * **Grounds:** all grounds common.
 
+## 3b. Wi-Fi / WebSocket mode: the plinth for the iPad station app (2026-10-24)
+
+The same plinth can serve the **station web app** (`../../station/`, the show in a browser on
+an iPad) instead of the Waveshare screen. Nothing changes in the hardware or the wiring; the
+firmware's link carrier does:
+
+```c
+#define PLINTH_LINK_WIFI  1   // top of crystal_plinth.ino (or -DPLINTH_LINK_WIFI=1)
+```
+
+1. Copy `wifi_secrets.example.h` to **`wifi_secrets.h`** (git-ignored) next to the sketch and
+   fill in `WIFI_SSID` / `WIFI_PASS` (`PLINTH_HOSTNAME` = the mDNS name, default
+   `dragonglow-plinth`). The build stops with a clear `#error` if the file is missing.
+2. Flash as usual (hold BOOT on the AITRIP). The serial console prints `wifi: connected, IP ...`
+   and the WebSocket URL; every 10 s status line shows the IP, "waiting for a browser" / "browser(s)
+   via", and the client count.
+3. Check from any browser on the same Wi-Fi: `http://<plinth IP>:81/` answers a JSON status
+   (`readerOk`, `tagPresent`, `uid`, `clients`, `standalone`, uptime, heap).
+4. In the station app enter the plinth address (`dragonglow-plinth.local:81` or the IP).
+
+Implementation: `plinth_wifi.h` (a small RFC 6455 server on `WiFiServer`, no library to install;
+`mbedtls` SHA-1/base64 for the handshake, ESPmDNS for the name). The packets are the unchanged
+`crystal_link.h` structs as WebSocket binary messages (`../../docs/LINK-PROTOCOL.md` §1b). The
+blue LED keeps its meaning (slow blink = no browser connected, steady = linked, flicker = a
+crystal on it). `PLINTH_LINK_WIFI 0` (the default) is the 2026 ESP-NOW rig, unchanged. Both
+builds compile (esp32 core 3.3.10; Wi-Fi build = 75 % of the 1.3 MB app partition).
+**Not yet run on hardware** (2026-10-24): tested against `station/fake_plinth.js` only.
+
 ## 4. Physical build (v7)
 
 * **Controller:** the terminal board sits in the 92 × 74 mm cavity, located by the four L-shaped

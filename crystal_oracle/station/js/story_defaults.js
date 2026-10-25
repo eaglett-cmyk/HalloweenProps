@@ -1,0 +1,81 @@
+// story_defaults.js - built-in words, used when captions.ini is missing a key.
+// Mirrors firmware/crystal_oracle/story_defaults.h (generated from assets/manifest.json by
+// tools/build_assets.py --gen-defaults). Keep the two in step when the manifest changes.
+export const STORY_DEFAULTS = {
+  'title': 'Dragonglow',
+  'character': 'Butterscotch',
+
+  'rank.1': 'Sparkfinder', 'rank.2': 'Apprentice', 'rank.3': 'Glowcaster', 'rank.4': 'Hoardguard',
+  'rank.5': 'Worldwalker', 'rank.6': 'Dragon Rider', 'rank.7': 'Keeper of the Hoard',
+
+  'tier.0': 'GOBLIN TRICK!', 'tier.0_color': '#8DBF6A',
+  'tier.1': 'HOARD COIN!', 'tier.1_color': '#D9DEE8',
+  'tier.2': 'DRAGON GEM!', 'tier.2_color': '#FF3B47',
+  'tier.3': 'GOLDEN STAR!', 'tier.3_color': '#FFC83D',
+
+  'bowl.common': 'Silver Circle', 'bowl.common_color': '#D9DEE8', 'bowl.common_shape': 'circle',
+  'bowl.rare': 'Red Triangle', 'bowl.rare_color': '#FF3B47', 'bowl.rare_shape': 'triangle',
+  'bowl.legend': 'Gold Star', 'bowl.legend_color': '#FFC83D', 'bowl.legend_shape': 'star',
+
+  'color.1': 'Dragonberry', 'color.1_hex': '#5A1E9E,#C8A0FF',
+  'color.2': 'Starfrost', 'color.2_hex': '#5CD6FF',
+  'color.3': 'Rainbow Fizz', 'color.3_hex': 'rainbow',
+
+  'caption.attract': 'Crystal here',
+  'caption.absorb': '',
+  'caption.awaken': 'NEW CRYSTAL!',
+  'caption.greet': 'Welcome back!',
+  'caption.charge': 'PRESS!',
+  'caption.reveal_t0': 'GOBLIN TRICK!',
+  'caption.reveal_t1': 'HOARD COIN!',
+  'caption.reveal_t2': 'DRAGON GEM!',
+  'caption.reveal_t3': 'GOLDEN STAR!',
+  'caption.replay': 'ALREADY GLOWED',
+  'caption.nocrystal': 'DRAGON BLESSING!',
+  'caption.foreign': 'DRAGON BLESSING!',
+  'caption.sleepy': 'AGAIN, PLEASE',
+  'caption.goodbye': 'SEE YOU {next_year}',
+  'caption.milestone': 'HOORAY, TRAVELERS!',
+  'caption.circle': 'CRYSTAL CIRCLE!',
+  'caption.keeper': 'SHH... SECRET',
+  'caption.chapter': '',
+  'caption.chapter_a': "BUTTERSCOTCH'S HOARD",
+  'caption.chapter_b': 'UH-OH, SNUFFWICK!',
+  'caption.chapter_c': 'THE CRYSTAL EGG',
+  'caption.chapter_d': 'YOUR GLOW',
+  'caption.chapter_e': 'LIGHT THE BEACON',
+  'caption.chapter_f': "WHAT'S IN THE SOCK?",
+  'caption.moonfull': 'BEACON LIT!',
+  'caption.moonfull_b': 'OFFICIAL PRANKSTER',
+  'caption.recall': 'LAST YEAR',
+
+  'ui.place': 'Crystal on the Wakestone',
+  'ui.hold': 'Hold still...',
+  'ui.power': 'GLOW',
+  'ui.counter': 'sparks for the beacon',
+  'ui.press': 'Press the button!',
+  'ui.or_press': 'OR PRESS',
+  'ui.tonight': 'TONIGHT',
+  'ui.reader_asleep': 'READER ASLEEP',
+  'ui.rush': 'RUSH',
+  'ui.touch': 'TOUCH FOR A BLESSING',
+  'ui.no_card': 'NO TF CARD',
+
+  'meter.style': 'lantern',
+  'meter.pos': '150,110,70',
+  'meter.name': 'Beacon',
+  'meter.color': '#FFB347',
+  'meter.on': 'attract,absorb,greet,recall,charge,reveal_t0,reveal_t1,replay,nocrystal,foreign,sleepy,goodbye,keeper,chapter_a,chapter_e,chapter_f',
+  'meter.zoom_keeper': '1,1.15',
+
+  'glow.idle_color': '#FFC27A',
+
+  'fx.reveal_t0_1': 'poof,615,230,1100,1100',
+  'fx.reveal_t0_2': 'sparkles,440,170,600,1800',
+  'fx.reveal_t0_3': 'burst,420,150,1420,1420',
+
+  'nobutton.voice': 'attract_call_2=attract_tap_1;charge=charge_tap',
+  'nobutton.caption.charge': 'TAP! TAP!',
+  'nobutton.ui.press': 'Tap the window!',
+  'nobutton.ui.or_press': 'OR TAP ME',
+};

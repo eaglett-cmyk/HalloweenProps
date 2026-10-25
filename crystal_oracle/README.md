@@ -14,7 +14,8 @@ Kids without a crystal **tap the window** for a dragon blessing (there is no big
 | [`docs/DESIGN.md`](docs/DESIGN.md) | Technical design: hardware facts, rendering, audio, the show's timing, token layout, asset pipeline |
 | [`docs/RESEARCH-NOTES.md`](docs/RESEARCH-NOTES.md) | Verified facts about the Waveshare board (pins, I²C map, gotchas) with sources |
 | [`plinth/`](plinth/) | The plinth's 3D design: `crystal_plinth_v7.scad` (body, cover, NFC lid, pins, 11 crystal clusters), `crystal_plinth_REVIEW.md` (checks, print notes, what's still open) and the `v7_*.png` renders |
-| [`firmware/crystal_plinth/README.md`](firmware/crystal_plinth/README.md) | Plinth wiring + flashing (and the optional ring / button) |
+| [`firmware/crystal_plinth/README.md`](firmware/crystal_plinth/README.md) | Plinth wiring + flashing (and the optional ring / button; §3b = the Wi-Fi / WebSocket mode for the iPad app) |
+| [`station/README.md`](station/README.md) | **The show on an iPad**: a web-app port of the screen firmware + a node server on the house PC; the plinth unchanged, flashed with `PLINTH_LINK_WIFI 1`. Also how to test it without hardware (`fake_plinth.js`) |
 | [`tools/README.md`](tools/README.md) | The asset builder (ChatGPT images + voice → SD card) and the ElevenLabs voice script |
 
 ## How it works

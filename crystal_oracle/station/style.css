@@ -1,0 +1,48 @@
+html, body { margin: 0; padding: 0; background: #000; color: #eee; height: 100%; overflow: hidden; font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+body { display: flex; align-items: center; justify-content: center; }
+#show { display: block; background: #000; touch-action: none; image-rendering: auto; }
+#hud { position: fixed; right: 8px; bottom: 6px; font-size: 12px; color: rgba(255,255,255,0.35); pointer-events: none; }
+
+#start { position: fixed; inset: 0; background: rgba(4,2,12,0.92); display: flex; align-items: center; justify-content: center; z-index: 10; }
+#start.hidden { display: none; }
+#start .card { background: #15102a; border: 1px solid #3b2d6b; border-radius: 16px; padding: 28px 32px; width: min(520px, 92vw); text-align: center; box-shadow: 0 10px 50px rgba(0,0,0,0.6); }
+#start h1 { margin: 0 0 8px; font-size: 28px; color: #e9d5ff; letter-spacing: 1px; }
+#start p { margin: 8px 0; color: #cfc6e8; }
+#start p.small { font-size: 12px; color: #8f85ad; }
+#start label { display: block; margin: 14px 0; font-size: 14px; color: #bdb3dc; }
+#start input { display: block; width: 100%; box-sizing: border-box; margin-top: 6px; padding: 10px 12px; font-size: 16px; border-radius: 8px; border: 1px solid #4b3d80; background: #0d0a1a; color: #fff; }
+#start button { font-size: 22px; padding: 14px 36px; border-radius: 12px; border: 0; background: #7c3aed; color: #fff; cursor: pointer; }
+#start button:disabled { background: #3b2d6b; color: #9b93b8; cursor: default; }
+
+/* ---- host menu ---- */
+#service { position: fixed; inset: 0; background: #0b0816; color: #eee; display: none; flex-direction: column; z-index: 20; font-size: 15px; }
+#service.open { display: flex; }
+#service .tabs { display: flex; gap: 6px; padding: 8px; background: #15102a; border-bottom: 1px solid #3b2d6b; flex-wrap: wrap; }
+#service .tab { background: #241b45; color: #cfc6e8; border: 1px solid #3b2d6b; border-radius: 8px; padding: 10px 14px; font-size: 15px; cursor: pointer; }
+#service .tab.on { background: #7c3aed; color: #fff; }
+#service .tab.close { margin-left: auto; background: #5b1d1d; color: #fff; }
+#service .page { padding: 14px 18px; overflow: auto; flex: 1; }
+#service h2 { margin: 0 0 10px; font-size: 20px; color: #e9d5ff; }
+#service table.kv { border-collapse: collapse; margin: 6px 0 12px; }
+#service table.kv th { text-align: left; color: #9b93b8; font-weight: normal; padding: 4px 16px 4px 0; white-space: nowrap; vertical-align: top; }
+#service table.kv td { padding: 4px 0; }
+#service .row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 10px 0; }
+#service .label { color: #9b93b8; }
+#service .btn { background: #241b45; color: #fff; border: 1px solid #4b3d80; border-radius: 10px; padding: 12px 16px; font-size: 15px; cursor: pointer; min-height: 44px; }
+#service .btn.accent { background: #7c3aed; }
+#service .btn.warn { background: #4a3a10; border-color: #8a6a1a; }
+#service .btn.danger { background: #a31d1d; border-color: #ff6b6b; }
+#service .btn.colour.on { outline: 2px solid #fff; }
+#service .swatch { display: inline-block; width: 18px; height: 18px; border-radius: 50%; margin-right: 8px; vertical-align: middle; border: 1px solid rgba(255,255,255,0.4); }
+#service input[type=text], #service input[type=number], #service select { padding: 9px 10px; font-size: 15px; border-radius: 8px; border: 1px solid #4b3d80; background: #0d0a1a; color: #fff; }
+#service input[type=text] { min-width: 280px; }
+#service input[type=number] { width: 80px; }
+#service input[type=range] { width: 240px; }
+#service .msg { color: #ffd27a; min-height: 1.2em; }
+#service .hint { color: #8f85ad; font-size: 13px; }
+#service pre.log { font-size: 12px; line-height: 1.35; white-space: pre-wrap; color: #cfc6e8; }
+#service .batch { margin: 14px 0; padding: 10px 14px; border: 1px solid #3b2d6b; border-radius: 12px; background: #120d24; }
+#service .batch.on { border-color: #7c3aed; background: #1b1238; }
+#service .batch h3 { margin: 0 0 6px; font-size: 17px; color: #e9d5ff; }
+#service .check { color: #cfc6e8; display: inline-flex; align-items: center; gap: 6px; }
+#service .check input { width: 22px; height: 22px; }

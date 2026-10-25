@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Crystal Oracle - station</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#06030f">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="show" width="800" height="480"></canvas>
+<div id="hud"></div>
+<div id="start">
+  <div class="card">
+    <h1>Crystal Oracle</h1>
+    <p id="start-status">Loading...</p>
+    <label>Plinth address <input id="plinth-addr" type="text" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="dragonglow-plinth.local:81"></label>
+    <button id="start-btn" disabled>Tap to begin</button>
+    <p class="small">On the iPad: add this page to the Home Screen and run it under Guided Access. Hold the top-left corner of the show for 3 s for the host menu.</p>
+  </div>
+</div>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

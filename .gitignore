@@ -37,3 +37,12 @@ crystal_oracle/tools/.elevenlabs_key
 # Still re-takes: kept copies of replaced stills and review candidates (local only)
 crystal_oracle/assets/source/images/*.old
 crystal_oracle/assets/source/images/review-*/
+
+# plinth Wi-Fi credentials (crystal_oracle/firmware/crystal_plinth/wifi_secrets.h; the .example is tracked)
+wifi_secrets.h
+# station web app runtime state (counters + visit logs written by crystal_oracle/station/server.js)
+crystal_oracle/station/state/
+crystal_oracle/station/logs/
+
+# station e2e output (tools/station_e2e.js screenshots + Chrome profile)
+crystal_oracle/tools/.e2e/
