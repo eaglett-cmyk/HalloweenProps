@@ -44,6 +44,22 @@ Read `crystal_oracle/README.md` first, then `crystal_oracle/docs/DESIGN.md` (con
   2027-01-06) → stills from ChatGPT + our ffmpeg "layers" animator; voice from ElevenLabs/OpenAI TTS.
 
 ### Changelog
+- **2026-10-24 (Hoard Stand: iPad stand STL, Claude design + Codex art pass)** — owner asked for a stand for
+  the station iPad (**A2316 = iPad Air 4th gen, 247.6 × 178.5 × 6.1 mm**) in the hoard-cave style, printed
+  in the stone filament + the three crystal filaments. `crystal_oracle/ipad_stand/`: `ipad_stand.scad` =
+  functional frame (Claude): landscape, 18° lean, bottom edge 50 mm up, 7 mm front lip (inside the ~10 mm
+  bezel), slot sized for `case_t=4` (a slim case; bare iPad also fits), backrest contact 118 mm up, seat
+  184 mm long so both short ends (USB-C, speakers) are free, footprint 204 × 153 (220 bed), 3 crystal
+  clusters on the plinth's D-pins (left Dragonberry, centre Rainbow Fizz = cracked crystal-egg cup, right
+  Starfrost), nothing in front of the screen above 56 mm. `ipad_stand_art.scad` = the art layer (Codex,
+  via `codex exec`, brief/result in `docs/codex/ipad-stand-*.md`); the frame clips the art to its envelope
+  and cuts slot/sightline/sockets afterwards, so an art pass cannot break the fit. `part="check"` must
+  render empty (it does). STLs: `body.stl` (stone, 174 mm tall, upright, no supports), `cluster_*.stl`
+  (root-down), `pin.stl` ×3. **Not printed or fit-tested yet.**
+  Same day, trimmed for print speed: `rest_h` 118→100, `rest_w` 90→70, new `art_top=75` clips the
+  decoration (the iPad hides everything behind it) → body 174→142 mm tall, ~15 % less volume; check still
+  empty. Fast X1C settings in `ipad_stand/PRINT.md` (0.28 mm, 8 % lightning infill) — estimates only,
+  no slicer on this PC.
 - **2026-10-24/25 (station app ON HARDWARE: iPad + real plinth working)** — plinth flashed in Wi-Fi mode
   (COM4, BOOT held; `-DPLINTH_LINK_WIFI=1`, `wifi_secrets.h` = the 2.4 GHz SSID **NETGEAR72** — the ESP32 can't
   join the 5 GHz "NETGEAR72-5G-1"); IP **192.168.1.107** (no DHCP reservation yet), `dragonglow-plinth.local`
