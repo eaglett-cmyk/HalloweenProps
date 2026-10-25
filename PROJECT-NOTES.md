@@ -44,6 +44,16 @@ Read `crystal_oracle/README.md` first, then `crystal_oracle/docs/DESIGN.md` (con
   2027-01-06) → stills from ChatGPT + our ffmpeg "layers" animator; voice from ElevenLabs/OpenAI TTS.
 
 ### Changelog
+- **2026-10-24 (raised NFC platform for the v7 plinth, Claude frame + Codex art)** — owner: more room over
+  the PN532, and tags read better with a little offset. `crystal_oracle/plinth/nfc_platform.scad` (frame) +
+  `nfc_platform_art.scad` (Codex, 2 rounds; briefs/results in `docs/codex/nfc-platform-*.md`) replace the
+  flush 2 mm `nfc_lid`: same plug footprint/depth in the v7 lid rebate (no body change), top face **10 mm
+  above the plinth top** (z 47 → 57; tag ~15 mm over the reader instead of ~5), hollow underneath (2.2 mm
+  walls, 2 mm top plate). Stone capstone slab ~86 × 83 mm overhangs the rebate onto the plinth top, clear of
+  every crystal cluster by 1.5 mm swept vertically (lifts straight out); engraved double rune ring around the
+  flat r=20 landing circle, which is centred on the **reader** (−8.5, −8.5), not the plinth axis.
+  `part="check"` renders empty. **Print upside down** (top face on bed), no supports. STL `nfc_platform.stl`.
+  Not printed or read-range tested yet.
 - **2026-10-24 (Hoard Stand: iPad stand STL, Claude design + Codex art pass)** — owner asked for a stand for
   the station iPad (**A2316 = iPad Air 4th gen, 247.6 × 178.5 × 6.1 mm**) in the hoard-cave style, printed
   in the stone filament + the three crystal filaments. `crystal_oracle/ipad_stand/`: `ipad_stand.scad` =
