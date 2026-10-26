@@ -12,7 +12,7 @@ Everything the screen needs, in priority order. **MVP** = needed for Halloween n
 | Music bed | 1 | 1 | Pixabay Music / ElevenLabs Music |
 | Animated clips | built automatically from the images (28 recipes, 31 clips with the colour variants) | | `tools/build_assets.py` |
 
-> **Why stills, not videos?** As of October 2026 ChatGPT no longer makes video or audio files (OpenAI shut Sora down in 2026). ChatGPT Images still makes excellent stills, transparent cut-outs and consistent edits of one character. The asset builder turns those stills into the screen's animations: Butterscotch floating like a balloon and changing expressions, Snuffwick tiptoeing in with his rubber chicken, the hoard coin spinning, the Dragon Gem rising out of the Wakestone, the Golden Star climbing. The screen adds the live magic on top (glows in each kid's crystal colour, sparkles, the Hoard Beacon's growing glow, the numbers and words). If you do get real video clips from another tool, drop the MP4s in `assets/source/video/` — the builder can use them too.
+> **Why stills, not videos?** As of October 2026 ChatGPT no longer makes video or audio files (OpenAI shut Sora down in 2026). ChatGPT Images still makes excellent stills, transparent cut-outs and consistent edits of one character. The asset builder turns those stills into the screen's animations: Butterscotch floating like a balloon and changing expressions, Snuffwick tiptoeing in with his rubber chicken, the hoard coin spinning, the Golden Star rising out of the Wakestone, the Dragon Gem climbing. The screen adds the live magic on top (glows in each kid's crystal colour, sparkles, the Hoard Beacon's growing glow, the numbers and words). If you do get real video clips from another tool, drop the MP4s in `assets/source/video/` — the builder can use them too.
 
 ## 1. How to make the images in ChatGPT
 
@@ -44,8 +44,8 @@ Everything the screen needs, in priority order. **MVP** = needed for Halloween n
 | 12 | `snuffwick_chicken.png` | instead of the snuffer he hugs a big pale lemon-yellow squeaky rubber chicken with an … | MVP | snuffwick_base | reveal_t0_1 |
 | 13 | `prop_crystal.png` | One pale clear faceted crystal with the shape of your real 3D-printed crystals (give … | MVP | — | awaken, chapter_d |
 | 14 | `prop_coin.png` | HOARD COIN: a big round shiny SILVER candy coin (#D9DEE8), like a chocolate coin in … | MVP | — | reveal_t0_1, reveal_t1 |
-| 15 | `prop_gem.png` | DRAGON GEM: a big ruby-red (#FF3B47) gem cut as a clear TRIANGLE (point up), chunky … | MVP | — | reveal_t2, reveal_t2_2 |
-| 16 | `prop_star.png` | GOLDEN STAR: a chunky glossy gold (#FFC83D) five-point star with rounded points and a … | MVP | — | reveal_t3 |
+| 15 | `prop_gem.png` | DRAGON GEM: a big ruby-red (#FF3B47) gem cut as a clear TRIANGLE (point up), chunky … | MVP | — | reveal_t3 |
+| 16 | `prop_star.png` | GOLDEN STAR: a chunky glossy gold (#FFC83D) five-point star with rounded points and a … | MVP | — | reveal_t2, reveal_t2_2 |
 | 17 | `bg_cave_lit.png` | the Hoard Beacon now BLAZES warm amber (#FFB347) with a soft warm pool of light on the … | NICE | bg_cave | attract_full, moonfull, chapter_a, chapter_b, chapter_e |
 | 18 | `butterscotch_yawn.png` | a big sleepy yawn - round open mouth (no teeth), eyes squeezed shut; face-only. (Sleepy … | NICE | butterscotch_base | sleepy |
 | 19 | `butterscotch_wink.png` | his right paw raised to his lips in a 'shh', one eye winking, a secret smile; the other … | NICE | butterscotch_base | replay, keeper |
@@ -159,7 +159,7 @@ One pale, clear, faceted crystal shaped like the crystal in the attached photo (
 ### `prop_coin` — MVP · transparent
 
 ```text
-A big, round, shiny SILVER candy coin (#D9DEE8), like a chocolate coin wrapped in silver foil, with a simple embossed little dragon swirl in the middle and a smooth raised rim. Front view, perfectly round, no text, no numbers, no face. Silver only - NOT gold. Full figure, centred, nothing cropped, on a TRANSPARENT background (PNG). If you can't make it transparent, use a flat pure green #00FF00 background with no shadow and no floor. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; glossy candy-like materials; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and cozy, never scary.
+A chunky glossy SILVER DRAGON COIN (#D9DEE8, polished smooth silver foil with soft lavender-pink candy reflections), tilted very slightly so its thick rounded rim shows, in the same candy-treasure style as the hoard in bg_cave. Deep raised relief in the centre: a CUTE CHUBBY round dragon like Butterscotch (round tummy, tiny wings, swirl horns, curly tail, sweet smile, tiny wizard hat with a star), all silver. Tiny embossed stars and candy dots inside the rim. No text, no numbers. Silver only - NOT gold. Full figure, centred, nothing cropped, on a TRANSPARENT background (PNG). If you can't make it transparent, use a flat pure green #00FF00 background with no shadow and no floor. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; glossy candy-like materials; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and cozy, never scary.
 ```
 
 ### `prop_gem` — MVP · transparent
@@ -171,7 +171,7 @@ A big RUBY-RED (#FF3B47) dragon gem cut as a clear TRIANGLE with the point up: c
 ### `prop_star` — MVP · transparent
 
 ```text
-A chunky glossy GOLD (#FFC83D) five-point star with rounded points and a soft warm glow, no face, front view. Full figure, centred, nothing cropped, on a TRANSPARENT background (PNG). If you can't make it transparent, use a flat pure green #00FF00 background with no shadow and no floor. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; glossy candy-like materials; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and cozy, never scary.
+A chunky glossy GOLDEN DRAGON STAR (#FFC83D, warm honey-gold polished foil with soft candy-pink reflections and a gentle glow): a five-point star with softly rounded points and a thick bevelled rim, in exactly the style of prop_coin. Deep raised relief in the centre: the same CUTE CHUBBY wizard-hat dragon, all gold. Tiny embossed candy dots inside the rim. No text, no numbers. Full figure, centred, nothing cropped, on a TRANSPARENT background (PNG). If you can't make it transparent, use a flat pure green #00FF00 background with no shadow and no floor. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; glossy candy-like materials; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and cozy, never scary.
 ```
 
 ### `bg_cave_lit` — NICE · background
@@ -289,9 +289,9 @@ A clip is built as soon as its **needed** pictures exist; *extras* are used when
 | `reveal_t0_2` | MVP | `bg_cave`, `snuffwick_base`, `butterscotch_base`, `butterscotch_puff`, `butterscotch_giggle` | `prop_feather`, `fx_bubble` | Gag 2 Hiccup Bubbles: Snuffwick pops up behind Butterscotch's shoulder and tickles his nose with a feather; hic! hic! - bubbles float up. (Device: sparkles in the kid's crystal colour from his mouth.) |
 | `reveal_t0_3` | MVP | `bg_cave`, `butterscotch_surprise`, `butterscotch_puff`, `butterscotch_giggle`, `snuffwick_base`, `snuffwick_sneeze` | `fx_eyes` | Gag 3 Snuff-Out: Snuffwick tiptoes in, 'pfft!' - the cave goes dark (no bg = black; only his eyes blink, and the device's lantern sparks + Butterscotch's tummy glow stay on: the kids' light can't be snuffed), Butterscotch sneezes sparkles at 1.4 s and the lights pop back on; Snuffwick sneezes and scampers off. |
 | `reveal_t1` | MVP | `bg_cave`, `butterscotch_delight`, `prop_coin` | — | HOARD COIN: the silver coin flips up out of his paws and spins (upper right, clear of the lantern). |
-| `reveal_t2` | MVP | `bg_wakestone`, `butterscotch_surprise`, `prop_gem` | — | DRAGON GEM: the ruby triangle rises out of the Wakestone and turns once; Butterscotch gasps. |
-| `reveal_t2_2` | NICE | `bg_wakestone`, `butterscotch_surprise`, `butterscotch_delight`, `prop_gem` | — | Variant 2 (with reveal_t2_2's line): the gem wobbles up and Butterscotch's gasp turns into a beam. |
-| `reveal_t3` | MVP | `bg_starburst`, `prop_star`, `butterscotch_delight` | — | GOLDEN STAR: the gold rays turn slowly, the star rises and grows (no strobe); Butterscotch beams beside it. |
+| `reveal_t2` | MVP | `bg_wakestone`, `butterscotch_surprise`, `prop_star` | — | GOLDEN STAR (rare since 2026-10-26): the gold star rises out of the Wakestone and turns once; Butterscotch gasps. |
+| `reveal_t2_2` | NICE | `bg_wakestone`, `butterscotch_surprise`, `butterscotch_delight`, `prop_star` | — | Variant 2 (with reveal_t2_2's line): the star wobbles up and Butterscotch's gasp turns into a beam. |
+| `reveal_t3` | MVP | `bg_starburst`, `prop_gem`, `butterscotch_delight` | — | DRAGON GEM (the top prize since 2026-10-26): the rays turn slowly, the ruby gem rises and grows (no strobe); Butterscotch beams beside it. |
 | `replay` | MVP | `bg_cave`, `butterscotch_wink` | `butterscotch_peek` | Already played tonight: a 'shh' wink (one-eye peek until the wink still exists); the device shows tonight's result dimmed. |
 | `nocrystal` | MVP | `bg_cave`, `butterscotch_puff`, `butterscotch_delight` | `fx_bubble` | The dragon blessing: Butterscotch puffs his cheeks and blows a sparkly blessing bubble down to the kid (+1 spark for the lantern). |
 | `sleepy` | MVP | `bg_cave`, `butterscotch_yawn` | `butterscotch_sleep` | Unreadable crystal: a big yawn (the sleeping face until the yawn still exists). |
@@ -354,13 +354,13 @@ Save each line as its own file named by its **id** (any of WAV / MP3 / M4A) into
 | `reveal_t0_3` | Lights out?! Ah... ah... CHOO! Candy anyway! | gag 3 Snuff-Out: startled-silly in the dark, a big sparkly sneeze about 1.4 s in (the lights pop back on), then a happy chuckle on 'Candy anyway!' | MVP |
 | `reveal_t1_1` | Hoard coin! A big shiny one! | happy, admiring, warm | MVP |
 | `reveal_t1_2` | Hoard coin! Shiny silver treasure! | sweet and pleased, a little chuckle | MVP |
-| `reveal_t2_1` | Dragon Gem! Whoa, a rare one! | genuinely surprised, an excited whisper-shout | MVP |
-| `reveal_t2_2` | Dragon Gem! Not many travelers find those! | thrilled, conspiratorial | MVP |
-| `reveal_t3_1` | The Golden Star! You're legendary! | awed hush rising to joy | MVP |
-| `reveal_t3_2` | Golden Star! The rarest treasure of all! | breathless wonder, slow and grand | MVP |
-| `bowl_common_1` | Silver circle! Take one treat! | clear and friendly, crisp on 'Silver circle' | MVP |
-| `bowl_rare_1` | Red triangle! Take one treat! | clear, excited, crisp on 'Red triangle' | MVP |
-| `bowl_legend_1` | Gold star! The grown-up has it! | celebratory, pointing-out tone | MVP |
+| `reveal_t2_1` | Golden Star! Whoa, a rare one! | genuinely surprised, an excited whisper-shout | MVP |
+| `reveal_t2_2` | Golden Star! Not many travelers find those! | thrilled, conspiratorial | MVP |
+| `reveal_t3_1` | The Dragon Gem! You're legendary! | awed hush rising to joy | MVP |
+| `reveal_t3_2` | Dragon Gem! The rarest treasure of all! | breathless wonder, slow and grand | MVP |
+| `bowl_common_1` | Silver coin! Take one treat! | clear and friendly, crisp on 'Silver coin' | MVP |
+| `bowl_rare_1` | Gold star! Take one treat! | clear, excited, crisp on 'Gold star' | MVP |
+| `bowl_legend_1` | Dragon gem! The grown-up has it! | celebratory, pointing-out tone | MVP |
 | `replay_1` | Shh! Your crystal already glowed tonight! | secretive and kind, smiling | MVP |
 | `replay_2` | Still glowing from tonight! Clever crystal! | gentle and proud, no scolding | MVP |
 | `nocrystal_1` | A dragon blessing! Whoosh, you sparkle! | generous and cheery, a soft 'whoosh' like blowing a bubble | MVP |
@@ -381,12 +381,12 @@ Save each line as its own file named by its **id** (any of WAV / MP3 / M4A) into
 | `charge_2` | Press fast! Fill your crystal! | bouncy encouragement (only with a plinth button, button = yes) | NICE |
 | `recall_t0_1` | Last year, Snuffwick tricked you! Silly goblin! | remembering fondly, a chuckle | NICE |
 | `recall_t1_1` | Last year, a shiny hoard coin! | fond memory, warm | NICE |
-| `recall_t2_1` | Last year, a Dragon Gem! Remember? | impressed memory | NICE |
-| `recall_t3_1` | Last year, the Golden Star! Legendary! | awed remembering | NICE |
-| `rush_t0_1` | Silver circle! Goblin trick! | fast, giggly, bowl words crisp (rush mode) | NICE |
-| `rush_t1_1` | Silver circle! Hoard coin! | fast and bright (rush mode) | NICE |
-| `rush_t2_1` | Red triangle! Dragon Gem! | fast, excited (rush mode) | NICE |
-| `rush_t3_1` | Gold star! Golden Star! | fast but awed (rush mode) | NICE |
+| `recall_t2_1` | Last year, a Golden Star! Remember? | impressed memory | NICE |
+| `recall_t3_1` | Last year, the Dragon Gem! Legendary! | awed remembering | NICE |
+| `rush_t0_1` | Goblin trick! Silver coin bowl! | fast, giggly, bowl words crisp (rush mode) | NICE |
+| `rush_t1_1` | Hoard coin! Silver coin bowl! | fast and bright (rush mode) | NICE |
+| `rush_t2_1` | Gold star! Golden Star! | fast, excited (rush mode) | NICE |
+| `rush_t3_1` | Dragon Gem! The grown-up has it! | fast but awed (rush mode) | NICE |
 | `milestone_1` | Another hundred crystals! Hooray, travelers! | party cheer, bubbly | NICE |
 | `circle_1` | A crystal circle! All the worlds together! | delighted, gathering-everyone warmth | NICE |
 | `circle_2` | *Snuffwick (record in Butterscotch's voice; the builder pitches it up):* Eek! Too much glow! Hee hee! | Snuffwick (pitched up by the builder): a dazzled squeak, then a giggle | NICE |
@@ -418,8 +418,8 @@ Free sources: **Pixabay Sound Effects** (free, no attribution needed), **Freesou
 | `reveal_t0_2` | Gag 2 Hiccup Bubbles: two cute 'hic!' hiccups, each with a soap-bubble pop. | cartoon hiccup, bubble pop | NICE |
 | `reveal_t0_3` | Gag 3 Snuff-Out (starts 0.65 s into the gag): a tiny candle 'pfft' (the lights go out), a beat of quiet with a little goblin giggle, then a bright sparkly shimmer at about 0.75 s (the sneeze relights the cave; Butterscotch's voice says the 'CHOO'). | candle snuff out, small giggle, magic sparkle burst | NICE |
 | `reveal_t1` | HOARD COIN: a bright coin 'ting' + a twinkly two-chord chime, happy. | coin ting, twinkle chime, magic bell | MVP |
-| `reveal_t2` | DRAGON GEM: a magical swirl + sparkle arpeggio, wondrous. | magic spell swirl, sparkle arpeggio | MVP |
-| `reveal_t3` | GOLDEN STAR: harp glissando + a soft warm gong (the host's cue to come over). No harsh brass. | harp glissando, soft gong, magical reveal | MVP |
+| `reveal_t2` | GOLDEN STAR (rare): a magical swirl + sparkle arpeggio, wondrous. | magic spell swirl, sparkle arpeggio | MVP |
+| `reveal_t3` | DRAGON GEM (top prize): harp glissando + a soft warm gong (the host's cue to come over). No harsh brass. | harp glissando, soft gong, magical reveal | MVP |
 | `tap` | Each tap on the window (or button press) during charge: a tiny bright blip (it repeats fast). | ui blip, bubble pop short | MVP |
 | `button` | Only with a plinth button (config.ini button = yes; none in 2026): a friendly bloop when it's pressed with no crystal on the stone. | button bloop, cartoon pop | NICE |
 | `charge_full` | Charge meter full: a quick rising 'ding-ding-DING'. | level up ding, power up chime | MVP |
@@ -440,7 +440,7 @@ Save as `assets/source/music/<id>.mp3` (or .wav). It loops under everything and 
 
 ## 7. Printables (nice to have)
 
-* **Bowl signs** — print `prop_coin` (silver circle bowl: HOARD COIN, also the GOBLIN TRICK bowl), `prop_gem` (red triangle bowl: DRAGON GEM) and `prop_star` (gold star, held by the host: GOLDEN STAR) so the bowls match the screen picture-for-picture. Light each sign with a battery LED puck.
+* **Bowl signs** — print `prop_coin` (silver coin bowl: HOARD COIN, also the GOBLIN TRICK bowl), `prop_gem` (dragon gem, held by the host: DRAGON GEM, the top prize) and `prop_star` (gold star bowl: GOLDEN STAR) so the bowls match the screen picture-for-picture. Light each sign with a battery LED puck.
 * **Parent sign** — `print_keyart` with the sign text from STORY.md §13. Keep the line *"Butterscotch's voice is AI-generated."* (OpenAI's and ElevenLabs' terms ask you to disclose AI voices.)
 
 ## 8. After you have the files

@@ -182,23 +182,29 @@ STILLS = [
      {"refs": ["a photo of one of your 3D-printed crystals"]}),
     ("prop_coin", "prop", True, "MVP",
      "HOARD COIN: a big round shiny SILVER candy coin (#D9DEE8), like a chocolate coin in silver foil, a simple embossed "
-     "dragon swirl in the middle, a smooth raised rim; front view, perfectly round; not gold. Also the silver-circle "
+     "dragon swirl in the middle, a smooth raised rim; front view, perfectly round; not gold. Also the silver-coin "
      "bowl sign.",
-     P("A big, round, shiny SILVER candy coin (#D9DEE8), like a chocolate coin wrapped in silver foil, with a simple "
-       "embossed little dragon swirl in the middle and a smooth raised rim. Front view, perfectly round, no text, no "
-       "numbers, no face. Silver only - NOT gold.", SPRITE, STYLE),
+     # 2026-10-26 re-take (make_image_codex.py --ref bg_cave --ref butterscotch_base): matches the candy hoard
+     P("A chunky glossy SILVER DRAGON COIN (#D9DEE8, polished smooth silver foil with soft lavender-pink candy "
+       "reflections), tilted very slightly so its thick rounded rim shows, in the same candy-treasure style as the "
+       "hoard in bg_cave. Deep raised relief in the centre: a CUTE CHUBBY round dragon like Butterscotch (round tummy, "
+       "tiny wings, swirl horns, curly tail, sweet smile, tiny wizard hat with a star), all silver. Tiny embossed stars "
+       "and candy dots inside the rim. No text, no numbers. Silver only - NOT gold.", SPRITE, STYLE),
      {}),
     ("prop_gem", "prop", True, "MVP",
      "DRAGON GEM: a big ruby-red (#FF3B47) gem cut as a clear TRIANGLE (point up), chunky glossy facets, a bright "
-     "highlight; front view; no face. Also the red-triangle bowl sign.",
+     "highlight; front view; no face. The TOP prize; also the dragon-gem bowl sign (the host holds it).",
      P("A big RUBY-RED (#FF3B47) dragon gem cut as a clear TRIANGLE with the point up: chunky glossy facets and one "
        "bright highlight. Front view, a clear triangle silhouette, no face, no text.", SPRITE, STYLE),
      {}),
     ("prop_star", "prop", True, "MVP",
      "GOLDEN STAR: a chunky glossy gold (#FFC83D) five-point star with rounded points and a soft warm glow; no face; "
-     "front view. Also the gold-star bowl sign (the host holds it). The only gold prop.",
-     P("A chunky glossy GOLD (#FFC83D) five-point star with rounded points and a soft warm glow, no face, front view.",
-       SPRITE, STYLE),
+     "front view. The rare prize; also the gold-star bowl sign. The only gold prop.",
+     # 2026-10-26 re-take (--ref prop_coin --ref bg_cave --ref butterscotch_base): the gold partner of the coin
+     P("A chunky glossy GOLDEN DRAGON STAR (#FFC83D, warm honey-gold polished foil with soft candy-pink reflections and "
+       "a gentle glow): a five-point star with softly rounded points and a thick bevelled rim, in exactly the style of "
+       "prop_coin. Deep raised relief in the centre: the same CUTE CHUBBY wizard-hat dragon, all gold. Tiny embossed "
+       "candy dots inside the rim. No text, no numbers.", SPRITE, STYLE),
      {}),
     # ---- NICE ----
     ("bg_cave_lit", "background", False, "NICE",
@@ -306,8 +312,8 @@ STILLS = [
 
 # Extra "used by" notes that are not clips (printables)
 USED_EXTRA = {
-    "prop_coin": ["bowl sign (silver circle)"],
-    "prop_gem": ["bowl sign (red triangle)"],
+    "prop_coin": ["bowl sign (silver coin)"],
+    "prop_gem": ["bowl sign (dragon gem)"],
     "prop_star": ["bowl sign (gold star)"],
     "print_keyart": ["parent sign", "title card"],
 }
@@ -481,25 +487,27 @@ CLIPS = [
     {"id": "reveal_t2", "priority": "MVP", "recipe": "layers", "seconds": 2.5, "loop": False,
      "bg": {"image": "bg_wakestone"},
      "layers": [bs_side("butterscotch_surprise", fade_in=0.15, bob=(6, 2.5)),
-                {"sprite": "prop_gem", "height": [50, 150, 140], "x": 400, "y": [285, 90, 100], "t": [0.2, 2.5],
+                {"sprite": "prop_star", "height": [50, 150, 140], "x": 400, "y": [285, 90, 100], "t": [0.2, 2.5],
                  "fade_in": 0.15, "spin": 1}],
      "anchor_layer": 0,
-     "notes": "DRAGON GEM: the ruby triangle rises out of the Wakestone and turns once; Butterscotch gasps."},
+     "notes": "GOLDEN STAR (rare since 2026-10-26): the gold star rises out of the Wakestone and turns once; "
+              "Butterscotch gasps."},
     {"id": "reveal_t2_2", "priority": "NICE", "recipe": "layers", "seconds": 2.5, "loop": False,
      "bg": {"image": "bg_wakestone", "zoom": [1.0, 1.06]},
      "layers": [bs_side("butterscotch_surprise", t=[0, 1.25], fade_in=0.15, fade_out=0.2, bob=(6, 2.5)),
                 bs_side("butterscotch_delight", t=[1.1, 2.5], fade_in=0.2, bob=(6, 2.5)),
-                {"sprite": "prop_gem", "height": [50, 150, 140], "x": 400, "y": [285, 90, 100], "t": [0.1, 2.5],
+                {"sprite": "prop_star", "height": [50, 150, 140], "x": 400, "y": [285, 90, 100], "t": [0.1, 2.5],
                  "fade_in": 0.15, "rotate": [-8, 8, -8, 0]}],
      "anchor_layer": 0,
-     "notes": "Variant 2 (with reveal_t2_2's line): the gem wobbles up and Butterscotch's gasp turns into a beam."},
+     "notes": "Variant 2 (with reveal_t2_2's line): the star wobbles up and Butterscotch's gasp turns into a beam."},
     {"id": "reveal_t3", "priority": "MVP", "recipe": "layers", "seconds": 3, "loop": False,
      "bg": {"image": "bg_starburst", "rotate": [0, 15]},
-     "layers": [{"sprite": "prop_star", "height": [70, 240], "x": 380, "y": [300, 60], "t": [0, 3], "fade_in": 0.3,
+     "layers": [{"sprite": "prop_gem", "height": [70, 240], "x": 380, "y": [300, 60], "t": [0, 3], "fade_in": 0.3,
                  "bob": {"amp": 4, "period": 1.5}},
                 bs_side("butterscotch_delight", t=[0.5, 3], x=655, height=200, y=85, fade_in=0.3)],
      "anchor_layer": 1,
-     "notes": "GOLDEN STAR: the gold rays turn slowly, the star rises and grows (no strobe); Butterscotch beams beside it."},
+     "notes": "DRAGON GEM (the top prize since 2026-10-26): the rays turn slowly, the ruby gem rises and grows (no "
+              "strobe); Butterscotch beams beside it."},
     # ---------------------------------------------------------------- other paths
     {"id": "replay", "priority": "MVP", "recipe": "layers", "seconds": 4, "loop": True, "bg": {"image": "bg_cave"},
      "layers": [bs("butterscotch_wink", bob=(7, 4), fin=0, fout=0, fallback="butterscotch_peek")], "anchor_layer": 0,
@@ -678,17 +686,19 @@ VOICE = [
      "then a happy chuckle on 'Candy anyway!'", "MVP"),
     ("reveal_t1", 1, B, "Hoard coin! A big shiny one!", "HOARD COIN!", "happy, admiring, warm", "MVP"),
     ("reveal_t1", 2, B, "Hoard coin! Shiny silver treasure!", "HOARD COIN!", "sweet and pleased, a little chuckle", "MVP"),
-    ("reveal_t2", 1, B, "Dragon Gem! Whoa, a rare one!", "DRAGON GEM!",
+    # 2026-10-26: the Dragon Gem is the top (legendary) prize, the Golden Star the rare one
+    ("reveal_t2", 1, B, "Golden Star! Whoa, a rare one!", "GOLDEN STAR!",
      "genuinely surprised, an excited whisper-shout", "MVP"),
-    ("reveal_t2", 2, B, "Dragon Gem! Not many travelers find those!", "DRAGON GEM!", "thrilled, conspiratorial", "MVP"),
-    ("reveal_t3", 1, B, "The Golden Star! You're legendary!", "GOLDEN STAR!", "awed hush rising to joy", "MVP"),
-    ("reveal_t3", 2, B, "Golden Star! The rarest treasure of all!", "GOLDEN STAR!",
+    ("reveal_t2", 2, B, "Golden Star! Not many travelers find those!", "GOLDEN STAR!", "thrilled, conspiratorial", "MVP"),
+    ("reveal_t3", 1, B, "The Dragon Gem! You're legendary!", "DRAGON GEM!", "awed hush rising to joy", "MVP"),
+    ("reveal_t3", 2, B, "Dragon Gem! The rarest treasure of all!", "DRAGON GEM!",
      "breathless wonder, slow and grand", "MVP"),
-    ("bowl_common", 1, B, "Silver circle! Take one treat!", "SILVER CIRCLE",
-     "clear and friendly, crisp on 'Silver circle'", "MVP"),
-    ("bowl_rare", 1, B, "Red triangle! Take one treat!", "RED TRIANGLE",
-     "clear, excited, crisp on 'Red triangle'", "MVP"),
-    ("bowl_legend", 1, B, "Gold star! The grown-up has it!", "GOLD STAR", "celebratory, pointing-out tone", "MVP"),
+    # 2026-10-26: bowls are named after their prize, never their shape (owner)
+    ("bowl_common", 1, B, "Silver coin! Take one treat!", "SILVER COIN",
+     "clear and friendly, crisp on 'Silver coin'", "MVP"),
+    ("bowl_rare", 1, B, "Gold star! Take one treat!", "GOLD STAR",
+     "clear, excited, crisp on 'Gold star'", "MVP"),
+    ("bowl_legend", 1, B, "Dragon gem! The grown-up has it!", "DRAGON GEM", "celebratory, pointing-out tone", "MVP"),
     ("replay", 1, B, "Shh! Your crystal already glowed tonight!", "ALREADY GLOWED", "secretive and kind, smiling", "MVP"),
     ("replay", 2, B, "Still glowing from tonight! Clever crystal!", "ALREADY GLOWED",
      "gentle and proud, no scolding", "MVP"),
@@ -705,12 +715,12 @@ VOICE = [
     ("recall_t0", 1, B, "Last year, Snuffwick tricked you! Silly goblin!", "LAST YEAR",
      "remembering fondly, a chuckle", "NICE"),
     ("recall_t1", 1, B, "Last year, a shiny hoard coin!", "LAST YEAR", "fond memory, warm", "NICE"),
-    ("recall_t2", 1, B, "Last year, a Dragon Gem! Remember?", "LAST YEAR", "impressed memory", "NICE"),
-    ("recall_t3", 1, B, "Last year, the Golden Star! Legendary!", "LAST YEAR", "awed remembering", "NICE"),
-    ("rush_t0", 1, B, "Silver circle! Goblin trick!", "GOBLIN TRICK!", "fast, giggly, bowl words crisp (rush mode)", "NICE"),
-    ("rush_t1", 1, B, "Silver circle! Hoard coin!", "HOARD COIN!", "fast and bright (rush mode)", "NICE"),
-    ("rush_t2", 1, B, "Red triangle! Dragon Gem!", "DRAGON GEM!", "fast, excited (rush mode)", "NICE"),
-    ("rush_t3", 1, B, "Gold star! Golden Star!", "GOLDEN STAR!", "fast but awed (rush mode)", "NICE"),
+    ("recall_t2", 1, B, "Last year, a Golden Star! Remember?", "LAST YEAR", "impressed memory", "NICE"),
+    ("recall_t3", 1, B, "Last year, the Dragon Gem! Legendary!", "LAST YEAR", "awed remembering", "NICE"),
+    ("rush_t0", 1, B, "Goblin trick! Silver coin bowl!", "GOBLIN TRICK!", "fast, giggly, bowl words crisp (rush mode)", "NICE"),
+    ("rush_t1", 1, B, "Hoard coin! Silver coin bowl!", "HOARD COIN!", "fast and bright (rush mode)", "NICE"),
+    ("rush_t2", 1, B, "Gold star! Golden Star!", "GOLDEN STAR!", "fast, excited (rush mode)", "NICE"),
+    ("rush_t3", 1, B, "Dragon Gem! The grown-up has it!", "DRAGON GEM!", "fast but awed (rush mode)", "NICE"),
     ("milestone", 1, B, "Another hundred crystals! Hooray, travelers!", "HOORAY, TRAVELERS!", "party cheer, bubbly", "NICE"),
     ("circle", 1, B, "A crystal circle! All the worlds together!", "CRYSTAL CIRCLE!",
      "delighted, gathering-everyone warmth", "NICE"),
@@ -763,9 +773,9 @@ SFX = [
      "desc": "HOARD COIN: a bright coin 'ting' + a twinkly two-chord chime, happy.",
      "_search": "coin ting, twinkle chime, magic bell"},
     {"id": "reveal_t2", "priority": "MVP", "seconds": 1.8, "synth": "sparkle",
-     "desc": "DRAGON GEM: a magical swirl + sparkle arpeggio, wondrous.", "_search": "magic spell swirl, sparkle arpeggio"},
+     "desc": "GOLDEN STAR (rare): a magical swirl + sparkle arpeggio, wondrous.", "_search": "magic spell swirl, sparkle arpeggio"},
     {"id": "reveal_t3", "priority": "MVP", "seconds": 3.0, "synth": "fanfare",
-     "desc": "GOLDEN STAR: harp glissando + a soft warm gong (the host's cue to come over). No harsh brass.",
+     "desc": "DRAGON GEM (top prize): harp glissando + a soft warm gong (the host's cue to come over). No harsh brass.",
      "_search": "harp glissando, soft gong, magical reveal"},
     {"id": "tap", "priority": "MVP", "seconds": 0.2, "synth": "blip",
      "desc": "Each tap on the window (or button press) during charge: a tiny bright blip (it repeats fast).",
@@ -809,11 +819,11 @@ WORDS = {
     "rank.5": "Worldwalker", "rank.6": "Dragon Rider", "rank.7": "Keeper of the Hoard",
     "tier.0": "GOBLIN TRICK!", "tier.0_color": "#8DBF6A",
     "tier.1": "HOARD COIN!", "tier.1_color": "#D9DEE8",
-    "tier.2": "DRAGON GEM!", "tier.2_color": "#FF3B47",
-    "tier.3": "GOLDEN STAR!", "tier.3_color": "#FFC83D",
-    "bowl.common": "Silver Circle", "bowl.common_color": "#D9DEE8", "bowl.common_shape": "circle",
-    "bowl.rare": "Red Triangle", "bowl.rare_color": "#FF3B47", "bowl.rare_shape": "triangle",
-    "bowl.legend": "Gold Star", "bowl.legend_color": "#FFC83D", "bowl.legend_shape": "star",
+    "tier.2": "GOLDEN STAR!", "tier.2_color": "#FFC83D",
+    "tier.3": "DRAGON GEM!", "tier.3_color": "#FF3B47",
+    "bowl.common": "Silver Coin", "bowl.common_color": "#D9DEE8", "bowl.common_shape": "circle",
+    "bowl.rare": "Gold Star", "bowl.rare_color": "#FFC83D", "bowl.rare_shape": "star",
+    "bowl.legend": "Dragon Gem", "bowl.legend_color": "#FF3B47", "bowl.legend_shape": "triangle",
     # crystal colours color.N / color.N_hex: filled in from CRYSTAL_COLORS just below (ids 4..6 left out = unused)
     "caption.attract": "Crystal here",
     "caption.absorb": "",
@@ -822,8 +832,8 @@ WORDS = {
     "caption.charge": "PRESS!",
     "caption.reveal_t0": "GOBLIN TRICK!",
     "caption.reveal_t1": "HOARD COIN!",
-    "caption.reveal_t2": "DRAGON GEM!",
-    "caption.reveal_t3": "GOLDEN STAR!",
+    "caption.reveal_t2": "GOLDEN STAR!",
+    "caption.reveal_t3": "DRAGON GEM!",
     "caption.replay": "ALREADY GLOWED",
     "caption.nocrystal": "DRAGON BLESSING!",
     "caption.foreign": "DRAGON BLESSING!",
@@ -937,8 +947,8 @@ VOICE_STYLE = {
 # Story-specific text for tools/gen_asset_list.py (CHATGPT-ASSETS.md); free text, never read by the build.
 ASSET_GUIDE = {
     "why_stills": "Butterscotch floating like a balloon and changing expressions, Snuffwick tiptoeing in with his "
-                  "rubber chicken, the hoard coin spinning, the Dragon Gem rising out of the Wakestone, the Golden "
-                  "Star climbing",
+                  "rubber chicken, the hoard coin spinning, the Golden Star rising out of the Wakestone, the Dragon "
+                  "Gem climbing",
     "live_magic": "glows in each kid's crystal colour, sparkles, the Hoard Beacon's growing glow, the numbers and words",
     "anchor_note": "The Hoard Beacon's glow is placed by the words key `meter.pos` (\"x,y,radius\" in screen pixels, "
                    "default 150,110,70): once `bg_cave` exists, open `assets/previews/` and, if the painted lantern "
@@ -949,8 +959,8 @@ ASSET_GUIDE = {
              "(base + rubber chicken) and the four props · Day 3 the three backgrounds (`bg_cave` first: check where "
              "the lantern landed) · Day 4+ the nice-to-haves.",
     "printables": [
-        "**Bowl signs** — print `prop_coin` (silver circle bowl: HOARD COIN, also the GOBLIN TRICK bowl), `prop_gem` "
-        "(red triangle bowl: DRAGON GEM) and `prop_star` (gold star, held by the host: GOLDEN STAR) so the bowls match "
+        "**Bowl signs** — print `prop_coin` (silver coin bowl: HOARD COIN, also the GOBLIN TRICK bowl), `prop_gem` "
+        "(dragon gem, held by the host: DRAGON GEM, the top prize) and `prop_star` (gold star bowl: GOLDEN STAR) so the bowls match "
         "the screen picture-for-picture. Light each sign with a battery LED puck.",
         "**Parent sign** — `print_keyart` with the sign text from STORY.md §13. Keep the line *\"Butterscotch's voice is "
         "AI-generated.\"* (OpenAI's and ElevenLabs' terms ask you to disclose AI voices.)",

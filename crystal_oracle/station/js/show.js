@@ -1200,7 +1200,7 @@ async function runAttract() {
   if (counters.moonFull) { st.vis[0] = cue.ATTRACT_FULL; st.vis[1] = cue.ATTRACT; } else st.vis[0] = cue.ATTRACT;
   st.caption = s_w.capAttract; st.fbTitle = s_w.title; st.minMs = st.maxMs = Infinity; st.loop = true;
   st.rgb = s_idleRgb; st.rainbow = true; st.energy = 70; st.ambient = 4; st.interruptible = true;
-  st.overlay = attractOverlay; st.band = hintsBand; st.tick = attractTick;
+  st.overlay = attractOverlay; st.band = cfg.attractHints ? hintsBand : null; st.tick = attractTick;   // [station] attract_hints
   s_attractLoopsSeen = 0; s_munchLoop = -1;
   startMusic();
   await runStep();

@@ -57,7 +57,7 @@ Kids without a crystal **tap the window** for a dragon blessing (there is no big
 | Power: **12 V 2 A** barrel→screw terminal (or 5 V 3 A USB-C) for the screen; **5 V USB-C** into the plinth's front port | |
 | Crystals: **3D-printed PLA**, **≥ 40 mm every way**, flat base with an NTAG203/213 inlay sealed in a pocket ≈ 0.6–1.2 mm above the bottom face (see step 5). Three filaments = three colours: VOXELAB Crystal Rainbow *Deep Sea Realm* (deep to light purple) = **Dragonberry**, PLA HS Glitter *Clear Sky Blue* = **Starfrost**, FLASHFORGE Translucent Glitter *Rainbow Candy* = **Rainbow Fizz** | making (3 colours) |
 | Optional: powered speaker on the 3.5 mm jack (louder than the onboard amps; plugging in mutes them) | |
-| Bowls: **silver circle** (common), **red triangle** (Dragon Gem), **gold star** (host holds it) | |
+| Bowls (named after their prize, never their shape): **silver coin** (common), **gold star** (Golden Star, rare), **dragon gem** (Dragon Gem, the top prize: host holds it) | |
 
 ## Setup
 
@@ -188,7 +188,7 @@ The button lines (`attract_call_2`, `charge_1`, `charge_2`) are NICE: with no bu
    visits = 1, this year's slot filled.
 6. Power off, insert the TF card (built with `--placeholders`), power on and repeat: now Butterscotch talks (Windows voice
    until the real lines exist). (A card inserted while running: *Media → Rescan* restarts the screen to load it.)
-7. **Tap the screen** with no crystal on the stone: the dragon-blessing / no-crystal path → silver circle bowl.
+7. **Tap the screen** with no crystal on the stone: the dragon-blessing / no-crystal path → silver coin bowl.
    The attract caption alternates CRYSTAL HERE / OR TAP ME. (With a big button wired and `button = yes`:
    press it instead.)
 

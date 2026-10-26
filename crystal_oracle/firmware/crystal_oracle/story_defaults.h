@@ -30,12 +30,12 @@ static const StoryDefault STORY_DEFAULTS[] = {
 
   {"tier.0", "GOBLIN TRICK!"}, {"tier.0_color", "#8DBF6A"},
   {"tier.1", "HOARD COIN!"}, {"tier.1_color", "#D9DEE8"},
-  {"tier.2", "DRAGON GEM!"}, {"tier.2_color", "#FF3B47"},
-  {"tier.3", "GOLDEN STAR!"}, {"tier.3_color", "#FFC83D"},
+  {"tier.2", "GOLDEN STAR!"}, {"tier.2_color", "#FFC83D"},
+  {"tier.3", "DRAGON GEM!"}, {"tier.3_color", "#FF3B47"},
 
-  {"bowl.common", "Silver Circle"}, {"bowl.common_color", "#D9DEE8"}, {"bowl.common_shape", "circle"},
-  {"bowl.rare", "Red Triangle"}, {"bowl.rare_color", "#FF3B47"}, {"bowl.rare_shape", "triangle"},
-  {"bowl.legend", "Gold Star"}, {"bowl.legend_color", "#FFC83D"}, {"bowl.legend_shape", "star"},
+  {"bowl.common", "Silver Coin"}, {"bowl.common_color", "#D9DEE8"}, {"bowl.common_shape", "circle"},
+  {"bowl.rare", "Gold Star"}, {"bowl.rare_color", "#FFC83D"}, {"bowl.rare_shape", "star"},
+  {"bowl.legend", "Dragon Gem"}, {"bowl.legend_color", "#FF3B47"}, {"bowl.legend_shape", "triangle"},
 
   {"color.1", "Dragonberry"}, {"color.1_hex", "#5A1E9E,#C8A0FF"},
   {"color.2", "Starfrost"}, {"color.2_hex", "#5CD6FF"},
@@ -48,8 +48,8 @@ static const StoryDefault STORY_DEFAULTS[] = {
   {"caption.charge", "PRESS!"},
   {"caption.reveal_t0", "GOBLIN TRICK!"},
   {"caption.reveal_t1", "HOARD COIN!"},
-  {"caption.reveal_t2", "DRAGON GEM!"},
-  {"caption.reveal_t3", "GOLDEN STAR!"},
+  {"caption.reveal_t2", "GOLDEN STAR!"},
+  {"caption.reveal_t3", "DRAGON GEM!"},
   {"caption.replay", "ALREADY GLOWED"},
   {"caption.nocrystal", "DRAGON BLESSING!"},
   {"caption.foreign", "DRAGON BLESSING!"},

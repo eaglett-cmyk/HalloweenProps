@@ -44,6 +44,41 @@ Read `crystal_oracle/README.md` first, then `crystal_oracle/docs/DESIGN.md` (con
   2027-01-06) → stills from ChatGPT + our ffmpeg "layers" animator; voice from ElevenLabs/OpenAI TTS.
 
 ### Changelog
+- **2026-10-26 (new silver dragon coin + golden dragon star)** — owner: the coin looked off next to the
+  hoard. ChatGPT (Codex) re-made `prop_coin` (`--ref bg_cave --ref butterscotch_base`: chunky glossy silver
+  coin, a chubby wizard-hat dragon in relief) and then `prop_star` the same way (`--ref prop_coin`: the gold
+  partner, same dragon). Old versions kept as `.old` next to them; prompts updated in the generator. Card
+  rebuilt (reveal_t1/t2/t2_2 + the coin gag clip); storybook `site/img/prop_coin|prop_star.webp` replaced
+  (640², `?v=2`). Print the new bowl signs from these.
+- **2026-10-26 (Dragon Gem = top prize; hoard fills the cave floor; no attract hints)** — owner:
+  * **Prize swap:** tier 3 (legendary, ~4%, GLOW 100, host-held) is now the **DRAGON GEM** (red triangle,
+    `prop_gem`, revealed on `bg_starburst`); tier 2 (rare, ~18%, 90–99) is the **GOLDEN STAR** (gold star
+    bowl, `prop_star` rising out of the Wakestone). Odds/logic untouched — only what each tier shows/says.
+    Done in `tools/gen_manifest_dragonglow.py` (clips, lines, words, sfx labels) → manifest,
+    CHATGPT-ASSETS.md, `story_defaults.h` (--gen-defaults) and by hand `station/js/story_defaults.js`.
+    Voice: 8 lines re-recorded in the Butterscotch voice through the claude.ai ElevenLabs connector (flow
+    "Crystal Oracle - Butterscotch voice lines", eleven_v4, ~470 credits): reveal_t2_1/2, reveal_t3_1/2,
+    bowl_rare_1 ("Gold star! Take one treat!"), bowl_legend_1 ("Red triangle! The grown-up has it!"),
+    recall_t2_1, recall_t3_1; rush_t2_1/rush_t3_1 just swapped files. Storybook page 6 + crystal page
+    names swapped; STORY.md has a revision note + fixed tables. **Swap the physical bowl signs/bowls.**
+  * **Hoard floor:** ChatGPT (Codex, `--ref bg_cave`) painted the empty cave floor as a candy heap; the new
+    bottom was blended (feather at 60–70 % height) onto the committed `bg_cave` **and** `bg_cave_lit`, so
+    the lantern (meter anchor) and doors are pixel-identical above. Clip frames got heavier: the builder
+    raised JPEG q 5 → 7 to stay under its 96 KB/frame cap (looks fine on the iPad).
+    Gotcha: `cp -n x.png x.png.old` silently kept an OLDER `.old` from 10-22 — restore from git, not `.old`.
+  * **Station:** `[station] attract_hints = no` (new default) drops the two crystal-and-arrow icons from the
+    attract loop (put-back and sleepy keep theirs). Card rebuilt (33 outputs, 0 failed).
+  * **Bowls are named after their prize, never their shape** (owner): `bowl.common/rare/legend` = Silver
+    Coin / Gold Star / Dragon Gem (icons keep their shapes). 5 more lines re-recorded (bowl_common_1
+    "Silver coin! Take one treat!", bowl_legend_1 "Dragon gem! The grown-up has it!", rush_t0_1 "Goblin
+    trick! Silver coin bowl!", rush_t1_1 "Hoard coin! Silver coin bowl!", rush_t3_1 "Dragon Gem! The
+    grown-up has it!"); site, READMEs, STORY.md follow.
+  * **Station cache fix:** `media.js` fetched card media with `cache: 'force-cache'`, so a rebuilt card
+    never reached a browser that had loaded it before (the iPad would have kept the old empty-floor clips).
+    Now `no-cache` (revalidate; unchanged files are a 304). Reload the iPad page after any card rebuild.
+  * The e2e runs this evening hit the owner's own running station server (`start-station.cmd`, :8460), so
+    its counters/logs hold test visits — **host menu → Tonight → Reset tonight + Reset beacon before the
+    night** (and `station/logs/visits_2026.csv` has test rows; delete it before the night).
 - **2026-10-26 (iPad station fills the screen; no attract text)** — owner: the iPad is the 2026 rig (the
   Waveshare screen + TF card are NOT being updated this year). Station only (`crystal_oracle/station/`):
   * `[station] fit = fill` (new default; `fit` = old letterbox): the 800×480 frame is scaled to fill the

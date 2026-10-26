@@ -16,10 +16,10 @@ returning kids by rank, rolls tonight's result and tells them which candy bowl t
 
 | Result | Bowl |
 |---|---|
-| **Hoard Coin** (most kids) | silver circle |
-| **Dragon Gem** (rare) | red triangle |
-| **Golden Star** (legendary) | gold star, held by the grown-up |
-| **Goblin trick** (Snuffwick's prank) | silver circle, candy anyway |
+| **Hoard Coin** (most kids) | silver coin |
+| **Golden Star** (rare) | gold star |
+| **Dragon Gem** (legendary, the top prize) | dragon gem, held by the grown-up |
+| **Goblin trick** (Snuffwick's prank) | silver coin, candy anyway |
 
 The result is written **onto the crystal**, so each kid's history travels with them year after year, up the
 ranks: Sparkfinder → Apprentice → Glowcaster → Hoardguard → Wizard → Dragon Rider → Keeper of the Hoard.

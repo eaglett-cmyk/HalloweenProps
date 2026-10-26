@@ -1,4 +1,6 @@
-<!-- Story bible for the Crystal Oracle station. Written 2026-10-22 when the owner chose DRAGONGLOW (the kids' judge's pick, 8.5/10) over the panel winner Moonshards (archived: docs/stories/MOONSHARDS.md), with every judge fix applied. Revised 2026-10-23 (owner): the kids are travelers from other worlds, not wizards, and the crystals are pieces of Butterscotch's crystal egg instead of the Moonstone (§1). The asset manifest is generated from tools/gen_manifest_dragonglow.py. -->
+<!-- Story bible for the Crystal Oracle station. Written 2026-10-22 when the owner chose DRAGONGLOW (the kids' judge's pick, 8.5/10) over the panel winner Moonshards (archived: docs/stories/MOONSHARDS.md), with every judge fix applied. Revised 2026-10-23 (owner): the kids are travelers from other worlds, not wizards, and the crystals are pieces of Butterscotch's crystal egg instead of the Moonstone (§1). Revised 2026-10-26 (owner): the DRAGON GEM is now the top (legendary, ~4%, host-held red triangle) prize and the GOLDEN STAR the rare one (~18%, gold star bowl); the tables and lines below that still name them the other way round are superseded by the manifest. The asset manifest is generated from tools/gen_manifest_dragonglow.py. -->
+
+> **2026-10-26 prize swap:** the **Dragon Gem is the top prize** (legendary, the dragon gem bowl the host holds) and the **Golden Star is the rare prize** (gold star bowl). Where older text below says otherwise, this note and `tools/gen_manifest_dragonglow.py` win.
 
 # DRAGONGLOW — The Sleepy Candy Dragon
 
@@ -18,8 +20,8 @@
 | What the kids are | **travelers** from other worlds. Whatever the costume, to Butterscotch it is real: that's the world they came from |
 | The crystals | pieces of the **crystal egg** Butterscotch hatched from, scattered through all the worlds; always just "crystal" out loud |
 | Tonight's team goal | Light **the Hoard Beacon**. Every visitor adds a spark, with or without a crystal. |
-| Results | GOBLIN TRICK! · HOARD COIN! · DRAGON GEM! · GOLDEN STAR! |
-| Bowls | silver circle · silver circle · red triangle · gold star (the host holds it) |
+| Results | GOBLIN TRICK! · HOARD COIN! · GOLDEN STAR! · DRAGON GEM! (top prize) |
+| Bowls | silver coin · silver coin · gold star · dragon gem (the host holds it). Bowls are named after their prize, never their shape. |
 
 ## 1. What changed from the pitch
 
@@ -36,7 +38,7 @@ Dragonglow was the kids' judge's pick (8.5/10): it has the broadest pull from ag
 - **Snuffwick never wants the candy.** He snuffs out lights because he likes the dark: he's shy, and dark corners are cozy for napping. "All this candy is MINE!" and the candy-in-the-sock framing are gone. Glow makes him sneeze, giggle and scamper off. At the finale Butterscotch invites him to the feast and makes him the **Official Prankster** (taken from *Madame Mira*), so his tricks still make sense after the beacon is lit and in every later year.
 - **One voice.** Butterscotch is the only TTS voice. Snuffwick is giggles, squeaks and "pfft"s, plus at most 2 short lines recorded in Butterscotch's voice and pitched up by the builder.
 - **No crystal shares a colour with a bowl.** The bowls are silver, red and gold. The crystals are 3D-printed in three filaments (since 2026-10-22): deep-to-light purple **Dragonberry**, sky-blue **Starfrost** and rainbow **Rainbow Fizz** (§5). None of them is silver, red or gold; Rainbow Fizz is every colour at once, which reads as its own thing. The pitch's amber "Sunhoney" is gone.
-- **Each result is named after its bowl picture** (from *Moonshards*). HOARD COIN! is the silver coin on the silver circle bowl, DRAGON GEM! is the ruby triangle on the red triangle bowl, and GOLDEN STAR! is the gold star the host holds. The coin, gem and star are printed as the bowl signs. **Bowl lines lead with colour and shape** ("Silver circle! Take one treat!").
+- **Each result is named after its bowl picture** (from *Moonshards*). HOARD COIN! is the silver coin on the silver coin bowl, GOLDEN STAR! is the gold star on the gold star bowl, and DRAGON GEM! is the ruby gem the host holds. The coin, star and gem are printed as the bowl signs. **Bowl lines name the prize, never a shape** ("Silver coin! Take one treat!").
 - **Butterscotch is caramel, not gold.** Gold now belongs only to the Golden Star, so the legendary prize stays special.
 - **The upside-down gag is gone.** It is replaced by the **Snuff-Out** gag, which uses the story's own darkness and needs no screen rotation.
 - **The finale always happens.** The pitch tied it to 100 crystals with no fallback. Now the host sets the goal (`moon_goal`, default 50 sparks), the blessings of kids without a crystal count too, and the host menu can fill the beacon.
@@ -76,7 +78,7 @@ The sequence is absorb (1 s), then **greet** (2 s), then the **reveal** with the
 - **recall** ("Last year, a Dragon Gem! Remember?") and the **charge** window (2.5 s) play only when nobody is waiting. In the charge window the kid **taps the window** as fast as they can ("Tap the window! Pump up the glow!") to fill a glow bar, which nudges their GLOW number up a little.
 
 ### No crystal (tap the window)
-There is no big button this year. A kid without a crystal **taps the Dragon's Window** (the screen). Butterscotch puffs his cheeks and blows a sparkly **dragon blessing** bubble down to the kid. The beacon gains a spark, because this kid helped too. Then he says "Silver circle! Take one treat!" The whole thing takes about 4 s.
+There is no big button this year. A kid without a crystal **taps the Dragon's Window** (the screen). Butterscotch puffs his cheeks and blows a sparkly **dragon blessing** bubble down to the kid. The beacon gains a spark, because this kid helped too. Then he says "Silver coin! Take one treat!" The whole thing takes about 4 s.
 
 ### Crystal already used tonight
 **replay** (2 s). Butterscotch winks with a paw to his lips: "Shh! Your crystal already glowed tonight!" Tonight's result shows again, dimmed, with a ✓. There is no bowl line unless the `second_helpings` setting is on.
@@ -86,7 +88,7 @@ There is no big button this year. A kid without a crystal **taps the Dragon's Wi
 - If the tag isn't ours (a bus pass, or an old token without our marker), the kid gets the **dragon blessing** path. The tag is never written to.
 
 ### Rush mode (turns on automatically when a crystal arrives within 8 s of the last one)
-- **First visit:** absorb (0.6 s, the colour shown as a caption only), then awaken_c only ("Sparkfinder!"), then a 1.5 s reveal with one **combined line** that leads with the bowl: "Silver circle! Hoard coin!" Total is about 3.5–4 s.
+- **First visit:** absorb (0.6 s, the colour shown as a caption only), then awaken_c only ("Sparkfinder!"), then a 1.5 s reveal with one **combined line** that leads with the bowl: "Hoard coin! Silver coin bowl!" Total is about 3.5–4 s.
 - **Returning crystal:** the rank appears as a caption only, then the combined line. Total is about 3 s.
 - **Skipped in rush:** awaken_a and awaken_b, recall, charge and goodbye.
 - **If rush lines aren't built yet,** the bowl line plays on its own.
@@ -220,15 +222,15 @@ Each result has the same name as the picture on its bowl, so a three-year-old he
 
 | Tier | Odds | GLOW | Reveal | Bowl | Sign art |
 |---|---|---|---|---|---|
-| 0 Trick | ~15% | 1–39 (hidden) | **GOBLIN TRICK!** (a silly gag, then candy) | **silver circle** | silver hoard coin |
-| 1 Treat | ~63% | 40–89 | **HOARD COIN!** | **silver circle** | silver hoard coin (`prop_coin`) |
-| 2 Rare | ~18% | 90–99 | **DRAGON GEM!** | **red triangle** | ruby triangle gem (`prop_gem`) |
-| 3 Legendary | ~4% | 100 | **GOLDEN STAR!** | **gold star**, held by the host | gold star (`prop_star`) |
+| 0 Trick | ~15% | 1–39 (hidden) | **GOBLIN TRICK!** (a silly gag, then candy) | **silver coin** | silver hoard coin |
+| 1 Treat | ~63% | 40–89 | **HOARD COIN!** | **silver coin** | silver hoard coin (`prop_coin`) |
+| 2 Rare | ~18% | 90–99 | **GOLDEN STAR!** | **gold star** | gold star (`prop_star`) |
+| 3 Legendary | ~4% | 100 | **DRAGON GEM!** | **dragon gem**, held by the host | ruby triangle gem (`prop_gem`) |
 
 ### Setting up the bowls
-- **Silver circle:** a big round stainless or foil bowl, with the silver coin sign.
-- **Red triangle:** a red bowl, with the ruby gem sign (cut the sign as a triangle).
-- **Gold star:** stays with the host. A star-shaped basket works well, and the host can wear a wizard hat.
+- **Silver coin:** a big round stainless or foil bowl, with the silver coin sign.
+- **Gold star:** a gold or star-shaped bowl, with the gold star sign (the rare prize).
+- **Dragon gem:** stays with the host (the top prize). A red basket works well, with the ruby gem sign, and the host can wear a wizard hat.
 - **Signs:** print each sign from its prop still, and light it with a battery LED puck so the colour reads on a dark porch.
 - **Layout:** put the bowls beside the Wakestone so the line flows from stone to bowl to sidewalk.
 
@@ -288,8 +290,8 @@ The cave, the Wakestone, Butterscotch, Snuffwick and the beacon all stay the sam
 | **reveal_t1** (2.5 s) | `butterscotch_delight`. `prop_coin` flips up out of his paws and spins up to the upper right. | "Hoard coin! A big shiny one!" | HOARD COIN! |
 | **reveal_t2** (2.5 s) | `bg_wakestone` with `butterscotch_surprise` on the right. `prop_gem` rises out of the Wakestone and turns once. In variant 2 (`reveal_t2_2`) the gem wobbles up and his gasp turns into a beam. | "Dragon Gem! Whoa, a rare one!" | DRAGON GEM! |
 | **reveal_t3** (3 s) | `bg_starburst` with slowly turning gold rays. `prop_star` rises and grows, and `butterscotch_delight` beams beside it. A 1 Hz glow, no strobe. A harp and gong play, which is the host's cue to come over. | "The Golden Star! You're legendary!" | GOLDEN STAR! |
-| **bowl_common / bowl_rare / bowl_legend** | big bowl icon during the last second of the reveal | "Silver circle! Take one treat!" · "Red triangle! Take one treat!" · "Gold star! The grown-up has it!" | SILVER CIRCLE · RED TRIANGLE · GOLD STAR |
-| **rush_t0…t3** (nice-to-have) | 1.5 s reveal with the bowl icon showing from the start | "Silver circle! Goblin trick!" · "Silver circle! Hoard coin!" · "Red triangle! Dragon Gem!" · "Gold star! Golden Star!" | the tier name |
+| **bowl_common / bowl_rare / bowl_legend** | big bowl icon during the last second of the reveal | "Silver coin! Take one treat!" · "Gold star! Take one treat!" · "Dragon gem! The grown-up has it!" | SILVER COIN · GOLD STAR · DRAGON GEM |
+| **rush_t0…t3** (nice-to-have) | 1.5 s reveal with the bowl icon showing from the start | "Goblin trick! Silver coin bowl!" · "Hoard coin! Silver coin bowl!" · "Gold star! Golden Star!" · "Dragon Gem! The grown-up has it!" | the tier name |
 | **replay** (2 s) | `butterscotch_wink` (`butterscotch_peek` until it exists). Tonight's result and GLOW number appear dimmed, with a ✓ and the word TONIGHT. | "Shh! Your crystal already glowed tonight!" | ALREADY GLOWED |
 | **nocrystal** (3–4 s, then `bowl_common`; a tap on the window with no crystal on the stone) | `butterscotch_puff` → `butterscotch_delight`. A sparkly blessing bubble (`fx_bubble`) drifts down to the kid, and the beacon gains a spark. **foreign** reuses this cue. | "A dragon blessing! Whoosh, you sparkle!" | DRAGON BLESSING! |
 | **sleepy** (2 s) | `butterscotch_yawn` (`butterscotch_sleep` until it exists) and the place-crystal hints. | "Again, please! Sleepy crystal." | AGAIN, PLEASE |
@@ -464,9 +466,9 @@ Test one first (host menu → **Crystals** → test read, or the bench).
 
 **Handing out a crystal.** Kneel and hold the crystal out in cupped hands, then say: **"Welcome, traveler! This crystal is a piece of a dragon's egg, and it found its way to you. Wake the dragon on the Wakestone!"**
 
-**The Golden Star.** When a kid gets the Golden Star, raise the gold star bowl and say: **"The Golden Star found you, traveler! You're legendary. Pick one!"**
+**The Dragon Gem.** When a kid gets the Dragon Gem, raise the dragon gem bowl and say: **"The Dragon Gem found you, traveler! You're legendary. Pick one!"**
 
-**A goblin trick** (if a kid looks unsure): "Snuffwick got Butterscotch again! Silver circle, candy anyway!"
+**A goblin trick** (if a kid looks unsure): "Snuffwick got Butterscotch again! Silver coin bowl, candy anyway!"
 
 **The finale** (when the beacon lights): lead a cheer for the travelers: "You lit the beacon!"
 
@@ -492,21 +494,21 @@ character = Butterscotch
 0_color = #8DBF6A
 1 = HOARD COIN!
 1_color = #D9DEE8
-2 = DRAGON GEM!
-2_color = #FF3B47
-3 = GOLDEN STAR!
-3_color = #FFC83D
+2 = GOLDEN STAR!
+2_color = #FFC83D
+3 = DRAGON GEM!
+3_color = #FF3B47
 
 [bowl]
-common = Silver Circle
+common = Silver Coin
 common_color = #D9DEE8
 common_shape = circle
-rare = Red Triangle
-rare_color = #FF3B47
-rare_shape = triangle
-legend = Gold Star
-legend_color = #FFC83D
-legend_shape = star
+rare = Gold Star
+rare_color = #FFC83D
+rare_shape = star
+legend = Dragon Gem
+legend_color = #FF3B47
+legend_shape = triangle
 
 [color]
 1 = Dragonberry
@@ -524,8 +526,8 @@ greet = Welcome back!
 charge = PRESS!
 reveal_t0 = GOBLIN TRICK!
 reveal_t1 = HOARD COIN!
-reveal_t2 = DRAGON GEM!
-reveal_t3 = GOLDEN STAR!
+reveal_t2 = GOLDEN STAR!
+reveal_t3 = DRAGON GEM!
 replay = ALREADY GLOWED
 nocrystal = DRAGON BLESSING!
 foreign = DRAGON BLESSING!

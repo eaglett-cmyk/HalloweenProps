@@ -10,7 +10,8 @@ const s_stills = new Map();     // path -> ImageBitmap | 'loading' | 'failed'
 let s_bytesLoaded = 0;
 
 async function fetchBuffer(path) {
-  const r = await fetch(path, { cache: 'force-cache' });
+  // 'no-cache' = always revalidate (ETag -> 304 when unchanged), so a rebuilt card shows up on the next load
+  const r = await fetch(path, { cache: 'no-cache' });
   if (!r.ok) throw new Error(`${path}: HTTP ${r.status}`);
   const b = await r.arrayBuffer();
   s_bytesLoaded += b.byteLength;

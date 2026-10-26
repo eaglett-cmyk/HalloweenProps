@@ -5,9 +5,9 @@
   const RANKS = ['', 'Sparkfinder', 'Apprentice', 'Glowcaster', 'Hoardguard', 'Worldwalker', 'Dragon Rider', 'Keeper of the Hoard'];
   const TIERS = [
     { name: 'Goblin Trick', bowl: 'bowl-green', note: 'Snuffwick got him again. Candy anyway!' },
-    { name: 'Hoard Coin', bowl: 'bowl-silver', note: 'From the silver circle bowl.' },
-    { name: 'Dragon Gem', bowl: 'bowl-red', note: 'A rare one, from the red triangle bowl!' },
-    { name: 'Golden Star', bowl: 'bowl-gold', note: 'Legendary!' },
+    { name: 'Hoard Coin', bowl: 'bowl-silver', note: 'From the silver coin bowl.' },
+    { name: 'Golden Star', bowl: 'bowl-gold', note: 'A rare one, from the gold star bowl!' },
+    { name: 'Dragon Gem', bowl: 'bowl-red', note: 'Legendary! The rarest treasure of all.' },
   ];
   const F_FIRST = 0x01;
 
