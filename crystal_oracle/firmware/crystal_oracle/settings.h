@@ -23,7 +23,7 @@ enum ReaderKind : uint8_t { READER_PLINTH = 0, READER_RFID2 = 1, READER_NONE = 2
 struct Settings {
   // [station]
   uint16_t eventYear      = 2026;   // which year slot this Halloween writes (bump yearly — or edit config.ini)
-  uint16_t baseYear       = 2024;   // year mapped to tag page 18 (NEVER change after crystals exist)
+  uint16_t baseYear       = 2026;   // year mapped to tag page 18 (NEVER change after crystals exist)
   uint8_t  chapter        = 1;      // story chapter number written into the year slot
   uint8_t  reader         = READER_PLINTH;
   bool     hasButton      = false;  // the plinth has a big button (config.ini [station] button = yes); no = taps bless + words nobutton.*
@@ -38,7 +38,7 @@ struct Settings {
   bool     allowFresh     = true;   // awaken BLANK tags that were never bench-provisioned
   bool     logVisits      = true;   // anonymised CSV on the SD card
   bool     showCounter    = true;   // station-wide "crystals awakened" counter on the attract screen
-  char     ndefUrl[64]    = "halloween.ciancio.cloud";                 // written to fresh crystals (https:// prefix implied)
+  char     ndefUrl[64]    = "halloween.ciancio.cloud";                 // crystals get <ndefUrl>/c/<anonId> (https:// prefix implied)
   // [odds]  (percent of crystal visits; trick+treat get the rest)
   uint8_t  trickPct       = 15;
   uint8_t  rarePct        = 18;

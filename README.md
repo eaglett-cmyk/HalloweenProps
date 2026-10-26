@@ -50,10 +50,11 @@ TF card, then the dress rehearsal.
 
 | Pages | Contents |
 |---|---|
-| 4–15 | NDEF link to this page (why a phone tap lands here) |
+| 4–15 | NDEF link to the crystal's own page, `halloween.ciancio.cloud/c/<id>` (why a phone tap lands there) |
 | 16 | marker `SK` + schema + visit count (written last = commit) |
 | 17 | byte 0 = per-tag roll bonus (`charge`), byte 1 = crystal colour (1 Dragonberry, 2 Starfrost, 3 Rainbow Fizz) |
-| 18–39 | one page per year: `[number, result tier, flags, chapter]` — about 22 years |
+| 18–29 | one page per year from 2026: `[number, result tier, flags, chapter]` — 12 years |
+| 30–39 | reserved for future use |
 
 The same layout is used by the retired Skull Oracle and the bench tool, so old tokens still work.
 

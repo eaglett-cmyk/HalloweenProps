@@ -236,15 +236,17 @@ bench's crystal prep lives in the screen's hidden host menu, page **Crystals**
 | Page | Bytes | Written by |
 |---|---|---|
 | 3 | CC `E1 10 12 00` | fresh provisioning only, and only if byte 0 ≠ 0xE1 (OTP) |
-| 4–15 | NDEF URI (`https://` + `ndefUrl`) + `FE` | fresh provisioning |
+| 4–15 | NDEF URI `https://<ndefUrl>/c/<anonId>` + `FE` (the crystal's own page; bare `ndefUrl` if > 40 chars) | fresh provisioning; rewritten on any of ours whose link isn't its own yet (visit, *Provision*, colour) |
 | 16 | `S K 03 visits` | every new-year visit, **last** (commit) |
 | 17 | `charge colour 0 0` | bench or host menu *Crystals* (charge + colour); fresh provisioning writes zeros (*Crystals* → *Provision*: `0 colour 0 0`) |
-| 18–39 | `number tier flags chapter` (slot = 18 + year − 2024) | the station, once per year |
+| 18–29 | `number tier flags chapter` (slot = 18 + year − `base_year` 2026; 12 years) | the station, once per year |
+| 30–39 | reserved for future use | never (Format zeroes them) |
 
-* **Fresh** = no SK marker AND (NDEF area empty — `03 00 FE` / zeros / factory lock-control TLV + empty NDEF — OR already our link). Anything else without the marker = **Foreign** (never written; kid gets the no-crystal blessing).
+* **Fresh** = no SK marker AND (NDEF area empty — `03 00 FE` / zeros / factory lock-control TLV + empty NDEF — OR already our link: its own `/c/<id>` link or the bare `ndefUrl`, whole or cut short). Anything else without the marker = **Foreign** (never written; kid gets the no-crystal blessing).
 * Already played this year = slot byte 0 ≠ 0 → REPLAY, no write.
-* Write order for a returning crystal: slot page, then marker. Fresh: CC (if needed), NDEF 4–15, charge page, slot, marker.
-* The plinth only writes pages 3–39, checks the UID first, retries each page 3×, verifies by read-back.
+* Write order for a returning crystal: [NDEF 4–15 if its link isn't its own yet], slot page, then marker. Fresh: CC (if needed), NDEF 4–15, charge page, slot, marker.
+* `anonId` = FNV-1a of `crystal-oracle/anon/v1:` + UID, printed as 8 lowercase hex: the same id the visit logs' `crystal` column holds, so the site (`site/`, `/c/<id>` + `/api/crystal/<id>`) matches imported logs to the link.
+* The plinth only writes pages 3–39 (the station's visit lists stop at 29), checks the UID first, retries each page 3×, verifies by read-back.
 * `nfc_tag_bench` is updated to set the crystal **colour** (page 17 byte 1) and to preserve byte 1 when setting charge.
 * The host menu's *Crystals* page (§5.8) builds its lists with `token::buildProvisionWrites` / `buildColorWrite` / `buildClearYearWrites` / `buildFormatWrites`: the same page map, CC rule and marker-last commit; Format (zero 4..39) is the only write ever made to a Foreign tag.
 

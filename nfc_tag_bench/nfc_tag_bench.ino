@@ -40,7 +40,8 @@
  *                   colour = crystal colour id, 0 = unset (Crystal Oracle
  *                            only): 1..3 in use (CRYSTAL_COLORS below), 4..6
  *                            kept free for future filaments
- *    pages 18..39 one page per year (slot = 18 + year - BASE_YEAR):
+ *    pages 18..29 one page per year (slot = 18 + year - BASE_YEAR, 12 years);
+ *    pages 30..39 reserved for future use (Erase still zeroes them)
  *                   number 1..100, prize 0..3, flags, chapter
  *                   flags/chapter are Crystal Oracle extensions (the skull and
  *                   this bench write 0). flags: 01 first visit, 02 charged,
@@ -96,11 +97,11 @@
 #define CHARGE_BYTE     0       //   page 17 byte 0 = charge
 #define COLOR_BYTE      1       //   page 17 byte 1 = crystal colour (0 = unset)
 #define YEAR_BASE_PAGE  18      // slot for BASE_YEAR; +1 per year after
-#define MAX_YEARS       22      // pages 18..39
+#define MAX_YEARS       12      // pages 18..29 (30..39 reserved)
 #define MAGIC0          0x53    // 'S'
 #define MAGIC1          0x4B    // 'K'
 #define SCHEMA_VER      0x03
-#define BASE_YEAR       2024
+#define BASE_YEAR       2026
 #define NUMBER_MAX      100
 
 // --- crystal colours (TUNE): the value stored in page 17 byte 1 -------------
@@ -509,7 +510,7 @@ void handleFormat() {
   if (!selectTag(300)) { sendJson("{\"ok\":false,\"err\":\"no tag\"}"); return; }
   uint8_t zero[4] = {0,0,0,0};
   bool ok = true;
-  for (uint8_t p = NDEF_START_PAGE; p <= YEAR_BASE_PAGE + MAX_YEARS - 1; p++) ok &= wrPage(p, zero);
+  for (uint8_t p = NDEF_START_PAGE; p <= 39; p++) ok &= wrPage(p, zero);   // reserved 30..39 too
   sendJson(ok ? "{\"ok\":true}" : "{\"ok\":false,\"err\":\"write\"}");
 }
 

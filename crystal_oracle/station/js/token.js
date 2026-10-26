@@ -1,15 +1,16 @@
 // token.js - the crystal's on-tag data (schema 0x03), a port of firmware token.h / token.cpp.
 //   page  3      CC  E1 10 12 00   (written only if byte 0 != 0xE1 - the CC is OTP)
-//   pages 4..15  NDEF URI record (phone link) + 0xFE
+//   pages 4..15  NDEF URI record (phone link) + 0xFE: <ndefUrl>/c/<8-hex anonId> (crystalUrl)
 //   page  16     'S' 'K' 0x03 visits         <- written LAST (= commit)
 //   page  17     charge, colour, 0, 0
-//   pages 18..39 one page per year (slot = 18 + year - baseYear): number, tier, flags, chapter
+//   pages 18..29 one page per year (slot = 18 + year - baseYear, 12 years): number, tier, flags, chapter
+//   pages 30..39 RESERVED for future use (never read or written; Format zeroes them)
 // A TagImage is { uid: Uint8Array, uidLen, readOk, sak, pages: Uint8Array(37*4), readMs }.
 // A PageWrite is { page, data: Uint8Array(4) }.
 import { cfg, colorCount } from './settings.js';
 
 export const TAG_FIRST_PAGE = 3, TAG_LAST_PAGE = 39, TAG_NUM_PAGES = 37, TAG_UID_MAX = 10, LINK_MAX_WRITES = 18;
-export const PAGE_CC = 3, PAGE_NDEF = 4, NDEF_PAGES = 12, PAGE_MARKER = 16, PAGE_CHARGE = 17, PAGE_YEAR0 = 18, MAX_YEARS = 22;
+export const PAGE_CC = 3, PAGE_NDEF = 4, NDEF_PAGES = 12, PAGE_MARKER = 16, PAGE_CHARGE = 17, PAGE_YEAR0 = 18, MAX_YEARS = 12, PAGE_RESERVED0 = 30;
 export const MAGIC0 = 0x53, MAGIC1 = 0x4B, SCHEMA = 0x03;
 export const SF = { FIRST: 0x01, CHARGED: 0x02, PITY: 0x04, MILESTONE: 0x08, CIRCLE: 0x10, BRAVE: 0x20, ORACLE: 0x80 };
 export const BAND_LO = [1, 40, 90, 100], BAND_HI = [39, 89, 99, 100];
@@ -39,6 +40,13 @@ function fnv1a(salt, uid, n) {
   return h >>> 0;
 }
 function urlBody(url) { return String(url || '').replace(/^https:\/\//i, ''); }
+// The crystal's own link as stored (no "https://"): "<ndefUrl>/c/<anonId as 8 hex>", or the
+// bare ndefUrl if that would pass 40 characters; '' if ndefUrl is empty.
+export function crystalUrl(ndefUrl, anonId) {
+  const base = urlBody(ndefUrl).replace(/\/+$/, '');
+  if (!base) return '';
+  return base.length + 11 <= URL_MAX ? `${base}/c/${(anonId >>> 0).toString(16).padStart(8, '0')}` : base;
+}
 
 function firstContentTlv(a) {
   let i = 0;
@@ -99,6 +107,12 @@ function partialOurLink(a, url) {
   return true;
 }
 const put = (out, pg, d) => out.push({ page: pg, data: Uint8Array.from(d) });
+// [CC if missing] + pages 4..15 = the crystal's own link, unless it's already there.
+function putLink(out, c, ndefUrl) {
+  const ndef = c.hasOurLink ? null : buildNdef(crystalUrl(ndefUrl, c.anonId));
+  if ((ndef || c.hasOurLink) && !c.hasCC) put(out, PAGE_CC, CC_NTAG203);
+  if (ndef) for (let p = 0; p < NDEF_PAGES; p++) put(out, PAGE_NDEF + p, ndef.subarray(p * 4, p * 4 + 4));
+}
 
 export function tierForNumber(n) { return n >= 100 ? 3 : n >= 90 ? 2 : n >= 40 ? 1 : 0; }
 export function kindName(k) { return ['unreadable', 'foreign', 'fresh', 'ours'][k] || '?'; }
@@ -114,11 +128,12 @@ export function parse(img, eventYear, baseYear) {
   if (!img.readOk || n === 0) return c;
   c.hasCC = page(img, PAGE_CC)[0] === 0xE1;
   const ndef = img.pages.subarray((PAGE_NDEF - TAG_FIRST_PAGE) * 4, (PAGE_NDEF - TAG_FIRST_PAGE) * 4 + NDEF_BYTES);
-  const url = urlBody(cfg.ndefUrl);
-  c.hasOurLink = linkMatches(ndef, url);
+  const base = urlBody(cfg.ndefUrl), own = crystalUrl(base, c.anonId);
+  c.hasOurLink = linkMatches(ndef, own);
   const m = page(img, PAGE_MARKER);
   if (!(m[0] === MAGIC0 && m[1] === MAGIC1)) {
-    c.kind = (c.hasOurLink || ndefEmpty(ndef) || partialOurLink(ndef, url)) ? Kind.Fresh : Kind.Foreign;
+    // blank, or our link (its own or the bare site link, whole or cut short) -> Fresh
+    c.kind = (c.hasOurLink || ndefEmpty(ndef) || linkMatches(ndef, base) || partialOurLink(ndef, own) || partialOurLink(ndef, base)) ? Kind.Fresh : Kind.Foreign;
     return c;
   }
   c.kind = Kind.Ours;
@@ -154,18 +169,13 @@ export function buildVisitWrites(c, eventYear, baseYear, number, tier, flags, ch
   if (number > 100) number = 100;
   if (tier > 3) tier = tierForNumber(number);
   const out = [];
-  if (c.kind === Kind.Fresh) {
-    const ndef = c.hasOurLink ? null : buildNdef(urlBody(ndefUrl));
-    const writeLink = !!ndef;
-    if ((writeLink || c.hasOurLink) && !c.hasCC) put(out, PAGE_CC, CC_NTAG203);
-    if (writeLink) for (let p = 0; p < NDEF_PAGES; p++) put(out, PAGE_NDEF + p, ndef.subarray(p * 4, p * 4 + 4));
-    put(out, PAGE_CHARGE, [0, 0, 0, 0]);
-  }
+  putLink(out, c, ndefUrl);   // provisions a Fresh crystal's link, upgrades an older one of ours
+  if (c.kind === Kind.Fresh) put(out, PAGE_CHARGE, [0, 0, 0, 0]);
   put(out, PAGE_YEAR0 + yIdx, [number, tier, (flags | SF.ORACLE) & 0xFF, chapter & 0xFF]);
   const prior = c.kind === Kind.Ours ? c.visits : 0;
   put(out, PAGE_MARKER, [MAGIC0, MAGIC1, SCHEMA, Math.min(prior + 1, 255)]);
   if (out.length > max) return [];
-  for (const w of out) if (w.page < PAGE_CC || w.page > TAG_LAST_PAGE) return [];
+  for (const w of out) if (w.page < PAGE_CC || w.page >= PAGE_RESERVED0) return [];
   return out;
 }
 
@@ -189,10 +199,7 @@ function finishPrep(img, tmp, max) {
 }
 function provisionList(c, colour, ndefUrl) {
   const out = [];
-  const ndef = c.hasOurLink ? null : buildNdef(urlBody(ndefUrl));
-  const writeLink = !!ndef;
-  if ((writeLink || c.hasOurLink) && !c.hasCC) put(out, PAGE_CC, CC_NTAG203);
-  if (writeLink) for (let p = 0; p < NDEF_PAGES; p++) put(out, PAGE_NDEF + p, ndef.subarray(p * 4, p * 4 + 4));
+  putLink(out, c, ndefUrl);
   put(out, PAGE_CHARGE, [0, colour, 0, 0]);
   put(out, PAGE_MARKER, [MAGIC0, MAGIC1, SCHEMA, 0]);
   return out;
@@ -200,8 +207,12 @@ function provisionList(c, colour, ndefUrl) {
 export function buildProvisionWrites(img, colour, ndefUrl, max = PREP_MAX_WRITES) {
   const { c, why } = prepCrystal(img);
   if (!c) return { writes: [], why };
-  if (c.kind === Kind.Ours) return { writes: [], why: 'already provisioned (its visits stay)' };
   if (c.kind === Kind.Foreign) return { writes: [], why: 'not blank - Format it first' };
+  if (c.kind === Kind.Ours) {   // its visits stay; only an older link is brought up to date
+    const out = [];
+    putLink(out, c, ndefUrl || '');
+    return out.length ? finishPrep(img, out, max) : { writes: [], why: 'already provisioned (its visits stay)' };
+  }
   if (colour > 6) return { writes: [], why: 'no such colour' };
   return finishPrep(img, provisionList(c, colour, ndefUrl || ''), max);
 }
@@ -214,6 +225,7 @@ export function buildColorWrite(img, colour, ndefUrl, max = PREP_MAX_WRITES) {
   const cur = page(img, PAGE_CHARGE);
   if (cur[1] === colour) return { writes: [], why: 'it already has that colour' };
   const out = [];
+  putLink(out, c, ndefUrl || '');   // an older link is brought up to date on the way
   put(out, PAGE_CHARGE, [cur[0], colour, cur[2], cur[3]]);
   return finishPrep(img, out, max);
 }

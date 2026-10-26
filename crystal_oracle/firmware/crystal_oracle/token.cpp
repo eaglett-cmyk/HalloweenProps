@@ -17,23 +17,27 @@
  *                      NTAG203  01 03 A0 10 44 03 00 FE
  *                      NTAG213  03 00 FE 00   (and 01 03 A0 0C 34 03 00 FE)
  *                    and the bench's "Format" (all zero).
- *                  * our link: 03 len D1 01 plen 55 04 <ndefUrl> FE
+ *                  * our link: 03 len D1 01 plen 55 04 <url> FE, where <url> is
+ *                    the crystal's own link (crystalUrl) or the bare ndefUrl
+ *                  * either link cut short by an interrupted first write
+ *                    (pages 4..k ours, the rest still blank)
  *    Foreign     anything else (someone's sticker, a phone-written link ...):
  *                NEVER written.
- *                  * our link cut short by an interrupted first write (pages
- *                    4..k ours, the rest still blank)
  *  For Fresh crystals the visit pages are ignored: the marker (written last) is
  *  the commit, so a half-written fresh crystal simply rolls again.
  *
  *  Write list (buildVisitWrites) — the plinth executes it in order:
  *    Fresh: [CC E1 10 12 00 if page 3 byte 0 != E1] [NDEF 4..15 unless it's
- *           already our link] [page 17 = 0 0 0 0] slot  marker
- *    Ours:  slot  marker            (never touches CC / link / charge+colour)
- *  Only pages 3..39 are ever emitted; the marker is ALWAYS last.
+ *           already its own link] [page 17 = 0 0 0 0] slot  marker
+ *    Ours:  [CC] [NDEF 4..15 unless it's already its own link] slot  marker
+ *           (the link upgrade: crystals written before the /c/<id> links;
+ *            never touches charge+colour)
+ *  Only pages 3..29 are ever emitted (30..39 reserved); the marker is ALWAYS last.
  *
  *  Crystal prep (the host menu's Crystals page; token.h has the rules):
  *    buildProvisionWrites   Fresh -> [CC] [NDEF] page 17 {0,colour,0,0}  marker(0)
- *    buildColorWrite        Ours: page 17 {charge, colour, b2, b3} (read-modify-write);
+ *                           Ours  -> [CC] [NDEF] only (the link upgrade)
+ *    buildColorWrite        Ours: [CC] [NDEF] page 17 {charge, colour, b2, b3} (read-modify-write);
  *                           Fresh: the provisioning list with that colour
  *    buildClearYearWrites   this year's slot -> 0  [marker visits-1 if it was filled]
  *    buildFormatWrites      every non-zero page of 4..39 -> 0, marker (16) last
@@ -184,7 +188,33 @@ inline void put(PageWrite *out, uint8_t &n, uint8_t pg, const uint8_t *d) {
   n++;
 }
 
+// [CC if missing] + pages 4..15 = the crystal's own link, unless it's already there.
+// (No / too long a URL: nothing — the crystal is still recorded; settings.cpp logs it.)
+void putLink(const Crystal &c, const char *ndefUrl, PageWrite *out, uint8_t &n) {
+  char url[64];
+  uint8_t ndef[NDEF_BYTES];
+  const bool writeLink = !c.hasOurLink && buildNdef(crystalUrl(ndefUrl, c.anonId, url, sizeof url), ndef);
+  if ((writeLink || c.hasOurLink) && !c.hasCC) put(out, n, PAGE_CC, CC_NTAG203);
+  if (writeLink) {
+    for (uint8_t p = 0; p < NDEF_PAGES; p++) put(out, n, (uint8_t)(PAGE_NDEF + p), &ndef[p * 4]);
+  }
+}
+
 }  // namespace
+
+const char *crystalUrl(const char *ndefUrl, uint32_t anonId, char *buf, size_t size) {
+  if (!buf || !size) return "";
+  const char *base = urlBody(ndefUrl);
+  size_t n = strlen(base);
+  while (n && base[n - 1] == '/') n--;   // "site/" -> "site/c/<id>"
+  if (n + 11 <= URL_MAX && n + 12 <= size) {
+    snprintf(buf, size, "%.*s/c/%08lx", (int)n, base, (unsigned long)anonId);
+  } else {
+    snprintf(buf, size, "%.*s", (int)n, base);
+  }
+  if (!n) buf[0] = 0;
+  return buf;
+}
 
 uint8_t tierForNumber(uint8_t n) {   // the skull's prizeTier()
   if (n >= 100) return 3;            // legendary (jackpot)
@@ -217,14 +247,19 @@ void parse(const TagImage &img, uint16_t eventYear, uint16_t baseYear, Crystal &
   out.hasCC = page(img, PAGE_CC)[0] == 0xE1;
   uint8_t ndef[NDEF_BYTES];
   for (uint8_t p = 0; p < NDEF_PAGES; p++) memcpy(&ndef[p * 4], page(img, PAGE_NDEF + p), 4);
-  out.hasOurLink = linkMatches(ndef, urlBody(settings::cfg.ndefUrl));
+  char own[64];
+  const char *base = urlBody(settings::cfg.ndefUrl);
+  crystalUrl(base, out.anonId, own, sizeof own);
+  out.hasOurLink = linkMatches(ndef, own);
 
   const uint8_t *m = page(img, PAGE_MARKER);
   if (!(m[0] == MAGIC0 && m[1] == MAGIC1)) {
-    // Not provisioned. Only blank tags (or ones already carrying our link, whole
-    // or cut short by an interrupted first write) may be awakened. A partial link
-    // leaves hasOurLink false, so the next visit rewrites all of pages 4..15.
-    out.kind = (out.hasOurLink || ndefEmpty(ndef) || partialOurLink(ndef, urlBody(settings::cfg.ndefUrl)))
+    // Not provisioned. Only blank tags (or ones already carrying our link - its own
+    // or the bare site link, whole or cut short by an interrupted first write) may
+    // be awakened. Anything but its own whole link leaves hasOurLink false, so the
+    // next write rewrites all of pages 4..15.
+    out.kind = (out.hasOurLink || ndefEmpty(ndef) || linkMatches(ndef, base) || partialOurLink(ndef, own) ||
+                partialOurLink(ndef, base))
                    ? Kind::Fresh
                    : Kind::Foreign;
     return;
@@ -293,19 +328,12 @@ uint8_t buildVisitWrites(const Crystal &c, uint16_t eventYear, uint16_t baseYear
   PageWrite tmp[LINK_MAX_WRITES];
   uint8_t n = 0;
 
+  // CC (only if missing — OTP bits) and the crystal's own phone link (unless it's
+  // already there): provisions a Fresh crystal, upgrades an older one of ours.
+  putLink(c, ndefUrl, tmp, n);
   if (c.kind == Kind::Fresh) {
-    // Provision: CC (only if missing — OTP bits), the phone link (unless it's
-    // already ours), and a clean charge/colour page.
-    uint8_t ndef[NDEF_BYTES];
-    const bool writeLink = !c.hasOurLink && buildNdef(urlBody(ndefUrl), ndef);
-    // (URL missing / longer than 40 chars -> no link, but the visit is still
-    //  recorded; settings.cpp logs the bad URL.)
-    if ((writeLink || c.hasOurLink) && !c.hasCC) put(tmp, n, PAGE_CC, CC_NTAG203);
-    if (writeLink) {
-      for (uint8_t p = 0; p < NDEF_PAGES; p++) put(tmp, n, (uint8_t)(PAGE_NDEF + p), &ndef[p * 4]);
-    }
     const uint8_t zero[4] = {0, 0, 0, 0};
-    put(tmp, n, PAGE_CHARGE, zero);
+    put(tmp, n, PAGE_CHARGE, zero);   // a clean charge/colour page
   }
 
   const uint8_t slot[4] = {number, tier, (uint8_t)(flags | SF_ORACLE), chapter};
@@ -316,8 +344,8 @@ uint8_t buildVisitWrites(const Crystal &c, uint16_t eventYear, uint16_t baseYear
   put(tmp, n, PAGE_MARKER, marker);   // COMMIT: always last
 
   if (n > max) return 0;
-  for (uint8_t i = 0; i < n; i++) {   // belt and braces: never page 2 (lock bytes) or >= 40
-    if (tmp[i].page < PAGE_CC || tmp[i].page > TAG_LAST_PAGE) return 0;
+  for (uint8_t i = 0; i < n; i++) {   // belt and braces: never page 2 (lock bytes) or the reserved 30..
+    if (tmp[i].page < PAGE_CC || tmp[i].page >= PAGE_RESERVED0) return 0;
   }
   memcpy(out, tmp, sizeof(PageWrite) * n);
   return n;
@@ -372,13 +400,7 @@ uint8_t finishPrep(const TagImage &img, const PageWrite *tmp, uint8_t n, PageWri
 // A Fresh crystal's provisioning: [CC] [NDEF 4..15] page 17 = {0, colour, 0, 0}, marker visits 0.
 uint8_t provisionList(const Crystal &c, uint8_t colour, const char *ndefUrl, PageWrite *tmp) {
   uint8_t n = 0;
-  uint8_t ndef[NDEF_BYTES];
-  const bool writeLink = !c.hasOurLink && buildNdef(urlBody(ndefUrl), ndef);
-  // (no / too long a URL: provisioned without the phone link, like buildVisitWrites)
-  if ((writeLink || c.hasOurLink) && !c.hasCC) put(tmp, n, PAGE_CC, CC_NTAG203);
-  if (writeLink) {
-    for (uint8_t p = 0; p < NDEF_PAGES; p++) put(tmp, n, (uint8_t)(PAGE_NDEF + p), &ndef[p * 4]);
-  }
+  putLink(c, ndefUrl, tmp, n);   // (no / too long a URL: provisioned without the phone link)
   const uint8_t chg[4] = {0, colour, 0, 0};
   put(tmp, n, PAGE_CHARGE, chg);
   const uint8_t marker[4] = {MAGIC0, MAGIC1, SCHEMA, 0};
@@ -392,19 +414,24 @@ uint8_t buildProvisionWrites(const TagImage &img, uint8_t colour, const char *nd
                              const char **why) {
   Crystal c;
   if (!prepCrystal(img, c, why)) return 0;
-  if (c.kind == Kind::Ours) {
-    setWhy(why, "already provisioned (its visits stay)");
-    return 0;
-  }
   if (c.kind == Kind::Foreign) {
     setWhy(why, "not blank - Format it first");
     return 0;
+  }
+  PageWrite tmp[PREP_MAX_WRITES];
+  if (c.kind == Kind::Ours) {   // its visits stay; only an older link is brought up to date
+    uint8_t n = 0;
+    putLink(c, ndefUrl ? ndefUrl : "", tmp, n);
+    if (!n) {
+      setWhy(why, "already provisioned (its visits stay)");
+      return 0;
+    }
+    return finishPrep(img, tmp, n, out, max, why);
   }
   if (colour > settings::CRYSTAL_COLORS_MAX) {
     setWhy(why, "no such colour");
     return 0;
   }
-  PageWrite tmp[PREP_MAX_WRITES];
   const uint8_t n = provisionList(c, colour, ndefUrl ? ndefUrl : "", tmp);
   return finishPrep(img, tmp, n, out, max, why);
 }
@@ -423,13 +450,15 @@ uint8_t buildColorWrite(const TagImage &img, uint8_t colour, const char *ndefUrl
   }
   if (c.kind == Kind::Fresh) return buildProvisionWrites(img, colour, ndefUrl, out, max, why);   // provision first
   // Ours: read-modify-write of page 17 - charge (byte 0) and bytes 2..3 stay exactly as they are
+  // (an older link is brought up to date on the way)
   const uint8_t *cur = page(img, PAGE_CHARGE);
   if (cur[1] == colour) {
     setWhy(why, "it already has that colour");
     return 0;
   }
-  PageWrite tmp[1];
+  PageWrite tmp[NDEF_PAGES + 2];
   uint8_t n = 0;
+  putLink(c, ndefUrl ? ndefUrl : "", tmp, n);
   const uint8_t d[4] = {cur[0], colour, cur[2], cur[3]};
   put(tmp, n, PAGE_CHARGE, d);
   return finishPrep(img, tmp, n, out, max, why);

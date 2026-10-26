@@ -35,7 +35,7 @@ const LT = { HELLO: 0x01, TAG_PLACED: 0x02, TAG_REMOVED: 0x03, WRITE_RESULT: 0x0
 const WS = { OK: 0, NO_TAG: 1, WRONG_TAG: 2, WRITE_FAIL: 3, VERIFY_FAIL: 4, BAD_REQUEST: 5 };
 const FIRST_PAGE = 3, LAST_PAGE = 39, NUM_PAGES = 37, UID_MAX = 10, MAX_WRITES = 18;
 const EVENT_YEAR = Number(process.env.FAKE_PLINTH_YEAR || new Date().getFullYear());
-const BASE_YEAR = 2024;
+const BASE_YEAR = 2026;
 
 // ---------------------------------------------------------------- the fake tag
 let tag = null;            // { uid: Buffer, sak, atqaLo, pages: Buffer(37*4), readOk }
@@ -74,7 +74,7 @@ function makeOurs({ visits = 2, colour = 1, lastTier = 1, playedThisYear = false
   let y = EVENT_YEAR - 1;
   for (let i = 0; i < visits; i++, y--) {
     const slot = 18 + (y - BASE_YEAR);
-    if (slot < 18 || slot > 39) break;
+    if (slot < 18 || slot > 29) break;   // 12 year slots (30..39 reserved)
     const tier = i === 0 ? lastTier : 1;
     const num = tier === 0 ? 20 : tier === 1 ? 55 : tier === 2 ? 95 : 100;
     pageOf(p, slot).set([num, tier, 0x80, 1]);

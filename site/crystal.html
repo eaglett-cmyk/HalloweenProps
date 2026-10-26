@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your Crystal — Dragonglow</title>
+<meta name="description" content="Your piece of Butterscotch's crystal egg: every Halloween it has woken the dragon.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#1b1033">
+<link rel="icon" href="/img/prop_crystal.webp" type="image/webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css?v=g6">
+<link rel="stylesheet" href="/crystal.css?v=3">
+</head>
+<body class="crystal-page">
+
+<header class="cp-head">
+  <img class="cp-gem" src="/img/prop_crystal.webp" alt="" width="640" height="640">
+  <p class="cover-kicker">A piece of the crystal egg</p>
+  <h1 class="cp-title" id="cp-title">Your Crystal</h1>
+  <p class="cp-id">Shard <span id="cp-id">…</span></p>
+  <button type="button" class="cp-name-btn" id="cp-name-btn" hidden>Give it a name</button>
+  <form class="cp-name-form" id="cp-name-form" hidden>
+    <label for="cp-name-in">What is your crystal called?</label>
+    <div class="cp-name-row">
+      <input id="cp-name-in" name="nickname" type="text" maxlength="24" autocomplete="off" autocapitalize="words" spellcheck="false" placeholder="e.g. Sparkle">
+      <button type="submit" class="btn btn-gold">Save</button>
+    </div>
+    <p class="cp-name-help"><span id="cp-name-msg">Up to 24 letters and numbers. Please name the crystal, not yourself!</span>
+      <button type="button" class="link-btn" id="cp-name-cancel">Cancel</button></p>
+  </form>
+</header>
+
+<main class="cp-main">
+  <section class="cp-card" id="cp-summary" aria-live="polite">
+    <p class="cp-loading">Butterscotch is remembering…</p>
+  </section>
+
+  <section class="cp-card" id="cp-years" hidden>
+    <h2>Every Halloween it woke the dragon</h2>
+    <ol class="cp-yearlist" id="cp-yearlist"></ol>
+  </section>
+
+  <div class="cp-actions">
+    <a class="btn btn-gold" href="/#story">Read the storybook</a>
+    <a class="btn btn-ghost" href="/#grownups">For grown-ups</a>
+  </div>
+  <p class="cp-note">This page belongs to one crystal. Its history is the same one the crystal carries inside, kept as numbers only: no names, nothing personal. Bookmark it, or just tap the crystal again.</p>
+</main>
+
+<script src="/crystal.js?v=3" defer></script>
+</body>
+</html>

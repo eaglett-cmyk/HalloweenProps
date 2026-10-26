@@ -46,3 +46,6 @@ crystal_oracle/station/logs/
 
 # station e2e output (tools/station_e2e.js screenshots + Chrome profile)
 crystal_oracle/tools/.e2e/
+
+# storybook site: imported station visit logs + per-crystal extras (site/import_visits.js)
+site/data/

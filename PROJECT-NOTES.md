@@ -44,6 +44,37 @@ Read `crystal_oracle/README.md` first, then `crystal_oracle/docs/DESIGN.md` (con
   2027-01-06) → stills from ChatGPT + our ffmpeg "layers" animator; voice from ElevenLabs/OpenAI TTS.
 
 ### Changelog
+- **2026-10-26 (crystal nicknames)** — owner: let families name their crystal. The crystal page has a
+  "Give it a name" / "Rename it" button → `POST /api/crystal/<id>/nickname` in `site/server.js`
+  (anyone with the crystal's link can set it; 1–24 letters/digits/spaces/`'-.!`, Unicode letters OK;
+  12 writes per IP per hour (`cf-connecting-ip`), at most 3000 named crystals, `""` clears). Stored in
+  `site/data/crystals.json` as `{id: {nickname, nicknamedAt}}` (atomic temp+rename write), returned by
+  `/api/crystal/<id>` as `nickname`, shown as the page title. **Moderation = edit or delete the entry in
+  that file** (no restart). It lives only on this PC (git-ignored) — copy it somewhere if it matters.
+  Not on the tag and not on the station. Tested locally (UI + bad input + rate limit) and live (set +
+  clear through Cloudflare); VMS restarted.
+- **2026-10-26 (per-crystal web pages + 12-year layout)** — owner: put the crystal's id in its phone link
+  and make the site show its history; cut the year slots to 12 and keep the rest for later.
+  * **Tag layout:** year slots now pages **18–29** (12 years), **`base_year` 2024 → 2026** (the skull never
+    ran, so nothing was in 2024/25; owner's call), pages **30–39 reserved** (never written by a visit;
+    Format still zeroes them). Synced in `token.*`, station `js/token.js`, `fake_plinth.js`,
+    `nfc_tag_bench`, `skull_oracle`. NTAG213 = exactly pages 4–39, so 213s and the first 100 216s are equal.
+  * **Link:** crystals now carry `https://halloween.ciancio.cloud/c/<anonId>` (8-hex FNV of the UID, the
+    same id as the logs' `crystal` column; 34 of the 40 chars, so `ndef_url` must stay ≤ 29). Older
+    crystals (bare site link / repo link) are rewritten on their next write: a visit (14 pages instead of
+    2, same hold as a first visit), host menu *Crystals* → **Provision** (link only, visits kept) or a
+    colour button; station batch mode relinks too. The *Crystals* page shows `Link: its own / old` + the id.
+  * **Site:** `site/server.js` → `/c/<id>` serves `crystal.html` (+ `crystal.js`/`crystal.css`), `GET
+    /api/crystal/<id>` reads `site/data/visits_<year>_<source>.csv` (first `write=ok` row per crystal per
+    year; re-read on file change, no restart) + optional `site/data/crystals.json` for future per-crystal
+    extras. `site/data/` is git-ignored and refused by the static handler. **After Halloween:** copy the
+    logs in with `node site/import_visits.js E:\oracle\logs screen` (iPad station: `..\crystal_oracle\station\logs station`). Unknown ids get a "waiting to glow" page. Grown-ups card updated.
+  * Verified: screen firmware + bench compile; station e2e 0 errors (fresh write 15 pages, returning
+    relink 14); token.js round-trip check; site tested locally at phone width, then VMS restarted and
+    `https://halloween.ciancio.cloud/c/<id>` + `/api/crystal/<id>` answer 200. **Not yet flashed:** the
+    screen needs the new firmware, and the **TF card's `config.ini` must get `base_year = 2026`** (the
+    repo's `sd_card` copy was edited; the card's own copy is never regenerated). Any crystal that played a
+    2026 rehearsal under base 2024 must be *Clear tonight*-ed **before** flashing (or Formatted after).
 - **2026-10-24 (raised NFC platform for the v7 plinth, Claude frame + Codex art)** — owner: more room over
   the PN532, and tags read better with a little offset. `crystal_oracle/plinth/nfc_platform.scad` (frame) +
   `nfc_platform_art.scad` (Codex, 2 rounds; briefs/results in `docs/codex/nfc-platform-*.md`) replace the
@@ -495,14 +526,15 @@ reflashed board never erases anyone's streak).
 - **Values to set on deploy (`TUNE` in the sketch):** `PRINTER_BAUD`, `PROX_MARGIN`,
   `EVENT_YEAR` (bump every Halloween), `BASE_YEAR`, `PROP_WRITES_URL`.
 
-### Token data layout (NTAG203, user pages 4–39 = 144 bytes)
+### Token data layout (NTAG203/213, user pages 4–39 = 144 bytes; as of 2026-10-26)
 
 | Pages | Bytes | Contents |
 |-------|-------|----------|
-| 4–15  | 48    | NDEF URI record = link to this repo (phone-tappable) |
+| 4–15  | 48    | NDEF URI record = `halloween.ciancio.cloud/c/<anonId>`, the crystal's own page (skull era: repo link) |
 | 16    | 4     | marker `SK` + schema ver (`0x03`) + visit count (written **last** = commit) |
 | 17    | 4     | `charge` = per-token roll modifier (set via the `nfc_tag_bench/` tool); byte 1 = Crystal Oracle crystal colour (1 Moonspell, 2 Starfrost, 3 Rainbow Fizz; 4–6 free for future filaments) |
-| 18–39 | 88    | one page per year: `[number, prizeTier, …]` (22 years) |
+| 18–29 | 48    | one page per year: `[number, prizeTier, flags, chapter]` (12 years from base_year 2026) |
+| 30–39 | 40    | reserved for future use |
 
 The repo link (NDEF) and the prop's private visit data live in **separate** page ranges and
 never collide: phones stop at the NDEF terminator; the prop reads/writes raw pages past it.

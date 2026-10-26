@@ -1,0 +1,82 @@
+/* One crystal's page (/c/<id>) — builds on style.css (palette, .btn, .bowl-*). */
+
+.crystal-page { color: var(--parchment); }
+
+.cp-head {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 2.2rem 16px 1rem;
+  text-align: center;
+}
+.cp-gem {
+  display: block; margin: 0 auto;
+  width: 132px; height: 132px;
+  filter: drop-shadow(0 0 22px rgba(255, 179, 71, .55));
+  animation: cp-bob 4s ease-in-out infinite;
+}
+@keyframes cp-bob { 50% { transform: translateY(-8px); } }
+.cp-title {
+  font-family: var(--display);
+  font-size: clamp(2.2rem, 8vw, 3.2rem);
+  color: var(--gold);
+  margin: .2rem 0 .1rem;
+  text-shadow: 0 2px 14px rgba(255, 200, 61, .35);
+}
+.cp-id { margin: 0; opacity: .7; font-family: var(--display); letter-spacing: .08em; }
+
+.cp-main { max-width: 640px; margin: 0 auto; padding: 0 16px 3rem; }
+.cp-card {
+  background: var(--parchment);
+  color: var(--ink);
+  border-radius: 18px;
+  padding: 1.4rem 1.4rem 1.2rem;
+  margin: 0 0 1.2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+}
+.cp-card h2 { font-family: var(--display); color: var(--toffee); font-size: 1.25rem; margin: 0 0 .8rem; }
+.cp-card p { margin: 0 0 .6rem; }
+.cp-loading { font-style: italic; opacity: .7; }
+.cp-big { font-family: var(--display); font-size: 1.5rem; color: var(--hat); line-height: 1.25; }
+.cp-rank-label { text-transform: uppercase; letter-spacing: .12em; font-size: .78rem; color: var(--ink-soft); margin: 0 !important; }
+.cp-rank { font-size: 2rem; color: var(--toffee); }
+.cp-next { font-style: italic; color: var(--ink-soft); }
+
+.cp-yearlist { list-style: none; margin: 0; padding: 0; }
+.cp-year {
+  display: flex; gap: 1rem; align-items: flex-start;
+  padding: .8rem 0;
+  border-top: 1px dashed rgba(58, 42, 26, .25);
+}
+.cp-year:first-child { border-top: 0; padding-top: 0; }
+.cp-y { font-family: var(--display); font-size: 1.35rem; color: var(--caramel); min-width: 3.2rem; }
+.cp-ybody p { margin: 0 0 .15rem; }
+.cp-res { display: flex; align-items: center; gap: .5rem; font-size: 1.08rem; }
+.cp-res .bowl { display: inline-block; flex: none; width: 1.2em; height: 1.2em; margin: 0; }
+.cp-glow { font-size: .95rem; }
+.cp-tnote { font-size: .9rem; color: var(--ink-soft); font-style: italic; }
+
+.cp-actions { display: flex; flex-wrap: wrap; gap: .7rem; justify-content: center; margin: 1.6rem 0 1rem; }
+.cp-note { font-size: .88rem; opacity: .7; text-align: center; max-width: 34em; margin: 0 auto; }
+
+@media (prefers-reduced-motion: reduce) { .cp-gem { animation: none; } }
+
+/* nickname */
+.cp-name-btn {
+  margin-top: .7rem;
+  background: none; border: 1px dashed rgba(246, 234, 210, .5); border-radius: 999px;
+  color: var(--parchment); font: 600 .92rem var(--display); padding: .35rem 1rem; cursor: pointer;
+}
+.cp-name-btn:hover { border-color: var(--gold); color: var(--gold); }
+.cp-name-form { margin: .9rem auto 0; max-width: 26rem; text-align: left; }
+.cp-name-form label { display: block; font-family: var(--display); margin-bottom: .35rem; }
+.cp-name-row { display: flex; gap: .5rem; }
+.cp-name-row input {
+  flex: 1; min-width: 0;
+  font: 1.05rem var(--serif); padding: .55rem .8rem;
+  border-radius: 12px; border: 2px solid var(--caramel); background: var(--parchment); color: var(--ink);
+}
+.cp-name-row .btn { padding: .55rem 1.1rem; }
+.cp-name-row .btn:disabled { opacity: .6; }
+.cp-name-help { font-size: .85rem; opacity: .8; margin: .4rem 0 0; }
+.cp-name-help .link-btn { color: var(--parchment); }
+.cp-name-err { color: #ffb0a8; font-weight: 600; }

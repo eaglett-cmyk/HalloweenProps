@@ -532,7 +532,7 @@ using settings::cfg;
 const Field FIELDS[] = {
   // [station]
   {"station", "event_year", FT::U16, &cfg.eventYear, 2000, 2121, "year slot this Halloween writes - bump it every year"},
-  {"station", "base_year", FT::U16, &cfg.baseYear, 2000, 2100, "year of tag page 18 - NEVER change once crystals exist"},
+  {"station", "base_year", FT::U16, &cfg.baseYear, 2000, 2100, "year of tag page 18 (12 slots) - NEVER change once crystals exist"},
   {"station", "chapter", FT::U8, &cfg.chapter, 0, 255, "story chapter number stored with each visit"},
   {"station", "reader", FT::Reader, &cfg.reader, 0, 0, "plinth | rfid2 | none"},
   // No-button mode (DESIGN.md 5.7): with button = no (the default; the 2026 plinth has no big
@@ -550,7 +550,7 @@ const Field FIELDS[] = {
   {"station", "allow_fresh", FT::Bool, &cfg.allowFresh, 0, 0, "yes = awaken blank tags that were never bench-provisioned"},
   {"station", "log_visits", FT::Bool, &cfg.logVisits, 0, 0, "yes = anonymous visit + event logs in /oracle/logs"},
   {"station", "show_counter", FT::Bool, &cfg.showCounter, 0, 0, "yes = station-wide crystal counter on the idle screen"},
-  {"station", "ndef_url", FT::Url, cfg.ndefUrl, 0, 0, "phone link written to new crystals (https:// implied, max 40 chars)"},
+  {"station", "ndef_url", FT::Url, cfg.ndefUrl, 0, 0, "site written to crystals as <url>/c/<id> (https:// implied, max 29 chars)"},
   // [odds]
   {"odds", "trick_pct", FT::U8, &cfg.trickPct, 0, 100, "% of visits that are a TRICK (rest of the non-prizes = treat)"},
   {"odds", "rare_pct", FT::U8, &cfg.rarePct, 0, 100, "% base chance of RARE"},
@@ -609,6 +609,8 @@ void setUrl(const char *v) {
   strlcpy(cfg.ndefUrl, v, sizeof(cfg.ndefUrl));
   if (strlen(cfg.ndefUrl) > 40) {
     vlog::event("settings: ndef_url longer than 40 chars - it won't fit on a crystal (link not written)");
+  } else if (strlen(cfg.ndefUrl) > 29) {
+    vlog::event("settings: ndef_url longer than 29 chars - crystals get it without their /c/<id> page");
   }
 }
 
@@ -663,7 +665,7 @@ void validate() {
   const uint16_t lastYear = (uint16_t)(cfg.baseYear + token::MAX_YEARS - 1);
   if (cfg.eventYear < cfg.baseYear || cfg.eventYear > lastYear) {
     const uint16_t fixed = cfg.eventYear < cfg.baseYear ? cfg.baseYear : lastYear;
-    vlog::event("settings: event_year %u outside %u..%u (base_year + 21) - using %u", cfg.eventYear,
+    vlog::event("settings: event_year %u outside %u..%u (base_year + 11) - using %u", cfg.eventYear,
                 cfg.baseYear, lastYear, fixed);
     cfg.eventYear = fixed;
   }

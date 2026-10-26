@@ -4,13 +4,16 @@
 //  skull_oracle/skull_oracle.ino and nfc_tag_bench/nfc_tag_bench.ino:
 //
 //   page  3      CC  E1 10 12 00   (written only if byte 0 != 0xE1 — CC is OTP)
-//   pages 4..15  NDEF URI record (phone-tappable link) + 0xFE terminator
+//   pages 4..15  NDEF URI record (phone-tappable link) + 0xFE terminator:
+//                https://<ndef_url>/c/<8-hex anonId> (the crystal's own page on the
+//                site; the bare <ndef_url> if that would pass 40 characters)
 //   page  16     'S' 'K' 0x03 visits          <- written LAST (= commit)
 //   page  17     charge, colour, 0, 0         (colour = Crystal Oracle extension, set at the bench; 0 = unset;
 //                                              1..settings::colorCount() = the words' color.N)
-//   pages 18..39 one page per year (slot = 18 + year - BASE_YEAR):
+//   pages 18..29 one page per year (slot = 18 + year - BASE_YEAR, 12 years):
 //                number(1..100), tier(0..3), flags, chapter
 //                (flags/chapter = Crystal Oracle extensions; skull + bench write 0)
+//   pages 30..39 RESERVED for future use (never read or written, Format zeroes them)
 //
 //  "Played this year" = slot byte 0 != 0 (same rule as the skull), so a crystal
 //  rolls ONCE per year across every station. Tiers keep the skull's meaning:
@@ -33,7 +36,8 @@ constexpr uint8_t NDEF_PAGES   = 12;   // 4..15
 constexpr uint8_t PAGE_MARKER  = 16;
 constexpr uint8_t PAGE_CHARGE  = 17;
 constexpr uint8_t PAGE_YEAR0   = 18;
-constexpr uint8_t MAX_YEARS    = 22;   // 18..39
+constexpr uint8_t MAX_YEARS    = 12;   // 18..29
+constexpr uint8_t PAGE_RESERVED0 = 30;  // 30..39 reserved (see the header)
 constexpr uint8_t MAGIC0 = 'S', MAGIC1 = 'K', SCHEMA = 0x03;
 
 enum SlotFlags : uint8_t {
@@ -69,7 +73,7 @@ struct Crystal {
   uint8_t  charge = 0;           // page 17 byte 0
   uint8_t  color = 0;            // page 17 byte 1 (0 = unset)
   bool     hasCC = false;        // page 3 byte 0 == 0xE1
-  bool     hasOurLink = false;   // pages 4.. hold our NDEF URI
+  bool     hasOurLink = false;   // pages 4.. hold this crystal's own link (crystalUrl)
   bool     playedThisYear = false;
   YearEntry thisYear = {0, 0, 0, 0, 0};
   uint8_t  historyCount = 0;     // filled slots, oldest first (includes this year if played)
@@ -77,16 +81,21 @@ struct Crystal {
   int8_t   lastTier = -1;        // most recent PRIOR year's tier (-1 = none)
   uint16_t lastYear = 0;         // that year
   uint8_t  noRareStreak = 0;     // consecutive most-recent prior visits with tier <= 1
-  uint32_t anonId = 0;           // salted hash of the UID (local logs only)
+  uint32_t anonId = 0;           // salted hash of the UID (the logs' crystal id + the link's /c/<id>)
   bool     firstVisit() const { return kind == Kind::Fresh || (kind == Kind::Ours && visits == 0); }
 };
+
+// The crystal's own link as stored on the tag (no "https://"): "<ndefUrl>/c/<anonId as 8 hex>",
+// or the bare ndefUrl if that would pass 40 characters; "" if ndefUrl is empty. buf >= 64 bytes.
+const char *crystalUrl(const char *ndefUrl, uint32_t anonId, char *buf, size_t size);
 
 // Classify + decode a page image. Never fails: unreadable images come back as Kind::Unreadable.
 void parse(const TagImage &img, uint16_t eventYear, uint16_t baseYear, Crystal &out);
 
 // This year's visit as an ORDERED write list (marker page LAST). For first visits
 // of Fresh crystals it also provisions: CC (only if missing), the NDEF link
-// (pages 4..15) and page 17 = {0,0,0,0}. Returns the count, 0 on error (year out
+// (pages 4..15) and page 17 = {0,0,0,0}. A crystal of ours whose link isn't its
+// own yet (the bare site link, the old repo link) gets the link rewritten first. Returns the count, 0 on error (year out
 // of range, or the crystal already played this year).
 uint8_t buildVisitWrites(const Crystal &c, uint16_t eventYear, uint16_t baseYear,
                          uint8_t number, uint8_t tier, uint8_t flags, uint8_t chapter,
@@ -105,11 +114,12 @@ uint8_t buildVisitWrites(const Crystal &c, uint16_t eventYear, uint16_t baseYear
 constexpr uint8_t PREP_MAX_WRITES = 40;
 // A blank (Fresh) crystal -> provisioned: CC (only if missing, and only with a link), our
 // NDEF link (pages 4..15, unless it is already there), page 17 = {0, colour, 0, 0}, marker
-// {S, K, 03, 0} last. Refuses crystals that are already ours (their visits stay) and foreign tags.
+// {S, K, 03, 0} last. Refuses foreign tags. A crystal that is already ours keeps its visits:
+// only its link is rewritten, if it isn't the crystal's own link yet (else "already provisioned").
 uint8_t buildProvisionWrites(const TagImage &img, uint8_t colour, const char *ndefUrl, PageWrite *out,
                              uint8_t max, const char **why = nullptr);
 // Set the bench colour (0 = none, 1..settings::CRYSTAL_COLORS_MAX). Ours: a read-modify-write
-// of page 17 that keeps byte 0 (charge) and bytes 2..3. Fresh (no SK marker): provisions it
+// of page 17 that keeps byte 0 (charge) and bytes 2..3 (+ the link rewrite, if it isn't its own yet). Fresh (no SK marker): provisions it
 // first with that colour (= the bench's ensureProvisioned + colour). Foreign: refused.
 uint8_t buildColorWrite(const TagImage &img, uint8_t colour, const char *ndefUrl, PageWrite *out, uint8_t max,
                         const char **why = nullptr);
@@ -120,7 +130,7 @@ uint8_t buildColorWrite(const TagImage &img, uint8_t colour, const char *ndefUrl
 // filled slots): then only the corrected marker is written.
 uint8_t buildClearYearWrites(const TagImage &img, uint16_t eventYear, uint16_t baseYear, PageWrite *out,
                              uint8_t max, const char **why = nullptr);
-// "Format": zero every non-zero page of 4..39 (the marker 16 last), like the bench's Erase.
+// "Format": zero every non-zero page of 4..39 (reserved pages too; the marker 16 last), like the bench's Erase.
 // The crystal then reads as a blank (Fresh) one. CC page 3 is never touched (OTP).
 uint8_t buildFormatWrites(const TagImage &img, PageWrite *out, uint8_t max, const char **why = nullptr);
 

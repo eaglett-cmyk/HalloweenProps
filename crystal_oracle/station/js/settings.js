@@ -12,7 +12,7 @@ export const RUSH = { AUTO: 0, ON: 1, OFF: 2 };
 export const READER = { PLINTH: 0, RFID2: 1, NONE: 2 };
 
 export const cfg = {
-  eventYear: 2026, baseYear: 2024, chapter: 1, reader: READER.PLINTH, hasButton: false,
+  eventYear: 2026, baseYear: 2026, chapter: 1, reader: READER.PLINTH, hasButton: false,
   group: 1, channel: 1, volume: 75, brightness: 85, ringBrightness: 120, rush: RUSH.AUTO,
   secondHelpings: false, allowFresh: true, logVisits: true, showCounter: true, ndefUrl: 'halloween.ciancio.cloud',
   trickPct: 15, rarePct: 18, legendPct: 4, loyaltyRarePct: 3, loyaltyCapPct: 9, chargeRarePct: 5, pityAfter: 2, firstNoTrick: true,

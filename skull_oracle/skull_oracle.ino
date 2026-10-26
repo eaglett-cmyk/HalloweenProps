@@ -26,7 +26,8 @@
  *       pages  4..15 : NDEF URI record = the GitHub link        48 bytes
  *       page   16    : marker "SK" + schema + visit count         4 bytes
  *       page   17    : "charge" = per-token roll modifier         4 bytes
- *       pages 18..39 : one page per year -> [number, prize, ...] 88 bytes
+ *       pages 18..29 : one page per year -> [number, prize, ...] 48 bytes (12 years)
+ *       pages 30..39 : reserved for future use
  *    "Charge" is a bonus ADDED to the drawn number (set on the token with the
  *    nfc_tag_bench tool). The layout still holds 22 years of history — plenty.
  *
@@ -114,7 +115,7 @@
 
 // --- calendar ---
 #define EVENT_YEAR     2026       // TUNE: update each year
-#define BASE_YEAR      2024       // TUNE: year mapped to the first history slot
+#define BASE_YEAR      2026       // TUNE: year mapped to the first history slot
 
 // --- the GitHub repo (folded in) ---
 //   Stored WITHOUT the "https://" — the NDEF prefix code 0x04 adds it back, so
@@ -133,7 +134,7 @@
 #define CHARGE_PAGE     17        // [charge,colour,0,0]: byte 0 = per-token roll modifier
                                   //   (byte 1 = Crystal Oracle colour; the skull only zeroes it on fresh tokens)
 #define YEAR_BASE_PAGE  18        // slot for BASE_YEAR; +1 per year after
-#define MAX_YEARS       22        // pages 18..39
+#define MAX_YEARS       12        // pages 18..29 (30..39 reserved)
 #define MAGIC0          0x53      // 'S'
 #define MAGIC1          0x4B      // 'K'
 #define SCHEMA_VER      0x03      // bumped for the charge page

@@ -1117,8 +1117,11 @@ void pageCrystals(uint32_t now) {
       }
     }
     y += 22;
-    textf(X0, y, FONT_S, C_DIM, "Link: %s   CC: %s", c.hasOurLink ? "ours" : (c.kind == token::Kind::Fresh ? "none yet" : "not ours"),
-          c.hasCC ? "E1 ok" : "missing");
+    textf(X0, y, FONT_S, C_DIM, "Link: %s   CC: %s   Page: /c/%08lx",
+          c.hasOurLink ? "its own"
+                       : (c.kind == token::Kind::Fresh ? "none yet"
+                                                       : (c.kind == token::Kind::Ours ? "old - Provision updates it" : "not ours")),
+          c.hasCC ? "E1 ok" : "missing", (unsigned long)c.anonId);
   }
   // read test: helps judge a print (glitter PLA, the 2 mm lid)
   if (p.placements) {

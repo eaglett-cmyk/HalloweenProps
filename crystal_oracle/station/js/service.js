@@ -29,7 +29,8 @@ let s_armed = {};         // two-tap confirmations
 let s_msg = '';
 let s_simQueue = [];      // simulated crystals to place once the menu closes
 // Batch provisioning (Crystals tab): every crystal placed gets this colour - blank ones are
-// provisioned, already-ours ones recoloured if `recolour` is on. Counts for the session.
+// provisioned, already-ours ones recoloured if `recolour` is on (else relinked if their link is
+// older than their own /c/<id> page). Counts for the session.
 let s_batch = { on: false, colour: 1, recolour: false, done: 0, skipped: 0, failed: 0, last: '' };
 
 // ---------------------------------------------------------------- simulated crystal images
@@ -44,13 +45,13 @@ function blankImage() {
 }
 function oursImage({ visits = 2, colour = 1, lastTier = 1, playedThisYear = false, charge = 0 } = {}) {
   const img = blankImage();
-  const ndef = token.buildNdef(cfg.ndefUrl.replace(/^https:\/\//i, ''));
+  const ndef = token.buildNdef(token.crystalUrl(cfg.ndefUrl, token.parse(img, cfg.eventYear, cfg.baseYear).anonId));
   if (ndef) for (let p = 0; p < 12; p++) token.page(img, 4 + p).set(ndef.subarray(p * 4, p * 4 + 4));
   token.page(img, 17).set([charge, colour, 0, 0]);
   let y = cfg.eventYear - 1;
   for (let i = 0; i < visits; i++, y--) {
     const slot = 18 + (y - cfg.baseYear);
-    if (slot < 18 || slot > 39) break;
+    if (slot < 18 || slot >= token.PAGE_RESERVED0) break;
     const tier = i === 0 ? lastTier : 1;
     token.page(img, slot).set([tier === 0 ? 20 : tier === 1 ? 55 : tier === 2 ? 95 : 100, tier, 0x80, 1]);
   }
@@ -121,6 +122,7 @@ async function batchHandle(img) {
   let build, label;
   if (c.kind === token.Kind.Fresh) { label = 'Provision'; build = () => token.buildProvisionWrites(img, s_batch.colour, cfg.ndefUrl); }
   else if (c.kind === token.Kind.Ours && c.color !== s_batch.colour && s_batch.recolour) { label = 'Recolour'; build = () => token.buildColorWrite(img, s_batch.colour, cfg.ndefUrl); }
+  else if (c.kind === token.Kind.Ours && !c.hasOurLink) { label = 'Relink'; build = () => token.buildProvisionWrites(img, c.color, cfg.ndefUrl); }
   else {
     s_batch.skipped++;
     s_batch.last = c.kind === token.Kind.Ours ? `${id}: already provisioned (colour ${c.color || 'none'}${c.visits ? `, ${c.visits} visit(s)` : ''}) - skipped` : `${id}: ${token.kindName(c.kind)} - skipped`;
@@ -130,7 +132,7 @@ async function batchHandle(img) {
   if (!writes.length) { s_batch.skipped++; s_batch.last = `${id}: ${why}`; audio.chime(5, 40); render(); return; }
   s_batch.last = `${id}: ${label.toLowerCase()}ing...`; render();
   const ok = await sendWrites(writes, label);
-  if (ok) { s_batch.done++; s_batch.last = `${id}: ${label.toLowerCase()}ed as ${S.text(`color.${s_batch.colour}`, s_batch.colour)} - next crystal`; audio.chime(1, 60); }
+  if (ok) { s_batch.done++; s_batch.last = label === 'Relink' ? `${id}: link updated to its own page - next crystal` : `${id}: ${label.toLowerCase()}ed as ${S.text(`color.${s_batch.colour}`, s_batch.colour)} - next crystal`; audio.chime(1, 60); }
   else { s_batch.failed++; s_batch.last = `${id}: ${label} FAILED (${s_msg}) - set it down again`; audio.chime(6, 60); }
   render();
 }
@@ -240,7 +242,7 @@ function renderCrystalsLive() {
       rows.push(['Years on it', c.history.map(h => `${h.year}: ${h.number} t${h.tier}`).join(', ') || 'none']);
       rows.push([`This year (${cfg.eventYear})`, c.playedThisYear ? `played: ${c.thisYear.number} ${S.text(`tier.${c.thisYear.tier}`, '')}` : 'not yet']);
     }
-    if (c) rows.push(['Link / CC', `${c.hasOurLink ? 'ours' : (c.kind === token.Kind.Foreign ? 'not ours' : 'none')} / ${c.hasCC ? 'yes' : 'no'}`]);
+    if (c) rows.push(['Link / CC', `${c.hasOurLink ? 'its own' : (c.kind === token.Kind.Foreign ? 'not ours' : c.kind === token.Kind.Ours ? 'old - Provision updates it' : 'none')} / ${c.hasCC ? 'yes' : 'no'}`]);
   }
   rows.push(['Read test', `${s_readTest.good} good of ${s_readTest.placed} placement(s), last read ${s_readTest.lastMs ? s_readTest.lastMs + ' ms' : 'n/a'}`]);
   box.replaceChildren(kv(rows), el('p', { class: 'msg' }, s_msg));
