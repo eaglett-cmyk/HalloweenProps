@@ -37,8 +37,10 @@ const cue = {
 
 // ---------------------------------------------------------------- layout + timing (show.cpp)
 const W = 800, H = 480, CX = 400, CY = 222, Y_TITLE = 88, Y_POWER = 118, Y_NUMBER = 250, Y_TIER = 334, Y_METER = 374;
-const NUMBER_MID = Y_NUMBER - 46, NUM_ART_X = 690, NUM_ART_BASE = 472, NUM_ART_LABEL = 366, NUM_ART_MID = NUM_ART_BASE - 46;
-const BAND_BOWL_X = 104, BAND_BOWL_Y = 422, BAND_BOWL_SIZE = 88, MINI_BOWL_SIZE = 62, FB_BOWL_X = 150, FB_BOWL_Y = 206, FB_BOWL_SIZE = 130;
+const NUMBER_MID = Y_NUMBER - 46, NUM_ART_X0 = 690, NUM_ART_BASE = 472, NUM_ART_LABEL = 366, NUM_ART_MID = NUM_ART_BASE - 46;
+const BAND_BOWL_X0 = 104, BAND_BOWL_Y = 422, BAND_BOWL_SIZE = 88, MINI_BOWL_SIZE = 62, FB_BOWL_X = 150, FB_BOWL_Y = 206, FB_BOWL_SIZE = 130;
+// Edge-anchored reveal art follows the visible part of the frame (main.js crops the sides on an iPad).
+const numArtX = () => NUM_ART_X0 - (W - fx.SAFE_R), bandBowlX = () => BAND_BOWL_X0 + fx.SAFE_L;
 const HINT_L = 132, HINT_R = 668, RECALL_EDGE_X = 116, RECALL_Y = 150, SERVICE_ZONE = 100, SLEEPY_WHITE = 0x707888;
 const VOICE_TAIL_MS = 250, PART_MIN_ROOM_MS = 1500, VOICE_STUCK_MS = 1500, LONG_PRESS_MS = 3000, ATTRACT_LOOP_MS = 20000;
 const MUSIC_RETRY_MS = 15000, SIM_WRITE_MS = 400, CAPTION_SWAP_MS = 2500, LED_CYCLE_MS = 6000, AURA_STEP_MS = 250, MUNCH_AT_MS = 5400;
@@ -393,12 +395,12 @@ function tapBlesses(t) {
 function handleTouch(t) {
   const idle = idleMode();
   if (s_g.tap) {
-    const inCorner = input.hit(s_g.tapAt, 0, 0, SERVICE_ZONE, SERVICE_ZONE);
+    const inCorner = input.hit(s_g.tapAt, 0, 0, fx.SAFE_L + SERVICE_ZONE, SERVICE_ZONE);
     if (s_mode === Mode.Charge) addCharge(s_g.tapAt.x, s_g.tapAt.y, t);
     else if (idle && !inCorner && tapBlesses(t)) s_tapReq = true;
     else fx.sparklesBurst(s_g.tapAt.x, s_g.tapAt.y, 8, idle ? colourCycle(t, 18000) : s_step.rgb);
   }
-  if (idle && s_g.longPress && input.hit(s_g.longAt, 0, 0, SERVICE_ZONE, SERVICE_ZONE)) s_serviceReq = true;
+  if (idle && s_g.longPress && input.hit(s_g.longAt, 0, 0, fx.SAFE_L + SERVICE_ZONE, SERVICE_ZONE)) s_serviceReq = true;
 }
 function pollInputs(t) {
   s_g = input.update(LONG_PRESS_MS);
@@ -594,11 +596,11 @@ function bowlVisible(t) {
 function drawStepBowl(t) {
   const st = s_step;
   if (!bowlVisible(t)) return;
-  if (s_bowlFirstT < 0) { s_bowlFirstT = t; if (!st.bowlMini) fx.sparklesBurst(s_art ? BAND_BOWL_X : FB_BOWL_X, s_art ? BAND_BOWL_Y : FB_BOWL_Y, 14, s_w.bowlRgb[st.bowlTier]); }
+  if (s_bowlFirstT < 0) { s_bowlFirstT = t; if (!st.bowlMini) fx.sparklesBurst(s_art ? bandBowlX() : FB_BOWL_X, s_art ? BAND_BOWL_Y : FB_BOWL_Y, 14, s_w.bowlRgb[st.bowlTier]); }
   const b = clampTier(st.bowlTier);
   const pop = st.bowlMini ? 1 : 0.6 + 0.4 * easeOut((t - s_bowlFirstT) / 250);
-  if (st.bowlMini) fx.bowlIcon(BAND_BOWL_X - 20, BAND_BOWL_Y + 2, MINI_BOWL_SIZE, s_w.bowlShape[b], s_w.bowlRgb[b], t);
-  else if (s_art) fx.bowlIcon(BAND_BOWL_X, BAND_BOWL_Y, BAND_BOWL_SIZE * pop, s_w.bowlShape[b], s_w.bowlRgb[b], t);
+  if (st.bowlMini) fx.bowlIcon(bandBowlX() - 20, BAND_BOWL_Y + 2, MINI_BOWL_SIZE, s_w.bowlShape[b], s_w.bowlRgb[b], t);
+  else if (s_art) fx.bowlIcon(bandBowlX(), BAND_BOWL_Y, BAND_BOWL_SIZE * pop, s_w.bowlShape[b], s_w.bowlRgb[b], t);
   else fx.bowlIcon(FB_BOWL_X, FB_BOWL_Y, FB_BOWL_SIZE * pop, s_w.bowlShape[b], s_w.bowlRgb[b], t);
 }
 function drawFrame(t, dt, nowMs) {
@@ -710,14 +712,14 @@ async function runStep() {
 
 // ================================================================== overlays + ticks
 function drawGlowNumber(shown, tier, rgb, t, smudgeLevel, label) {
-  const nx = s_art ? NUM_ART_X : CX, base = s_art ? NUM_ART_BASE : Y_NUMBER, mid = s_art ? NUM_ART_MID : NUMBER_MID;
+  const nx = s_art ? numArtX() : CX, base = s_art ? NUM_ART_BASE : Y_NUMBER, mid = s_art ? NUM_ART_MID : NUMBER_MID;
   if (label) fx.subtitle(label, nx, s_art ? NUM_ART_LABEL : Y_POWER, 0xFFFFFF);
   if (tier === 0) { if (smudgeLevel) fx.smudgeCloud(nx, mid, s_art ? 66 : 100, t, smudgeLevel, s_w.tierRgb[0]); }
   else fx.bigNumber(shown, nx, base, rgb);
 }
 function attractOverlay(t) {
   if (cfg.showCounter) { if (s_meterOn) fx.counterBadgeAt(s_meter.x, s_meter.counterBase, counters.stationCrystals, s_w.uiCounter); else fx.counterBadge(counters.stationCrystals, s_w.uiCounter); }
-  if (s_g.down && input.hit(s_g.at, 0, 0, SERVICE_ZONE, SERVICE_ZONE) && s_g.heldMs > 500) fx.ring(50, 50, 34, 6, 0xFFFFFF, Math.min(255, s_g.heldMs * 255 / LONG_PRESS_MS));
+  if (s_g.down && input.hit(s_g.at, 0, 0, fx.SAFE_L + SERVICE_ZONE, SERVICE_ZONE) && s_g.heldMs > 500) fx.ring(fx.SAFE_L + 50, 50, 34, 6, 0xFFFFFF, Math.min(255, s_g.heldMs * 255 / LONG_PRESS_MS));
 }
 function hintsBand(t) {
   const tapMode = !link.online() && input.ok();
@@ -728,7 +730,8 @@ function hintsBand(t) {
 function attractTick(t) {
   const nowMs = s_stepT0 + t;
   const orPress = cfg.hasButton ? cfg.reader === S.READER.PLINTH : input.ok();
-  if (!link.online() && input.ok()) s_step.caption = s_w.uiTouch;
+  if (!cfg.attractText) s_step.caption = '';   // station [station] attract_text = no: the art alone
+  else if (!link.online() && input.ok()) s_step.caption = s_w.uiTouch;
   else if (orPress && s_w.uiOrPress) s_step.caption = (Math.floor(t / CAPTION_SWAP_MS) & 1) ? s_w.uiOrPress : s_w.capAttract;
   else s_step.caption = s_w.capAttract;
   if (nowMs - s_ledCycleMs >= LED_CYCLE_MS) { s_ledCycleMs = nowMs; s_ledIdx = (s_ledIdx + 1) % nColors(); crystalLed(LED.IDLE, 1 + s_ledIdx); }
@@ -803,7 +806,7 @@ function revealCommon(t) {
     if (tier === 0 && q.gag >= 1 && q.gag <= MAX_GAGS && s_sfx.gag[q.gag] >= 0) h = s_sfx.gag[q.gag];
     playSfx(h, CH[tier]);
     link.led(LED.REVEAL, trgb, q.rgb);
-    fx.sparklesBurst(s_art ? NUM_ART_X : CX, s_art ? NUM_ART_MID : NUMBER_MID, 18 + tier * 14, trgb);
+    fx.sparklesBurst(s_art ? numArtX() : CX, s_art ? NUM_ART_MID : NUMBER_MID, 18 + tier * 14, trgb);
   }
 }
 function revealShown(q, t) { if (!q.locked && q.lockAt) return Math.max(1, Math.floor(q.o.number * easeOut(t / q.lockAt))); return q.o.number; }
@@ -818,12 +821,12 @@ function revealBand(t) {
   if (!s_art) return;
   const q = s_seq, tier = clampTier(q.o.tier), trgb = s_w.tierRgb[tier];
   drawGlowNumber(revealShown(q, t), tier, q.locked ? trgb : 0xFFFFFF, t, 255 * easeOut(t / 300), s_w.uiPower);
-  if (q.locked) fx.burstRing(NUM_ART_X, NUM_ART_MID, trgb, t - q.lockAt, 700);
+  if (q.locked) fx.burstRing(numArtX(), NUM_ART_MID, trgb, t - q.lockAt, 700);
 }
 function replayDraw(t) {
   const q = s_seq, tier = clampTier(q.o.tier), dim = fx.scaleRgb(s_w.tierRgb[tier], 150);
   drawGlowNumber(q.o.number, tier, dim, t, 150, s_w.uiTonight);
-  if (s_art) { fx.checkMark(NUM_ART_X - 105, NUM_ART_LABEL - 6, 34, 0x7CF29C); fx.subtitle(s_w.tier[tier], 150, 372, dim); }
+  if (s_art) { fx.checkMark(numArtX() - 105, NUM_ART_LABEL - 6, 34, 0x7CF29C); fx.subtitle(s_w.tier[tier], 150 + fx.SAFE_L, 372, dim); }
   else { fx.checkMark(CX + 170, NUMBER_MID, 56, 0x7CF29C); fx.title(s_w.tier[tier], CX, Y_TIER, dim); }
 }
 const replayOverlay = t => { if (!s_art) replayDraw(t); };

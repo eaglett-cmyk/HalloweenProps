@@ -22,6 +22,8 @@ export const cfg = {
   moonGoal: 50, keeperOneIn: 3,
   // station-app only (not in the firmware): where the plinth is
   plinth: 'dragonglow-plinth.local:81',
+  fit: 'fill',          // 'fill' = scale the 800x480 frame to fill the screen, cropping the sides (iPad); 'fit' = letterbox
+  attractText: false,   // the attract loop's "place your crystal" / "tap" caption (off: the art fills the frame)
 };
 
 // config.ini key -> [field, type]  (types: int, bool, str, rush, reader)
@@ -32,7 +34,7 @@ const FIELDS = {
   'station.ring_brightness': ['ringBrightness', 'int'], 'station.rush': ['rush', 'rush'],
   'station.second_helpings': ['secondHelpings', 'bool'], 'station.allow_fresh': ['allowFresh', 'bool'],
   'station.log_visits': ['logVisits', 'bool'], 'station.show_counter': ['showCounter', 'bool'], 'station.ndef_url': ['ndefUrl', 'str'],
-  'station.plinth': ['plinth', 'str'],
+  'station.plinth': ['plinth', 'str'], 'station.fit': ['fit', 'str'], 'station.attract_text': ['attractText', 'bool'],
   'odds.trick_pct': ['trickPct', 'int'], 'odds.rare_pct': ['rarePct', 'int'], 'odds.legend_pct': ['legendPct', 'int'],
   'odds.loyalty_rare_pct': ['loyaltyRarePct', 'int'], 'odds.loyalty_cap_pct': ['loyaltyCapPct', 'int'],
   'odds.charge_rare_pct': ['chargeRarePct', 'int'], 'odds.pity_after': ['pityAfter', 'int'], 'odds.first_no_trick': ['firstNoTrick', 'bool'],

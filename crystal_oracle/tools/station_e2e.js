@@ -15,6 +15,8 @@ const STATION = path.join(__dirname, '..', 'station');
 const OUT = path.join(__dirname, '.e2e');
 const CHROME = process.env.CHROME || 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
 const KEEP = process.argv.includes('--keep');
+// viewport: E2E_SIZE=WxH (default 1180x820 = the iPad Air A2316 in landscape, CSS px)
+const [VW, VH] = (process.env.E2E_SIZE || '1180x820').split('x').map(Number);
 fs.mkdirSync(OUT, { recursive: true });
 const logLines = [];
 const log = (...a) => { const s = `${new Date().toISOString().slice(11, 23)} ${a.join(' ')}`; console.log(s); logLines.push(s); };
@@ -47,7 +49,7 @@ class CDP {
   const server = start('server', ['server.js'], { STATION_PORT: '8460' });
   const say = cmd => { log(`> plinth: ${cmd}`); plinth.stdin.write(cmd + '\n'); };
   await sleep(1200);
-  const chrome = spawn(CHROME, ['--headless=new', '--remote-debugging-port=9333', '--window-size=1100,760', '--autoplay-policy=no-user-gesture-required',
+  const chrome = spawn(CHROME, ['--headless=new', '--remote-debugging-port=9333', `--window-size=${VW},${VH}`, '--autoplay-policy=no-user-gesture-required',
     '--no-first-run', '--no-default-browser-check', '--disable-gpu', '--mute-audio', `--user-data-dir=${path.join(OUT, 'profile')}`, 'about:blank'], { stdio: 'ignore' });
   let cdp;
   try {
@@ -62,7 +64,7 @@ class CDP {
       if (m.method === 'Runtime.exceptionThrown') { const d = m.params.exceptionDetails; const txt = `${d.text} ${d.exception ? d.exception.description : ''} @${d.url}:${d.lineNumber}`; log(`[page.EXCEPTION] ${txt}`); errors.push(txt); }
       if (m.method === 'Log.entryAdded' && m.params.entry.level === 'error') { log(`[page.log] ${m.params.entry.text} ${m.params.entry.url || ''}`); errors.push(m.params.entry.text); }
     });
-    await cdp.send('Emulation.setDeviceMetricsOverride', { width: 1100, height: 760, deviceScaleFactor: 1, mobile: false });
+    await cdp.send('Emulation.setDeviceMetricsOverride', { width: VW, height: VH, deviceScaleFactor: 1, mobile: false });
     await cdp.send('Page.navigate', { url: 'http://127.0.0.1:8460/' });
     await sleep(1500);
     for (let i = 0; i < 40; i++) { if (await cdp.eval(`!document.getElementById('start-btn').disabled`)) break; await sleep(250); }

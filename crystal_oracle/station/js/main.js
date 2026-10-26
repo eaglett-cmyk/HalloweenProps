@@ -10,9 +10,10 @@ import { link } from './link.js';
 import { input } from './input.js';
 import { vlog } from './vlog.js';
 import { show } from './show.js';
+import * as fx from './fx.js';
 import { service, sim } from './service.js';
 
-const BUILD = '2026-10-25a';
+const BUILD = '2026-10-26a';
 const canvas = document.getElementById('show');
 const overlay = document.getElementById('start');
 const startBtn = document.getElementById('start-btn');
@@ -21,11 +22,18 @@ const addrEl = document.getElementById('plinth-addr');
 const hud = document.getElementById('hud');
 let s_wakeLock = null;
 
+// cfg.fit 'fill' (default): scale the 800x480 frame up until it fills the screen and crop
+// what spills over (an iPad's 4:3-ish screen loses ~7% of each side, no black bars), but
+// never crop more than 14% of either axis. 'fit': the whole frame, letterboxed.
+// The visible part is handed to fx (setSafeX) so badges and captions stay on screen.
 function fitCanvas() {
   const vw = window.innerWidth, vh = window.innerHeight;
-  const scale = Math.min(vw / 800, vh / 480);
+  const contain = Math.min(vw / 800, vh / 480), cover = Math.max(vw / 800, vh / 480);
+  const scale = cfg.fit === 'fit' ? contain : Math.min(cover, contain / 0.86);
   canvas.style.width = `${Math.floor(800 * scale)}px`;
   canvas.style.height = `${Math.floor(480 * scale)}px`;
+  const cropX = Math.max(0, (800 * scale - vw) / 2 / scale);
+  fx.setSafeX(Math.ceil(cropX), 800 - Math.ceil(cropX));
 }
 window.addEventListener('resize', fitCanvas);
 fitCanvas();
@@ -67,6 +75,7 @@ async function boot() {
     media.hasCaptions() ? fetchText('/oracle/captions.ini') : '',
   ]);
   S.loadConfig(configTxt);
+  fitCanvas();   // config.ini may set [station] fit
   S.loadWords(captionsTxt);
   await S.loadCounters(cfg.eventYear);
   vlog.begin(cfg.eventYear);

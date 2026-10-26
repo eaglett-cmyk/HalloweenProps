@@ -3,6 +3,12 @@
 // sparkles, the gem meter, the big number, titles, bowl icons, the caption band, the Moon /
 // lantern meter, poof / smudge / beam / check mark. Colours are 0xRRGGBB like the firmware.
 export const W = 800, H = 480;
+// The part of the 800x480 frame actually on screen: main.js crops the sides when it
+// scales the frame to fill a screen that is taller than 5:3 (an iPad). Edge-anchored
+// text keeps inside it.
+export let SAFE_L = 0, SAFE_R = W;
+export function setSafeX(l, r) { SAFE_L = Math.max(0, Math.min(l, W / 2 - 100)); SAFE_R = Math.min(W, Math.max(r, W / 2 + 100)); }
+const safeW = () => SAFE_R - SAFE_L - 24;
 const FONT = '"Arial Black", "Arial Rounded MT Bold", Impact, "Trebuchet MS", Arial, Helvetica, sans-serif';
 const WHITE = 0xFFFFFF;
 let g = null;                 // the 2D context of the frame being drawn
@@ -74,33 +80,33 @@ export function bigNumber(value, cx, baseline, rgb) {
   addGlow(cx, baseline - 46, 125, rgb, 64);
   textCentered(String(value), cx, baseline, 104, rgb, 4);
 }
-export function title(s, cx, baseline, rgb) { fittedText(s, cx, baseline, rgb, [42, 36, 30, 22], [3, 3, 2, 2], W - 24); }
-export function subtitle(s, cx, baseline, rgb) { fittedText(s, cx, baseline, rgb, [28, 24, 20, 16], [2, 2, 2, 1], W - 24); }
+export function title(s, cx, baseline, rgb) { fittedText(s, cx, baseline, rgb, [42, 36, 30, 22], [3, 3, 2, 2], safeW()); }
+export function subtitle(s, cx, baseline, rgb) { fittedText(s, cx, baseline, rgb, [28, 24, 20, 16], [2, 2, 2, 1], safeW()); }
 // Caption band at the bottom: a soft top edge, the band darkened, the text centred.
 export function caption(text, rgb = WHITE) {
   const grad = g.createLinearGradient(0, 388, 0, 400);
   grad.addColorStop(0, 'rgba(0,0,0,0)'); grad.addColorStop(1, 'rgba(0,0,0,0.59)');
   g.globalCompositeOperation = 'source-over'; g.fillStyle = grad; g.fillRect(0, 388, W, 12);
   darkenRect(0, 400, W, H - 400, 150);
-  if (text) fittedText(text, W / 2, 453, rgb, [36, 29, 22], [3, 2, 2], W - 24);
+  if (text) fittedText(text, W / 2, 453, rgb, [36, 29, 22], [3, 2, 2], safeW());
 }
 export function hostBadge(text, rgb) {
   if (!text) return;
   const w = textWidth(text, 15);
-  darkenRect(4, 4, w + 18, 24, 60);
-  textCentered(text, 13 + w / 2, 22, 15, rgb, 1);
+  darkenRect(SAFE_L + 4, 4, w + 18, 24, 60);
+  textCentered(text, SAFE_L + 13 + w / 2, 22, 15, rgb, 1);
 }
 function counterText(count, label) { return `${Number(count).toLocaleString('en-US')} ${label}`; }
 export function counterBadge(count, label) {
-  const line = counterText(count, label), w = textWidth(line, 19), right = W - 12;
+  const line = counterText(count, label), w = textWidth(line, 19), right = SAFE_R - 12;
   darkenRect(right - w - 10, 6, w + 18, 30, 80);
   textCentered(line, right - w / 2, 29, 19, 0xD2BEFF, 2);
 }
 export function counterBadgeAt(cx, baseline, count, label) {
   const line = counterText(count, label), w = textWidth(line, 19);
   let x = cx - w / 2;
-  if (x + w > W - 8) x = W - 8 - w;
-  if (x < 8) x = 8;
+  if (x + w > SAFE_R - 8) x = SAFE_R - 8 - w;
+  if (x < SAFE_L + 8) x = SAFE_L + 8;
   darkenRect(x - 9, baseline - 23, w + 18, 30, 80);
   textCentered(line, x + w / 2, baseline, 19, 0xD2BEFF, 2);
 }

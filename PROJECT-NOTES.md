@@ -44,6 +44,21 @@ Read `crystal_oracle/README.md` first, then `crystal_oracle/docs/DESIGN.md` (con
   2027-01-06) → stills from ChatGPT + our ffmpeg "layers" animator; voice from ElevenLabs/OpenAI TTS.
 
 ### Changelog
+- **2026-10-26 (iPad station fills the screen; no attract text)** — owner: the iPad is the 2026 rig (the
+  Waveshare screen + TF card are NOT being updated this year). Station only (`crystal_oracle/station/`):
+  * `[station] fit = fill` (new default; `fit` = old letterbox): the 800×480 frame is scaled to fill the
+    screen and the sides are cropped (iPad Air 1180×820: ~54 canvas px each side, no black bars; crop
+    capped at 14%). main.js hands the visible part to `fx.setSafeX()`; the counter badge, host badge,
+    captions, the reveal's glow number + bowl + tier label and the host-menu corner (long-press zone now
+    `SAFE_L + 100`) follow it.
+  * `[station] attract_text = no` (new default): no "Crystal here" / "Tap the window!" caption in the
+    attract loop; the crystal-arrow hints stay. The charge mini-game's "Tap the window!" stays (gameplay).
+  * Both are station-only config keys (the firmware counts them as unknown and ignores them).
+    `tools/station_e2e.js` now runs at 1180×820 (`E2E_SIZE=WxH` to change).
+  * **Crystals for the iPad night:** they were all Formatted, so they read as blank (Fresh). Host menu →
+    *Crystals* → **Batch provisioning**: pick a colour, start, set each crystal of that colour on the
+    plinth (~1 s each, chime per crystal) → link `/c/<id>` + colour + marker in one 14-page write. Then the
+    next colour. Already-ours crystals with an old link are relinked by the same batch.
 - **2026-10-26 (crystal nicknames)** — owner: let families name their crystal. The crystal page has a
   "Give it a name" / "Rename it" button → `POST /api/crystal/<id>/nickname` in `site/server.js`
   (anyone with the crystal's link can set it; 1–24 letters/digits/spaces/`'-.!`, Unicode letters OK;
