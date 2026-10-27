@@ -243,11 +243,45 @@ function musicPath() { if (counters.moonFull && s_musicFullFile) return MUSIC_FU
 function startMusic() { const p = musicPath(); if (p) audio.music(p); }
 
 // ---------------------------------------------------------------- the meter
-function moonTargetPhase() { if (counters.moonFull) return 8; const goal = cfg.moonGoal || 1; const ph = Math.floor(counters.moonPoints * 8 / goal); return ph >= 8 ? 8 : ph; }
+// The meter counts the travelers' points (moonPoints) plus, with [station] web_beacon = yes, the
+// website games' points (webPoints: web sparks / 10). Web points are only ever applied up to
+// goal - 1, so the finale always comes from a real traveler (or the host's Fill the Beacon).
+function meterPoints() { return counters.moonPoints + (cfg.webBeacon ? counters.webPoints : 0); }
+function moonTargetPhase() { if (counters.moonFull) return 8; const goal = cfg.moonGoal || 1; const ph = Math.floor(meterPoints() * 8 / goal); return ph >= 8 ? 8 : ph; }
 function moonPhaseNow(t) { const dt = t - s_moonAt; const f = easeOut(dt <= 0 ? 0 : dt / MOON_EASE_MS); return s_moonFrom + (s_moonTo - s_moonFrom) * f; }
 function updateMoonTarget(t) { const target = moonTargetPhase(); if (target === s_moonTo) return; s_moonFrom = moonPhaseNow(t); s_moonTo = target; s_moonAt = t; }
 function moonSnap() { s_moonFrom = s_moonTo = moonTargetPhase(); s_moonAt = now(); }
-function moonFinalePending() { return !counters.moonFull && counters.moonPoints >= (cfg.moonGoal || 1); }
+function moonFinalePending() { return !counters.moonFull && meterPoints() >= (cfg.moonGoal || 1); }
+
+// ---- the website's games, live ([station] web_beacon = yes): a quiet poll of the station
+// server (which reads the site's data/beacon.json on this PC), one request at a time with a
+// short timeout. New points wait (s_webStaged) and are applied only in the attract loop,
+// as one small pulse. Any failure changes nothing.
+const WEB_POLL_MS = 5000, WEB_TIMEOUT_MS = 1500, WEB_SPARKS_PER_POINT = 10;
+let s_webStaged = 0, s_webBusy = false, s_webTimer = 0;
+async function webPoll() {
+  if (!cfg.webBeacon || s_webBusy) return;
+  s_webBusy = true;
+  const ctl = new AbortController(), to = setTimeout(() => ctl.abort(), WEB_TIMEOUT_MS);
+  try {
+    const r = await fetch('/api/web_beacon', { cache: 'no-store', signal: ctl.signal });
+    const j = r.ok ? await r.json() : null;
+    if (j && j.year === cfg.eventYear && Number.isFinite(j.web)) s_webStaged = Math.max(s_webStaged, Math.floor(j.web / WEB_SPARKS_PER_POINT));
+  } catch { /* the show goes on exactly as without it */ }
+  clearTimeout(to); s_webBusy = false;
+}
+function webApply(nowMs) {   // attract only: never during a crystal, a chapter, the finale or the host menu
+  if (!cfg.webBeacon || s_webStaged <= counters.webPoints) return;
+  const goal = cfg.moonGoal || 1;
+  const room = counters.moonFull ? Infinity : goal - 1 - counters.moonPoints;
+  const to = Math.min(s_webStaged, Math.max(counters.webPoints, room));
+  if (to <= counters.webPoints) return;
+  vlog.event(`web beacon: +${to - counters.webPoints} point(s) from the website games (now ${to})`);
+  counters.webPoints = to;
+  s_moonPulseAt = nowMs || 1;
+  updateMoonTarget(s_moonPulseAt);
+  S.saveCounters();
+}
 function moonAddPoint() {
   if (counters.moonPoints < 0xFFFF) counters.moonPoints++;
   s_moonPulseAt = now() || 1;
@@ -735,6 +769,7 @@ function attractTick(t) {
   else if (orPress && s_w.uiOrPress) s_step.caption = (Math.floor(t / CAPTION_SWAP_MS) & 1) ? s_w.uiOrPress : s_w.capAttract;
   else s_step.caption = s_w.capAttract;
   if (nowMs - s_ledCycleMs >= LED_CYCLE_MS) { s_ledCycleMs = nowMs; s_ledIdx = (s_ledIdx + 1) % nColors(); crystalLed(LED.IDLE, 1 + s_ledIdx); }
+  webApply(nowMs);
   if (nowMs - s_musicCheckMs >= MUSIC_RETRY_MS) { s_musicCheckMs = nowMs; if (!audio.musicPlaying()) startMusic(); }
   if (cfg.attractCallSec && nowMs - s_lastCallMs >= cfg.attractCallSec * 1000) { s_lastCallMs = nowMs; if (!audio.voiceBusy()) sayGroup(cue.ATTRACT_CALL); }
   let loopLen = ATTRACT_LOOP_MS;
@@ -1268,6 +1303,7 @@ async function enterService() {
   s_buttonReq = s_tapReq = s_serviceReq = false;
   updateMoonTarget(t);
   if (moonFinalePending()) s_moonFinaleDue = true;
+  if (cfg.webBeacon && !s_webTimer) { s_webTimer = setInterval(webPoll, WEB_POLL_MS); webPoll(); }   // switched on in the menu
   vlog.event(`service menu closed (${s_meter.name} ${counters.moonPoints}/${cfg.moonGoal}${counters.moonFull ? ' full' : ''})`);
 }
 async function dispatchPending() {
@@ -1292,7 +1328,8 @@ export const show = {
     const t = now();
     s_lastCallMs = s_musicCheckMs = s_ledCycleMs = t;
     s_begun = true;
-    vlog.event(`show ready: chapter=${s_chapterAvail} music=${s_musicFile}/${s_musicFullFile} sfx absorb=${s_sfx.absorb} reveal=${s_sfx.reveal.join('/')} meter=${counters.moonPoints}/${cfg.moonGoal}${counters.moonFull ? ' full' : ''}`);
+    if (cfg.webBeacon && !s_webTimer) { s_webTimer = setInterval(webPoll, WEB_POLL_MS); webPoll(); }
+    vlog.event(`show ready: chapter=${s_chapterAvail} music=${s_musicFile}/${s_musicFullFile} sfx absorb=${s_sfx.absorb} reveal=${s_sfx.reveal.join('/')} meter=${counters.moonPoints}/${cfg.moonGoal}${counters.moonFull ? ' full' : ''}${cfg.webBeacon ? ` web=${counters.webPoints} (live)` : ''}`);
   },
   // Runs the show until stop(): the attract loop, then whatever is waiting, forever.
   async start() {

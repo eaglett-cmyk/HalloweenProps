@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cave Lightpaths — Dragonglow</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#1b1033">
+<link rel="icon" href="/img/prop_crystal.webp" type="image/webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css?v=g6">
+<link rel="stylesheet" href="/play/play.css?v=3">
+</head>
+<body class="play-page">
+
+<main class="pl-main">
+  <header class="pl-head">
+    <a class="pl-back" href="/play/">&#x2039; All the games</a>
+    <h1 class="pl-title">Cave Lightpaths</h1>
+    <p class="pl-lede">Lead a glow from the Hoard Beacon to a door between worlds. Every step costs energy. Light lanterns on the way, or save energy for points. Can you find the best path?</p>
+    <p class="pl-crystal" id="pl-crystal"></p>
+  </header>
+
+  <div class="lp-bands" role="tablist" aria-label="How tricky">
+    <button type="button" role="tab" data-band="gentle" aria-selected="true">Gentle</button>
+    <button type="button" role="tab" data-band="winding" aria-selected="false">Winding</button>
+    <button type="button" role="tab" data-band="deep" aria-selected="false">Deep</button>
+  </div>
+
+  <section class="lp-card">
+    <div class="lp-top">
+      <div class="lp-energy"><span class="lp-k">Energy</span><div class="lp-bar" id="lp-bar"></div><b id="lp-energy">12</b></div>
+      <div class="lp-score"><span class="lp-k">Points</span><b id="lp-score">0</b></div>
+    </div>
+    <div class="lp-board-wrap">
+      <div class="lp-board" id="lp-board" role="grid" aria-label="The cave"></div>
+      <svg class="lp-path" id="lp-path" viewBox="0 0 400 400" aria-hidden="true"></svg>
+    </div>
+    <p class="lp-say" id="lp-say" aria-live="polite">Tap a square next to the beacon to start the path.</p>
+    <div class="lp-tools">
+      <button type="button" class="ch-tool" id="btn-undo">&#x21b6; Undo</button>
+      <button type="button" class="ch-tool" id="btn-clear">Clear</button>
+      <button type="button" class="ch-tool" id="btn-hint">Hint</button>
+      <button type="button" class="btn btn-gold" id="btn-send" disabled>Send the light</button>
+    </div>
+    <div class="lp-result" id="lp-result" hidden>
+      <p class="lp-ribbon" id="lp-ribbon"></p>
+      <p id="lp-result-text"></p>
+      <p id="lp-beacon"></p>
+      <div class="cp-actions" style="margin:.5rem 0 0">
+        <button type="button" class="btn btn-gold" id="btn-retry">Try this cave again</button>
+        <button type="button" class="btn btn-ghost" id="btn-new">New cave</button>
+        <button type="button" class="btn btn-ghost" id="btn-show">Show a best path</button>
+      </div>
+    </div>
+  </section>
+
+  <details class="lp-rules">
+    <summary>How the points work</summary>
+    <ul>
+      <li><span class="lp-ic lp-ic-floor"></span> A plain step costs <b>1</b> energy. <span class="lp-ic lp-ic-rubble"></span> Candy rubble costs <b>2</b>. <span class="lp-ic lp-ic-rock"></span> Big rocks block the way.</li>
+      <li><span class="lp-ic lp-ic-lantern"></span> Each lantern you light: <b>+2</b>.</li>
+      <li>The <b>near door</b>: <b>+2</b>. The <b>far door</b>: <b>+4</b>. Reaching a door ends the path.</li>
+      <li>Every bit of energy you still have at the door: <b>+1</b>.</li>
+      <li>You can't step on the same square twice. The best path is not always the longest!</li>
+    </ul>
+  </details>
+  <p class="pl-help">Today's cave is the same for everyone, so you can compare paths with your family. Your first delivery each day sends a little light to the Hoard Beacon; better paths win ribbons.</p>
+</main>
+
+<script src="/play/play.js?v=2"></script>
+<script src="/play/lightpaths/solver.js?v=1"></script>
+<script src="/play/lightpaths.js?v=1"></script>
+</body>
+</html>

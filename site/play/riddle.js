@@ -97,9 +97,10 @@
     showSolved(true);
     dragon.classList.remove('is-happy'); void dragon.offsetWidth; dragon.classList.add('is-happy');
     [0, 4, 7, 12].forEach((p, i) => setTimeout(() => DG.chime(p, 0.08), i * 110));
-    const v = await DG.addSparks(5, 'riddle');
-    say.append(document.createElement('br'), v.failed ? 'Your candle is lit!' :
-      `Five sparks flew up to the beacon. It's ${v.lit ? 'LIT!' : `${Math.floor(v.sparks / v.goal * 100)}% lit now.`}`);
+    const v = await DG.addSparks('riddle');
+    const note = document.createElement('span');
+    note.innerHTML = v.failed ? 'Your candle is lit!' : DG.sparkNote(v);
+    say.append(document.createElement('br'), note);
   }
 
   function candles() {

@@ -11,7 +11,8 @@
 //
 // /play/ holds the games (test build, not linked from the book yet): the Hoard Beacon
 // meter everyone fills (GET /api/beacon, POST /api/beacon/sparks), the crystal sky
-// (GET /api/sky), Butterscotch's riddle and the goblin hunt (index.html?hunt=1).
+// (GET /api/sky), Relight the Beacon, Welcome Chime, Sock-Side Signals, Cave
+// Lightpaths, Butterscotch's riddle and the goblin hunt (index.html?hunt=1).
 //
 // Normally this is NOT run on its own: ..\..\VMS-Checklist\server.js requires it and
 // dispatches requests whose Host is halloween.ciancio.cloud to `handler` (same pattern
@@ -84,6 +85,7 @@ const TYPES = {
   '.html': 'text/html; charset=utf-8',
   '.css': 'text/css; charset=utf-8',
   '.js': 'text/javascript; charset=utf-8',
+  '.json': 'application/json; charset=utf-8',   // only play/lightpaths/boards.json (data/ is refused above)
   '.webp': 'image/webp',
   '.png': 'image/png',
   '.jpg': 'image/jpeg',
@@ -165,21 +167,37 @@ function nicknameApi(id, req, res) {
   });
 }
 
-// ---- the Hoard Beacon (the /play/ games): one shared meter for the season.
-// Every game round on the site adds the sparks it earned (POST /api/beacon/sparks
-// {"n", "game", "crystal"?}); travelers at the Wakestone count too: the station's
-// meter points (its state.json, same PC) are worth STATION_SPARKS each, but only
-// as saved on Halloween itself, so test nights never light it. The highest number
-// seen that night is kept, so the station's "Reset tonight" never dims the beacon.
-// data/beacon.json: { year, sparks, plays, station, litAt }. A new year starts dark.
-// The owner can edit or delete the file; it is re-read on every request.
-const BEACON_GOAL = 2000;                      // sparks to light it (web + station)
-const STATION_SPARKS = 10;                     // one traveler at the Wakestone
-const SPARK_MAX_POST = 100;                    // one round can't add more than this
-const SPARK_RATE = { max: 600, windowMs: 60 * 60 * 1000 };   // sparks per IP per hour
-const GAMES = new Set(['beacon', 'riddle', 'hunt']);
+// ---- the Hoard Beacon (the /play/ games): one shared meter for the season, the same
+// beacon the Wakestone fills on Halloween night. GOAL = the station's 50 points x 10.
+// A traveler at the Wakestone (a station meter point, from its state.json on this PC,
+// counted only as saved on Halloween itself) is worth STATION_SPARKS. Phones add a
+// little, never most of it: the server decides every award (AWARD per finished game,
+// never a client-sent amount), each game pays a browser once per period (a day, or a
+// year for the hunt's five finds), and caps per browser, per IP (cf-connecting-ip) and
+// for all web play together bound what a cheater can do to a small, visible nudge.
+// The station's opt-in live link (station [station] web_beacon) reads data/beacon.json
+// too and shows web sparks on the porch at 10 per point, never enough to fire its finale.
+// data/beacon.json: { year, sparks (web), plays, station, porchLit, litAt }.
+// data/receipts.json: { year, day, daily: {key: 1}, yearly: {key: 1}, ipDay: {ip: n},
+// browserDay: {b: n} }, so restarts never pay twice. Edit or delete either to reset.
+const BEACON_GOAL = 500;                      // sparks to light it (= the station's 50 points)
+const STATION_SPARKS = 10;                    // one traveler at the Wakestone
+const AWARD = 5;                              // one finished game (or one hunt find)
+const WEB_MAX = 100;                          // all web play together, per season (20% of the goal)
+const BROWSER_DAY_MAX = 20;                   // one browser, per Chicago day
+const IP_DAY_MAX = 40;                        // one house (IP), per Chicago day
+const MILESTONES = [125, 250, 375];           // the hub reveals the path, the warm cave, the feast lights
+// game -> { per: 'day' | 'year', parts (default ['']), check(body) -> bool }
+const GAMES = {
+  beacon: { per: 'day' },                     // Relight the Beacon
+  riddle: { per: 'day' },                     // Butterscotch's Riddle
+  chime: { per: 'day', parts: ['hello', 'goodbye'] },   // Welcome Chime (before / after the Wakestone)
+  signals: { per: 'day' },                    // Sock-Side Signals
+  lightpaths: { per: 'day', check: lightpathsCheck },  // Cave Lightpaths: the route is checked
+  hunt: { per: 'year', parts: ['p1', 'p2', 'p4', 'p5', 'p7'] },   // Goblin Hunt: each find once a year
+};
+const BROWSER_RE = /^[0-9a-f]{16}$/;
 const STATION_STATE = path.join(ROOT, '..', 'crystal_oracle', 'station', 'state', 'state.json');
-const sparkHits = new Map();                   // ip -> [[ms, n], ...]
 
 function seasonYear() {
   return Number(new Intl.DateTimeFormat('en-US', { timeZone: 'America/Chicago', year: 'numeric' }).format(new Date()));
@@ -201,19 +219,22 @@ function writeJson(file, obj) {
 function loadBeacon() {
   const year = seasonYear();
   let b = readJson(path.join(DATA_DIR, 'beacon.json'), {});
-  if (!b || b.year !== year) b = { year, sparks: 0, plays: 0, station: 0, litAt: null };
-  // the station's travelers, counted only from its Halloween-night state
+  if (!b || b.year !== year) b = { year, sparks: 0, plays: 0, station: 0, porchLit: false, litAt: null };
+  // the station's travelers (and its finale), counted only from its Halloween-night state
   const st = readJson(STATION_STATE, null);
   const t = st && st.tonight;
   if (t && t.year === year && st.savedAt && chicagoDate(new Date(st.savedAt)) === `${year}-10-31`) {
     b.station = Math.max(b.station | 0, t.moonPoints | 0);
+    if (t.moonFull) b.porchLit = true;
   }
   return b;
 }
 function beaconView(b) {
-  const total = (b.sparks | 0) + (b.station | 0) * STATION_SPARKS;
-  return { year: b.year, sparks: total, goal: BEACON_GOAL, lit: total >= BEACON_GOAL, litAt: b.litAt || null,
-           web: b.sparks | 0, travelers: b.station | 0, plays: b.plays | 0 };
+  const web = Math.min(b.sparks | 0, WEB_MAX);
+  const total = web + (b.station | 0) * STATION_SPARKS;
+  return { year: b.year, sparks: total, goal: BEACON_GOAL, lit: total >= BEACON_GOAL || !!b.porchLit,
+           porchLit: !!b.porchLit, litAt: b.litAt || null, web, webMax: WEB_MAX, webFull: web >= WEB_MAX,
+           travelers: b.station | 0, plays: b.plays | 0, milestones: MILESTONES, award: AWARD };
 }
 function saveBeacon(b) {
   const v = beaconView(b);
@@ -222,12 +243,12 @@ function saveBeacon(b) {
   return beaconView(b);
 }
 
-function sparkRoom(ip) {
-  const now = Date.now();
-  const hits = (sparkHits.get(ip) || []).filter(([t]) => now - t < SPARK_RATE.windowMs);
-  if (sparkHits.size > 5000) sparkHits.clear();   // never grows without bound
-  sparkHits.set(ip, hits);
-  return Math.max(0, SPARK_RATE.max - hits.reduce((s, [, n]) => s + n, 0));
+function loadReceipts(year, day) {
+  let r = readJson(path.join(DATA_DIR, 'receipts.json'), {});
+  if (!r || r.year !== year) r = { year, day, daily: {}, yearly: {}, ipDay: {}, browserDay: {} };
+  if (r.day !== day) { r.day = day; r.daily = {}; r.ipDay = {}; r.browserDay = {}; }
+  for (const k of ['daily', 'yearly', 'ipDay', 'browserDay']) if (!r[k] || typeof r[k] !== 'object') r[k] = {};
+  return r;
 }
 
 function readBody(req, res, max, done) {
@@ -237,24 +258,55 @@ function readBody(req, res, max, done) {
   req.on('end', () => { if (!res.headersSent) done(body); });
 }
 
+// Cave Lightpaths: the posted route must be a legal route on that board (play/lightpaths/).
+let lp = null;
+function lightpathsCheck(j) {
+  if (!lp) {
+    lp = { solver: require('./play/lightpaths/solver.js'), boards: new Map() };
+    const set = JSON.parse(fs.readFileSync(path.join(ROOT, 'play', 'lightpaths', 'boards.json'), 'utf8'));
+    for (const band of Object.values(set.bands)) for (const bd of band) lp.boards.set(bd.id, bd);
+  }
+  const board = lp.boards.get(String(j.board || ''));
+  if (!board || !Array.isArray(j.route) || j.route.length > 17) return false;
+  return !!lp.solver.validRoute(board, j.route).ok;
+}
+
+// POST /api/beacon/sparks {"game", "part"?, "browser", "crystal"?, ...game fields}
+// -> the beacon view + {added, why}: why = ok | again (already paid this period) |
+// browser / house (daily cap) | full (the web share is full). A fair game that simply
+// earned nothing is never an error: the page says so kindly.
 function sparksApi(req, res) {
   const ip = String(req.headers['cf-connecting-ip'] || req.socket.remoteAddress || '?');
-  readBody(req, res, 512, body => {
+  readBody(req, res, 1024, body => {
     let j;
     try { j = JSON.parse(body); } catch { j = null; }
-    const n = j && Number.isInteger(j.n) ? j.n : NaN;
-    const game = j && GAMES.has(j.game) ? j.game : null;
+    const g = j && Object.prototype.hasOwnProperty.call(GAMES, j.game) ? GAMES[j.game] : null;
+    const part = j && typeof j.part === 'string' ? j.part : '';
+    const browser = j && typeof j.browser === 'string' && BROWSER_RE.test(j.browser) ? j.browser : null;
     const crystal = j && typeof j.crystal === 'string' && ID_RE.test(j.crystal.toLowerCase()) ? j.crystal.toLowerCase() : null;
-    if (!(n >= 1 && n <= SPARK_MAX_POST) || !game) { sendJson(res, 400, { error: 'bad sparks' }); return; }
-    const room = sparkRoom(ip);
-    const add = Math.min(n, room);
-    const b = loadBeacon();
-    let view;
+    if (!g || !browser || !(g.parts || ['']).includes(part)) { sendJson(res, 400, { error: 'bad sparks' }); return; }
+    let ok = true;
+    try { if (g.check) ok = g.check(j); } catch { ok = false; }
+    if (!ok) { sendJson(res, 400, { error: 'That route does not fit this cave.' }); return; }
+    let view, add = 0, why = 'ok';
     try {
-      if (add > 0) {
-        sparkHits.get(ip).push([Date.now(), add]);
-        b.sparks = (b.sparks | 0) + add;
+      const b = loadBeacon();
+      const r = loadReceipts(b.year, chicagoDate(new Date()));
+      const book = g.per === 'year' ? r.yearly : r.daily;
+      const key = `${browser}|${j.game}|${part}`;
+      const web = b.sparks | 0;
+      if (book[key]) why = 'again';
+      else if ((r.browserDay[browser] | 0) + AWARD > BROWSER_DAY_MAX) why = 'browser';
+      else if ((r.ipDay[ip] | 0) + AWARD > IP_DAY_MAX) why = 'house';
+      else if (web >= WEB_MAX) why = 'full';
+      if (why === 'ok') {
+        add = Math.min(AWARD, WEB_MAX - web);
+        book[key] = 1;
+        r.browserDay[browser] = (r.browserDay[browser] | 0) + add;
+        r.ipDay[ip] = (r.ipDay[ip] | 0) + add;
+        b.sparks = web + add;
         b.plays = (b.plays | 0) + 1;
+        writeJson(path.join(DATA_DIR, 'receipts.json'), r);
         view = saveBeacon(b);
       } else view = beaconView(b);
     } catch { sendJson(res, 500, { error: 'The beacon flickered. Try again later.' }); return; }
@@ -266,14 +318,14 @@ function sparksApi(req, res) {
         const all = readJson(file, {});
         if (all && (all[crystal] || Object.keys(all).length < NICK_CAP)) {
           const e = all[crystal] = { ...(all[crystal] || {}) };
-          if (e.sparksYear !== b.year) { e.sparksYear = b.year; e.sparks = 0; }
+          if (e.sparksYear !== view.year) { e.sparksYear = view.year; e.sparks = 0; }
           e.sparks = (e.sparks | 0) + add;
           crystalSparks = e.sparks;
           writeJson(file, all);
         }
       } catch { /* the beacon still got them */ }
     }
-    sendJson(res, 200, { ...view, added: add, crystalSparks });
+    sendJson(res, 200, { ...view, added: add, why, crystalSparks });
   });
 }
 

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sock-Side Signals — Dragonglow</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#1b1033">
+<link rel="icon" href="/img/prop_crystal.webp" type="image/webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css?v=g6">
+<link rel="stylesheet" href="/play/play.css?v=3">
+</head>
+<body class="play-page">
+
+<main class="pl-main pl-wide">
+  <header class="pl-head">
+    <a class="pl-back" href="/play/">&#x2039; All the games</a>
+    <h1 class="pl-title">Sock-Side Signals</h1>
+    <p class="pl-crystal" id="pl-crystal"></p>
+  </header>
+
+  <div class="pl-stage sg-stage" id="stage">
+    <div class="sg-sock" id="sg-sock" aria-hidden="true"></div>
+    <img class="sg-gob" id="sg-gob" src="/img/snuffwick_shy.webp" alt="" width="640" height="678">
+    <p class="sg-say" id="sg-say" aria-live="polite"></p>
+    <div class="sg-choices" id="sg-choices" hidden></div>
+    <div class="sg-comfort" id="sg-comfort" hidden>
+      <button type="button" class="btn btn-gold" data-comfort="blanket">Tuck in the little blanket</button>
+      <button type="button" class="btn btn-gold" data-comfort="cushion">Fluff the cushion</button>
+    </div>
+
+    <div class="pl-overlay" id="ov-start">
+      <h2>Something in the sock is tapping…</h2>
+      <p>Snuffwick never lets go of his lumpy sock, and it never gets opened. But sometimes, from inside, it goes <em>tap… tap</em>. Listen closely, then pick the pattern that matches.</p>
+      <button type="button" class="btn btn-gold" id="btn-start">Listen</button>
+      <p class="sg-small" id="sg-stamps"></p>
+    </div>
+    <div class="pl-overlay" id="ov-locked" hidden>
+      <h2>Shh… not yet</h2>
+      <p>Snuffwick is keeping his sock very safe until after Halloween night. Come back in November to hear what it's tapping.</p>
+      <a class="btn btn-ghost" href="?preview=1">Peek anyway (preview)</a>
+    </div>
+    <div class="pl-overlay" id="ov-end" hidden>
+      <h2>The sock tapped back!</h2>
+      <p id="end-text"></p>
+      <p id="end-beacon"></p>
+      <div class="cp-actions" style="margin:.4rem 0 0">
+        <button type="button" class="btn btn-ghost" id="btn-again">Listen again</button>
+        <a class="btn btn-ghost" href="/play/">Back to the beacon</a>
+      </div>
+    </div>
+  </div>
+  <p class="pl-help">A new signal every day. Match it, settle the sock, and a little light goes to the Hoard Beacon. Turn the sound on, or watch the rings: each ring is one tap.</p>
+</main>
+
+<script src="/play/play.js?v=2"></script>
+<script src="/play/signals.js?v=1"></script>
+</body>
+</html>

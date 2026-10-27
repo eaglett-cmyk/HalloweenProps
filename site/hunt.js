@@ -1,7 +1,8 @@
 // hunt.js — the Goblin Hunt (a /play/ game): Snuffwick hides on five storybook pages.
 // Does nothing unless the hunt is on: the games page links here with ?hunt=1, which this
-// browser then remembers until all five are found. Finding him adds five sparks each to
-// the Hoard Beacon at the end (25), once a year. Uses /play/play.js (loaded on demand).
+// browser then remembers until all five are found. Each find sends five sparks to the
+// Hoard Beacon (25 in all), once a year per find. A page that hides him and has been open
+// for 8 s without a find gets a gentle hint glow. Uses /play/play.js (loaded on demand).
 (function () {
   'use strict';
   const on = /[?&]hunt=1\b/.test(location.search);
@@ -25,6 +26,8 @@
     .hunt-gob:hover { filter:drop-shadow(0 0 10px rgba(141,191,106,.9)); }
     .hunt-gob.is-found { opacity:.45 !important; cursor:default; filter:grayscale(.3) drop-shadow(0 4px 6px rgba(0,0,0,.45)); }
     .hunt-gob.is-hop { animation:hunt-hop .5s ease 2; }
+    .hunt-gob.is-hint:not(.is-found) { animation:hunt-hint 1.6s ease-in-out infinite; }
+    @keyframes hunt-hint { 50% { filter:drop-shadow(0 0 14px rgba(255,200,61,.95)) drop-shadow(0 0 4px #fff); } }
     @keyframes hunt-hop { 50% { translate:0 -18%; } }
     .hunt-bar { position:fixed; left:50%; bottom:12px; transform:translateX(-50%); z-index:50;
       display:flex; align-items:center; gap:.7rem; padding:.45rem .6rem .45rem 1rem; max-width:calc(100% - 24px);
@@ -34,7 +37,7 @@
     .hunt-bar a, .hunt-bar button { color:#f6ead2; background:rgba(255,255,255,.1); border:0; border-radius:999px; padding:.3rem .8rem; font:inherit; text-decoration:none; cursor:pointer; white-space:nowrap; }
     .hunt-bar.is-done { border-color:#ffc83d; }
     .hunt-bar.is-done b { color:#ffc83d; }
-    @media (prefers-reduced-motion: reduce) { .hunt-gob.is-hop { animation:none; } }`;
+    @media (prefers-reduced-motion: reduce) { .hunt-gob.is-hop, .hunt-gob.is-hint { animation:none; } .hunt-gob.is-hint:not(.is-found) { filter:drop-shadow(0 0 12px rgba(255,200,61,.95)); } }`;
   document.head.append(css);
 
   const found = new Set();
@@ -72,7 +75,7 @@
     dg = new Promise(res => {
       if (window.DG) { res(window.DG); return; }
       const s = document.createElement('script');
-      s.src = '/play/play.js?v=1'; s.onload = () => res(window.DG); s.onerror = () => res(null);
+      s.src = '/play/play.js?v=2'; s.onload = () => res(window.DG); s.onerror = () => res(null);
       document.head.append(s);
     });
     return dg;
@@ -92,15 +95,18 @@
     const D = await play();
     if (D) [0, 5, 9].forEach((p, i) => setTimeout(() => D.chime(p + found.size, 0.07), i * 90));
     clearTimeout(barTimer);
-    if (found.size < SPOTS.length) { renderBar(`Found him! <b>${found.size} of ${SPOTS.length}</b>`); barTimer = setTimeout(() => renderBar(), 2200); return; }
-    renderBar('<b>You found him all 5 times!</b> Sending 25 sparks to the beacon…');
+    const v = D ? await D.addSparks('hunt', id) : { failed: true };   // five sparks a find, once a year (the server keeps count)
+    const plus = v.why === 'ok' ? ` +${v.added} sparks!` : '';
+    if (found.size < SPOTS.length) { renderBar(`Found him! <b>${found.size} of ${SPOTS.length}</b>${plus}`); barTimer = setTimeout(() => renderBar(), 2600); return; }
     try { localStorage.removeItem('dg.hunt'); } catch { /* fine */ }   // the hunt is over: next visit is a plain book
-    let doneKey = `dg.${year}.hunt.done`, done = null;
-    try { done = localStorage.getItem(doneKey); } catch { /* fine */ }
-    if (D && !done) {
-      const v = await D.addSparks(25, 'hunt');
-      if (!v.failed) try { localStorage.setItem(doneKey, '1'); } catch { /* fine */ }
-      renderBar(v.failed ? '<b>You found him all 5 times!</b>' : `<b>All 5 found!</b> +25 sparks: the beacon is ${v.lit ? 'LIT!' : `${Math.floor(v.sparks / v.goal * 100)}% lit`}`);
-    } else renderBar();
+    renderBar(`<b>You found him all 5 times!</b>${plus}` + (v.failed ? '' : ` The beacon is ${v.lit ? 'LIT!' : `${Math.floor(v.sparks / v.goal * 100)}% lit`}.`));
   }, true);
+
+  // a hint: a page that hides him, open for 8 s with no find, makes him glow softly
+  let hintPage = null, hintSince = 0;
+  setInterval(() => {
+    const cur = document.querySelector('#story .book-stage > .page.is-current');
+    if (cur !== hintPage) { hintPage = cur; hintSince = Date.now(); return; }
+    if (cur && Date.now() - hintSince > 8000) cur.querySelectorAll('.hunt-gob:not(.is-found)').forEach(e => e.classList.add('is-hint'));
+  }, 1000);
 })();

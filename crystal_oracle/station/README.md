@@ -77,6 +77,14 @@ Differs because it is a browser:
   link; the app reconnects by itself. Both devices need the porch Wi-Fi.
 * **No hardware badges** for the TF card: "NO TF CARD" means the server found no assets.
 * The LED ring commands are still sent (the v7 plinth has no ring and ignores them).
+* **Website games on the meter (opt-in, 2026-10-27):** `[station] web_beacon = yes` in
+  `config.ini` (default `no`). The app polls `GET /api/web_beacon` every 5 s (1.5 s timeout, one at
+  a time); the station server reads the website's `../../site/data/beacon.json` on this PC (or
+  `SITE_BEACON`) and returns only `{year, web}`. Every 10 web sparks = 1 meter point
+  (`counters.webPoints`, saved in `state.json` apart from `moonPoints`, which the site reads ×10).
+  Points are applied only in the attract loop, as one pulse, and only up to `moon_goal − 1`, so the
+  finale is always fired by a real traveler (or *Fill the Beacon*). *Reset* clears them too. If the
+  site or its file is missing, nothing changes.
 
 ## Gotchas
 

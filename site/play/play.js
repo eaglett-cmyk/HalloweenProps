@@ -1,7 +1,9 @@
 // play.js — what the /play/ games share: which crystal is playing (if any), the Hoard Beacon
 // API, the beacon meter, a little chime, and per-year "done" flags kept in the browser.
 // A crystal is optional: every traveler's sparks count. When one is known (its page links
-// here with ?c=<id>, or crystal.js remembered it), its sparks are credited to it too.
+// here with ?c=<id>, or crystal.js remembered it), its sparks are credited to it too. The
+// server decides every award (a finished game = 5 sparks, each game once a day); a random
+// browser token (dg.browser, nothing personal) is how it knows a game already paid today.
 (function () {
   'use strict';
   const ID_RE = /^[0-9a-f]{8}$/;
@@ -18,8 +20,17 @@
   if (ID_RE.test(crystal)) store('dg.crystal', crystal);
   else crystal = ID_RE.test(store('dg.crystal') || '') ? store('dg.crystal') : null;
 
+  // ---- this browser's token (random; only so a game pays once a day)
+  let browser = store('dg.browser');
+  if (!/^[0-9a-f]{16}$/.test(browser || '')) {
+    const a = new Uint8Array(8);
+    (window.crypto || {}).getRandomValues ? crypto.getRandomValues(a) : a.forEach((_, i) => { a[i] = Math.random() * 256; });
+    browser = [...a].map(x => x.toString(16).padStart(2, '0')).join('');
+    store('dg.browser', browser);
+  }
+
   // ---- the beacon
-  const OFFLINE = { year: YEAR, sparks: 0, goal: 2000, lit: false, web: 0, travelers: 0, plays: 0, offline: true };
+  const OFFLINE = { year: YEAR, sparks: 0, goal: 500, lit: false, web: 0, webMax: 100, travelers: 0, plays: 0, milestones: [125, 250, 375], offline: true };
   function preview(v) {   // ?lit=1 previews the lit beacon (test build)
     return q.get('lit') === '1' ? { ...v, sparks: Math.max(v.sparks, v.goal), lit: true } : v;
   }
@@ -30,15 +41,26 @@
       return preview(await r.json());
     } catch { return preview(OFFLINE); }
   }
-  async function addSparks(n, game) {
-    n = Math.max(0, Math.min(100, Math.round(n)));
-    if (!n) return { ...(await getBeacon()), added: 0 };
+  // A finished game (part: the hunt's find, or the chime's hello / goodbye; extra: e.g. a
+  // Lightpaths route) -> the view + {added, why}; see sparkNote for what to tell the player.
+  async function addSparks(game, part = '', extra = {}) {
     try {
       const r = await fetch('/api/beacon/sparks', { method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ n, game, ...(crystal ? { crystal } : {}) }) });
+        body: JSON.stringify({ ...extra, game, part, browser, ...(crystal ? { crystal } : {}) }) });
       if (!r.ok) throw new Error(r.status);
       return preview(await r.json());
-    } catch { return { ...preview(OFFLINE), added: 0, failed: true }; }
+    } catch { return { ...preview(OFFLINE), added: 0, why: 'failed', failed: true }; }
+  }
+  // One kind sentence for a game's end screen.
+  function sparkNote(v) {
+    const pct = v.lit ? 'The beacon is <b>LIT!</b>' : `The beacon is <b>${Math.floor(Math.min(1, v.sparks / (v.goal || 1)) * 100)}%</b> lit.`;
+    switch (v.why) {
+      case 'ok': return `<b>+${v.added} sparks</b> flew to the Hoard Beacon! ${pct}`;
+      case 'again': return `You already sent today's sparks from this game. Play again just for fun! ${pct}`;
+      case 'browser': case 'house': return `Your sparks for today are all sent. Come back tomorrow! ${pct}`;
+      case 'full': return `The pocket welcome is full: the rest of the light comes from crystals at the Wakestone on Halloween night! ${pct}`;
+      default: return 'The beacon could not be reached just now, but you played beautifully.';
+    }
   }
 
   // The meter: <div class="meter" data-meter></div> filled from a beacon view.
@@ -60,8 +82,8 @@
       `<div class="meter-bar" role="progressbar" aria-valuemin="0" aria-valuemax="${v.goal}" aria-valuenow="${Math.min(v.sparks, v.goal)}"><span></span></div>` +
       `<p class="meter-num">${v.sparks.toLocaleString()} of ${v.goal.toLocaleString()} sparks</p>` +
       (v.offline ? `<p class="meter-note">The beacon can't be reached right now. You can still play.</p>` :
-       v.travelers ? `<p class="meter-note">${v.travelers} traveler${v.travelers === 1 ? '' : 's'} at the Wakestone added ${(v.travelers * 10).toLocaleString()} of them.</p>` :
-       `<p class="meter-note">Every game anyone plays adds sparks. On Halloween night, every traveler at the Wakestone adds ten.</p>`);
+       `<p class="meter-note">Games add up to ${v.webMax} sparks (${v.web} so far). Every traveler at the Wakestone on Halloween night adds ten` +
+       (v.travelers ? `: ${v.travelers} so far!` : '.') + (v.porchLit ? ' The porch beacon blazed on Halloween night!' : '') + '</p>');
     el.append(lamp, body);
   }
 
@@ -100,14 +122,14 @@
   async function crystalLine(el) {
     if (!el) return;
     if (!crystal) { el.textContent = 'No crystal? You can still play. Every traveler\'s sparks count.'; return; }
-    el.textContent = `Playing with shard ${crystal.toUpperCase()}.`;
+    el.textContent = 'Playing with your crystal.';   // never its id: the id opens its page
     try {
       const d = await (await fetch(`/api/crystal/${crystal}`, { cache: 'no-cache' })).json();
-      const name = d.nickname ? `“${d.nickname}”` : `shard ${crystal.toUpperCase()}`;
+      const name = d.nickname ? `“${d.nickname}”` : '';
       const given = d.extra && d.extra.sparksYear === YEAR ? d.extra.sparks | 0 : 0;
-      el.textContent = `Playing with your crystal ${name}.` + (given ? ` It has given the beacon ${given.toLocaleString()} spark${given === 1 ? '' : 's'} this year.` : '');
+      el.textContent = `Playing with your crystal${name ? ` ${name}` : ''}.` + (given ? ` It has given the beacon ${given.toLocaleString()} spark${given === 1 ? '' : 's'} this year.` : '');
     } catch { /* keep the short line */ }
   }
 
-  window.DG = { YEAR, crystal, getBeacon, addSparks, renderMeter, flag, chime, pfft, crystalLine, store };
+  window.DG = { YEAR, crystal, getBeacon, addSparks, sparkNote, renderMeter, flag, chime, pfft, crystalLine, store };
 })();

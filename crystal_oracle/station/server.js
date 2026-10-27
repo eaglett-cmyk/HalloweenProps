@@ -26,6 +26,8 @@ const IPAD_ASSETS = path.join(ROOT, '..', 'sd_card_ipad', 'oracle');
 const ASSETS = path.resolve(process.env.STATION_ASSETS ||
   (fs.existsSync(path.join(IPAD_ASSETS, 'clips')) ? IPAD_ASSETS : path.join(ROOT, '..', 'sd_card', 'oracle')));
 const STATE_DIR = path.join(ROOT, 'state');
+const SITE_BEACON = path.resolve(process.env.SITE_BEACON || path.join(ROOT, '..', '..', 'site', 'data', 'beacon.json'));
+const WEB_MAX = 100;   // the site's cap on web sparks (site/server.js WEB_MAX)
 const LOG_DIR = path.join(ROOT, 'logs');
 const PORT = Number(process.env.STATION_PORT || 8460);
 
@@ -127,6 +129,18 @@ async function handler(req, res) {
       return;
     }
     res.writeHead(405, { Allow: 'GET, PUT' }); res.end(); return;
+  }
+
+  // [station] web_beacon: the website games' light for the meter. The site (..\..\site, served
+  // by the VMS server on this same PC) keeps it in data/beacon.json; only {year, web} leaves here.
+  if (p === '/api/web_beacon') {
+    let out = { year: 0, web: 0 };
+    try {
+      const b = JSON.parse(fs.readFileSync(SITE_BEACON, 'utf8'));
+      out = { year: b.year | 0, web: Math.max(0, Math.min(WEB_MAX, b.sparks | 0)) };
+    } catch { /* no site data: nothing from the web */ }
+    send(res, 200, JSON.stringify(out), 'application/json; charset=utf-8');
+    return;
   }
 
   if (p === '/api/log' && req.method === 'POST') {

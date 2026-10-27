@@ -1,13 +1,16 @@
 // beacon.js — "Relight the Beacon": tap the sparks rising from the hoard to send them up
-// into the Hoard Beacon (the iron lantern hanging in the cave painting), and tap Snuffwick
-// before his snuffer reaches it. Drawn on a canvas in the painting's own 1280x768 space.
+// into the Hoard Beacon (the iron lantern hanging in the cave painting). Snuffwick sneaks in
+// to cap the lantern with his snuffer: while he holds it there the sparks you send wait
+// under the cap (the travelers' light can't be snuffed, so nothing is ever lost) until you
+// tap him away, or he yawns and wanders off. Drawn in the painting's own 1280x768 space.
+// The round's sparks are your score; the beacon gets the server's award for a finished game.
 (function () {
   'use strict';
   const W = 1280, H = 768;
   const LAMP = { x: 265, y: 192, r: 52 };   // the beacon's glass in bg_cave
   const ROUND_MS = 45000;
   const FULL = 40;                           // sparks that make the beacon blaze this round
-  const SNUFF = 5;                           // sparks Snuffwick puts out if he reaches it
+  const CAP_MS = 4500;                       // how long he holds the cap on if nobody shoos him
   const TAU = Math.PI * 2;
 
   const $ = id => document.getElementById(id);
@@ -34,7 +37,7 @@
 
   // ---- state
   let state = 'ready', t0 = 0, now = 0, last = 0;
-  let sparks = 0, caught = 0, shoos = 0, snuffs = 0;
+  let sparks = 0, caught = 0, shoos = 0, caps = 0, held = 0;
   let motes = [], flyers = [], puffs = [], texts = [];
   let nextMote = 0, gob = null, nextGob = 0;
   let glow = 0, pulse = 0;
@@ -42,7 +45,7 @@
   const rnd = (a, b) => a + Math.random() * (b - a);
 
   function reset() {
-    sparks = caught = shoos = snuffs = 0;
+    sparks = caught = shoos = caps = held = 0;
     motes = []; flyers = []; puffs = []; texts = [];
     gob = null; glow = 0; pulse = 0;
     nextMote = 0; nextGob = 6000;
@@ -70,11 +73,13 @@
     ev.preventDefault();
     const p = toGame(ev);
     // Snuffwick first: he is the bigger danger
-    if (gob && gob.state === 'sneak') {
+    if (gob && (gob.state === 'sneak' || gob.state === 'cap')) {
       const gx = gob.x, gy = gob.y;
       if (Math.abs(p.x - gx) < 95 && Math.abs(p.y - gy) < 110) {
+        const wasCap = gob.state === 'cap';
         gob.state = 'shooed'; gob.left = now; shoos++;
         sparks += 2; addText(gx, gy - 120, 'Shoo! +2', '#8dbf6a');
+        if (wasCap) release('Free!');
         DG.chime(-5, 0.1); DG.chime(3, 0.08);
         return;
       }
@@ -118,7 +123,9 @@
     flyers = flyers.filter(f => {
       if (now - f.born < 480) return true;
       const v = f.gold ? 3 : 1;
-      sparks += v; caught++; pulse = 1;
+      caught++;
+      if (gob && gob.state === 'cap') { held += v; return false; }   // waits under the cap
+      sparks += v; pulse = 1;
       addText(LAMP.x + 70, LAMP.y - 30, `+${v}`, f.gold ? '#ffc83d' : '#fff1d6');
       return false;
     });
@@ -129,15 +136,14 @@
         const e = u < 0.85 ? u / 0.85 * 0.85 : 0.85 + (u - 0.85);   // steady tiptoe
         gob.x = W + 120 + (LAMP.x + 140 - (W + 120)) * e;
         gob.y = 300 - 60 * e + Math.abs(Math.sin(u * 14)) * -14;
-        if (u >= 1) {
-          gob.state = 'snuffed'; gob.left = now; snuffs++;
-          const lost = Math.min(sparks, SNUFF);
-          sparks -= lost;
+        if (u >= 1) {   // pfft: the cap goes on, and the light waits underneath
+          gob.state = 'cap'; gob.capAt = now; caps++;
           DG.pfft(0.25);
           puffs.push({ x: LAMP.x, y: LAMP.y, born: now });
-          addText(LAMP.x + 60, LAMP.y + 80, lost ? `pfft! −${lost}` : 'pfft!', '#b9a8d6');
-          glow *= 0.5;
+          addText(LAMP.x + 60, LAMP.y + 120, 'pfft! Tap him!', '#b9a8d6');
         }
+      } else if (gob.state === 'cap') {
+        if (now - gob.capAt > CAP_MS) { gob.state = 'yawn'; gob.left = now; release('Yawn…'); }
       } else if (now - gob.left > 900) {
         gob = null;
         nextGob = (now - t0) + rnd(6500, 10500);
@@ -145,9 +151,16 @@
     }
     texts = texts.filter(t => now - t.born < 1100);
     puffs = puffs.filter(p => now - p.born < 900);
-    const target = Math.min(1, sparks / FULL);
+    const capped = gob && gob.state === 'cap';
+    const target = Math.min(1, sparks / FULL) * (capped ? 0.35 : 1);
     glow += (target - glow) * Math.min(1, dt / 300);
     pulse = Math.max(0, pulse - dt / 400);
+  }
+
+  // the cap comes off: every spark that waited under it lands at once
+  function release(word) {
+    if (held) { sparks += held; pulse = 1; addText(LAMP.x + 70, LAMP.y - 30, `${word} +${held}`, '#ffc83d'); DG.chime(7, 0.08); }
+    held = 0;
   }
 
   function radial(x, y, r, stops, op = 'lighter') {
@@ -196,11 +209,18 @@
     }
     // Snuffwick
     if (gob) {
-      const sneaking = gob.state === 'sneak';
+      const sneaking = gob.state === 'sneak' || gob.state === 'cap';
       const sprite = sneaking ? img.snuffwick_base : img.snuffwick_sneeze;
       let x = gob.x, y = gob.y, rot = 0, alpha = 1;
       if (gob.state === 'shooed') { const u = (now - gob.left) / 900; x = gob.x + 700 * u * u; y = gob.y - 260 * u + 300 * u * u; rot = u * 5; alpha = 1 - u; }
-      if (gob.state === 'snuffed') { const u = (now - gob.left) / 900; x = gob.x + 500 * u; alpha = 1 - u; }
+      if (gob.state === 'yawn') { const u = (now - gob.left) / 900; x = gob.x + 500 * u; alpha = 1 - u; }
+      if (gob.state === 'cap') {   // the snuffer's cap over the glass, the waiting light under it
+        g.save(); g.fillStyle = '#8f96a3'; g.strokeStyle = '#5b6170'; g.lineWidth = 4;
+        g.beginPath(); g.moveTo(LAMP.x - 46, LAMP.y + 6); g.quadraticCurveTo(LAMP.x, LAMP.y - 92, LAMP.x + 46, LAMP.y + 6); g.closePath(); g.fill(); g.stroke();
+        g.beginPath(); g.moveTo(LAMP.x + 30, LAMP.y - 30); g.lineTo(x - 30, y - 40); g.stroke();
+        g.restore();
+        if (held) { g.font = '700 30px Fredoka, sans-serif'; g.textAlign = 'center'; g.fillStyle = '#ffc83d'; g.fillText(`${held} waiting`, LAMP.x, LAMP.y + 80); }
+      }
       if (sprite.complete) {
         const h = 220, w = h * 640 / 678;
         g.save(); g.globalAlpha = Math.max(0, alpha); g.translate(x, y); g.rotate(rot);
@@ -234,20 +254,20 @@
   }
   async function finish() {
     state = 'done';
-    motes = []; gob = null;
+    motes = [];
+    if (gob && gob.state === 'cap') release('Free!');
+    gob = null;
     const best = Number(DG.flag('beacon.best') || 0);
     if (sparks > best) DG.flag('beacon.best', sparks);
     $('end-title').textContent = sparks >= FULL ? 'The beacon blazes!' : sparks >= FULL / 2 ? 'The beacon is glowing!' : 'A little glow is still a glow!';
     $('end-text').textContent = `You sent ${sparks} spark${sparks === 1 ? '' : 's'} up to the beacon` +
       (shoos ? ` and shooed Snuffwick away ${shoos} time${shoos === 1 ? '' : 's'}` : '') + '.' +
+      (caps > shoos ? ' Snuffwick capped the lantern, but the light only waited: none of it was lost.' : '') +
       (sparks > best && best ? ' A new best!' : '');
-    $('end-beacon').textContent = 'Adding your sparks to the Hoard Beacon…';
+    $('end-beacon').textContent = 'Sending your light to the Hoard Beacon…';
     $('ov-end').hidden = false;
-    const v = await DG.addSparks(sparks, 'beacon');
-    $('end-beacon').textContent = v.failed ? 'The beacon couldn\'t be reached just now, but your round still counts here.' :
-      v.lit ? `The Hoard Beacon is LIT! ${v.sparks.toLocaleString()} sparks from everyone.` :
-      `The Hoard Beacon is now ${Math.floor(v.sparks / v.goal * 100)}% lit: ${v.sparks.toLocaleString()} of ${v.goal.toLocaleString()} sparks from everyone.`;
-    if (!v.failed && v.added < sparks) $('end-beacon').textContent += ` (It took ${v.added} of yours: the beacon drinks up to 100 a round, and a few hundred an hour from one house.)`;
+    const v = await DG.addSparks('beacon');
+    $('end-beacon').innerHTML = DG.sparkNote(v);
   }
   $('btn-start').addEventListener('click', start);
   $('btn-again').addEventListener('click', start);

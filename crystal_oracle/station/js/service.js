@@ -185,13 +185,13 @@ function pageTonight() {
         ['Already played (replays)', counters.replays], ['Blessings (no crystal)', counters.noCrystal], ['Unreadable (sleepy)', counters.sleepy], ['Foreign tags', counters.foreign],
         ['Tricks / treats / rare / legendary', `${counters.tier[0]} / ${counters.tier[1]} / ${counters.tier[2]} / ${counters.tier[3]}`],
         ['Rare / legendary given', `${counters.rareGiven} / ${counters.legendGiven}`], ['Write failures', counters.writeFails],
-        [`${name} points`, `${counters.moonPoints} / ${cfg.moonGoal}${counters.moonFull ? ' (finale played)' : ''}`],
+        [`${name} points`, `${counters.moonPoints}${cfg.webBeacon ? ` + ${counters.webPoints} from the website` : ''} / ${cfg.moonGoal}${counters.moonFull ? ' (finale played)' : ''}`],
         ['All-time crystals / awakened here', `${counters.stationCrystals} / ${counters.stationAwakened}`],
         ['Counters saved on the server', S.stateServerOk() === null ? 'unknown' : S.stateServerOk() ? 'yes' : 'NO (browser only)']]),
     el('div', { class: 'row' },
       armedButton('reset', 'Reset tonight', true, () => { S.resetTonight(); vlog.event('tonight reset from the host menu'); }),
       el('button', { class: 'btn', onclick: () => { counters.moonPoints = Math.max(counters.moonPoints, cfg.moonGoal); S.saveCounters(); vlog.event(`${name} filled from the host menu`); render(); } }, `Fill the ${name}`),
-      armedButton('meter', `Reset ${name}`, true, () => { counters.moonPoints = 0; counters.moonFull = false; S.saveCounters(); vlog.event(`${name} reset from the host menu`); })),
+      armedButton('meter', `Reset ${name}`, true, () => { counters.moonPoints = 0; counters.webPoints = 0; counters.moonFull = false; S.saveCounters(); vlog.event(`${name} reset from the host menu`); })),
     el('p', { class: 'hint' }, `"Fill the ${name}" plays the finale as soon as the menu closes. Counters also live in state/state.json on the station server.`));
 }
 

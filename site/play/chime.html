@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Welcome Chime — Dragonglow</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#1b1033">
+<link rel="icon" href="/img/prop_crystal.webp" type="image/webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css?v=g6">
+<link rel="stylesheet" href="/play/play.css?v=3">
+</head>
+<body class="play-page">
+
+<main class="pl-main pl-wide">
+  <header class="pl-head">
+    <a class="pl-back" href="/play/">&#x2039; All the games</a>
+    <h1 class="pl-title">Welcome Chime</h1>
+    <p class="pl-crystal" id="pl-crystal"></p>
+  </header>
+
+  <div class="pl-stage ch-stage" id="stage" data-world="castle">
+    <div class="ch-beacon" id="ch-beacon" aria-hidden="true"><span></span></div>
+    <ol class="ch-dots" id="ch-dots" aria-label="Notes played so far"></ol>
+    <p class="ch-say" id="ch-say" aria-live="polite"></p>
+    <div class="ch-pads" id="ch-pads">
+      <button type="button" class="ch-pad" data-pad="0"><img src="/img/prop_star.webp" alt="" width="640" height="640"><span>Star</span></button>
+      <button type="button" class="ch-pad" data-pad="1"><img src="/img/prop_crystal.webp" alt="" width="640" height="640"><span>Crystal</span></button>
+      <button type="button" class="ch-pad" data-pad="2"><img src="/img/fx_bubble.webp" alt="" width="640" height="640"><span>Bubble</span></button>
+    </div>
+    <div class="ch-tools">
+      <button type="button" class="ch-tool" id="btn-listen">&#x21bb; Listen again</button>
+      <button type="button" class="ch-tool" id="btn-guide" aria-pressed="false">Show me the notes</button>
+    </div>
+    <ol class="ch-guide" id="ch-guide" hidden aria-label="Today's notes, in order"></ol>
+    <div class="ch-orb" id="ch-orb" aria-hidden="true"></div>
+
+    <div class="pl-overlay" id="ov-start">
+      <h2>Play a welcome from your world</h2>
+      <p>Butterscotch loves a welcome chime. Pick the world you're from, listen to the notes, then play them back. No music skill needed!</p>
+      <div class="ch-worlds" role="radiogroup" aria-label="Your world">
+        <button type="button" class="ch-world" data-world="castle" role="radio" aria-checked="true"><img src="/img/portal_castle.webp" alt="" width="512" height="512"><span>Castle world</span></button>
+        <button type="button" class="ch-world" data-world="star" role="radio" aria-checked="false"><img src="/img/portal_star.webp" alt="" width="512" height="512"><span>Star world</span></button>
+        <button type="button" class="ch-world" data-world="jungle" role="radio" aria-checked="false"><img src="/img/portal_jungle.webp" alt="" width="512" height="512"><span>Jungle world</span></button>
+      </div>
+      <div class="cp-actions" style="margin:.2rem 0 0">
+        <button type="button" class="btn btn-gold" id="btn-hello">Say hello <small>3 notes</small></button>
+        <button type="button" class="btn btn-ghost" id="btn-goodbye">Say goodbye <small>4 notes</small></button>
+      </div>
+      <p class="ch-small" id="ch-tonight"></p>
+    </div>
+    <div class="pl-overlay" id="ov-end" hidden>
+      <h2 id="end-title">What a welcome!</h2>
+      <p id="end-text"></p>
+      <p id="end-beacon"></p>
+      <div class="cp-actions" style="margin:.4rem 0 0">
+        <button type="button" class="btn btn-gold" id="btn-next">Say goodbye too</button>
+        <button type="button" class="btn btn-ghost" id="btn-again">Play again</button>
+        <a class="btn btn-ghost" href="/play/">Back to the beacon</a>
+      </div>
+    </div>
+  </div>
+  <p class="pl-help">Waiting in line for the Wakestone? Say hello. Been already? Say goodbye. Each one sends its light to the Hoard Beacon once a day. A wrong note is fine: the right one glows to show you.</p>
+</main>
+
+<script src="/play/play.js?v=2"></script>
+<script src="/play/chime.js?v=1"></script>
+</body>
+</html>

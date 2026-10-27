@@ -26,6 +26,7 @@ export const cfg = {
   attractText: false,   // the attract loop's "place your crystal" / "tap" caption (off: the art fills the frame)
   attractHints: false,  // the attract loop's two crystal-and-arrow hints (put-back / sleepy keep theirs)
   anchorGlow: false,    // the glow on Butterscotch's tummy that breathes and pulses with his voice (the beams still aim there)
+  webBeacon: false,     // show the website games' light on the meter, live (station.web_beacon; GET /api/web_beacon)
 };
 
 // config.ini key -> [field, type]  (types: int, bool, str, rush, reader)
@@ -36,7 +37,7 @@ const FIELDS = {
   'station.ring_brightness': ['ringBrightness', 'int'], 'station.rush': ['rush', 'rush'],
   'station.second_helpings': ['secondHelpings', 'bool'], 'station.allow_fresh': ['allowFresh', 'bool'],
   'station.log_visits': ['logVisits', 'bool'], 'station.show_counter': ['showCounter', 'bool'], 'station.ndef_url': ['ndefUrl', 'str'],
-  'station.plinth': ['plinth', 'str'], 'station.fit': ['fit', 'str'], 'station.attract_text': ['attractText', 'bool'], 'station.attract_hints': ['attractHints', 'bool'], 'station.anchor_glow': ['anchorGlow', 'bool'],
+  'station.plinth': ['plinth', 'str'], 'station.fit': ['fit', 'str'], 'station.attract_text': ['attractText', 'bool'], 'station.attract_hints': ['attractHints', 'bool'], 'station.anchor_glow': ['anchorGlow', 'bool'], 'station.web_beacon': ['webBeacon', 'bool'],
   'odds.trick_pct': ['trickPct', 'int'], 'odds.rare_pct': ['rarePct', 'int'], 'odds.legend_pct': ['legendPct', 'int'],
   'odds.loyalty_rare_pct': ['loyaltyRarePct', 'int'], 'odds.loyalty_cap_pct': ['loyaltyCapPct', 'int'],
   'odds.charge_rare_pct': ['chargeRarePct', 'int'], 'odds.pity_after': ['pityAfter', 'int'], 'odds.first_no_trick': ['firstNoTrick', 'bool'],
@@ -191,6 +192,7 @@ export const counters = {
   stationCrystals: 0, stationAwakened: 0,
   visits: 0, awakened: 0, returning: 0, replays: 0, noCrystal: 0, sleepy: 0, foreign: 0,
   tier: [0, 0, 0, 0], rareGiven: 0, legendGiven: 0, writeFails: 0, moonPoints: 0, moonFull: false,
+  webPoints: 0,   // meter points from the website's games (web_beacon), kept apart from moonPoints (the site reads those x10)
 };
 const STATE_KEY = 'station.state';
 let s_cntYear = 0;
@@ -199,14 +201,14 @@ let s_lastServerOk = null;
 
 function freshTonight(year) {
   return { year, visits: 0, awakened: 0, returning: 0, replays: 0, noCrystal: 0, sleepy: 0, foreign: 0,
-           tier: [0, 0, 0, 0], rareGiven: 0, legendGiven: 0, writeFails: 0, moonPoints: 0, moonFull: false };
+           tier: [0, 0, 0, 0], rareGiven: 0, legendGiven: 0, writeFails: 0, moonPoints: 0, moonFull: false, webPoints: 0 };
 }
 function applyState(st, year) {
   const station = st && st.station || {};
   counters.stationCrystals = station.crystals | 0;
   counters.stationAwakened = station.awakened | 0;
   const t = (st && st.tonight && st.tonight.year === year) ? st.tonight : freshTonight(year);
-  for (const k of ['visits', 'awakened', 'returning', 'replays', 'noCrystal', 'sleepy', 'foreign', 'rareGiven', 'legendGiven', 'writeFails', 'moonPoints'])
+  for (const k of ['visits', 'awakened', 'returning', 'replays', 'noCrystal', 'sleepy', 'foreign', 'rareGiven', 'legendGiven', 'writeFails', 'moonPoints', 'webPoints'])
     counters[k] = t[k] | 0;
   counters.tier = [0, 1, 2, 3].map(i => (t.tier && t.tier[i]) | 0);
   counters.moonFull = !!t.moonFull;
@@ -217,7 +219,7 @@ function stateObj() {
     tonight: { year: s_cntYear, visits: counters.visits, awakened: counters.awakened, returning: counters.returning,
                replays: counters.replays, noCrystal: counters.noCrystal, sleepy: counters.sleepy, foreign: counters.foreign,
                tier: counters.tier.slice(), rareGiven: counters.rareGiven, legendGiven: counters.legendGiven,
-               writeFails: counters.writeFails, moonPoints: counters.moonPoints, moonFull: counters.moonFull },
+               writeFails: counters.writeFails, moonPoints: counters.moonPoints, moonFull: counters.moonFull, webPoints: counters.webPoints },
     savedAt: new Date().toISOString(),
   };
 }

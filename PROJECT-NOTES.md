@@ -44,6 +44,44 @@ Read `crystal_oracle/README.md` first, then `crystal_oracle/docs/DESIGN.md` (con
   2027-01-06) → stills from ChatGPT + our ffmpeg "layers" animator; voice from ElevenLabs/OpenAI TTS.
 
 ### Changelog
+- **2026-10-27 (games round 2: built from the Codex shortlist, for owner review)** — owner: "build out the
+  games with Codex helping with graphics and where it makes sense". Live on the unlisted `/play/` (VMS
+  restarted, beacon at 0); not linked from the book yet; **owner to review before linking**.
+  * **Beacon rules (site/server.js):** goal **500** (= the station's 50 points × 10). The server picks
+    every award: **5 sparks per finished game**, each game once per Chicago day per browser (random
+    `dg.browser` token), the hunt's 5 finds once a year each. Caps: **20/browser/day, 40/IP/day, 100 web
+    sparks per season** (20% of the goal; the rest must come from the Wakestone). Receipts in
+    `data/receipts.json` (survive restarts). Responses carry `why` (ok / again / browser / house / full),
+    which `DG.sparkNote()` turns into a kind sentence. Milestones 125/250/375 shown on the hub. `porchLit`
+    comes from the station's `moonFull` on Oct 31. `.json` is now a served type (only
+    `play/lightpaths/boards.json`; `data/` still refused). Tunables are the constants at the top of the
+    beacon block.
+  * **Relight the Beacon:** Snuffwick no longer takes sparks; he **caps the lantern** and the sparks sent
+    meanwhile wait under the cap until he's shooed (or yawns off after 4.5 s).
+  * **Goblin Hunt:** 5 sparks per find; a page that hides him glows a hint after 8 s.
+  * **New: Welcome Chime** (`chime.*`): pick a world (castle / star / jungle = bell / glass / marimba),
+    copy today's 3-note hello or 4-note goodbye on three picture pads (prop_star / prop_crystal /
+    fx_bubble); wrong taps never reset (the right pad glows); "Show me the notes" guide.
+  * **New: Cave Lightpaths** (`lightpaths.*` + `lightpaths/`): 4×4 route puzzle, 36 boards in 3 bands +
+    solver **by Codex** (generator + checks in `crystal_oracle/docs/codex/lightpaths/`); the server
+    re-checks the route with the same solver. Ribbons vs the board's best; Hint; today's cave from the date.
+  * **New: Sock-Side Signals** (`signals.*`): the sock taps 2–4 times (rings + a knock); pick the matching
+    dot strip, settle the sock, it taps back; stamps per day. **Locked until Nov 1** (or the beacon lit);
+    `?preview=1` peeks.
+  * **Art by Codex** (ChatGPT image model): `img/portal_{castle,star,jungle}.webp` (round doors between
+    worlds) and `img/bg_nook.webp` (Snuffwick's nook with the sock). Sources stay in
+    `crystal_oracle/assets/.codex_jobs/` (not in `assets/source/images`).
+  * **Station live link (opt-in, off by default):** `[station] web_beacon = yes` → the iPad app polls
+    `GET /api/web_beacon` (station server reads `site/data/beacon.json`), 10 web sparks = 1 meter point
+    (`counters.webPoints`, saved apart from `moonPoints`), applied only in attract and only up to
+    `moon_goal − 1`, so a real crystal always fires the finale. See `station/README.md`. **The running
+    station server (:8460, started 10-26) needs a restart before the key can work**; JS is already live.
+  * Verified: station e2e on a scratch copy (:8461, 0 page errors) + a web_beacon test (37 sparks → 2 of
+    goal 3, 100 sparks → still 2 and no finale, broken file → no change, one real crystal → finale);
+    site API rules on a scratch copy (all caps / again / bad route / old `n` posts); every game played
+    end to end in headless Chrome (desktop + phone width, 0 console errors); live: three hosts 200, all
+    new files 200, `data/` 404, bad posts 400.
+  * Not done: the riddle "cave clue" upgrade, the sky constellation task, voice lines for the new games.
 - **2026-10-27 (sky seed fix + game ideas with Codex)** — Codex's review caught that `/api/sky` star seeds
   were an unkeyed 32-bit FNV of the 32-bit crystal id, so the ids (the keys to crystal pages and nicknames)
   could be brute-forced back from the sky. Now `skySeed()` = HMAC-SHA256 with a random key made on first

@@ -12,40 +12,57 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/style.css?v=g6">
-<link rel="stylesheet" href="/play/play.css?v=1">
+<link rel="stylesheet" href="/play/play.css?v=3">
 </head>
 <body class="play-page">
 
 <header class="pl-head">
   <p class="cover-kicker">Games from the cave</p>
   <h1 class="pl-title">Light the Hoard Beacon</h1>
-  <p class="pl-lede">Snuffwick keeps snuffing it out. Every spark you earn here goes into the one beacon we all share, and when it's full, it blazes.</p>
+  <p class="pl-lede">Snuffwick keeps snuffing it out. Every game you finish sends a little light into the one beacon we all share. On Halloween night the travelers at the Wakestone fill the rest, and when it's full, it blazes.</p>
   <p class="pl-crystal" id="pl-crystal"></p>
 </header>
 
 <main class="pl-main">
   <section class="meter" id="meter" data-meter aria-live="polite"></section>
+  <ol class="pl-miles" id="miles" aria-label="What the beacon's light reveals"></ol>
+  <p class="pl-porch" id="porch" hidden></p>
 
   <div class="pl-games">
+    <a class="pl-game" href="/play/chime.html">
+      <img src="/img/portal_castle.webp" alt="" width="512" height="512" style="border-radius:50%">
+      <span class="pl-game-t"><strong>Welcome Chime</strong> In line for the Wakestone? Play a three-note welcome from your world.</span>
+      <span class="pl-game-r" id="g-chime">Say hello</span>
+    </a>
+    <a class="pl-game" href="/play/lightpaths.html">
+      <img src="/img/portal_star.webp" alt="" width="512" height="512" style="border-radius:50%">
+      <span class="pl-game-t"><strong>Cave Lightpaths</strong> Lead the beacon's glow to a door between worlds. Find the best path!</span>
+      <span class="pl-game-r" id="g-lp">Today's cave</span>
+    </a>
     <a class="pl-game" href="/play/beacon.html">
       <img src="/img/snuffwick_base.webp" alt="" width="640" height="678">
-      <span class="pl-game-t"><strong>Relight the Beacon</strong> Catch sparks from the hoard and stop Snuffwick's snuffer.</span>
+      <span class="pl-game-t"><strong>Relight the Beacon</strong> Catch sparks from the hoard, and shoo Snuffwick off the lantern.</span>
       <span class="pl-game-r" id="g-beacon">Play</span>
     </a>
     <a class="pl-game" href="/play/riddle.html">
       <img src="/img/butterscotch_wink.webp" alt="" width="640" height="600">
-      <span class="pl-game-t"><strong>Butterscotch's Riddle</strong> A new riddle every day. Solve it for five sparks.</span>
+      <span class="pl-game-t"><strong>Butterscotch's Riddle</strong> A new riddle every day. Can you light all 31 candles?</span>
       <span class="pl-game-r" id="g-riddle">Today's riddle</span>
     </a>
     <a class="pl-game" href="/?hunt=1#p1">
       <img src="/img/snuffwick_shy.webp" alt="" width="640" height="678">
-      <span class="pl-game-t"><strong>Goblin Hunt</strong> Snuffwick is hiding in the storybook. Find him five times.</span>
+      <span class="pl-game-t"><strong>Goblin Hunt</strong> Snuffwick is hiding in the storybook. Find him five times: each find sends light.</span>
       <span class="pl-game-r" id="g-hunt">Start hunting</span>
     </a>
     <a class="pl-game" href="/play/sky.html">
       <img src="/img/prop_crystal.webp" alt="" width="640" height="640">
       <span class="pl-game-t"><strong>The Crystal Sky</strong> Every crystal that woke the dragon is a star. Find yours.</span>
       <span class="pl-game-r">Look up</span>
+    </a>
+    <a class="pl-game" href="/play/signals.html" id="card-signals">
+      <img src="/img/snuffwick_sock.webp" alt="" width="640" height="678">
+      <span class="pl-game-t"><strong>Sock-Side Signals</strong> Something in Snuffwick's sock is tapping. Listen closely…</span>
+      <span class="pl-game-r" id="g-signals">After Halloween</span>
     </a>
   </div>
 
@@ -64,7 +81,7 @@
     <a class="btn btn-gold" href="/#story">Read the storybook</a>
     <a class="btn btn-ghost" href="/#grownups">For grown-ups</a>
   </div>
-  <p class="cp-note">The beacon is shared by everyone who plays. Sparks are only numbers: nothing about you is saved, and a crystal is never needed to play.</p>
+  <p class="cp-note">The beacon is shared by everyone who plays. Each game sends its light once a day. Sparks are only numbers: nothing about you is saved, and a crystal is never needed to play.</p>
 </main>
 
 <template id="bonus-story">
@@ -77,23 +94,39 @@
   <p class="pl-bonus-end">Keep your crystal safe. Next year, bring it back and find out what's in the sock.</p>
 </template>
 
-<script src="/play/play.js?v=1"></script>
+<script src="/play/play.js?v=2"></script>
 <script>
 (async function () {
   'use strict';
   DG.crystalLine(document.getElementById('pl-crystal'));
+  const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Chicago' }).format(new Date());
   const v = await DG.getBeacon();
   DG.renderMeter(document.getElementById('meter'), v);
+  // milestones: what the shared light reveals in the cave on the way to lit
+  const MILES = ['A path of light through the cave', 'The cave warms up', 'The feast lanterns glow', 'The Hoard Beacon blazes!'];
+  const marks = [...(v.milestones || [125, 250, 375]), v.goal];
+  document.getElementById('miles').replaceChildren(...marks.map((m, i) => {
+    const li = document.createElement('li');
+    const done = v.lit || v.sparks >= m;
+    li.className = done ? 'is-done' : '';
+    li.innerHTML = `<b>${m}</b> ${done ? MILES[i] : '???'}`;
+    return li;
+  }));
+  if (v.porchLit) { const p = document.getElementById('porch'); p.hidden = false; p.textContent = 'The beacon blazed on the porch on Halloween night! Thank you, travelers.'; }
+  else if (today.endsWith('-10-31')) { const p = document.getElementById('porch'); p.hidden = false; p.textContent = 'Tonight\'s the night! Every crystal at the Wakestone adds ten sparks, and your games add a little light between turns.'; }
   if (v.lit) {
     document.getElementById('bonus').classList.add('is-open');
     document.getElementById('bonus-text').replaceChildren(document.getElementById('bonus-story').content.cloneNode(true));
   }
   const best = DG.flag('beacon.best');
   if (best) document.getElementById('g-beacon').textContent = `Best: ${best} sparks`;
-  const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Chicago' }).format(new Date());
   if (DG.flag(`riddle.${today}`)) document.getElementById('g-riddle').textContent = 'Solved today ✓';
   const found = (DG.flag('hunt.found') || '').split(',').filter(Boolean).length;
   if (found) document.getElementById('g-hunt').textContent = found >= 5 ? 'All 5 found ✓' : `${found} of 5 found`;
+  if (DG.flag(`chime.${today}.goodbye`)) document.getElementById('g-chime').textContent = 'Hello + goodbye ✓';
+  else if (DG.flag(`chime.${today}.hello`)) document.getElementById('g-chime').textContent = 'Now say goodbye';
+  const md = today.slice(5);
+  if (md >= '11-01' || md < '10-01' || v.lit) document.getElementById('g-signals').textContent = DG.flag(`signals.${today}`) ? 'Heard today ✓' : 'Listen';
 })();
 </script>
 </body>
