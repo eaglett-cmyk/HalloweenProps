@@ -88,4 +88,5 @@ Differs because it is a browser:
   resolve, use the IP (the plinth prints it; give it a DHCP reservation on the UDM).
 * The server binds all interfaces on 8460. It is not part of the merged VMS server and not
   watched by the site watchdog; start it by hand (or add a scheduled task) when the iPad rig is
-  in use.
+  in use: `start-station.cmd` (desktop shortcut "Crystal Oracle Station", 2026-10-25) starts it
+  in a console window, or just opens the app if it is already running.
