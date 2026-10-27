@@ -1,7 +1,8 @@
-// riddle.js — Butterscotch's riddle of the day. October 1-31 each get their own riddle
-// (Chicago time); any other day borrows one by day of the year. A right answer adds five
-// sparks to the Hoard Beacon once per day and lights that day's candle (this browser).
-// ?day=N plays an earlier October day's riddle (its candle links there); ?test=1&day=N any day.
+// riddle.js — Butterscotch's riddle book: 31 riddles, open in any order. (2026: nobody visits
+// before Halloween night, so there is no October countdown.) The page opens the first riddle this
+// browser hasn't solved; ?n=N opens riddle N, and each candle links to its riddle. A right answer
+// lights that riddle's candle (this browser) and sends a spark to the Hoard Beacon (the server pays
+// the riddle game once a day).
 (function () {
   'use strict';
   // [question, answer, wrong, wrong, Butterscotch's line when it's solved]
@@ -43,31 +44,22 @@
   const $ = id => document.getElementById(id);
   DG.crystalLine($('pl-crystal'));
   const q = new URLSearchParams(location.search);
-  const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Chicago' }).format(new Date());   // YYYY-MM-DD
-  const [y, mo, d] = today.split('-').map(Number);
-  let day = mo === 10 ? d : null;
-  // an earlier October day (tap its candle to catch up); ?test=1 opens any day
-  const upTo = mo === 10 ? d : mo > 10 ? 31 : 0;
-  const askDay = Number(q.get('day'));
-  if (askDay >= 1 && askDay <= 31 && (askDay <= upTo || q.get('test') === '1')) day = askDay;
-  let idx, key;
-  if (day) { idx = day - 1; key = `${y}-10-${String(day).padStart(2, '0')}`; }
-  else {
-    const doy = Math.floor((Date.UTC(y, mo - 1, d) - Date.UTC(y, 0, 0)) / 86400000);
-    idx = doy % RIDDLES.length; key = today;
-  }
-  const [question, answer, ...rest] = RIDDLES[idx];
+  const N = RIDDLES.length;
+  const isLit = n => !!DG.flag(`riddle.n${n}`);
+  const firstUnsolved = from => { for (let k = 0; k < N; k++) { const m = (from + k - 1) % N + 1; if (!isLit(m)) return m; } return 0; };
+  const asked = Number(q.get('n'));
+  const n = asked >= 1 && asked <= N ? asked : firstUnsolved(1) || 1;
+  const [question, answer, ...rest] = RIDDLES[n - 1];
   const cheer = rest.pop();
-  $('rd-k').textContent = day ? `October ${day} · riddle ${day} of 31` : 'Riddle of the day';
+  $('rd-k').textContent = `Riddle ${n} of ${N}`;
   $('rd-q').textContent = question;
 
-  // the choices in an order that changes from day to day
+  // the choices in an order that is the same every visit
   const choices = [answer, ...rest];
-  let h = idx * 2654435761 >>> 0;
+  let h = (n - 1) * 2654435761 >>> 0;
   for (let i = choices.length - 1; i > 0; i--) { h = Math.imul(h ^ (h >>> 13), 0x5bd1e995) >>> 0; const j = h % (i + 1); [choices[i], choices[j]] = [choices[j], choices[i]]; }
 
-  const dragon = $('rd-dragon'), say = $('rd-say'), box = $('rd-choices');
-  const solved = !!DG.flag(`riddle.${key}`);
+  const dragon = $('rd-dragon'), say = $('rd-say'), box = $('rd-choices'), next = $('rd-next');
   let misses = 0;
   box.replaceChildren(...choices.map(c => {
     const b = document.createElement('button');
@@ -75,13 +67,16 @@
     b.addEventListener('click', () => pick(b, c));
     return b;
   }));
-  if (solved) showSolved(false);
+  if (isLit(n)) showSolved(false);
 
   function showSolved(fresh) {
     for (const b of box.children) { b.disabled = true; if (b.textContent === answer) b.classList.add('is-right'); }
     dragon.src = '/img/butterscotch_delight.webp';
     say.className = 'rd-say is-good';
-    say.textContent = `“${cheer}”` + (fresh ? '' : ' You solved today\'s riddle. Come back tomorrow for a new one!');
+    say.textContent = `“${cheer}”` + (fresh ? '' : ' You already solved this one.');
+    const m = firstUnsolved(n % N + 1);
+    if (m) { next.hidden = false; next.href = `?n=${m}`; next.textContent = `Next riddle (${m} of ${N}) ›`; }
+    else { next.hidden = true; say.append(' Every candle is lit. You solved all ' + N + '!'); }
     candles();
   }
 
@@ -93,7 +88,7 @@
       DG.chime(-7, 0.05);
       return;
     }
-    DG.flag(`riddle.${key}`, 1);
+    DG.flag(`riddle.n${n}`, 1);
     showSolved(true);
     dragon.classList.remove('is-happy'); void dragon.offsetWidth; dragon.classList.add('is-happy');
     [0, 4, 7, 12].forEach((p, i) => setTimeout(() => DG.chime(p, 0.08), i * 110));
@@ -105,17 +100,15 @@
 
   function candles() {
     const list = $('rd-candles');
-    list.replaceChildren(...Array.from({ length: 31 }, (_, i) => {
-      const k = `${y}-10-${String(i + 1).padStart(2, '0')}`;
+    list.replaceChildren(...Array.from({ length: N }, (_, i) => {
       const li = document.createElement('li');
-      if (i + 1 <= upTo && day !== i + 1) {   // a day that has come: its candle opens that riddle
+      if (i + 1 !== n) {   // every other candle opens its riddle
         const a = document.createElement('a');
-        a.href = `?day=${i + 1}`; a.textContent = String(i + 1); a.setAttribute('aria-label', `October ${i + 1} riddle`);
+        a.href = `?n=${i + 1}`; a.textContent = String(i + 1); a.setAttribute('aria-label', `Riddle ${i + 1}`);
         li.append(a);
-      } else li.textContent = String(i + 1);
-      if (DG.flag(`riddle.${k}`)) li.classList.add('is-lit');
-      if (day === i + 1) li.classList.add('is-today');
-      li.title = `October ${i + 1}`;
+      } else { li.textContent = String(i + 1); li.classList.add('is-today'); }
+      if (isLit(i + 1)) li.classList.add('is-lit');
+      li.title = `Riddle ${i + 1}`;
       return li;
     }));
   }

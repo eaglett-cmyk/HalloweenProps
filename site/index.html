@@ -13,7 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=g8">
+<link rel="stylesheet" href="style.css?v=g9">
 </head>
 <body class="home">
 
@@ -27,6 +27,7 @@
   </p>
   <div class="cover-actions">
     <a class="btn btn-gold" href="#story">Open the book</a>
+    <a class="btn btn-gold" href="/play/">Play games from the cave</a>
     <a class="btn btn-ghost" href="#grownups">For grown-ups</a>
   </div>
 </header>
@@ -186,7 +187,7 @@
   </section>
 
   </div>
-  <p class="the-end">The End <small>(until next year)</small></p>
+  <p class="the-end">The End <small>(until next year)</small><a class="btn btn-gold end-play" href="/play/">Play games from the cave</a></p>
   <div class="book-nav book-nav-bottom" hidden>
     <button type="button" class="nav-btn nav-prev" aria-label="Previous page">&#x2039; Back</button>
     <span class="book-hint">Tap the arrows, swipe, or use the arrow keys · <button type="button" class="link-btn nav-close">Close the book</button></span>
@@ -229,6 +230,11 @@
       <article class="gu-card">
         <h3>Build it yourself</h3>
         <p>The whole thing is open source under the GPL: firmware for both boards, the plinth's 3D model, the story bible, the asset pipeline and the hardware list. It is a Waveshare ESP32-S3 touch display plus a second ESP32 driving a PN532 NFC reader, talking over ESP-NOW.</p>
+      </article>
+
+      <article class="gu-card">
+        <h3>The games</h3>
+        <p>Small games from the cave live at <a href="/play/">Games from the cave</a>. They need no account and no crystal. Finishing one adds a spark to the Hoard Beacon that everyone shares, once a day per game. To count that, your browser keeps a random code and its progress on your device. The server keeps only tallies: that code's games for the day and, to stop cheating, a daily count per internet address. Never names.</p>
       </article>
     </div>
 

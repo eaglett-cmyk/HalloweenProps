@@ -15,7 +15,7 @@
   DG.crystalLine($('pl-crystal'));
 
   const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Chicago' }).format(new Date());
-  if (today.endsWith('-10-31')) $('ch-tonight').textContent = 'Halloween night! Your light joins the beacon on the porch, between travelers\' turns.';
+  if (today.endsWith('-10-31')) $('ch-tonight').textContent = 'Halloween night! Play a hello while you wait your turn at the Wakestone.';
 
   // ---- today's tune: a small seeded shuffle of the three pads, never one pad three times running
   function tune(part) {

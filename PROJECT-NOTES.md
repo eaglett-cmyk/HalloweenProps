@@ -44,6 +44,24 @@ Read `crystal_oracle/README.md` first, then `crystal_oracle/docs/DESIGN.md` (con
   2027-01-06) → stills from ChatGPT + our ffmpeg "layers" animator; voice from ElevenLabs/OpenAI TTS.
 
 ### Changelog
+- **2026-10-27 (games LIVE: linked from the storybook + crystal pages)** — owner OK'd the games. Note
+  from the owner: **this year nobody uses the site until Halloween night**, so lead-up/October-countdown
+  text is not helpful. Changes:
+  * **Riddle = a book of 31 riddles, no dates** (`play/riddle.js`): opens on the first riddle this
+    browser hasn't solved, `?n=N` opens any one, every candle links to its riddle, "Next riddle (N of
+    31)" button after a solve; candles flag `riddle.n<N>` (old `riddle.<date>` keys unused). "The riddle
+    candles" (was "The October candles"); hub card "Thirty-one riddles…", status "N of 31 lit". The
+    server still pays the riddle game once a day.
+  * Hub lede now leads with the Wakestone ("every crystal … adds ten sparks, and every game you finish
+    here adds a little more"); Oct 31 porch line and the chime's Oct 31 line no longer claim game light
+    shows on the porch (the station's `web_beacon` is **off** in the iPad config.ini); the "web full"
+    note no longer says "on Halloween night". Sock-Side Signals still opens Nov 1 (after the night = fine).
+  * **Links:** storybook cover "Play games from the cave" (gold, between Open the book and For
+    grown-ups), a button after "The End", a "The games" card in For grown-ups (random browser code;
+    server keeps daily tallies per code and per IP, never names), crystal page "Play games with your
+    crystal" (`crystal.js` already remembers the crystal so sparks credit it). Pages stay `noindex`.
+  * Versions: play.js v4, play.css v9, chime.js v3, riddle.js v3, style.css g9 (index + crystal).
+  Tested live: riddle solve/next/candles (spark POST stubbed), hub count, cover/end/crystal links, phone.
 - **2026-10-27 (storybook page: Codex backdrop)** — owner: background art for the main page too. Two
   Codex paintings of the moonlit candy hills outside the cave (same world as the Crystal Sky; refs = the
   sky painting + key art), busy at the edges and dark in the middle: `site/img/bg_home_wide.webp`

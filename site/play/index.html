@@ -12,14 +12,14 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/style.css?v=g6">
-<link rel="stylesheet" href="/play/play.css?v=8">
+<link rel="stylesheet" href="/play/play.css?v=9">
 </head>
 <body class="play-page">
 
 <header class="pl-head">
   <p class="cover-kicker">Games from the cave</p>
   <h1 class="pl-title">Light the Hoard Beacon</h1>
-  <p class="pl-lede">Snuffwick keeps snuffing it out. Every game you finish sends a little light into the one beacon we all share. On Halloween night the travelers at the Wakestone fill the rest, and when it's full, it blazes.</p>
+  <p class="pl-lede">Snuffwick keeps snuffing it out. Every crystal that wakes Butterscotch at the Wakestone adds ten sparks, and every game you finish here adds a little more. When the beacon is full, it blazes.</p>
   <p class="pl-crystal" id="pl-crystal"></p>
 </header>
 
@@ -46,8 +46,8 @@
     </a>
     <a class="pl-game" href="/play/riddle.html">
       <img src="/img/butterscotch_wink.webp" alt="" width="640" height="600">
-      <span class="pl-game-t"><strong>Butterscotch's Riddle</strong> A new riddle every day. Can you light all 31 candles?</span>
-      <span class="pl-game-r" id="g-riddle">Today's riddle</span>
+      <span class="pl-game-t"><strong>Butterscotch's Riddle</strong> Thirty-one riddles from the cave. Can you light all 31 candles?</span>
+      <span class="pl-game-r" id="g-riddle">Solve one</span>
     </a>
     <a class="pl-game" href="/?hunt=1#p1">
       <img src="/img/snuffwick_shy.webp" alt="" width="640" height="678">
@@ -94,7 +94,7 @@
   <p class="pl-bonus-end">Keep your crystal safe. Next year, bring it back and find out what's in the sock.</p>
 </template>
 
-<script src="/play/play.js?v=3"></script>
+<script src="/play/play.js?v=4"></script>
 <script>
 (async function () {
   'use strict';
@@ -113,14 +113,15 @@
     return li;
   }));
   if (v.porchLit) { const p = document.getElementById('porch'); p.hidden = false; p.textContent = 'The beacon blazed on the porch on Halloween night! Thank you, travelers.'; }
-  else if (today.endsWith('-10-31')) { const p = document.getElementById('porch'); p.hidden = false; p.textContent = 'Tonight\'s the night! Every crystal at the Wakestone adds ten sparks, and your games add a little light between turns.'; }
+  else if (today.endsWith('-10-31')) { const p = document.getElementById('porch'); p.hidden = false; p.textContent = 'Tonight\'s the night! Every crystal that wakes Butterscotch at the Wakestone adds ten sparks to this beacon.'; }
   if (v.lit) {
     document.getElementById('bonus').classList.add('is-open');
     document.getElementById('bonus-text').replaceChildren(document.getElementById('bonus-story').content.cloneNode(true));
   }
   const best = DG.flag('beacon.best');
   if (best) document.getElementById('g-beacon').textContent = `Best: ${best} sparks`;
-  if (DG.flag(`riddle.${today}`)) document.getElementById('g-riddle').textContent = 'Solved today ✓';
+  const lit = Array.from({ length: 31 }, (_, i) => DG.flag(`riddle.n${i + 1}`)).filter(Boolean).length;
+  if (lit) document.getElementById('g-riddle').textContent = lit >= 31 ? 'All 31 lit ✓' : `${lit} of 31 lit`;
   const found = (DG.flag('hunt.found') || '').split(',').filter(Boolean).length;
   if (found) document.getElementById('g-hunt').textContent = found >= 5 ? 'All 5 found ✓' : `${found} of 5 found`;
   if (DG.flag(`chime.${today}.goodbye`)) document.getElementById('g-chime').textContent = 'Hello + goodbye ✓';

@@ -58,7 +58,7 @@
       case 'ok': return `<b>+${v.added} spark${v.added === 1 ? '' : 's'}</b> flew to the Hoard Beacon! ${pct}`;
       case 'again': return `You already sent today's sparks from this game. Play again just for fun! ${pct}`;
       case 'browser': case 'house': return `Your sparks for today are all sent. Come back tomorrow! ${pct}`;
-      case 'full': return `The pocket welcome is full: the rest of the light comes from crystals at the Wakestone on Halloween night! ${pct}`;
+      case 'full': return `The games have sent all the light they can: the rest comes from the crystals at the Wakestone! ${pct}`;
       default: return 'The beacon could not be reached just now, but you played beautifully.';
     }
   }

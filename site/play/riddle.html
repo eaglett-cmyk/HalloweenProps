@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/style.css?v=g6">
-<link rel="stylesheet" href="/play/play.css?v=8">
+<link rel="stylesheet" href="/play/play.css?v=9">
 </head>
 <body class="play-page">
 
@@ -19,28 +19,29 @@
   <header class="pl-head">
     <a class="pl-back" href="/play/">&#x2039; All the games</a>
     <h1 class="pl-title">Butterscotch's Riddle</h1>
-    <p class="pl-lede">A new riddle every day. Solve it and a spark flies up to the Hoard Beacon.</p>
+    <p class="pl-lede">Thirty-one riddles from the cave. Solve one and a spark flies up to the Hoard Beacon.</p>
     <p class="pl-crystal" id="pl-crystal"></p>
   </header>
 
   <section class="rd-card" aria-live="polite">
     <img class="rd-dragon" id="rd-dragon" src="/img/butterscotch_wink.webp" alt="Butterscotch" width="640" height="600">
     <div>
-      <p class="rd-k" id="rd-k">Riddle of the day</p>
+      <p class="rd-k" id="rd-k">Riddle</p>
       <p class="rd-q" id="rd-q">…</p>
       <div class="rd-choices" id="rd-choices"></div>
       <p class="rd-say" id="rd-say"></p>
+      <a class="btn btn-gold rd-next" id="rd-next" href="?n=1" hidden>Next riddle</a>
     </div>
   </section>
 
   <section class="rd-wall">
-    <h2>The October candles</h2>
-    <p>Every riddle you solve lights one candle. Missed a day? Tap its candle to try that riddle. Can you light all 31?</p>
+    <h2>The riddle candles</h2>
+    <p>Every riddle you solve lights a candle. Tap any candle to try its riddle. Can you light all 31?</p>
     <ol class="rd-candles" id="rd-candles"></ol>
   </section>
 </main>
 
-<script src="/play/play.js?v=3"></script>
-<script src="/play/riddle.js?v=2"></script>
+<script src="/play/play.js?v=4"></script>
+<script src="/play/riddle.js?v=3"></script>
 </body>
 </html>

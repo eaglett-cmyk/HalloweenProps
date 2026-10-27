@@ -172,6 +172,8 @@
 .rd-choice:disabled { cursor: default; }
 .rd-say { min-height: 2.8em; margin: .8rem 0 0; font-style: italic; color: var(--ink-soft); }
 .rd-say.is-good { color: var(--toffee); font-weight: 600; }
+.rd-next { margin-top: .7rem; border: 0; font-size: 1rem; }
+.rd-next[hidden] { display: none; }
 @media (max-width: 480px) { .rd-card { grid-template-columns: 1fr; text-align: center; } .rd-dragon { margin: 0 auto; width: 110px; } .rd-choice { text-align: center; } }
 .rd-wall { margin: 1.4rem 0 0; text-align: center; }
 .rd-wall h2 { font-family: var(--display); color: var(--gold); font-size: 1.15rem; margin: 0 0 .2rem; }

@@ -75,7 +75,7 @@
     dg = new Promise(res => {
       if (window.DG) { res(window.DG); return; }
       const s = document.createElement('script');
-      s.src = '/play/play.js?v=3'; s.onload = () => res(window.DG); s.onerror = () => res(null);
+      s.src = '/play/play.js?v=4'; s.onload = () => res(window.DG); s.onerror = () => res(null);
       document.head.append(s);
     });
     return dg;
