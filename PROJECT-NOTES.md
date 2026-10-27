@@ -44,6 +44,15 @@ Read `crystal_oracle/README.md` first, then `crystal_oracle/docs/DESIGN.md` (con
   2027-01-06) → stills from ChatGPT + our ffmpeg "layers" animator; voice from ElevenLabs/OpenAI TTS.
 
 ### Changelog
+- **2026-10-26 (Wakestone = the real plinth)** — owner: the crystal-glows-to-wake-the-dragon scenes should
+  show the actual plinth. Rendered the v7 assembly (`plinth/nfc_platform.scad`, part `assembly`) from the
+  side AWAY from the USB-C port (`--camera=0,0,35,68,0,180,380`, saved as `plinth/v7_render_back.png`) and
+  ChatGPT (Codex, `--ref` that render + the old `bg_wakestone` + `bg_cave`) repainted `bg_wakestone` as a
+  storybook version: carved grey stone drum with rock bosses, glowing amethyst clusters round the rim (gap at
+  the front), the ringed platform on top under the light beam. Its platform top sits at y ~190–205 of 480,
+  so the props were moved up to stand on it: awaken crystal y [125,75,65], chapter_d crystal y 70, rare-star
+  reveals y [155,55,65] (generator). Both builds rebuilt (awaken×4, chapter_d, circle, reveal_t2/_2);
+  storybook page 5 image replaced (`?v=2`). The previous still is in git (commit ea899a4 and earlier).
 - **2026-10-26 (iPad card build: clean sprite edges)** — owner: "the edges of the elements are not
   clean". Not the art (the PNGs have clean alpha) and not the sprite scaling (checked): it was the TF-card
   JPEG profile — 4:2:0 chroma + `-q:v` raised to 7 to fit the firmware's 96 KB/frame cap smeared a dark,

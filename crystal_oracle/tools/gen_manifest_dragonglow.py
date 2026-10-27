@@ -92,6 +92,8 @@ STILLS = [
        "Leave the CENTRE of the picture open and empty (a floating dragon goes there) and keep the upper-left area "
        "around the lantern uncluttered.", BG, STYLE),
      {}),
+    # 2026-10-26: repainted by ChatGPT from a render of the real plinth (plinth/v7_render_back.png, seen from the
+    # side away from the USB-C port). Its platform top is at about y 190-205 of 480: props rising from it end there.
     ("bg_wakestone", "background", False, "MVP",
      "The Wakestone: a deeper chamber of the cave framed by big soft rounded rock shapes; in the exact centre a round, "
      "flat-topped stone pedestal with a carved curled-up sleeping-dragon swirl on its front, lit by one broad soft "
@@ -406,7 +408,7 @@ CLIPS = [
               "(the anchor) and the colour name."},
     {"id": "awaken", "priority": "MVP", "recipe": "layers", "seconds": 8, "loop": False, "variants": "colors",
      "bg": {"image": "bg_wakestone", "zoom": [1.0, 1.05]},
-     "layers": [{"sprite": "prop_crystal", "tint": "$color", "height": [80, 130, 130], "x": 400, "y": [300, 175, 165],
+     "layers": [{"sprite": "prop_crystal", "tint": "$color", "height": [80, 130, 130], "x": 400, "y": [125, 75, 65],
                  "t": [0, 8], "fade_in": 0.4, "bob": {"amp": 4, "period": 2}},
                 bs_side("butterscotch_surprise", t=[0.4, 3.2], y=[-280, 45], fade_in=0.2, fade_out=0.25),
                 bs_side("butterscotch_delight", t=[3.0, 8], fade_in=0.25)],
@@ -487,7 +489,7 @@ CLIPS = [
     {"id": "reveal_t2", "priority": "MVP", "recipe": "layers", "seconds": 2.5, "loop": False,
      "bg": {"image": "bg_wakestone"},
      "layers": [bs_side("butterscotch_surprise", fade_in=0.15, bob=(6, 2.5)),
-                {"sprite": "prop_star", "height": [50, 150, 140], "x": 400, "y": [285, 90, 100], "t": [0.2, 2.5],
+                {"sprite": "prop_star", "height": [50, 150, 140], "x": 400, "y": [155, 55, 65], "t": [0.2, 2.5],
                  "fade_in": 0.15, "spin": 1}],
      "anchor_layer": 0,
      "notes": "GOLDEN STAR (rare since 2026-10-26): the gold star rises out of the Wakestone and turns once; "
@@ -496,7 +498,7 @@ CLIPS = [
      "bg": {"image": "bg_wakestone", "zoom": [1.0, 1.06]},
      "layers": [bs_side("butterscotch_surprise", t=[0, 1.25], fade_in=0.15, fade_out=0.2, bob=(6, 2.5)),
                 bs_side("butterscotch_delight", t=[1.1, 2.5], fade_in=0.2, bob=(6, 2.5)),
-                {"sprite": "prop_star", "height": [50, 150, 140], "x": 400, "y": [285, 90, 100], "t": [0.1, 2.5],
+                {"sprite": "prop_star", "height": [50, 150, 140], "x": 400, "y": [155, 55, 65], "t": [0.1, 2.5],
                  "fade_in": 0.15, "rotate": [-8, 8, -8, 0]}],
      "anchor_layer": 0,
      "notes": "Variant 2 (with reveal_t2_2's line): the star wobbles up and Butterscotch's gasp turns into a beam."},
@@ -583,7 +585,7 @@ CLIPS = [
      "bg": {"image": "bg_wakestone"},
      # One crystal per colour, each fading in OVER the previous one (which stays opaque until it is covered, so the
      # crystal never turns see-through mid-change); the first fades in from the empty stone.
-     "layers": [{"sprite": "prop_crystal", "tint": c, "height": 130, "x": 400, "y": 165,
+     "layers": [{"sprite": "prop_crystal", "tint": c, "height": 130, "x": 400, "y": 70,
                  "t": [round(i * 4.5 / len(CRYSTAL_SPECS), 3),
                        4.5 if i == len(CRYSTAL_SPECS) - 1 else round((i + 1) * 4.5 / len(CRYSTAL_SPECS) + 0.25, 3)],
                  "fade_in": 0.4 if i == 0 else 0.25, "bob": {"amp": 4, "period": 2}}
