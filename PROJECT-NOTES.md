@@ -59,7 +59,11 @@ Read `crystal_oracle/README.md` first, then `crystal_oracle/docs/DESIGN.md` (con
   * **Links:** storybook cover "Play games from the cave" (gold, between Open the book and For
     grown-ups), a button after "The End", a "The games" card in For grown-ups (random browser code;
     server keeps daily tallies per code and per IP, never names), crystal page "Play games with your
-    crystal" (`crystal.js` already remembers the crystal so sparks credit it). Pages stay `noindex`.
+    crystal" (`crystal.js` already remembers the crystal so sparks credit it). Later the same day
+    (owner: "turn the games on so people can find the links") the `noindex` meta came off all seven
+    `play/*.html` pages so search engines can list them; `crystal.html` keeps `noindex` (one child's
+    crystal each). No robots.txt on the site. Verified public: the cover/end/crystal links are served
+    (Cloudflare `DYNAMIC`, `Cache-Control: no-cache`, so no purge needed).
   * Versions: play.js v4, play.css v9, chime.js v3, riddle.js v3, style.css g9 (index + crystal).
   Tested live: riddle solve/next/candles (spark POST stubbed), hub count, cover/end/crystal links, phone.
 - **2026-10-27 (storybook page: Codex backdrop)** — owner: background art for the main page too. Two
