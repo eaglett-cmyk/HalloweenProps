@@ -13,7 +13,10 @@ import { show } from './show.js';
 import * as fx from './fx.js';
 import { service, sim } from './service.js';
 
-const BUILD = '2026-10-26a';
+const BUILD = '2026-10-26d';
+// page errors go to the station's events.log too (the iPad has no console in Guided Access)
+window.addEventListener('error', e => { try { vlog.event(`page error: ${e.message} @ ${(e.filename || '').split('/').pop()}:${e.lineno}`); } catch {} });
+window.addEventListener('unhandledrejection', e => { try { vlog.event(`page error (promise): ${e.reason && e.reason.message || e.reason}`); } catch {} });
 const canvas = document.getElementById('show');
 const overlay = document.getElementById('start');
 const startBtn = document.getElementById('start-btn');
@@ -102,9 +105,12 @@ async function start() {
   const addr = addrEl.value.trim();
   if (addr && addr !== cfg.plinth) S.setConfig('station.plinth', addr);
   setStatus('Starting audio...');
-  await audio.init();
+  // the music bed starts inside this tap (see audio.init): the full-beacon bed if the beacon is already lit
+  const bed = S.counters.moonFull && media.exists('/oracle/music/idle_full.wav') ? '/oracle/music/idle_full.wav' : '/oracle/music/idle.wav';
+  await audio.init(bed);
   audio.setVolume(cfg.volume);
   setStatus(`Sound: ${audio.engine()} (${audio.state()}). Connecting to the plinth...`);
+  vlog.event(`sound at start: ${audio.engine()}, context ${audio.state()}, rate ${audio.sampleRate ? audio.sampleRate() : '?'}, volume ${cfg.volume}`);
   await fullscreen();
   keepAwake();
   link.begin(cfg.plinth, cfg.group);
@@ -116,6 +122,7 @@ async function start() {
   overlay.classList.add('hidden');
   show.begin(canvas);
   hud.textContent = `loading the rest of the card in the background... (sound: ${audio.engine()}, build ${BUILD})`;
+  setTimeout(() => vlog.event(`sound 5 s in: ${audio.engine()}, context ${audio.state()}, unmute ${audio.unmuteState()}; ${audio.mediaStatus()}`), 5000);
   prefetchAll();
   show.start();
 }

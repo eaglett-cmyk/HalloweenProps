@@ -3,6 +3,7 @@
 // the card's WAVs (48 kHz mono s16), decoded once and kept. init() must run from a user gesture
 // (Safari): the start overlay does that.
 import { media } from './media.js';
+import { vlog } from './vlog.js';
 
 export const CHIME = { ABSORB: 0, REVEAL: 1, RARE: 2, LEGEND: 3, TRICK: 4, TAP: 5, ERROR: 6, TEST: 7 };
 
@@ -36,6 +37,7 @@ function mediaInit() {
   for (let i = 0; i < 4; i++) s_el.sfx.push(makeEl());
   for (let i = 0; i < 2; i++) s_el.chime.push(makeEl());
   [s_el.music, s_el.voice, ...s_el.sfx, ...s_el.chime].forEach(unlockEl);
+  watchEl('music', s_el.music); watchEl('voice', s_el.voice);
   setInterval(mediaTick, 100);
 }
 function mediaVol() { return volGain(); }
@@ -84,10 +86,23 @@ function chimeNotes(kind) {
     default: return [[1000, 0, 200, 'sine']];
   }
 }
+// Media-element play results go to the station's events.log (the iPad has no console): every failure,
+// and the first success of each kind, so "no sound" can be told apart from "blocked" from the PC.
+const s_playOk = new Set();
+function reportPlay(kind, a, p) {
+  const tag = `${kind} ${String(a.src || '').split('/').pop().slice(0, 40)}`;
+  if (p && p.then) {
+    p.then(() => { if (!s_playOk.has(kind)) { s_playOk.add(kind); vlog.event(`audio: ${tag} playing (media element)`); } })
+      .catch(e => vlog.event(`audio: ${tag} play() refused: ${e.name}: ${e.message}`));
+  }
+}
+function watchEl(kind, a) {
+  a.addEventListener('error', () => { const e = a.error; vlog.event(`audio: ${kind} element error ${e ? e.code : '?'} ${e && e.message ? e.message : ''} (${String(a.src || '').split('/').pop()})`); });
+}
 let s_poolIdx = 0;
 function playPooled(pool, url, vol) {
   const a = pool[s_poolIdx++ % pool.length];
-  try { a.pause(); a.src = url; a.volume = Math.max(0, Math.min(1, vol)); a.currentTime = 0; const p = a.play(); if (p && p.catch) p.catch(e => console.warn('sfx play', e.message)); } catch (e) { console.warn('sfx', e.message); }
+  try { a.pause(); a.src = url; a.volume = Math.max(0, Math.min(1, vol)); a.currentTime = 0; reportPlay(pool === s_el.chime ? 'chime' : 'sfx', a, a.play()); } catch (e) { vlog.event(`audio: sfx ${e.name}: ${e.message}`); }
 }
 
 // iOS mutes Web Audio with the ring/silent switch (and in a Home Screen app, more eagerly) unless an
@@ -134,17 +149,30 @@ export const audio = {
     if (musicWas) setTimeout(() => this.music(musicWas.path, musicWas.gainPct), 0);
     return true;
   },
-  async init() {
+  async init(primeMusic = null) {
     startUnmute();
     try { s_mediaForced = JSON.parse(localStorage.getItem('station.audioMedia') || 'null'); } catch { s_mediaForced = null; }
     if (s_mediaForced !== false) mediaInit();                 // unlock the elements inside this first tap (cheap)
+    // iPadOS 26 can leave a programmatic play() pending for good (seen 2026-10-26: music element ready,
+    // paused, promise never settles). A play() from inside this tap with the REAL source does start, so
+    // the music bed is started here, before any await; if Web Audio turns out to run, it is stopped again.
+    if (primeMusic && s_mediaForced !== false && s_el.music && media.exists(primeMusic)) {
+      const a = s_el.music; a.src = primeMusic; a.loop = true; a.volume = Math.max(0, Math.min(1, mediaVol() * 0.55));
+      s_elMusic = { path: primeMusic, gainPct: 55 };
+      reportPlay('music (tap)', a, a.play());
+    }
     if (s_mediaForced === true) { s_mediaMode = true; console.log('audio: media-element engine (forced)'); return true; }
     if (!ctx && !this._build()) { s_mediaMode = true; mediaInit(); return true; }
     await this.resume();
-    if (ctx.state !== 'running') { s_mediaMode = true; mediaInit(); console.warn(`audio: Web Audio stays ${ctx.state} - using the media-element engine`); }
+    if (ctx.state !== 'running') { s_mediaMode = true; mediaInit(); console.warn(`audio: Web Audio stays ${ctx.state} - using the media-element engine`); vlog.event(`audio: Web Audio stays ${ctx.state} - media-element engine`); }
+    else if (s_elMusic) { try { s_el.music.pause(); } catch {} s_elMusic = null; }   // Web Audio runs: it plays the bed
     if (!s_tapHook) {
       s_tapHook = true;
-      document.addEventListener('pointerdown', () => { if (!s_mediaMode && ctx && ctx.state !== 'running') this.resume(); }, { passive: true });
+      document.addEventListener('pointerdown', () => {
+        if (!s_mediaMode && ctx && ctx.state !== 'running') this.resume();
+        // media engine: any tap re-starts a music bed iOS left paused (a tap is a gesture it honours)
+        if (s_mediaMode && s_elMusic && s_el.music && s_el.music.paused) reportPlay('music (retap)', s_el.music, s_el.music.play());
+      }, { passive: true });
     }
     return true;
   },
@@ -175,6 +203,7 @@ export const audio = {
     } finally { s_resuming = false; }
   },
   builds() { return s_builds; },
+  mediaStatus() { const m = s_el.music; return m ? `music el paused=${m.paused} t=${m.currentTime.toFixed(1)} ready=${m.readyState} net=${m.networkState} vol=${m.volume.toFixed(2)} muted=${m.muted}` : 'no media elements'; },
   unmuteState() { return s_unmute ? (s_unmute.paused ? 'paused' : 'playing') : 'none'; },
   state() { return ctx ? ctx.state : 'none'; },
   setVolume(pct) { s_volume = Math.max(0, Math.min(100, pct | 0)); if (master && ctx) master.gain.setTargetAtTime(volGain(), ctx.currentTime, 0.05); },
@@ -186,7 +215,7 @@ export const audio = {
     if (s_decoded.has(path)) { const b = s_decoded.get(path); return b instanceof Promise ? b : b; }
     if (!media.exists(path)) { s_decoded.set(path, null); return null; }
     const p = media.getBuffer(path).then(ab => ctx.decodeAudioData(ab.slice(0))).then(ab => { s_decoded.set(path, ab); return ab; })
-      .catch(e => { console.warn('audio', path, e.message); s_decoded.set(path, null); return null; });
+      .catch(e => { console.warn('audio', path, e.message); vlog.event(`audio: ${path} failed (${e.name || 'Error'}: ${e.message})`); s_decoded.set(path, null); return null; });
     s_decoded.set(path, p);
     return p;
   },
@@ -197,10 +226,11 @@ export const audio = {
   async music(path, gainPct = 55) {
     if (s_mediaMode) {
       if (!media.exists(path)) return false;
-      if (s_elMusic && s_elMusic.path === path) return true;
+      if (s_elMusic && s_elMusic.path === path && !s_el.music.paused) return true;
+      if (s_elMusic && s_elMusic.path === path) { reportPlay('music', s_el.music, s_el.music.play()); return true; }
       s_elMusic = { path, gainPct };
       const a = s_el.music; a.src = path; a.loop = true; a.volume = Math.max(0, Math.min(1, mediaVol() * gainPct / 100 * s_elDuck));
-      const p = a.play(); if (p && p.catch) p.catch(e => console.warn('music play', e.message));
+      reportPlay('music', a, a.play());
       return true;
     }
     if (!ctx) return false;
@@ -236,9 +266,9 @@ export const audio = {
         setTimeout(fin, 2500);
         a.load();
       });
-      if (!dur) return 0;
+      if (!dur) { vlog.event(`audio: voice ${path.split('/').pop()} gave no duration (readyState ${a.readyState}, network ${a.networkState})`); return 0; }
       s_elVoice = { el: a, startMs: performance.now(), durMs: dur };
-      const p = a.play(); if (p && p.catch) p.catch(e => { console.warn('voice play', e.message); s_elVoice = null; });
+      const p = a.play(); reportPlay('voice', a, p); if (p && p.catch) p.catch(() => { s_elVoice = null; });
       return dur;
     }
     if (!ctx) return 0;

@@ -44,6 +44,18 @@ Read `crystal_oracle/README.md` first, then `crystal_oracle/docs/DESIGN.md` (con
   2027-01-06) → stills from ChatGPT + our ffmpeg "layers" animator; voice from ElevenLabs/OpenAI TTS.
 
 ### Changelog
+- **2026-10-26 (iPad: no sound - iOS audio session stuck again)** — owner: "iPad audio is not working".
+  The station now writes its sound state to `station/logs/events.log` (engine + context state at Begin and
+  5 s in, every media-element play result / refusal, element errors, page errors; build 2026-10-26d). On the
+  iPad (Home Screen app, iPadOS 26.0.1): Web Audio stayed `suspended` → media-element engine, and then EVERY
+  `play()` stayed pending (music element ready=4 but paused; each voice line aborted ~7 s later when its
+  step ended). Both engines blocked = iOS never activated the page's audio session, the same state seen
+  2026-10-25 that an **iPad power cycle** cleared. Code change: the music bed is now started inside the
+  Begin tap itself (`audio.init(bedPath)`), any later tap restarts a paused bed, and music() replays a paused
+  bed instead of returning early. **Fix on the iPad: swipe-close the app, make sure nothing else is playing
+  (Control Center), power-cycle, reopen** — or open it in a Safari tab (Web Audio works there).
+  Confirmed the same evening: after the power cycle the log shows `sound at start: Web Audio, context running`
+  (the tap-started media bed is then stopped on purpose: its AbortError line is expected).
 - **2026-10-26 (Wakestone = the real plinth)** — owner: the crystal-glows-to-wake-the-dragon scenes should
   show the actual plinth. Rendered the v7 assembly (`plinth/nfc_platform.scad`, part `assembly`) from the
   side AWAY from the USB-C port (`--camera=0,0,35,68,0,180,380`, saved as `plinth/v7_render_back.png`) and
