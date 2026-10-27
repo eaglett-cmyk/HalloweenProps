@@ -1,7 +1,7 @@
 // hunt.js — the Goblin Hunt (a /play/ game): Snuffwick hides on five storybook pages.
 // Does nothing unless the hunt is on: the games page links here with ?hunt=1, which this
-// browser then remembers until all five are found. Each find sends five sparks to the
-// Hoard Beacon (25 in all), once a year per find. A page that hides him and has been open
+// browser then remembers until all five are found. Each find sends one spark to the
+// Hoard Beacon (5 in all), once a year per find. A page that hides him and has been open
 // for 8 s without a find gets a gentle hint glow. Uses /play/play.js (loaded on demand).
 (function () {
   'use strict';
@@ -75,7 +75,7 @@
     dg = new Promise(res => {
       if (window.DG) { res(window.DG); return; }
       const s = document.createElement('script');
-      s.src = '/play/play.js?v=2'; s.onload = () => res(window.DG); s.onerror = () => res(null);
+      s.src = '/play/play.js?v=3'; s.onload = () => res(window.DG); s.onerror = () => res(null);
       document.head.append(s);
     });
     return dg;
@@ -95,8 +95,8 @@
     const D = await play();
     if (D) [0, 5, 9].forEach((p, i) => setTimeout(() => D.chime(p + found.size, 0.07), i * 90));
     clearTimeout(barTimer);
-    const v = D ? await D.addSparks('hunt', id) : { failed: true };   // five sparks a find, once a year (the server keeps count)
-    const plus = v.why === 'ok' ? ` +${v.added} sparks!` : '';
+    const v = D ? await D.addSparks('hunt', id) : { failed: true };   // one spark a find, once a year (the server keeps count)
+    const plus = v.why === 'ok' ? ` +${v.added} spark${v.added === 1 ? '' : 's'}!` : '';
     if (found.size < SPOTS.length) { renderBar(`Found him! <b>${found.size} of ${SPOTS.length}</b>${plus}`); barTimer = setTimeout(() => renderBar(), 2600); return; }
     try { localStorage.removeItem('dg.hunt'); } catch { /* fine */ }   // the hunt is over: next visit is a plain book
     renderBar(`<b>You found him all 5 times!</b>${plus}` + (v.failed ? '' : ` The beacon is ${v.lit ? 'LIT!' : `${Math.floor(v.sparks / v.goal * 100)}% lit`}.`));

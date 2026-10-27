@@ -182,7 +182,7 @@ function nicknameApi(id, req, res) {
 // browserDay: {b: n} }, so restarts never pay twice. Edit or delete either to reset.
 const BEACON_GOAL = 500;                      // sparks to light it (= the station's 50 points)
 const STATION_SPARKS = 10;                    // one traveler at the Wakestone
-const AWARD = 5;                              // one finished game (or one hunt find)
+const AWARD = 1;                              // one finished game (or one hunt find): one spark
 const WEB_MAX = 100;                          // all web play together, per season (20% of the goal)
 const BROWSER_DAY_MAX = 20;                   // one browser, per Chicago day
 const IP_DAY_MAX = 40;                        // one house (IP), per Chicago day

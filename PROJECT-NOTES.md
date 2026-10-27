@@ -44,6 +44,12 @@ Read `crystal_oracle/README.md` first, then `crystal_oracle/docs/DESIGN.md` (con
   2027-01-06) → stills from ChatGPT + our ffmpeg "layers" animator; voice from ElevenLabs/OpenAI TTS.
 
 ### Changelog
+- **2026-10-27 (every game = 1 spark)** — owner: "All of the games should add 1 spark, 5 is too many".
+  `site/server.js` `AWARD = 1` (each daily game once a day, each hunt find once a year → 5 for the whole
+  hunt); caps unchanged (20/browser/day and 40/IP/day no longer bind in practice; `WEB_MAX` 100 = 100
+  finished games). Wording: riddle lede "a spark flies up", `sparkNote` / hunt bar say "+1 spark",
+  comments in `play.js` / `hunt.js`; `play.js?v=3`, `hunt.js?v=3`. VMS restarted, three hosts 200,
+  `/api/beacon` → `award: 1`. The beacon kept the 20 sparks earned at the old rate (4 plays).
 - **2026-10-27 (Crystal Sky: Codex backdrop)** — owner: the sky map "looks dull", have Codex make one
   that fits Butterscotch's world. New painting `site/img/bg_sky.webp` (1280×768, Codex, refs = key art +
   castle door + lit cave): the candy hill outside his cave at night, gold aurora, big moon top right,

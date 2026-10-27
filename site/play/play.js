@@ -2,7 +2,7 @@
 // API, the beacon meter, a little chime, and per-year "done" flags kept in the browser.
 // A crystal is optional: every traveler's sparks count. When one is known (its page links
 // here with ?c=<id>, or crystal.js remembered it), its sparks are credited to it too. The
-// server decides every award (a finished game = 5 sparks, each game once a day); a random
+// server decides every award (a finished game = 1 spark, each game once a day); a random
 // browser token (dg.browser, nothing personal) is how it knows a game already paid today.
 (function () {
   'use strict';
@@ -55,7 +55,7 @@
   function sparkNote(v) {
     const pct = v.lit ? 'The beacon is <b>LIT!</b>' : `The beacon is <b>${Math.floor(Math.min(1, v.sparks / (v.goal || 1)) * 100)}%</b> lit.`;
     switch (v.why) {
-      case 'ok': return `<b>+${v.added} sparks</b> flew to the Hoard Beacon! ${pct}`;
+      case 'ok': return `<b>+${v.added} spark${v.added === 1 ? '' : 's'}</b> flew to the Hoard Beacon! ${pct}`;
       case 'again': return `You already sent today's sparks from this game. Play again just for fun! ${pct}`;
       case 'browser': case 'house': return `Your sparks for today are all sent. Come back tomorrow! ${pct}`;
       case 'full': return `The pocket welcome is full: the rest of the light comes from crystals at the Wakestone on Halloween night! ${pct}`;
