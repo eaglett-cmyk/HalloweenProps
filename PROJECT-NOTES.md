@@ -44,6 +44,15 @@ Read `crystal_oracle/README.md` first, then `crystal_oracle/docs/DESIGN.md` (con
   2027-01-06) → stills from ChatGPT + our ffmpeg "layers" animator; voice from ElevenLabs/OpenAI TTS.
 
 ### Changelog
+- **2026-10-27 (storybook page: Codex backdrop)** — owner: background art for the main page too. Two
+  Codex paintings of the moonlit candy hills outside the cave (same world as the Crystal Sky; refs = the
+  sky painting + key art), busy at the edges and dark in the middle: `site/img/bg_home_wide.webp`
+  (1672×941: moon + crystal spires + lollipop tree left, the glowing cave mouth and path right) and
+  `bg_home_tall.webp` (941×1672: moon + aurora top, cave and crystals bottom). `index.html` body got
+  `class="home"` (book.js only adds `book-mode`); `style.css` `.home::before` = the same fixed-layer
+  pattern as the play pages, portrait swap at `max-aspect-ratio: 4/5`. The grown-ups section runs over
+  the bright cave path on wide screens, so `.home .grownups` gets a darker band and `.home .gu-card` a
+  solid backing. `style.css?v=g8` in index.html only (crystal.html still g6; nothing there changed).
 - **2026-10-27 (play pages: Codex cave backdrop)** — owner: Codex art for the background of the play
   pages, for phone and computer sizes. Two paintings of the candy cave at night, busy at the edges and
   dark in the middle: `site/img/bg_play_wide.webp` (1672×941: hoard + beacon lantern left, glowing

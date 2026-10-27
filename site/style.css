@@ -38,6 +38,19 @@ body {
   background-attachment: fixed;
   line-height: 1.55;
 }
+/* the storybook page's backdrop: Codex paintings of the moonlit candy hills outside the cave, busy at
+   the edges and dark in the middle (bg_home_wide for computers, bg_home_tall for phones), on a fixed
+   layer so it never scrolls or stretches; a dark wash keeps the text readable */
+.home::before {
+  content: ""; position: fixed; inset: 0; height: 100lvh; z-index: -1; pointer-events: none;   /* lvh: no gap when a phone's toolbar slides away */
+  background: linear-gradient(rgba(15,10,31,.25), rgba(15,10,31,.45)), url(img/bg_home_wide.webp) center / cover no-repeat;
+}
+/* the grown-ups section reads over the bright cave path on wide screens: a darker band, sturdier cards */
+.home .grownups { background: linear-gradient(180deg, rgba(15,10,31,.55), rgba(15,10,31,.75)); }
+.home .gu-card { background: rgba(20,12,40,.85); }
+@media (max-aspect-ratio: 4 / 5) {
+  .home::before { background-image: linear-gradient(rgba(15,10,31,.35), rgba(15,10,31,.5) 55%, rgba(15,10,31,.8)), url(img/bg_home_tall.webp); }
+}
 img { display: block; max-width: 100%; height: auto; }
 a { color: var(--hat); }
 
