@@ -18,6 +18,7 @@
 // as beacon). Run directly only for local testing:  node server.js  → http://127.0.0.1:8470/
 'use strict';
 const http = require('http');
+const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
 
@@ -278,30 +279,42 @@ function sparksApi(req, res) {
 
 // ---- the crystal sky (/play/sky.html): one star per crystal the site knows (from the
 // visit logs, or named / played on the site). Crystal ids are the key to a crystal's
-// page and nickname, so they are never listed: each star gets a scrambled seed for its
-// place in the sky, and only the asker's own star (?c=<id>) is marked and named.
+// page and nickname, so they are never listed: each star's place in the sky is a keyed
+// HMAC of its id (an unkeyed hash of a 32-bit id could be brute-forced back to the id),
+// stars are listed in seed order (not id order), and only the asker's own star (?c=<id>)
+// is marked and named. The key is made once and kept in data/sky.key; deleting it
+// reshuffles the sky.
+let skyKey = null;
+function skySeed(id) {
+  if (!skyKey) {
+    const file = path.join(DATA_DIR, 'sky.key');
+    try { skyKey = Buffer.from(fs.readFileSync(file, 'utf8').trim(), 'hex'); } catch { /* make one */ }
+    if (!skyKey || skyKey.length < 32) {
+      skyKey = crypto.randomBytes(32);
+      fs.mkdirSync(DATA_DIR, { recursive: true });
+      fs.writeFileSync(file, skyKey.toString('hex'));
+    }
+  }
+  return crypto.createHmac('sha256', skyKey).update(id).digest().readUInt32BE(0);
+}
 function skyApi(urlObj, res) {
   const { crystals, extra } = loadData();
   const mine = (urlObj.searchParams.get('c') || '').toLowerCase();
   const ids = new Set([...crystals.keys(), ...Object.keys(extra).filter(id => ID_RE.test(id))]);
-  const stars = [];
-  let you = null;
-  for (const id of [...ids].sort()) {
+  let stars = [];
+  for (const id of ids) {
     const years = [...(crystals.get(id) || new Map()).values()].sort((a, b) => a.year - b.year);
     const last = years[years.length - 1];
     const x = extra[id] || {};
-    const s = { seed: fnv1a(`dragonglow/sky/v1:${id}`), visits: years.length, rank: last ? last.rank : 0,
+    const s = { seed: skySeed(id), visits: years.length, rank: last ? last.rank : 0,
                 tier: last ? last.tier : -1, sparks: x.sparksYear === seasonYear() ? x.sparks | 0 : 0 };
-    if (id === mine) { you = stars.length; s.nickname = x.nickname || null; }
+    if (id === mine) { s.nickname = x.nickname || null; s.mine = true; }
     stars.push(s);
-    if (stars.length >= NICK_CAP) break;
   }
+  stars = stars.sort((a, b) => a.seed - b.seed).slice(0, NICK_CAP);
+  let you = stars.findIndex(s => s.mine);
+  if (you < 0) you = null; else delete stars[you].mine;
   sendJson(res, 200, { stars, you });
-}
-function fnv1a(s) {
-  let h = 0x811c9dc5;
-  for (const ch of Buffer.from(s, 'utf8')) { h ^= ch; h = Math.imul(h, 0x01000193) >>> 0; }
-  return h >>> 0;
 }
 
 function handler(req, res) {

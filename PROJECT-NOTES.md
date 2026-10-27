@@ -44,6 +44,16 @@ Read `crystal_oracle/README.md` first, then `crystal_oracle/docs/DESIGN.md` (con
   2027-01-06) → stills from ChatGPT + our ffmpeg "layers" animator; voice from ElevenLabs/OpenAI TTS.
 
 ### Changelog
+- **2026-10-27 (sky seed fix + game ideas with Codex)** — Codex's review caught that `/api/sky` star seeds
+  were an unkeyed 32-bit FNV of the 32-bit crystal id, so the ids (the keys to crystal pages and nicknames)
+  could be brute-forced back from the sky. Now `skySeed()` = HMAC-SHA256 with a random key made on first
+  use in **`site/data/sky.key`** (git-ignored, never served; deleting it reshuffles the sky), and stars are
+  listed in seed order, not id order. No exposure happened: the live sky had 0 stars. Tested on the
+  scratch copy (21 stars, own star still marked, stable across calls), VMS restarted, three hosts 200.
+  Game ideas: two Codex rounds + Claude's review in `crystal_oracle/docs/codex/game-ideas-*.md`, summary
+  in **`game-ideas-shortlist.md`** (Halloween: Welcome Chime + a live web→iPad beacon link, goal 500 =
+  station 50; November: Cave Lightpaths, Sock-Side Signals). Not built yet. Still open from that review:
+  Snuffwick's −5 in Relight the Beacon, the loose 600/IP/hour spark cap, the 2,000 goal.
 - **2026-10-27 (web games test build, `/play/`)** — owner asked for test builds of five ideas, centred on
   **the Hoard Beacon**, not only crystals. New unlisted, `noindex` hub **`site/play/`**
   (halloween.ciancio.cloud/play/, not linked from the book or crystal pages yet) with:
