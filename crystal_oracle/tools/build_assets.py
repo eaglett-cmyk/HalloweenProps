@@ -333,7 +333,7 @@ class Builder:
                 if c.get("video_src"):
                     srcs.append(["video", self.cache.file_hash(c["video_src"])])
                 canon = {k: c.get(k) for k in ("id", "recipe", "fps", "q", "params", "ext", "frames")}
-                jobs.append(Job("clip", c["id"], "real", p, key_of(TOOL_VERSION, media.CLIP_REV, "clip", canon, srcs), c, c["recipe"]))
+                jobs.append(Job("clip", c["id"], "real", p, key_of(TOOL_VERSION, media.CLIP_REV, media.PROFILE, "clip", canon, srcs), c, c["recipe"]))
             elif a.test_clips:
                 tp = os.path.join(self.oracle, "clips", c["id"] + ".omj")
                 if self._ours_or_absent(p, alt):
@@ -482,6 +482,11 @@ class Builder:
                 write_atomic(p, txt, text=True)
                 wrote.append("captions.ini")
         p = os.path.join(self.oracle, "config.ini")
+        card_cfg = os.path.join(PROJECT, "sd_card", "oracle", "config.ini")
+        if not os.path.exists(p) and media.PROFILE == "ipad" and os.path.exists(card_cfg):
+            os.makedirs(self.oracle, exist_ok=True)
+            shutil.copyfile(card_cfg, p)       # the iPad build starts from the card's settings
+            wrote.append("config.ini (copied from sd_card)")
         if not os.path.exists(p):
             if self.fields:
                 txt = fw.config_template(self.fields, self.enums, self.table,
@@ -627,10 +632,14 @@ def parse_args(argv):
     ap.add_argument("--manifest", help="manifest file (default: <assets>/manifest.json)")
     ap.add_argument("--assets", default=os.path.join(PROJECT, "assets"),
                     help="assets folder with source/, the cache and ASSET-STATUS.md (default: %(default)s)")
-    ap.add_argument("--out", default=os.path.join(PROJECT, "sd_card"),
+    ap.add_argument("--out", default=None,
                     help="output folder; the card files go to <out>/oracle (default: %(default)s)")
     ap.add_argument("--firmware", default=os.path.join(PROJECT, "firmware"),
                     help="firmware folder holding crystal_oracle/ and crystal_plinth/ (default: %(default)s)")
+    ap.add_argument("--ipad", action="store_true",
+                    help="build for the station web app (iPad): full-colour 4:4:4 clips at high quality, no 96 KB "
+                         "frame cap, into sd_card_ipad/ (unless --out); config.ini starts as a copy of "
+                         "sd_card/oracle/config.ini. NOT for the Waveshare TF card")
     ap.add_argument("--check", action="store_true", help="validate only and write assets/ASSET-STATUS.md (nothing is built)")
     ap.add_argument("--placeholders", action="store_true",
                     help="missing voice lines -> Windows TTS, missing sfx/music -> synthesized sounds")
@@ -655,6 +664,8 @@ def parse_args(argv):
     ap.add_argument("--ffprobe", default="ffprobe", help="ffprobe executable (default: from PATH)")
     ap.add_argument("-v", "--verbose", action="store_true", help="print notes and every ffmpeg command")
     a = ap.parse_args(argv)
+    if a.out is None:
+        a.out = os.path.join(PROJECT, "sd_card_ipad" if a.ipad else "sd_card")
     if a.jobs < 1:
         ap.error("-j must be at least 1")
     if not -10 <= a.tts_rate <= 10:
@@ -669,6 +680,8 @@ def main(argv=None):
         pass
     a = parse_args(sys.argv[1:] if argv is None else argv)
     t0 = time.time()
+    if a.ipad:
+        media.use_ipad_profile()
     b = Builder(a)
     media.FFMPEG, media.FFPROBE = a.ffmpeg, a.ffprobe
     log("Crystal Oracle assets %s - %s" % (TOOL_VERSION, rel(b.manifest)))
@@ -746,7 +759,8 @@ def main(argv=None):
     finally:
         b.cache.save()
         shutil.rmtree(tmpdir, ignore_errors=True)
-    b.write_status()
+    if not a.ipad:                         # ASSET-STATUS.md describes the TF card build
+        b.write_status()
     orph = b.orphans()
     if orph:
         log("  %d file(s) on the card are not in the manifest (see ASSET-STATUS.md; --clean removes them)" % len(orph))

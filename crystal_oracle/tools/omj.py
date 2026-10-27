@@ -36,6 +36,9 @@ FRAME_W, FRAME_H = 800, 480
 # Largest frame build_assets.py accepts (the firmware sizes its PSRAM frame
 # buffer from the header's maxFrameBytes; this cap keeps SD reads per frame sane).
 MAX_FRAME_BYTES = 96 * 1024
+# Chroma sampling the frames may use. The firmware decodes 4:2:0 only; co_media.use_ipad_profile()
+# adds 4:4:4 for the station web app (the browser decodes any baseline JPEG).
+ALLOWED_SAMPLING = {(0x22, 0x11, 0x11)}
 
 # Markers that carry no length field.
 _STANDALONE = {0x01, 0xD8, 0xD9} | set(range(0xD0, 0xD8))
@@ -174,7 +177,7 @@ def frame_problems(info, width=FRAME_W, height=FRAME_H):
         probs.append("%dx%d (need %dx%d)" % (info.width, info.height, width, height))
     if len(info.comps) != 3:
         probs.append("%d components (need 3 = YCbCr)" % len(info.comps))
-    elif info.sampling() != (0x22, 0x11, 0x11):
+    elif info.sampling() not in ALLOWED_SAMPLING:
         probs.append("chroma sampling %s (need 4:2:0 = 22/11/11)" % "/".join("%02X" % s for s in info.sampling()))
     if info.scans != 1:
         probs.append("%d scans (need exactly 1)" % info.scans)

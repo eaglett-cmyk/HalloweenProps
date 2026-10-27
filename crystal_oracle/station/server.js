@@ -20,7 +20,11 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = __dirname;
-const ASSETS = path.resolve(process.env.STATION_ASSETS || path.join(ROOT, '..', 'sd_card', 'oracle'));
+// The card it serves: STATION_ASSETS, else the iPad build (tools/build_assets.py --ipad -> sd_card_ipad:
+// full-colour, high-quality clips) when it exists, else the Waveshare TF card build (sd_card).
+const IPAD_ASSETS = path.join(ROOT, '..', 'sd_card_ipad', 'oracle');
+const ASSETS = path.resolve(process.env.STATION_ASSETS ||
+  (fs.existsSync(path.join(IPAD_ASSETS, 'clips')) ? IPAD_ASSETS : path.join(ROOT, '..', 'sd_card', 'oracle')));
 const STATE_DIR = path.join(ROOT, 'state');
 const LOG_DIR = path.join(ROOT, 'logs');
 const PORT = Number(process.env.STATION_PORT || 8460);

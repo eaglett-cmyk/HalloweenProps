@@ -44,6 +44,19 @@ Read `crystal_oracle/README.md` first, then `crystal_oracle/docs/DESIGN.md` (con
   2027-01-06) → stills from ChatGPT + our ffmpeg "layers" animator; voice from ElevenLabs/OpenAI TTS.
 
 ### Changelog
+- **2026-10-26 (iPad card build: clean sprite edges)** — owner: "the edges of the elements are not
+  clean". Not the art (the PNGs have clean alpha) and not the sprite scaling (checked): it was the TF-card
+  JPEG profile — 4:2:0 chroma + `-q:v` raised to 7 to fit the firmware's 96 KB/frame cap smeared a dark,
+  blocky rim where orange Butterscotch meets the blue/purple scene, and the iPad enlarges it ~1.7×.
+  * `python -I tools/build_assets.py --ipad` builds a separate **`sd_card_ipad/oracle`** (git-ignored):
+    full-colour **4:4:4** frames at `-q:v 4` (`co_media.IPAD_Q`), no frame cap (220 MB of clips vs 105 MB;
+    the station preloads every clip, so don't go much higher). config.ini starts as a copy of
+    `sd_card/oracle/config.ini`. ASSET-STATUS.md is left alone (it describes the card build). The profile is
+    part of the clip cache key. ffmpeg writes 4:4:4 as sampling 12/12/12 (omj.ALLOWED_SAMPLING).
+  * `station/server.js` serves `sd_card_ipad/oracle` when it exists (else `sd_card/oracle`;
+    `STATION_ASSETS` still overrides) — chosen at start-up, so **restart the station server** after the first
+    iPad build. **After any asset change run both builds** (plain = TF card, `--ipad` = the iPad).
+  * The Waveshare card build is unchanged (4:2:0, ≤ 96 KB frames).
 - **2026-10-26 (new silver dragon coin + golden dragon star)** — owner: the coin looked off next to the
   hoard. ChatGPT (Codex) re-made `prop_coin` (`--ref bg_cave --ref butterscotch_base`: chunky glossy silver
   coin, a chubby wizard-hat dragon in relief) and then `prop_star` the same way (`--ref prop_coin`: the gold

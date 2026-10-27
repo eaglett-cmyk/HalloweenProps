@@ -49,3 +49,5 @@ crystal_oracle/tools/.e2e/
 
 # storybook site: imported station visit logs + per-crystal extras (site/import_visits.js)
 site/data/
+# iPad build of the card (crystal_oracle/tools/build_assets.py --ipad)
+crystal_oracle/sd_card_ipad/

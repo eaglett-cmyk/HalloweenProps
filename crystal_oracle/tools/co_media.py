@@ -48,6 +48,20 @@ TEST_FONT_CANDIDATES = [r"C:\Windows\Fonts\arialbd.ttf", r"C:\Windows\Fonts\aria
 
 FFMPEG = "ffmpeg"
 FFPROBE = "ffprobe"
+
+# Output profile. "card" = the Waveshare TF card: baseline 4:2:0 frames of at most 96 KB (the firmware's
+# JPEG decoder and PSRAM budget). "ipad" (build_assets.py --ipad) = the station web app: full-colour
+# 4:4:4 frames at -q:v IPAD_Q with no frame cap. The card's quarter-resolution colour and the raised q
+# smear a dark, blocky rim around every sprite, which the iPad then blows up ~1.7x.
+PROFILE = "card"
+IPAD_Q = 4
+
+
+def use_ipad_profile():
+    global PROFILE
+    PROFILE = "ipad"
+    # full-colour 4:4:4: every component at the same factor (ffmpeg writes 12/12/12, others 11/11/11)
+    omj.ALLOWED_SAMPLING.update({(0x11, 0x11, 0x11), (0x12, 0x12, 0x12), (0x21, 0x21, 0x21), (0x22, 0x22, 0x22)})
 BASE = ["-hide_banner", "-nostdin", "-loglevel", "error", "-y"]
 
 
@@ -318,6 +332,8 @@ def _video_in(c):
 # Encoding
 # ---------------------------------------------------------------------------
 def _encode(inputs, graph, frames, q, verbose=False, log=None):
+    if PROFILE == "ipad":                  # every recipe ends in format=yuvj420p: full colour instead
+        graph = graph.replace("format=yuvj420p", "format=yuvj444p")
     args = [FFMPEG] + BASE
     for i in inputs:
         args += i
@@ -358,11 +374,12 @@ def build_clip(c, stills, tmpdir, verbose=False, log=None):
     if r == "still":
         st = stills[c["params"]["image"]]
         g = full_frame(st, "0:v", "f", fps=fps, frames=1) + ";[f]format=yuvj420p[v]"
-        data = _encode([["-i", st["src"]]], g, 1, c["q"], verbose=verbose, log=log)
+        q = IPAD_Q if PROFILE == "ipad" else c["q"]
+        data = _encode([["-i", st["src"]]], g, 1, q, verbose=verbose, log=log)
         probs, _ = omj.still_problems(data)
         if probs:
             raise MediaError("bad still JPEG: " + "; ".join(probs))
-        return data, {"frames": 1, "max": len(data), "avg": len(data), "q": c["q"], "bytes": len(data)}
+        return data, {"frames": 1, "max": len(data), "avg": len(data), "q": q, "bytes": len(data)}
     if r == "video":
         return _build_video(c, tmpdir, verbose, log)
     if r == "kenburns":
@@ -381,6 +398,13 @@ def build_clip(c, stills, tmpdir, verbose=False, log=None):
 
 
 def _pack_with_retry(encode, c, expect):
+    if PROFILE == "ipad":                  # one encode, no 96 KB cap (the browser has the memory)
+        blob, st = omj.pack_mjpeg(encode(IPAD_Q), c["fps"])
+        if expect and st["frames"] != expect:
+            raise MediaError("ffmpeg produced %d frames, expected %d" % (st["frames"], expect))
+        st["q"] = IPAD_Q
+        st["bytes"] = len(blob)
+        return blob, st
     last = None
     for q in _qs(c["q"]):
         data = encode(q)
