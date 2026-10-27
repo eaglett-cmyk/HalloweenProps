@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/style.css?v=g6">
-<link rel="stylesheet" href="/play/play.css?v=3">
+<link rel="stylesheet" href="/play/play.css?v=5">
 </head>
 <body class="play-page">
 
@@ -38,13 +38,19 @@
     <ol class="ch-guide" id="ch-guide" hidden aria-label="Today's notes, in order"></ol>
     <div class="ch-orb" id="ch-orb" aria-hidden="true"></div>
 
-    <div class="pl-overlay" id="ov-start">
-      <h2>Play a welcome from your world</h2>
-      <p>Butterscotch loves a welcome chime. Pick the world you're from, listen to the notes, then play them back. No music skill needed!</p>
+    <div class="pl-overlay ch-start" id="ov-start">
+      <h2>Which world did you travel from?</h2>
+      <p>Pick the world that matches your costume. Each one has its own sound. Listen to the notes, then play them back: no music skill needed!</p>
       <div class="ch-worlds" role="radiogroup" aria-label="Your world">
-        <button type="button" class="ch-world" data-world="castle" role="radio" aria-checked="true"><img src="/img/portal_castle.webp" alt="" width="512" height="512"><span>Castle world</span></button>
-        <button type="button" class="ch-world" data-world="star" role="radio" aria-checked="false"><img src="/img/portal_star.webp" alt="" width="512" height="512"><span>Star world</span></button>
-        <button type="button" class="ch-world" data-world="jungle" role="radio" aria-checked="false"><img src="/img/portal_jungle.webp" alt="" width="512" height="512"><span>Jungle world</span></button>
+        <button type="button" class="ch-world" data-world="hero" role="radio" aria-checked="false"><img src="/img/portal_hero.webp" alt="" width="512" height="512"><span>Hero City</span><small>superheroes &amp; real-life heroes</small></button>
+        <button type="button" class="ch-world" data-world="castle" role="radio" aria-checked="true"><img src="/img/portal_castle.webp" alt="" width="512" height="512"><span>Castle world</span><small>princesses, knights &amp; dragons</small></button>
+        <button type="button" class="ch-world" data-world="haunted" role="radio" aria-checked="false"><img src="/img/portal_haunted.webp" alt="" width="512" height="512"><span>Haunted Hollow</span><small>witches, ghosts &amp; monsters</small></button>
+        <button type="button" class="ch-world" data-world="stage" role="radio" aria-checked="false"><img src="/img/portal_stage.webp" alt="" width="512" height="512"><span>Pop-Star Stage</span><small>singers &amp; dancers</small></button>
+        <button type="button" class="ch-world" data-world="pixel" role="radio" aria-checked="false"><img src="/img/portal_pixel.webp" alt="" width="512" height="512"><span>Pixel world</span><small>video-game heroes</small></button>
+        <button type="button" class="ch-world" data-world="star" role="radio" aria-checked="false"><img src="/img/portal_star.webp" alt="" width="512" height="512"><span>Star world</span><small>astronauts &amp; aliens</small></button>
+        <button type="button" class="ch-world" data-world="jungle" role="radio" aria-checked="false"><img src="/img/portal_jungle.webp" alt="" width="512" height="512"><span>Jungle world</span><small>tigers, dinosaurs &amp; animals</small></button>
+        <button type="button" class="ch-world" data-world="ocean" role="radio" aria-checked="false"><img src="/img/portal_ocean.webp" alt="" width="512" height="512"><span>Ocean world</span><small>mermaids &amp; pirates</small></button>
+        <button type="button" class="ch-world" data-world="toy" role="radio" aria-checked="false"><img src="/img/portal_toy.webp" alt="" width="512" height="512"><span>Toy Box world</span><small>toys, dolls &amp; plushies</small></button>
       </div>
       <div class="cp-actions" style="margin:.2rem 0 0">
         <button type="button" class="btn btn-gold" id="btn-hello">Say hello <small>3 notes</small></button>
@@ -67,6 +73,6 @@
 </main>
 
 <script src="/play/play.js?v=2"></script>
-<script src="/play/chime.js?v=1"></script>
+<script src="/play/chime.js?v=2"></script>
 </body>
 </html>

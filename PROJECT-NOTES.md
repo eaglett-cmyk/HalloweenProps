@@ -44,6 +44,31 @@ Read `crystal_oracle/README.md` first, then `crystal_oracle/docs/DESIGN.md` (con
   2027-01-06) → stills from ChatGPT + our ffmpeg "layers" animator; voice from ElevenLabs/OpenAI TTS.
 
 ### Changelog
+- **2026-10-27 (Crystal Sky: Codex backdrop)** — owner: the sky map "looks dull", have Codex make one
+  that fits Butterscotch's world. New painting `site/img/bg_sky.webp` (1280×768, Codex, refs = key art +
+  castle door + lit cave): the candy hill outside his cave at night, gold aurora, big moon top right,
+  far hills with two glowing world-doors. `play/sky.js` draws it behind everything (old gradient kept as
+  the fallback), stars are now four-point crystal sparkles over a prize-coloured halo, stars never land
+  on the moon (`MOON`) and stay above the hills (`HORIZON 460`), the beacon glow sits in the painted cave
+  mouth (`CAVE` = its measured centre/radii — **re-measure if the painting is ever replaced**). Demo
+  preview: `?demo=1&beacon=0..1`. Star cards stay below the counter row (min y 84).
+- **2026-10-27 (Welcome Chime: 9 worlds matched to popular costumes)** — owner asked for a world that fits
+  the most common costumes of recent years and this year. Sources: NRF kids' lists 2023–25 (Spider-Man #1
+  every year, then princess, superhero, witch, ghost; Barbie / Mario / Paw Patrol / Wednesday in 2023),
+  Google Frightgeist 2025 kids (KPop Demon Hunters ×5, Labubu, Derpy tiger, Elphaba/Glinda, Minecraft,
+  Toothless, race car driver) and 2026 coverage (Spider-Man far ahead; Harley Quinn, Batman, Wednesday,
+  Mario, Minions; Toy Story 5; Google kids: Dolly Parton, Hannah Montana, Spider-Gwen, Ash Ketchum, Thriller
+  MJ, Pomni, Grogu, a dumpling). Picker (`play/chime.html`) now asks "Which world did you travel from?"
+  with a costume hint under each: **Hero City** (superheroes & real-life heroes), Castle (princesses,
+  knights, dragons), **Haunted Hollow** (witches, ghosts, monsters), **Pop-Star Stage** (singers &
+  dancers), **Pixel world** (video-game heroes), Star (astronauts, aliens), Jungle (tigers, dinosaurs,
+  animals), **Ocean** (mermaids, pirates), **Toy Box** (toys, dolls, plushies). Generic names only, no
+  brands. Each new world has its own Web Audio voice in `chime.js` `VOICES` (brass, synth pluck, minor-key
+  theremin, chiptune, steel drum, music box) and a tint in `play.css`; the last world picked is
+  remembered (`dg.chimeWorld`). Door art: 6 new Codex portals (`site/img/portal_{hero,stage,haunted,
+  pixel,ocean,toy}.webp`, 512 px, castle door as the style ref; source PNGs only in the job folders).
+  Phone stage min-height 640 so the 3×3 picker fits. Lightpaths' `worldsFor()` still uses only the
+  first three doors.
 - **2026-10-27 (games round 2: built from the Codex shortlist, for owner review)** — owner: "build out the
   games with Codex helping with graphics and where it makes sense". Live on the unlisted `/play/` (VMS
   restarted, beacon at 0); not linked from the book yet; **owner to review before linking**.

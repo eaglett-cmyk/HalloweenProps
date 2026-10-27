@@ -31,25 +31,45 @@
     }
   }
 
-  // ---- the world's voice (Web Audio, made on the fly)
+  // ---- the world's voice (Web Audio, made on the fly). The worlds follow what kids dress up
+  // as (most popular costumes 2023–2026: superheroes far ahead, then princesses, witches and
+  // ghosts, pop-star singers, game heroes, astronauts, animals, mermaids and pirates, toys).
+  // Each voice: root note, partials [ratio, level, seconds, wave], and optional chord (semitones),
+  // vol (loud waves are turned down), cut (a lowpass), attack and vib ([rate Hz, depth]).
+  const VOICES = {
+    castle:  { root: 523.25, parts: [[1, 1, 1.6], [2.76, 0.4, 0.9], [5.4, 0.15, 0.5]] },                     // a bell
+    star:    { root: 659.25, parts: [[1, 1, 1.1, 'triangle'], [2, 0.5, 0.8], [4.01, 0.3, 0.5], [6.02, 0.12, 0.3]] }, // sparkly glass
+    jungle:  { root: 392.0, parts: [[1, 1, 0.45], [3.93, 0.35, 0.12], [9.8, 0.08, 0.05]] },                  // wooden marimba
+    hero:    { root: 440.0, vol: 0.5, cut: 2600, attack: 0.02,                                                // a bright brass fanfare
+               parts: [[1, 1, 0.55, 'sawtooth'], [1.006, 0.7, 0.55, 'sawtooth'], [2, 0.3, 0.35, 'square']] },
+    stage:   { root: 587.33, vol: 0.55, cut: 3400,                                                            // a pop synth pluck
+               parts: [[1, 1, 0.5, 'square'], [2.004, 0.5, 0.4, 'triangle'], [3, 0.2, 0.25]] },
+    haunted: { root: 440.0, chord: [0, 3, 7], attack: 0.14, vib: [6, 0.012], parts: [[1, 1, 1.3], [2, 0.12, 0.9]] }, // a spooky theremin
+    pixel:   { root: 523.25, vol: 0.4, parts: [[1, 1, 0.24, 'square'], [2, 0.25, 0.12, 'square']] },        // a chiptune beep
+    ocean:   { root: 466.16, parts: [[1, 1, 0.8], [2, 0.45, 0.5], [3, 0.25, 0.35], [4.2, 0.1, 0.2]] },          // a steel drum
+    toy:     { root: 783.99, parts: [[1, 1, 1.2], [3, 0.3, 0.35], [5.05, 0.08, 0.15]] },                       // a music box
+  };
   let ac = null, world = 'castle';
-  const ROOT = { castle: 523.25, star: 659.25, jungle: 392.0 };
   function note(i, vol = 0.16) {
     try {
       ac = ac || new (window.AudioContext || window.webkitAudioContext)();
       if (ac.state === 'suspended') ac.resume();
-      const t = ac.currentTime, f = ROOT[world] * Math.pow(2, NOTE[i] / 12);
-      // castle = a bell, star = a sparkly glass, jungle = a wooden marimba
-      const parts = world === 'castle' ? [[1, 1, 1.6], [2.76, 0.4, 0.9], [5.4, 0.15, 0.5]] :
-                    world === 'star' ? [[1, 1, 1.1], [2, 0.5, 0.8], [4.01, 0.3, 0.5], [6.02, 0.12, 0.3]] :
-                    [[1, 1, 0.45], [3.93, 0.35, 0.12], [9.8, 0.08, 0.05]];
-      for (const [mul, v, dur] of parts) {
+      const v = VOICES[world], t = ac.currentTime, att = v.attack || 0.008;
+      const f = v.root * Math.pow(2, (v.chord || NOTE)[i] / 12), level = vol * (v.vol || 1);
+      let out = ac.destination;
+      if (v.cut) { const lp = ac.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = v.cut; lp.connect(out); out = lp; }
+      for (const [mul, lv, dur, type = 'sine'] of v.parts) {
         const o = ac.createOscillator(), gn = ac.createGain();
-        o.type = world === 'star' && mul === 1 ? 'triangle' : 'sine';
-        o.frequency.value = f * mul;
-        gn.gain.setValueAtTime(0, t); gn.gain.linearRampToValueAtTime(vol * v, t + 0.008);
+        o.type = type;
+        if (v.vib) {   // the theremin swoops up into its note, then wobbles
+          o.frequency.setValueAtTime(f * mul * 0.94, t); o.frequency.exponentialRampToValueAtTime(f * mul, t + att);
+          const lfo = ac.createOscillator(), depth = ac.createGain();
+          lfo.frequency.value = v.vib[0]; depth.gain.value = f * mul * v.vib[1];
+          lfo.connect(depth).connect(o.frequency); lfo.start(t); lfo.stop(t + dur + 0.05);
+        } else o.frequency.value = f * mul;
+        gn.gain.setValueAtTime(0, t); gn.gain.linearRampToValueAtTime(level * lv, t + att);
         gn.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-        o.connect(gn).connect(ac.destination); o.start(t); o.stop(t + dur + 0.05);
+        o.connect(gn).connect(out); o.start(t); o.stop(t + dur + 0.05);
       }
     } catch { /* no sound: the pads still light */ }
   }
@@ -149,11 +169,14 @@
   }
 
   // ---- buttons
-  document.querySelectorAll('.ch-world').forEach(b => b.addEventListener('click', () => {
+  const worldBtns = [...document.querySelectorAll('.ch-world')];
+  function pickWorld(b) {
     world = b.dataset.world; stage.dataset.world = world;
-    document.querySelectorAll('.ch-world').forEach(o => o.setAttribute('aria-checked', String(o === b)));
-    note(1, 0.1);
-  }));
+    worldBtns.forEach(o => o.setAttribute('aria-checked', String(o === b)));
+  }
+  worldBtns.forEach(b => b.addEventListener('click', () => { pickWorld(b); DG.store('dg.chimeWorld', world); note(1, 0.1); }));
+  const saved = worldBtns.find(b => b.dataset.world === DG.store('dg.chimeWorld'));   // the world you picked last time
+  if (saved) pickWorld(saved);
   $('btn-hello').addEventListener('click', () => begin('hello'));
   $('btn-goodbye').addEventListener('click', () => begin('goodbye'));
   $('btn-next').addEventListener('click', () => begin('goodbye'));

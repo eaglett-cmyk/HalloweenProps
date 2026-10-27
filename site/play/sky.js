@@ -1,11 +1,15 @@
 // sky.js — the crystal sky: one star per crystal the site knows (GET /api/sky), placed by a
 // scrambled seed, sized by rank and coloured by the prize it found last. Your own crystal's
-// star (?c=<id>, or the one this browser remembers) pulses and carries its nickname. The
-// cave on the hill glows as much as the Hoard Beacon is lit. ?demo=1 fills the sky with
-// made-up stars to preview it (test build).
+// star (?c=<id>, or the one this browser remembers) pulses and carries its nickname. The sky is
+// a Codex painting (img/bg_sky.webp: the candy hill outside Butterscotch's cave); the cave
+// mouth in it glows as much as the Hoard Beacon is lit. ?demo=1 fills the sky with
+// made-up stars to preview it (test build); with it, &beacon=0..1 previews the cave glow.
 (function () {
   'use strict';
   const W = 1280, H = 768, TAU = Math.PI * 2;
+  const HORIZON = 460;                                  // stars stay above the painted hills
+  const MOON = { x: 1152, y: 123, r: 100 };             // the painted moon (no stars on it)
+  const CAVE = { x: 215, y: 562, rx: 78, ry: 66 };      // the cave mouth in bg_sky.webp
   const RANKS = ['', 'Sparkfinder', 'Apprentice', 'Glowcaster', 'Hoardguard', 'Worldwalker', 'Dragon Rider', 'Keeper of the Hoard'];
   const PRIZE = [
     { name: 'Goblin Trick', rgb: '141,191,106' },
@@ -32,15 +36,17 @@
   // a fixed field of faint background stars
   let s = 12345;
   const rng = () => ((s = Math.imul(s ^ (s >>> 15), 0x2c1b3c6d) + 0x9e3779b9 >>> 0) / 4294967296);
-  const dust = Array.from({ length: 260 }, () => ({ x: rng() * W, y: rng() * H * 0.8, r: 0.5 + rng() * 1.3, p: rng() * TAU }));
+  const dust = Array.from({ length: 140 }, () => ({ x: rng() * W, y: rng() * HORIZON * 0.95, r: 0.6 + rng() * 1.2, p: rng() * TAU }));
 
   let stars = [], you = null, beacon = 0, picked = null;
-  const HORIZON = 640;
+  const art = new Image();
+  art.src = '/img/bg_sky.webp?v=1';
 
   function place(st) {
     const a = st.seed >>> 0;
     st.x = 50 + (a & 0xffff) / 0xffff * (W - 100);
-    st.y = 40 + (a >>> 16) / 0xffff * (HORIZON - 150);
+    st.y = 40 + (a >>> 16) / 0xffff * (HORIZON - 70);
+    if ((st.x - MOON.x) ** 2 + (st.y - MOON.y) ** 2 < MOON.r ** 2) st.x = W - st.x;   // never on the moon
     st.size = st.visits ? 3.5 + Math.min(7, st.rank) * 1.25 : 2.6;
     st.rgb = st.visits ? (PRIZE[st.tier] || PRIZE[1]).rgb : WAITING;
     st.ph = (a % 1000) / 1000 * TAU;
@@ -59,6 +65,7 @@
                  tier: rng() < 0.12 ? 0 : rng() < 0.85 ? 1 : rng() < 0.85 ? 2 : 3 };
       }).map(st => ({ ...st, rank: st.visits }));
       data.you = 7; data.stars[7] = { ...data.stars[7], visits: 3, rank: 3, tier: 2, nickname: 'Sparkle' };
+      if (q.has('beacon')) beacon = Math.max(0, Math.min(1, Number(q.get('beacon')) || 0));   // preview the cave glow
     } else {
       try {
         const r = await fetch(`/api/sky${DG.crystal ? `?c=${DG.crystal}` : ''}`, { cache: 'no-store' });
@@ -91,41 +98,46 @@
     g.fillStyle = gr; g.fillRect(x - r, y - r, r * 2, r * 2);
   }
 
+  // a four-point crystal sparkle: long thin rays, a bright heart
+  function sparkle(x, y, r, rgb, a) {
+    g.fillStyle = `rgba(${rgb},${a})`;
+    g.beginPath();
+    for (let k = 0; k < 8; k++) {
+      const ang = k * Math.PI / 4 - Math.PI / 2, rr = k % 2 ? r * 0.22 : r;
+      g.lineTo(x + Math.cos(ang) * rr, y + Math.sin(ang) * rr);
+    }
+    g.closePath(); g.fill();
+  }
+
   function draw(now) {
-    const sky = g.createLinearGradient(0, 0, 0, H);
-    sky.addColorStop(0, '#0b0820'); sky.addColorStop(0.6, '#1b1240'); sky.addColorStop(1, '#2b1a50');
-    g.fillStyle = sky; g.fillRect(0, 0, W, H);
-    // the moon
-    glowDot(1120, 110, 120, '233,238,255', 0.25);
-    g.fillStyle = '#eef0ff'; g.beginPath(); g.arc(1120, 110, 38, 0, TAU); g.fill();
-    g.fillStyle = '#d6d9ee'; for (const [u, v, rr] of [[-12, -8, 8], [10, 12, 6], [14, -14, 4]]) { g.beginPath(); g.arc(1120 + u, 110 + v, rr, 0, TAU); g.fill(); }
+    if (art.complete && art.naturalWidth) g.drawImage(art, 0, 0, W, H);
+    else {
+      const sky = g.createLinearGradient(0, 0, 0, H);
+      sky.addColorStop(0, '#0b0820'); sky.addColorStop(0.6, '#1b1240'); sky.addColorStop(1, '#2b1a50');
+      g.fillStyle = sky; g.fillRect(0, 0, W, H);
+    }
     g.globalCompositeOperation = 'lighter';
-    for (const d of dust) { const tw = reduced ? 0.6 : 0.45 + 0.35 * Math.sin(now / 900 + d.p); g.fillStyle = `rgba(220,225,255,${tw * 0.5})`; g.fillRect(d.x, d.y, d.r, d.r); }
-    // crystal stars
+    for (const d of dust) { const tw = reduced ? 0.5 : 0.3 + 0.3 * Math.sin(now / 900 + d.p); g.fillStyle = `rgba(235,225,255,${tw * 0.5})`; g.fillRect(d.x, d.y, d.r, d.r); }
+    // crystal stars: a soft halo in the prize colour, then a sparkle; high ranks sparkle bigger
     for (const st of stars) {
       const tw = reduced ? 1 : 0.8 + 0.2 * Math.sin(now / 700 + st.ph);
-      glowDot(st.x, st.y, st.size * 2.6, st.rgb, 0.7 * tw);
-      g.fillStyle = `rgba(255,255,255,${0.9 * tw})`;
-      g.beginPath(); g.arc(st.x, st.y, Math.max(1.2, st.size * 0.32), 0, TAU); g.fill();
-      if (st.visits >= 5) {   // high ranks get a cross of light
-        g.strokeStyle = `rgba(${st.rgb},${0.45 * tw})`; g.lineWidth = 1.2;
-        g.beginPath(); g.moveTo(st.x - st.size * 5, st.y); g.lineTo(st.x + st.size * 5, st.y); g.moveTo(st.x, st.y - st.size * 5); g.lineTo(st.x, st.y + st.size * 5); g.stroke();
-      }
+      glowDot(st.x, st.y, st.size * 2.8, st.rgb, 0.65 * tw);
+      sparkle(st.x, st.y, st.size * (st.visits >= 5 ? 2.4 : 1.5) * (0.9 + 0.1 * tw), st.rgb, 0.85 * tw);
+      sparkle(st.x, st.y, st.size * 0.75, '255,255,255', 0.95 * tw);
+    }
+    // the cave mouth glows with the beacon
+    const fl = reduced ? 1 : 1 + 0.06 * Math.sin(now / 170);
+    glowDot(CAVE.x, CAVE.y, (CAVE.rx * 1.3 + 200 * beacon) * fl, '255,179,71', 0.12 + 0.55 * beacon);
+    if (beacon > 0.02) {
+      g.save(); g.translate(CAVE.x, CAVE.y); g.scale(1, CAVE.ry / CAVE.rx);
+      glowDot(0, 0, CAVE.rx * fl, '255,200,110', 0.25 + 0.7 * beacon);
+      g.restore();
     }
     g.globalCompositeOperation = 'source-over';
-    // the hill and the cave mouth, lit by the beacon
-    g.fillStyle = '#120b26';
-    g.beginPath(); g.moveTo(0, H); g.lineTo(0, 690);
-    g.bezierCurveTo(200, 610, 380, 600, 560, 640); g.bezierCurveTo(760, 690, 980, 600, 1280, 660); g.lineTo(W, H); g.closePath(); g.fill();
-    const cx = 420, cy = 668;
-    const fl = reduced ? 1 : 1 + 0.06 * Math.sin(now / 170);
-    g.globalCompositeOperation = 'lighter';
-    glowDot(cx, cy, (90 + 260 * beacon) * fl, '255,179,71', 0.15 + 0.6 * beacon);
-    g.globalCompositeOperation = 'source-over';
-    g.fillStyle = beacon > 0.02 ? `rgba(255,${170 + 60 * beacon | 0},${80 + 80 * beacon | 0},${0.35 + 0.65 * beacon})` : '#05030c';
-    g.beginPath(); g.ellipse(cx, cy + 8, 34, 26, 0, Math.PI, 0); g.lineTo(cx + 34, cy + 20); g.lineTo(cx - 34, cy + 20); g.closePath(); g.fill();
-    g.font = '600 20px Fredoka, sans-serif'; g.textAlign = 'center'; g.fillStyle = 'rgba(246,234,210,.7)';
-    g.fillText('Butterscotch\'s cave', cx, cy + 56);
+    g.font = '600 20px Fredoka, sans-serif'; g.textAlign = 'center';
+    g.shadowColor = 'rgba(0,0,0,.9)'; g.shadowBlur = 8;
+    g.fillStyle = 'rgba(246,234,210,.85)'; g.fillText('Butterscotch\'s cave', CAVE.x, Math.min(H - 12, CAVE.y + CAVE.ry + 30));
+    g.shadowBlur = 0;
 
     // your star
     if (you) {
@@ -150,7 +162,7 @@
     const w = Math.max(...lines.map(l => g.measureText(l).width)) + 32, h = lines.length * 28 + 20;
     let x = st.x + 24, y = st.y - h / 2;
     if (x + w > W - 10) x = st.x - 24 - w;
-    y = Math.max(10, Math.min(HORIZON - h, y));
+    y = Math.max(84, Math.min(HORIZON + 40 - h, y));   // below the counter row, above the hills
     g.fillStyle = 'rgba(246,234,210,.95)'; roundRect(x, y, w, h, 14); g.fill();
     g.textAlign = 'left';
     lines.forEach((l, i) => { g.fillStyle = i === 0 && mine ? '#9a5424' : '#3a2a1a'; g.fillText(l, x + 16, y + 34 + i * 28); });
