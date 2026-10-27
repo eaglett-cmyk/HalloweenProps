@@ -44,6 +44,11 @@ Read `crystal_oracle/README.md` first, then `crystal_oracle/docs/DESIGN.md` (con
   2027-01-06) → stills from ChatGPT + our ffmpeg "layers" animator; voice from ElevenLabs/OpenAI TTS.
 
 ### Changelog
+- **2026-10-26 (no tummy glow)** — owner: no bright glow dead centre that pulses with the voice lines. That was
+  `drawAnchorGlow` (show.js): a glow on Butterscotch's tummy anchor that breathes and swells with the voice
+  level (the only voice-driven visual). Now off by default: station-only `[station] anchor_glow = no`
+  (`yes` restores it). The anchor point itself stays — the crystal beam and burst rings still aim there.
+  Build 2026-10-26e.
 - **2026-10-26 (iPad: no sound - iOS audio session stuck again)** — owner: "iPad audio is not working".
   The station now writes its sound state to `station/logs/events.log` (engine + context state at Begin and
   5 s in, every media-element play result / refusal, element errors, page errors; build 2026-10-26d). On the

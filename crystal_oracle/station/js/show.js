@@ -554,7 +554,7 @@ function lanternVisibility(t) {
   return 1;
 }
 function drawAnchorGlow(t) {
-  if (!s_anchor.ok) return;
+  if (!cfg.anchorGlow || !s_anchor.ok) return;   // [station] anchor_glow: the breathing / voice-pulsing glow on his tummy
   const target = audio.voiceLevel() / 255;
   s_anchorLv += (target - s_anchorLv) * (target > s_anchorLv ? 0.45 : 0.12);
   const vis = lanternVisibility(t);
