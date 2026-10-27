@@ -1,6 +1,17 @@
 /* The /play/ games — builds on /style.css (palette, fonts, .btn). */
 
 .play-page { color: var(--parchment); }
+/* the page backdrop: Codex paintings of the candy cave, busy at the edges and dark in the middle
+   (bg_play_wide for computers, bg_play_tall for phones), on a fixed layer so it never scrolls or
+   stretches; a dark wash keeps the text readable */
+.play-page::before {
+  content: ''; position: fixed; inset: 0; height: 100lvh; z-index: -1; pointer-events: none;   /* lvh: no gap when a phone's toolbar slides away */
+  background: linear-gradient(rgba(15, 10, 31, .3), rgba(15, 10, 31, .5)), url(/img/bg_play_wide.webp) center / cover no-repeat;
+}
+@media (max-aspect-ratio: 4 / 5) {
+  /* on a phone the text runs over the bright candy heap too, so the wash deepens towards the bottom */
+  .play-page::before { background-image: linear-gradient(rgba(15, 10, 31, .35), rgba(15, 10, 31, .5) 55%, rgba(15, 10, 31, .82)), url(/img/bg_play_tall.webp); }
+}
 .pl-head { max-width: 680px; margin: 0 auto; padding: 2rem 16px .8rem; text-align: center; }
 .pl-title {
   font-family: var(--display);
@@ -391,7 +402,7 @@
 
 /* ---------- hub: milestones + porch ---------- */
 .pl-miles { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: .4rem; margin: -.4rem 0 1rem; padding: 0; }
-.pl-miles li { background: rgba(15, 10, 31, .55); border: 1px solid rgba(246, 234, 210, .15); border-radius: 12px; padding: .4rem .5rem; font-size: .8rem; text-align: center; opacity: .65; }
+.pl-miles li { background: rgba(15, 10, 31, .85); border: 1px solid rgba(246, 234, 210, .15); border-radius: 12px; padding: .4rem .5rem; font-size: .8rem; text-align: center; opacity: .65; }
 .pl-miles li b { display: block; font-family: var(--display); color: var(--amber); }
 .pl-miles li.is-done { opacity: 1; border-color: rgba(255, 200, 61, .6); background: rgba(255, 179, 71, .14); }
 .pl-porch { text-align: center; font-family: var(--display); color: var(--gold); margin: -.4rem 0 1rem; }

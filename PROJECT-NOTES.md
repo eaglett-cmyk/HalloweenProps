@@ -44,12 +44,23 @@ Read `crystal_oracle/README.md` first, then `crystal_oracle/docs/DESIGN.md` (con
   2027-01-06) → stills from ChatGPT + our ffmpeg "layers" animator; voice from ElevenLabs/OpenAI TTS.
 
 ### Changelog
+- **2026-10-27 (play pages: Codex cave backdrop)** — owner: Codex art for the background of the play
+  pages, for phone and computer sizes. Two paintings of the candy cave at night, busy at the edges and
+  dark in the middle: `site/img/bg_play_wide.webp` (1672×941: hoard + beacon lantern left, glowing
+  world-door right) and `bg_play_tall.webp` (940×1672: stalactites + lantern top, hoard bottom). In
+  `play/play.css`, `.play-page::before` is a fixed layer (`z-index:-1`, `height:100lvh`) with a dark wash;
+  `@media (max-aspect-ratio: 4/5)` swaps in the tall one with a wash that deepens towards the bottom
+  (the text runs over the candy heap on phones). Unreached milestone boxes got a more solid backing
+  (.85). All seven play pages → `play.css?v=8`. Only the /play/ pages; the storybook and `/c/<id>` pages are
+  unchanged.
 - **2026-10-27 (every game = 1 spark)** — owner: "All of the games should add 1 spark, 5 is too many".
   `site/server.js` `AWARD = 1` (each daily game once a day, each hunt find once a year → 5 for the whole
   hunt); caps unchanged (20/browser/day and 40/IP/day no longer bind in practice; `WEB_MAX` 100 = 100
   finished games). Wording: riddle lede "a spark flies up", `sparkNote` / hunt bar say "+1 spark",
   comments in `play.js` / `hunt.js`; `play.js?v=3`, `hunt.js?v=3`. VMS restarted, three hosts 200,
-  `/api/beacon` → `award: 1`. The beacon kept the 20 sparks earned at the old rate (4 plays).
+  `/api/beacon` → `award: 1`. The 20 sparks earned at the old rate (4 plays) were set to **4** in
+  `data/beacon.json` (owner's call), and that day's `receipts.json` browser/IP tallies 20 → 4 so the
+  phone wasn't capped; no crystal had sparks credited. (No restart needed: both files are read per request.)
 - **2026-10-27 (Crystal Sky: Codex backdrop)** — owner: the sky map "looks dull", have Codex make one
   that fits Butterscotch's world. New painting `site/img/bg_sky.webp` (1280×768, Codex, refs = key art +
   castle door + lit cave): the candy hill outside his cave at night, gold aurora, big moon top right,
