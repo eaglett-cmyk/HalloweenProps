@@ -17,6 +17,7 @@
   const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
 
   $('cp-id').textContent = id ? id.toUpperCase() : '?';
+  if (id) try { localStorage.setItem('dg.crystal', id); } catch { /* private mode */ }   // so the /play/ games credit it
   const summary = $('cp-summary');
 
   function say(lines) {

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Light the Beacon — Dragonglow</title>
+<meta name="description" content="Games from Butterscotch's cave: every spark you earn helps light the Hoard Beacon.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#1b1033">
+<link rel="icon" href="/img/prop_crystal.webp" type="image/webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css?v=g6">
+<link rel="stylesheet" href="/play/play.css?v=1">
+</head>
+<body class="play-page">
+
+<header class="pl-head">
+  <p class="cover-kicker">Games from the cave</p>
+  <h1 class="pl-title">Light the Hoard Beacon</h1>
+  <p class="pl-lede">Snuffwick keeps snuffing it out. Every spark you earn here goes into the one beacon we all share, and when it's full, it blazes.</p>
+  <p class="pl-crystal" id="pl-crystal"></p>
+</header>
+
+<main class="pl-main">
+  <section class="meter" id="meter" data-meter aria-live="polite"></section>
+
+  <div class="pl-games">
+    <a class="pl-game" href="/play/beacon.html">
+      <img src="/img/snuffwick_base.webp" alt="" width="640" height="678">
+      <span class="pl-game-t"><strong>Relight the Beacon</strong> Catch sparks from the hoard and stop Snuffwick's snuffer.</span>
+      <span class="pl-game-r" id="g-beacon">Play</span>
+    </a>
+    <a class="pl-game" href="/play/riddle.html">
+      <img src="/img/butterscotch_wink.webp" alt="" width="640" height="600">
+      <span class="pl-game-t"><strong>Butterscotch's Riddle</strong> A new riddle every day. Solve it for five sparks.</span>
+      <span class="pl-game-r" id="g-riddle">Today's riddle</span>
+    </a>
+    <a class="pl-game" href="/?hunt=1#p1">
+      <img src="/img/snuffwick_shy.webp" alt="" width="640" height="678">
+      <span class="pl-game-t"><strong>Goblin Hunt</strong> Snuffwick is hiding in the storybook. Find him five times.</span>
+      <span class="pl-game-r" id="g-hunt">Start hunting</span>
+    </a>
+    <a class="pl-game" href="/play/sky.html">
+      <img src="/img/prop_crystal.webp" alt="" width="640" height="640">
+      <span class="pl-game-t"><strong>The Crystal Sky</strong> Every crystal that woke the dragon is a star. Find yours.</span>
+      <span class="pl-game-r">Look up</span>
+    </a>
+  </div>
+
+  <section class="pl-bonus" id="bonus">
+    <div class="pl-bonus-art">
+      <img src="/img/snuffwick_sock.webp" alt="Snuffwick hugging a lumpy striped sock with something golden glowing inside" width="640" height="678">
+    </div>
+    <div class="pl-bonus-text" id="bonus-text">
+      <p class="pl-bonus-k">Bonus page</p>
+      <h2>Snuffwick's Sock</h2>
+      <p class="pl-locked">This page is still dark. It lights up when the Hoard Beacon is full.</p>
+    </div>
+  </section>
+
+  <div class="cp-actions">
+    <a class="btn btn-gold" href="/#story">Read the storybook</a>
+    <a class="btn btn-ghost" href="/#grownups">For grown-ups</a>
+  </div>
+  <p class="cp-note">The beacon is shared by everyone who plays. Sparks are only numbers: nothing about you is saved, and a crystal is never needed to play.</p>
+</main>
+
+<template id="bonus-story">
+  <p class="pl-bonus-k">Bonus page · unlocked by the beacon</p>
+  <h2>Snuffwick's Sock</h2>
+  <p>When the beacon blazed, everyone looked up. Everyone except Snuffwick.</p>
+  <p>Snuffwick was looking down, into his sock. It was his favourite sock, striped and a little holey, and it was <em>warm</em>.</p>
+  <p>Something inside it glowed gold. Something round. Something smooth. Something that went <em>tap… tap… tap</em> from the inside.</p>
+  <p><em>“Not yet,”</em> whispered Snuffwick, and tucked it under his chin. <em>“Not until next Halloween.”</em></p>
+  <p class="pl-bonus-end">Keep your crystal safe. Next year, bring it back and find out what's in the sock.</p>
+</template>
+
+<script src="/play/play.js?v=1"></script>
+<script>
+(async function () {
+  'use strict';
+  DG.crystalLine(document.getElementById('pl-crystal'));
+  const v = await DG.getBeacon();
+  DG.renderMeter(document.getElementById('meter'), v);
+  if (v.lit) {
+    document.getElementById('bonus').classList.add('is-open');
+    document.getElementById('bonus-text').replaceChildren(document.getElementById('bonus-story').content.cloneNode(true));
+  }
+  const best = DG.flag('beacon.best');
+  if (best) document.getElementById('g-beacon').textContent = `Best: ${best} sparks`;
+  const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Chicago' }).format(new Date());
+  if (DG.flag(`riddle.${today}`)) document.getElementById('g-riddle').textContent = 'Solved today ✓';
+  const found = (DG.flag('hunt.found') || '').split(',').filter(Boolean).length;
+  if (found) document.getElementById('g-hunt').textContent = found >= 5 ? 'All 5 found ✓' : `${found} of 5 found`;
+})();
+</script>
+</body>
+</html>

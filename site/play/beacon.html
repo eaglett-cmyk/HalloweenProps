@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Relight the Beacon — Dragonglow</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#1b1033">
+<link rel="icon" href="/img/prop_crystal.webp" type="image/webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css?v=g6">
+<link rel="stylesheet" href="/play/play.css?v=1">
+</head>
+<body class="play-page">
+
+<main class="pl-main pl-wide">
+  <header class="pl-head">
+    <a class="pl-back" href="/play/">&#x2039; All the games</a>
+    <h1 class="pl-title">Relight the Beacon</h1>
+    <p class="pl-crystal" id="pl-crystal"></p>
+  </header>
+
+  <div class="pl-stage" id="stage">
+    <canvas id="cv" aria-label="The candy cave with the Hoard Beacon hanging at the top left. Sparks rise from the hoard."></canvas>
+    <div class="pl-hud" aria-live="off"><span>Sparks <b id="hud-sparks">0</b></span><span>Time <b id="hud-time">0:45</b></span></div>
+    <div class="pl-overlay" id="ov-start">
+      <h2>Snuffwick snuffed the beacon!</h2>
+      <p>Tap the sparks rising from the hoard to send them up into the beacon. Golden sparks count three. If Snuffwick tiptoes in with his snuffer, tap him before he reaches the light!</p>
+      <button type="button" class="btn btn-gold" id="btn-start">Start</button>
+    </div>
+    <div class="pl-overlay" id="ov-end" hidden>
+      <h2 id="end-title">Beacon glowing!</h2>
+      <p id="end-text"></p>
+      <p id="end-beacon"></p>
+      <div class="cp-actions" style="margin:.4rem 0 0">
+        <button type="button" class="btn btn-gold" id="btn-again">Play again</button>
+        <a class="btn btn-ghost" href="/play/">Back to the beacon</a>
+      </div>
+    </div>
+  </div>
+  <p class="pl-help">Every spark you send goes into the Hoard Beacon that everyone shares. One round takes 45 seconds.</p>
+</main>
+
+<script src="/play/play.js?v=1"></script>
+<script src="/play/beacon.js?v=1"></script>
+</body>
+</html>

@@ -6,7 +6,12 @@
 // history comes from the station's visit logs copied into data/ (import_visits.js);
 // data/ is never served as files. data/crystals.json (optional) holds anything the
 // site adds per crystal later: { "<id>": { ... } }, returned as `extra` - so far the
-// nickname a family gives it on its page (POST /api/crystal/<id>/nickname).
+// nickname a family gives it on its page (POST /api/crystal/<id>/nickname), and the
+// sparks it gave the beacon this year.
+//
+// /play/ holds the games (test build, not linked from the book yet): the Hoard Beacon
+// meter everyone fills (GET /api/beacon, POST /api/beacon/sparks), the crystal sky
+// (GET /api/sky), Butterscotch's riddle and the goblin hunt (index.html?hunt=1).
 //
 // Normally this is NOT run on its own: ..\..\VMS-Checklist\server.js requires it and
 // dispatches requests whose Host is halloween.ciancio.cloud to `handler` (same pattern
@@ -159,11 +164,153 @@ function nicknameApi(id, req, res) {
   });
 }
 
+// ---- the Hoard Beacon (the /play/ games): one shared meter for the season.
+// Every game round on the site adds the sparks it earned (POST /api/beacon/sparks
+// {"n", "game", "crystal"?}); travelers at the Wakestone count too: the station's
+// meter points (its state.json, same PC) are worth STATION_SPARKS each, but only
+// as saved on Halloween itself, so test nights never light it. The highest number
+// seen that night is kept, so the station's "Reset tonight" never dims the beacon.
+// data/beacon.json: { year, sparks, plays, station, litAt }. A new year starts dark.
+// The owner can edit or delete the file; it is re-read on every request.
+const BEACON_GOAL = 2000;                      // sparks to light it (web + station)
+const STATION_SPARKS = 10;                     // one traveler at the Wakestone
+const SPARK_MAX_POST = 100;                    // one round can't add more than this
+const SPARK_RATE = { max: 600, windowMs: 60 * 60 * 1000 };   // sparks per IP per hour
+const GAMES = new Set(['beacon', 'riddle', 'hunt']);
+const STATION_STATE = path.join(ROOT, '..', 'crystal_oracle', 'station', 'state', 'state.json');
+const sparkHits = new Map();                   // ip -> [[ms, n], ...]
+
+function seasonYear() {
+  return Number(new Intl.DateTimeFormat('en-US', { timeZone: 'America/Chicago', year: 'numeric' }).format(new Date()));
+}
+function chicagoDate(d) {   // "2026-10-31"
+  return new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Chicago', year: 'numeric', month: '2-digit', day: '2-digit' }).format(d);
+}
+
+function readJson(file, fallback) {
+  try { return JSON.parse(fs.readFileSync(file, 'utf8')) || fallback; } catch (e) { return e.code === 'ENOENT' ? fallback : null; }
+}
+function writeJson(file, obj) {
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  const tmp = `${file}.${process.pid}.tmp`;
+  fs.writeFileSync(tmp, JSON.stringify(obj, null, 1));
+  fs.renameSync(tmp, file);
+}
+
+function loadBeacon() {
+  const year = seasonYear();
+  let b = readJson(path.join(DATA_DIR, 'beacon.json'), {});
+  if (!b || b.year !== year) b = { year, sparks: 0, plays: 0, station: 0, litAt: null };
+  // the station's travelers, counted only from its Halloween-night state
+  const st = readJson(STATION_STATE, null);
+  const t = st && st.tonight;
+  if (t && t.year === year && st.savedAt && chicagoDate(new Date(st.savedAt)) === `${year}-10-31`) {
+    b.station = Math.max(b.station | 0, t.moonPoints | 0);
+  }
+  return b;
+}
+function beaconView(b) {
+  const total = (b.sparks | 0) + (b.station | 0) * STATION_SPARKS;
+  return { year: b.year, sparks: total, goal: BEACON_GOAL, lit: total >= BEACON_GOAL, litAt: b.litAt || null,
+           web: b.sparks | 0, travelers: b.station | 0, plays: b.plays | 0 };
+}
+function saveBeacon(b) {
+  const v = beaconView(b);
+  if (v.lit && !b.litAt) b.litAt = new Date().toISOString();
+  writeJson(path.join(DATA_DIR, 'beacon.json'), b);
+  return beaconView(b);
+}
+
+function sparkRoom(ip) {
+  const now = Date.now();
+  const hits = (sparkHits.get(ip) || []).filter(([t]) => now - t < SPARK_RATE.windowMs);
+  if (sparkHits.size > 5000) sparkHits.clear();   // never grows without bound
+  sparkHits.set(ip, hits);
+  return Math.max(0, SPARK_RATE.max - hits.reduce((s, [, n]) => s + n, 0));
+}
+
+function readBody(req, res, max, done) {
+  let body = '';
+  req.setEncoding('utf8');
+  req.on('data', c => { body += c; if (body.length > max) { sendJson(res, 413, { error: 'too long' }); req.destroy(); } });
+  req.on('end', () => { if (!res.headersSent) done(body); });
+}
+
+function sparksApi(req, res) {
+  const ip = String(req.headers['cf-connecting-ip'] || req.socket.remoteAddress || '?');
+  readBody(req, res, 512, body => {
+    let j;
+    try { j = JSON.parse(body); } catch { j = null; }
+    const n = j && Number.isInteger(j.n) ? j.n : NaN;
+    const game = j && GAMES.has(j.game) ? j.game : null;
+    const crystal = j && typeof j.crystal === 'string' && ID_RE.test(j.crystal.toLowerCase()) ? j.crystal.toLowerCase() : null;
+    if (!(n >= 1 && n <= SPARK_MAX_POST) || !game) { sendJson(res, 400, { error: 'bad sparks' }); return; }
+    const room = sparkRoom(ip);
+    const add = Math.min(n, room);
+    const b = loadBeacon();
+    let view;
+    try {
+      if (add > 0) {
+        sparkHits.get(ip).push([Date.now(), add]);
+        b.sparks = (b.sparks | 0) + add;
+        b.plays = (b.plays | 0) + 1;
+        view = saveBeacon(b);
+      } else view = beaconView(b);
+    } catch { sendJson(res, 500, { error: 'The beacon flickered. Try again later.' }); return; }
+    // credit the crystal that played (its page shows how many sparks it gave)
+    let crystalSparks = null;
+    if (crystal && add > 0) {
+      try {
+        const file = path.join(DATA_DIR, 'crystals.json');
+        const all = readJson(file, {});
+        if (all && (all[crystal] || Object.keys(all).length < NICK_CAP)) {
+          const e = all[crystal] = { ...(all[crystal] || {}) };
+          if (e.sparksYear !== b.year) { e.sparksYear = b.year; e.sparks = 0; }
+          e.sparks = (e.sparks | 0) + add;
+          crystalSparks = e.sparks;
+          writeJson(file, all);
+        }
+      } catch { /* the beacon still got them */ }
+    }
+    sendJson(res, 200, { ...view, added: add, crystalSparks });
+  });
+}
+
+// ---- the crystal sky (/play/sky.html): one star per crystal the site knows (from the
+// visit logs, or named / played on the site). Crystal ids are the key to a crystal's
+// page and nickname, so they are never listed: each star gets a scrambled seed for its
+// place in the sky, and only the asker's own star (?c=<id>) is marked and named.
+function skyApi(urlObj, res) {
+  const { crystals, extra } = loadData();
+  const mine = (urlObj.searchParams.get('c') || '').toLowerCase();
+  const ids = new Set([...crystals.keys(), ...Object.keys(extra).filter(id => ID_RE.test(id))]);
+  const stars = [];
+  let you = null;
+  for (const id of [...ids].sort()) {
+    const years = [...(crystals.get(id) || new Map()).values()].sort((a, b) => a.year - b.year);
+    const last = years[years.length - 1];
+    const x = extra[id] || {};
+    const s = { seed: fnv1a(`dragonglow/sky/v1:${id}`), visits: years.length, rank: last ? last.rank : 0,
+                tier: last ? last.tier : -1, sparks: x.sparksYear === seasonYear() ? x.sparks | 0 : 0 };
+    if (id === mine) { you = stars.length; s.nickname = x.nickname || null; }
+    stars.push(s);
+    if (stars.length >= NICK_CAP) break;
+  }
+  sendJson(res, 200, { stars, you });
+}
+function fnv1a(s) {
+  let h = 0x811c9dc5;
+  for (const ch of Buffer.from(s, 'utf8')) { h ^= ch; h = Math.imul(h, 0x01000193) >>> 0; }
+  return h >>> 0;
+}
+
 function handler(req, res) {
   if (req.method === 'POST') {
-    let pm;
-    try { pm = new URL(req.url, 'http://x').pathname.match(/^\/api\/crystal\/([0-9a-fA-F]{8})\/nickname$/); } catch { pm = null; }
+    let p;
+    try { p = new URL(req.url, 'http://x').pathname; } catch { p = ''; }
+    const pm = p.match(/^\/api\/crystal\/([0-9a-fA-F]{8})\/nickname$/);
     if (pm) { nicknameApi(pm[1].toLowerCase(), req, res); return; }
+    if (p === '/api/beacon/sparks') { sparksApi(req, res); return; }
   }
   if (req.method !== 'GET' && req.method !== 'HEAD') {
     res.writeHead(405, { Allow: 'GET, HEAD' }); res.end(); return;
@@ -172,6 +319,12 @@ function handler(req, res) {
   try { urlPath = decodeURIComponent(new URL(req.url, 'http://x').pathname); }
   catch { res.writeHead(400); res.end(); return; }
   if (urlPath === '/health') { res.writeHead(200, { 'Content-Type': 'text/plain' }); res.end('ok'); return; }
+  if (urlPath === '/api/beacon') {
+    let v;
+    try { v = beaconView(loadBeacon()); } catch { sendJson(res, 500, { error: 'The beacon flickered.' }); return; }
+    sendJson(res, 200, v); return;
+  }
+  if (urlPath === '/api/sky') { skyApi(new URL(req.url, 'http://x'), res); return; }
   // a crystal's own page (what its tag links to) and its history
   let m = urlPath.match(/^\/api\/crystal\/([0-9a-fA-F]{8})$/);
   if (m) { crystalApi(m[1].toLowerCase(), res); return; }

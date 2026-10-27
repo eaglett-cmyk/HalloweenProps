@@ -44,6 +44,30 @@ Read `crystal_oracle/README.md` first, then `crystal_oracle/docs/DESIGN.md` (con
   2027-01-06) → stills from ChatGPT + our ffmpeg "layers" animator; voice from ElevenLabs/OpenAI TTS.
 
 ### Changelog
+- **2026-10-27 (web games test build, `/play/`)** — owner asked for test builds of five ideas, centred on
+  **the Hoard Beacon**, not only crystals. New unlisted, `noindex` hub **`site/play/`**
+  (halloween.ciancio.cloud/play/, not linked from the book or crystal pages yet) with:
+  - the **shared beacon meter** (lantern cropped from `bg_cave.webp`), goal 2,000 sparks per year;
+    the lit beacon unlocks the bonus page "Snuffwick's Sock" (2027 egg teaser);
+  - **Relight the Beacon** (`beacon.js`): canvas over the cave painting, 45 s rounds, tap the rising
+    sparks into the lantern (gold = 3), tap Snuffwick before his snuffer arrives (else −5);
+  - **The Crystal Sky** (`sky.js`): one star per known crystal, size = rank, colour = last prize; the
+    cave on the hill glows with the beacon; `?demo=1` fills it with fake stars;
+  - **Butterscotch's Riddle** (`riddle.js`): 31 riddles, one per October day, past days via their
+    candle, +5 sparks a day; `?test=1&day=N` opens any day;
+  - **Goblin Hunt** (`site/hunt.js`, loaded by index.html but inert without `?hunt=1`): Snuffwick
+    hides on pages 1, 2, 4, 5 and 7; all five = +25 sparks once a year.
+  **Server** (`site/server.js`): `GET /api/beacon`, `POST /api/beacon/sparks {n ≤ 100, game, crystal?}`
+  (600 sparks per IP per hour), `GET /api/sky[?c=<id>]`. Sky stars never carry crystal ids (the id is the
+  key to the page and nickname); only the asker's own star is marked and named. State goes in
+  `data/beacon.json`. A crystal's sparks go in `crystals.json` (`sparks`/`sparksYear`), and
+  `crystal.js` now remembers the last crystal in localStorage (`dg.crystal`). The station counts too:
+  `../crystal_oracle/station/state/state.json` `tonight.moonPoints` × 10, but **only when saved on
+  Oct 31**, so test nights never light it.
+  Tested on a scratch copy of the site (headless Chrome, no console errors), then VMS restarted:
+  vms/beacon/halloween `/health` 200 on loopback; live `GET /api/beacon` (0 of 2000), `/api/sky`, all
+  `/play/` pages 200, an over-cap post refused (400), `/data/` 404. No real sparks posted, so the live
+  meter starts at zero. Reset it by deleting `site/data/beacon.json`.
 - **2026-10-26 (no tummy glow)** — owner: no bright glow dead centre that pulses with the voice lines. That was
   `drawAnchorGlow` (show.js): a glow on Butterscotch's tummy anchor that breathes and swells with the voice
   level (the only voice-driven visual). Now off by default: station-only `[station] anchor_glow = no`
