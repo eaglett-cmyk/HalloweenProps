@@ -381,7 +381,32 @@ function skyApi(urlObj, res) {
   sendJson(res, 200, { stars, you });
 }
 
+// Files under ROOT that are never served (compared lowercased: NTFS is case-insensitive).
+const SERVER_ONLY = new Set(['server.js', 'import_visits.js', 'nick_filter.js']);
+function realOrSelf(p) { try { return fs.realpathSync.native(p); } catch { return p; } }
+const ROOT_REAL = realOrSelf(ROOT).toLowerCase();
+const DATA_REAL = realOrSelf(DATA_DIR).toLowerCase();
+// Is this resolved path one we must never serve? (data/, server-only files, outside ROOT)
+function forbiddenFile(file) {
+  const real = realOrSelf(file).toLowerCase();   // .native also expands 8.3 short names
+  if (real === DATA_REAL || real.startsWith(DATA_REAL + path.sep)) return true;
+  const rel = path.relative(ROOT_REAL, real);
+  if (!rel || rel.startsWith('..') || path.isAbsolute(rel)) return true;
+  return SERVER_ONLY.has(rel) || rel.split(path.sep).some(s => s.startsWith('.'));
+}
+
+// Security headers on every response (A5, 2026-10-27). No HSTS here (Cloudflare's call).
 function handler(req, res) {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'DENY');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  try { handle(req, res); } catch (e) {
+    console.warn('[halloween] request failed:', e && e.message);
+    if (!res.headersSent) { res.writeHead(500); res.end(); } else res.destroy();
+  }
+}
+
+function handle(req, res) {
   if (req.method === 'POST') {
     let p;
     try { p = new URL(req.url, 'http://x').pathname; } catch { p = ''; }
@@ -410,11 +435,16 @@ function handler(req, res) {
   else if (urlPath.startsWith('/c/')) { res.writeHead(302, { Location: '/' }); res.end(); return; }   // a mangled link: the book
   if (urlPath.endsWith('/')) urlPath += 'index.html';
 
+  // Windows path tricks (2026-10-27): NTFS streams (data::$INDEX_ALLOCATION), NULs, and
+  // segments ending in '.' or ' ' (Windows strips them: "server.js." opens server.js).
+  if (/[:\0]/.test(urlPath) || urlPath.split(/[\\/]/).some(s => /[. ]$/.test(s))) {
+    res.writeHead(404); res.end('not found'); return;
+  }
   // Resolve inside ROOT only; never serve this file or dotfiles.
   const file = path.normalize(path.join(ROOT, urlPath));
-  const rel = path.relative(ROOT, file);
+  const rel = path.relative(ROOT, file).toLowerCase();
   if (!rel || rel.startsWith('..') || path.isAbsolute(rel) || rel.split(path.sep).some(s => s.startsWith('.')) ||
-      rel === 'server.js' || rel === 'import_visits.js' || rel === 'nick_filter.js' || rel.split(path.sep)[0].toLowerCase() === 'data') {
+      SERVER_ONLY.has(rel) || rel.split(path.sep)[0] === 'data' || forbiddenFile(file)) {
     res.writeHead(404); res.end('not found'); return;
   }
   const ext = path.extname(file).toLowerCase();

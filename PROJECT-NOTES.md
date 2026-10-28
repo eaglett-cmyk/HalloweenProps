@@ -44,6 +44,14 @@ Read `crystal_oracle/README.md` first, then `crystal_oracle/docs/DESIGN.md` (con
   2027-01-06) → stills from ChatGPT + our ffmpeg "layers" animator; voice from ElevenLabs/OpenAI TTS.
 
 ### Changelog
+- **2026-10-28 (site security fix, LIVE)** — from the all-servers review (`..\security-review-2026-10-27.md`).
+  `site\server.js` used to leak `data/` through NTFS stream syntax (`/data::$INDEX_ALLOCATION/receipts.json`,
+  which exposed visitor IPs and the word blocklist) and served its own source when asked in uppercase
+  (`/SERVER.JS`). Now paths with `:`/NUL or a trailing `.`/space get 404, the deny-list is case-insensitive,
+  and a realpath check refuses anything inside `data/` or the server-only files. Malformed `%` → 400, and
+  nosniff/Referrer headers were added. Files were NOT moved, because VMS requires `..\Halloween\site\server.js`. Cloudflare had
+  cached `/SERVER.JS` (`max-age=86400`) before the fix, so the edge serves the old copy until about 2026-10-29 03:00 UTC unless
+  purged; the origin returns 404.
 - **2026-10-27 (crystal nickname word filter)** — owner: a filter so no older kid names a crystal
   something inappropriate. `site/nick_filter.js` (`nicknameOk(name)`; server-only: `server.js` refuses
   to serve it) runs on every save (`POST /api/crystal/<id>/nickname` → 400 "Butterscotch doesn't know
