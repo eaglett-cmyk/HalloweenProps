@@ -44,6 +44,22 @@ Read `crystal_oracle/README.md` first, then `crystal_oracle/docs/DESIGN.md` (con
   2027-01-06) → stills from ChatGPT + our ffmpeg "layers" animator; voice from ElevenLabs/OpenAI TTS.
 
 ### Changelog
+- **2026-10-27 (crystal nickname word filter)** — owner: a filter so no older kid names a crystal
+  something inappropriate. `site/nick_filter.js` (`nicknameOk(name)`; server-only: `server.js` refuses
+  to serve it) runs on every save (`POST /api/crystal/<id>/nickname` → 400 "Butterscotch doesn't know
+  that word. Please pick a different name!"; the log says only "refused by the word filter", never the
+  name) **and on every display** (crystal API `nickname` + `extra`, the Crystal Sky's own star), so a
+  word added later hides old names too. Matching: Unicode-fold + strip accents, Cyrillic/Greek
+  look-alikes, two readings (symbols as letters `sh!t`, and symbols dropped so `Sparkles!` stays
+  "sparkles"), letters may repeat (`fuuuck`), separators ignored (`f.u.c.k`, `a s s`); ANYWHERE terms
+  (unambiguous) vs WORD terms (whole word + plural: ass, cock, tit, hell… so Classy, Peacock, Titan,
+  Shell, Grape, Basement pass); bare 69/420 refused. The built-in lists are **base64 in the module** so
+  the repo doesn't read as a slur list (regenerate by decoding, editing, re-encoding). Owner extras:
+  **`site/data/nick_block.txt`** (git-ignored, re-read on change, format in its header: `word`,
+  `word*`, `*word*`). Mild toilet words (poop, fart) are **not** blocked by default; add them there if
+  wanted. Known false positives: "Sussex", "Scunthorpe". Tested: 59 everyday names pass, 42 bad ones
+  (leet, spacing, repeats, homoglyphs) refused; scratch-server flow + live after the VMS restart (bad
+  name 400 on the public site, module 404, nothing saved). No nicknames existed yet.
 - **2026-10-27 (games LIVE: linked from the storybook + crystal pages)** — owner OK'd the games. Note
   from the owner: **this year nobody uses the site until Halloween night**, so lead-up/October-countdown
   text is not helpful. Changes:

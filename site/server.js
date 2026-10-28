@@ -22,6 +22,7 @@ const http = require('http');
 const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
+const { nicknameOk } = require('./nick_filter');   // keeps nicknames kind (data/nick_block.txt adds words)
 
 const ROOT = __dirname;
 const DATA_DIR = path.join(ROOT, 'data');
@@ -75,8 +76,8 @@ function crystalApi(id, res) {
     visits: years.length,
     rank: years.length ? years[years.length - 1].rank : 0,
     years,
-    nickname: (extra[id] && extra[id].nickname) || null,
-    extra: extra[id] || null,
+    nickname: (extra[id] && nicknameOk(extra[id].nickname) && extra[id].nickname) || null,
+    extra: shownExtra(extra[id]),
   });
   res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-cache' });
   res.end(body);
@@ -113,6 +114,13 @@ function cleanNickname(v) {
   return s;
 }
 
+// a crystal's extra for its page, minus a saved nickname the word filter now refuses
+function shownExtra(x) {
+  if (!x) return null;
+  if (x.nickname && !nicknameOk(x.nickname)) { const { nickname, nicknamedAt, ...rest } = x; return rest; }
+  return x;
+}
+
 function rateOk(ip) {
   const now = Date.now();
   const hits = (nickHits.get(ip) || []).filter(t => now - t < NICK_RATE.windowMs);
@@ -138,6 +146,10 @@ function nicknameApi(id, req, res) {
     let nick;
     try { nick = cleanNickname(JSON.parse(body).nickname); } catch { nick = null; }
     if (nick === null) { sendJson(res, 400, { error: `Use up to ${NICK_MAX} letters, numbers and spaces.` }); return; }
+    if (nick && !nicknameOk(nick)) {   // the name itself is never logged
+      console.log(`[halloween] crystal ${id} nickname refused by the word filter`);
+      sendJson(res, 400, { error: 'Butterscotch doesn\'t know that word. Please pick a different name!' }); return;
+    }
     if (!rateOk(ip)) { sendJson(res, 429, { error: 'Too many names for now. Try again later.' }); return; }
     const file = path.join(DATA_DIR, 'crystals.json');
     let all = {};
@@ -360,7 +372,7 @@ function skyApi(urlObj, res) {
     const x = extra[id] || {};
     const s = { seed: skySeed(id), visits: years.length, rank: last ? last.rank : 0,
                 tier: last ? last.tier : -1, sparks: x.sparksYear === seasonYear() ? x.sparks | 0 : 0 };
-    if (id === mine) { s.nickname = x.nickname || null; s.mine = true; }
+    if (id === mine) { s.nickname = (nicknameOk(x.nickname) && x.nickname) || null; s.mine = true; }
     stars.push(s);
   }
   stars = stars.sort((a, b) => a.seed - b.seed).slice(0, NICK_CAP);
@@ -402,7 +414,7 @@ function handler(req, res) {
   const file = path.normalize(path.join(ROOT, urlPath));
   const rel = path.relative(ROOT, file);
   if (!rel || rel.startsWith('..') || path.isAbsolute(rel) || rel.split(path.sep).some(s => s.startsWith('.')) ||
-      rel === 'server.js' || rel === 'import_visits.js' || rel.split(path.sep)[0].toLowerCase() === 'data') {
+      rel === 'server.js' || rel === 'import_visits.js' || rel === 'nick_filter.js' || rel.split(path.sep)[0].toLowerCase() === 'data') {
     res.writeHead(404); res.end('not found'); return;
   }
   const ext = path.extname(file).toLowerCase();
