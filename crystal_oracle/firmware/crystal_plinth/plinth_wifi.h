@@ -49,6 +49,13 @@
 #ifndef PLINTH_HOSTNAME
   #define PLINTH_HOSTNAME "dragonglow-plinth"
 #endif
+// Optional second network (WIFI_SSID2 / WIFI_PASS2 in wifi_secrets.h, e.g. another house):
+// while not connected the plinth alternates between the two every WIFI_RETRY_MS.
+#if defined(WIFI_SSID2) && defined(WIFI_PASS2)
+  #define WIFI_NETS 2
+#else
+  #define WIFI_NETS 1
+#endif
 #ifndef WS_PORT
   #define WS_PORT 81
 #endif
@@ -83,24 +90,42 @@ static bool       s_serverUp = false;
 static bool       s_mdnsUp = false;
 static bool       s_wasConnected = false;
 static uint32_t   s_lastBeginMs = 0;
+static uint8_t    s_net = 0;                 // which network WiFi.begin() is trying (0 = WIFI_SSID, 1 = WIFI_SSID2)
 static uint32_t   s_txFrames = 0, s_rxFrames = 0, s_accepted = 0, s_dropped = 0;
 static const char *(*s_statusJson)() = nullptr;   // the sketch's status text for plain HTTP GETs
 
 // ---------------------------------------------------------------- Wi-Fi
+static const char *netSsid() {
+#if WIFI_NETS > 1
+  if (s_net == 1) return WIFI_SSID2;
+#endif
+  return WIFI_SSID;
+}
+static const char *netPass() {
+#if WIFI_NETS > 1
+  if (s_net == 1) return WIFI_PASS2;
+#endif
+  return WIFI_PASS;
+}
+
+static void joinNet() {
+  WiFi.begin(netSsid(), netPass());
+  s_lastBeginMs = millis();
+  logLine("wifi: joining \"%s\" as %s ...", netSsid(), PLINTH_HOSTNAME);
+}
+
 static void wifiBegin() {
   WiFi.persistent(false);
   WiFi.mode(WIFI_STA);
   WiFi.setSleep(false);                       // answer PINGs / writes without modem-sleep latency
   WiFi.setHostname(PLINTH_HOSTNAME);
   WiFi.setAutoReconnect(true);
-  WiFi.begin(WIFI_SSID, WIFI_PASS);
-  s_lastBeginMs = millis();
-  logLine("wifi: joining \"%s\" as %s ...", WIFI_SSID, PLINTH_HOSTNAME);
+  joinNet();
 }
 
 static void onConnected() {
-  logLine("wifi: connected, IP %s (RSSI %d dBm) - WebSocket on ws://%s:%d/ and ws://%s.local:%d/",
-          WiFi.localIP().toString().c_str(), WiFi.RSSI(), WiFi.localIP().toString().c_str(), WS_PORT,
+  logLine("wifi: connected to \"%s\", IP %s (RSSI %d dBm) - WebSocket on ws://%s:%d/ and ws://%s.local:%d/",
+          netSsid(), WiFi.localIP().toString().c_str(), WiFi.RSSI(), WiFi.localIP().toString().c_str(), WS_PORT,
           PLINTH_HOSTNAME, WS_PORT);
   if (!s_serverUp) {
     s_server.begin();
@@ -340,8 +365,8 @@ static void service(uint32_t now) {
   if (!connected) {
     if (now - s_lastBeginMs >= WIFI_RETRY_MS) {      // autoReconnect usually does it; this is the belt
       WiFi.disconnect();
-      WiFi.begin(WIFI_SSID, WIFI_PASS);
-      s_lastBeginMs = now;
+      s_net = (uint8_t)((s_net + 1) % WIFI_NETS);    // not found here: try the other network
+      joinNet();
     }
     for (WsClient &c : s_cl) if (c.used) closeClient(c, "wifi down");
     return;

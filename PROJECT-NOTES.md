@@ -44,6 +44,24 @@ Read `crystal_oracle/README.md` first, then `crystal_oracle/docs/DESIGN.md` (con
   2027-01-06) → stills from ChatGPT + our ffmpeg "layers" animator; voice from ElevenLabs/OpenAI TTS.
 
 ### Changelog
+- **2026-10-29 (run the iPad rig at the parents' house — DROPPED same day, mom doesn't want it)** —
+  nothing was set up in UniFi. The two-network plinth firmware stays (harmless at home, already flashed).
+  Original plan, for if it comes back: owner wanted the show at mom's (UniFi
+  "Ciancio Forney Home", 192.168.4.x; ours = "Michael R Home", 192.168.1.x, no overlap). Plan: UniFi
+  **Site Magic** links the two gateways so the iPad there loads `http://192.168.1.56:8460/` from this PC
+  (plain http, no Cloudflare: the page must stay http for the `ws://` plinth link); the plinth joins
+  their Wi-Fi locally and the iPad uses its 192.168.4.x IP (or `.local`). This PC's firewall already
+  allows node.exe inbound from any address (Public profile). Firmware: `plinth_wifi.h` takes an
+  optional **second network** (`WIFI_SSID2` / `WIFI_PASS2` in `wifi_secrets.h`, git-ignored) and
+  alternates between the two every `WIFI_RETRY_MS` (15 s) until one joins; the log names the SSID.
+  `wifi_secrets.h` now holds NETGEAR72 + their SSID "Ciancio". Compiled OK (75 % flash, Wi-Fi strings
+  verified in the .bin). **Flashed** same day (COM4, BOOT held): boots, PN532 ready, joins NETGEAR72 at
+  192.168.1.107 in ~1.6 s. The fallback to "Ciancio" is untested (only possible at their house).
+  **Site Magic / site-to-site is out:** Forney's console is "Invited" (another account owns it) and its
+  *Create Site-to-Site VPN* button is disabled for us. Instead: **WireGuard on the iPad** to our UDM's
+  VPN server **"Ciancio cloud"** (192.168.2.0/24) with **Allowed IPs = 192.168.1.0/24 only** (split
+  tunnel, so the plinth on their LAN stays reachable). Do NOT use our other server "server wireguard":
+  it uses 192.168.4.0/24 = Forney's LAN.
 - **2026-10-28 (site security fix, LIVE)** — from the all-servers review (`..\security-review-2026-10-27.md`).
   `site\server.js` used to leak `data/` through NTFS stream syntax (`/data::$INDEX_ALLOCATION/receipts.json`,
   which exposed visitor IPs and the word blocklist) and served its own source when asked in uppercase
