@@ -68,7 +68,9 @@ function applyKV(key, value) {
 }
 
 // Defaults + config.ini text (may be '') + the host menu's saved overrides.
+let s_iniText = '';
 export function loadConfig(iniText) {
+  s_iniText = iniText || '';
   for (const [k, v] of parseIni(iniText)) applyKV(k, v);
   try { s_overrides = JSON.parse(localStorage.getItem(OVERRIDES_KEY) || '{}') || {}; } catch { s_overrides = {}; }
   for (const k of Object.keys(s_overrides)) applyKV(k, s_overrides[k]);
@@ -196,6 +198,7 @@ export const counters = {
 };
 const STATE_KEY = 'station.state';
 let s_cntYear = 0;
+let s_resetId = '';     // the server state's resetId: a wipe on the server (new id) beats this browser's copy
 let s_saveTimer = 0;
 let s_lastServerOk = null;
 
@@ -220,6 +223,7 @@ function stateObj() {
                replays: counters.replays, noCrystal: counters.noCrystal, sleepy: counters.sleepy, foreign: counters.foreign,
                tier: counters.tier.slice(), rareGiven: counters.rareGiven, legendGiven: counters.legendGiven,
                writeFails: counters.writeFails, moonPoints: counters.moonPoints, moonFull: counters.moonFull, webPoints: counters.webPoints },
+    ...(s_resetId ? { resetId: s_resetId } : {}),
     savedAt: new Date().toISOString(),
   };
 }
@@ -233,7 +237,20 @@ export async function loadCounters(year) {
     const r = await fetch('/api/state', { cache: 'no-store' });
     if (r.ok) { remote = await r.json(); s_lastServerOk = true; }
   } catch { s_lastServerOk = false; }
-  const pick = (remote && remote.station) ? ((local && local.station && (local.station.crystals | 0) > (remote.station.crystals | 0)) ? local : remote) : local;
+  // The server was wiped (state.json carries a resetId this browser hasn't seen): take the server's
+  // copy, and drop the host menu's Odds overrides so config.ini's [odds] count again.
+  const wiped = !!(remote && remote.resetId && (!local || local.resetId !== remote.resetId));
+  if (wiped) {
+    const dropped = Object.keys(s_overrides).filter(k => k.startsWith('odds.'));
+    if (dropped.length) {
+      for (const k of dropped) delete s_overrides[k];
+      try { localStorage.setItem(OVERRIDES_KEY, JSON.stringify(s_overrides)); } catch {}
+      for (const [k, v] of parseIni(s_iniText)) if (k.startsWith('odds.')) applyKV(k, v);
+      console.log(`settings: server state was reset - dropped odds overrides ${dropped.join(', ')}`);
+    }
+  }
+  const pick = (remote && remote.station) ? ((!wiped && local && local.station && (local.station.crystals | 0) > (remote.station.crystals | 0)) ? local : remote) : local;
+  s_resetId = (pick && pick.resetId) || (remote && remote.resetId) || '';
   applyState(pick, year);
   return { local: !!local, remote: !!(remote && remote.station) };
 }

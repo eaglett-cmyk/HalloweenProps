@@ -30,8 +30,9 @@ let s_msg = '';
 let s_simQueue = [];      // simulated crystals to place once the menu closes
 // Batch provisioning (Crystals tab): every crystal placed gets this colour - blank ones are
 // provisioned, already-ours ones recoloured if `recolour` is on (else relinked if their link is
-// older than their own /c/<id> page). Counts for the session.
-let s_batch = { on: false, colour: 1, recolour: false, done: 0, skipped: 0, failed: 0, last: '' };
+// older than their own /c/<id> page). `clearYear` on: an already-ours crystal that holds a visit for
+// event_year has it wiped (test visits before the night). Counts for the session.
+let s_batch = { on: false, colour: 1, recolour: false, clearYear: false, done: 0, skipped: 0, failed: 0, last: '' };
 
 // ---------------------------------------------------------------- simulated crystal images
 function blankImage() {
@@ -122,6 +123,7 @@ async function batchHandle(img) {
   let build, label;
   if (c.kind === token.Kind.Fresh) { label = 'Provision'; build = () => token.buildProvisionWrites(img, s_batch.colour, cfg.ndefUrl); }
   else if (c.kind === token.Kind.Ours && c.color !== s_batch.colour && s_batch.recolour) { label = 'Recolour'; build = () => token.buildColorWrite(img, s_batch.colour, cfg.ndefUrl); }
+  else if (c.kind === token.Kind.Ours && s_batch.clearYear && (c.playedThisYear || c.visits > c.history.length)) { label = 'Clear'; build = () => token.buildClearYearWrites(img, cfg.eventYear, cfg.baseYear); }
   else if (c.kind === token.Kind.Ours && !c.hasOurLink) { label = 'Relink'; build = () => token.buildProvisionWrites(img, c.color, cfg.ndefUrl); }
   else {
     s_batch.skipped++;
@@ -132,7 +134,7 @@ async function batchHandle(img) {
   if (!writes.length) { s_batch.skipped++; s_batch.last = `${id}: ${why}`; audio.chime(5, 40); render(); return; }
   s_batch.last = `${id}: ${label.toLowerCase()}ing...`; render();
   const ok = await sendWrites(writes, label);
-  if (ok) { s_batch.done++; s_batch.last = label === 'Relink' ? `${id}: link updated to its own page - next crystal` : `${id}: ${label.toLowerCase()}ed as ${S.text(`color.${s_batch.colour}`, s_batch.colour)} - next crystal`; audio.chime(1, 60); }
+  if (ok) { s_batch.done++; s_batch.last = label === 'Clear' ? `${id}: this year's visit cleared - next crystal` : label === 'Relink' ? `${id}: link updated to its own page - next crystal` : `${id}: ${label.toLowerCase()}ed as ${S.text(`color.${s_batch.colour}`, s_batch.colour)} - next crystal`; audio.chime(1, 60); }
   else { s_batch.failed++; s_batch.last = `${id}: ${label} FAILED (${s_msg}) - set it down again`; audio.chime(6, 60); }
   render();
 }
@@ -222,6 +224,7 @@ function pageCrystals() {
         ...Array.from({ length: n }, (_, k) => k + 1).map(i => el('button', { class: 'btn colour' + (s_batch.colour === i ? ' on' : ''), onclick: () => { s_batch.colour = i; render(); } },
           el('span', { class: 'swatch', 'data-colour': i }), S.text(`color.${i}`, `Colour ${i}`))),
         el('label', { class: 'check' }, el('input', { type: 'checkbox', ...(s_batch.recolour ? { checked: '' } : {}), onchange: ev => { s_batch.recolour = ev.target.checked; } }), ' also recolour crystals already provisioned'),
+        el('label', { class: 'check' }, el('input', { type: 'checkbox', ...(s_batch.clearYear ? { checked: '' } : {}), onchange: ev => { s_batch.clearYear = ev.target.checked; } }), ` also clear ${cfg.eventYear} visits (test runs)`),
         el('button', { class: 'btn ' + (s_batch.on ? 'danger' : 'accent'), onclick: () => { s_batch.on = !s_batch.on; if (s_batch.on) { s_batch.done = s_batch.skipped = s_batch.failed = 0; s_batch.last = 'waiting for the first crystal'; if (s_img) batchHandle(s_img); } render(); } }, s_batch.on ? 'Stop batch' : 'Start batch')),
       el('p', { class: 'msg' }, s_batch.on || s_batch.done || s_batch.skipped ? `${s_batch.done} provisioned, ${s_batch.skipped} skipped, ${s_batch.failed} failed. ${s_batch.last}` : 'Pick the colour, start, then place crystals one after another. Blank ones are provisioned with the link and that colour (a chime per crystal); crystals that already carry a history are left alone unless the recolour box is ticked.')),
     el('p', { class: 'hint' }, 'Place a crystal on the plinth: every placement counts as a read test (good reads / placements, last read time). Provision writes the link + colour to a blank crystal; Format wipes any tag back to blank (the only write ever made to a foreign tag).'));

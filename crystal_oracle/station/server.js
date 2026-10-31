@@ -120,7 +120,15 @@ async function handler(req, res) {
     if (req.method === 'PUT' || req.method === 'POST') {
       try {
         const body = await readBody(req);
-        JSON.parse(body);                               // must be JSON
+        const incoming = JSON.parse(body);              // must be JSON
+        // A wiped state.json carries a resetId; a page loaded before the wipe still holds the old
+        // counters and must not write them back (reload it and it picks up the clean copy).
+        let cur = null;
+        try { cur = JSON.parse(fs.readFileSync(file, 'utf8')); } catch {}
+        if (cur && cur.resetId && incoming.resetId !== cur.resetId) {
+          send(res, 409, JSON.stringify({ error: 'state was reset - reload the page' }), 'application/json; charset=utf-8');
+          return;
+        }
         fs.mkdirSync(STATE_DIR, { recursive: true });
         fs.writeFileSync(file + '.tmp', body);
         fs.renameSync(file + '.tmp', file);

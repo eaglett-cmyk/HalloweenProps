@@ -44,6 +44,30 @@ Read `crystal_oracle/README.md` first, then `crystal_oracle/docs/DESIGN.md` (con
   2027-01-06) → stills from ChatGPT + our ffmpeg "layers" animator; voice from ElevenLabs/OpenAI TTS.
 
 ### Changelog
+- **2026-10-30 (iPad: odds 50 % rare / 4 % Dragon Gem; everything reset for the first night)** — owner:
+  "50% rare 4% epic and reset everything so it is clean for the first Halloween".
+  * `sd_card_ipad/oracle/config.ini` `rare_pct = 50` (`legend_pct` was already 4). The TF card's
+    config.ini is unchanged (18). A first visit plays as about 4 % Dragon Gem, 50–55 % Gold Star
+    (+ up to 5 for a full tap charge), the rest coin (first visits are never a trick).
+  * **Wiped, with copies kept** (git-ignored, not read by anything): station `logs/events.log` +
+    `logs/visits_2026.csv` + the old `state.json` → `station/logs/_pretest_2026-10-30/`; site
+    `data/beacon.json` + `data/receipts.json` → `site/data/_pretest_2026-10-30/` (the Beacon reads 0/500).
+    `station/state/state.json` is all zeros, **including the all-time crystals/awakened counts**, and has
+    `"resetId": "clean-2026-10-30"`.
+  * **`resetId` (new, settings.js + server.js):** the iPad used to keep its own copy of the counters in
+    localStorage and preferred it whenever it had more all-time crystals, so a server-side wipe came back.
+    Now a server state with a resetId that the browser hasn't seen wins, and it also drops the host menu's
+    `odds.*` overrides so config.ini's odds apply (other overrides, e.g. volume, are kept). `PUT
+    /api/state` returns **409** when its resetId doesn't match the file's, so a page that was open before
+    the wipe can't write its old numbers back. **Reload the iPad page** after a wipe. To wipe again later,
+    write a zeroed state.json with a new resetId. Build `2026-10-30a`. Tested in headless Chrome on a
+    scratch copy (stale local state + an `odds.rare_pct=18` override → 0 counters, rare 50, volume kept,
+    saves carry the id) plus a 409 against the live :8460; station server restarted.
+  * **Crystal tags still hold the test visits** (42 test ids in the old log), so they would play as
+    "already visited tonight". New host-menu option: Crystals → Batch → **"also clear 2026 visits (test
+    runs)"**. With it ticked, an already-provisioned crystal that has a 2026 visit gets it wiped
+    (`buildClearYearWrites`, the same write as the single "Clear tonight" button). Not run on the real
+    plinth yet.
 - **2026-10-30 (Dragon Gem = dark red cushion-cut ruby)** — owner: the gem should be a dark red ruby,
   cushion cut, art by Codex to fit the rest. `prop_gem.png` re-made with `make_image_codex.py` (refs: the
   gold star + coin); first take was too bright (kept as `assets/.codex_jobs/prop_gem_bright_take.png`), the

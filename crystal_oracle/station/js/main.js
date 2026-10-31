@@ -13,7 +13,7 @@ import { show } from './show.js';
 import * as fx from './fx.js';
 import { service, sim } from './service.js';
 
-const BUILD = '2026-10-26e';
+const BUILD = '2026-10-30a';
 // page errors go to the station's events.log too (the iPad has no console in Guided Access)
 window.addEventListener('error', e => { try { vlog.event(`page error: ${e.message} @ ${(e.filename || '').split('/').pop()}:${e.lineno}`); } catch {} });
 window.addEventListener('unhandledrejection', e => { try { vlog.event(`page error (promise): ${e.reason && e.reason.message || e.reason}`); } catch {} });
