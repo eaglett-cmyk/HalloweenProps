@@ -1139,6 +1139,8 @@ async function runCrystal() {
   const q = s_seq;
   q.c = token.parse(s_cur, cfg.eventYear, cfg.baseYear);
   q.simulated = link.isSimUid(s_cur.uid, s_cur.uidLen);
+  // [station] fresh_colour: a blank crystal is that colour (shown now, written with its first visit)
+  if (q.c.kind === token.Kind.Fresh && cfg.freshColour >= 1 && cfg.freshColour <= S.colorCount()) q.c.color = cfg.freshColour;
   setSeqColour(token.displayColor(q.c), t);
   fx.sparklesClear();
   let kind = q.c.kind;

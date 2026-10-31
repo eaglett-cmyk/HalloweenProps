@@ -291,6 +291,7 @@ function pageSound() {
       el('span', { class: 'label' }, 'Plinth button:'), sel('station.button', cfg.hasButton ? 'yes' : 'no', [['no', 'no (taps bless)'], ['yes', 'yes']])),
     el('div', { class: 'row' }, el('span', { class: 'label' }, 'Second helpings:'), sel('station.second_helpings', cfg.secondHelpings ? 'yes' : 'no', [['no', 'no'], ['yes', 'yes']]),
       el('span', { class: 'label' }, 'Awaken blank tags:'), sel('station.allow_fresh', cfg.allowFresh ? 'yes' : 'no', [['yes', 'yes'], ['no', 'no']]),
+      el('span', { class: 'label' }, 'Blank tags colour:'), sel('station.fresh_colour', cfg.freshColour, [[0, 'by serial'], ...Array.from({ length: S.colorCount() }, (_, k) => [k + 1, S.text(`color.${k + 1}`, `Colour ${k + 1}`)])]),
       el('span', { class: 'label' }, 'Show counter:'), sel('station.show_counter', cfg.showCounter ? 'yes' : 'no', [['yes', 'yes'], ['no', 'no']])),
     el('div', { class: 'row' }, el('span', { class: 'label' }, 'Event year:'), num('station.event_year', cfg.eventYear, 2024, 2045),
       el('span', { class: 'label' }, 'Chapter every N loops:'), num('timing.chapter_every', cfg.chapterEvery, 0, 50),

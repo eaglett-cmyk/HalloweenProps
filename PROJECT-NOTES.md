@@ -44,6 +44,15 @@ Read `crystal_oracle/README.md` first, then `crystal_oracle/docs/DESIGN.md` (con
   2027-01-06) → stills from ChatGPT + our ffmpeg "layers" animator; voice from ElevenLabs/OpenAI TTS.
 
 ### Changelog
+- **2026-10-31 (blank crystals awaken as Starfrost)** — owner had more crystals made (all Starfrost) and
+  the owner's dad runs the station tonight, so no batch provisioning first. Blank tags already awaken in
+  the show (`allow_fresh = yes`: link + visit in one write), but with colour 0 the screen picked a colour
+  from the tag's serial number. New station-only key **`[station] fresh_colour`** (0 = by serial, the
+  default): a Fresh crystal is shown in that colour and has it written to page 17 byte 1 with its first
+  visit (`token.buildVisitWrites`). iPad config.ini: **`fresh_colour = 2`** (Starfrost). Host menu →
+  Sound & mode → "Blank tags colour". Build `2026-10-31a`. Tested headless with the fake plinth on a
+  scratch copy: `fresh` → `colour=2`, page 17 `00:02:00:00`, visit written. Live :8460 serves it now
+  (reload the iPad app).
 - **2026-10-30 (host menu tabs below the iPad status bar)** — owner: the iPad's top bar covered the
   setup menu's buttons about halfway. The Home Screen app is `black-translucent`, so the page draws under
   the clock/battery bar. `style.css` `#service .tabs` now has `padding-top: max(36px,

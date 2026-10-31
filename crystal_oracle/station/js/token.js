@@ -170,7 +170,7 @@ export function buildVisitWrites(c, eventYear, baseYear, number, tier, flags, ch
   if (tier > 3) tier = tierForNumber(number);
   const out = [];
   putLink(out, c, ndefUrl);   // provisions a Fresh crystal's link, upgrades an older one of ours
-  if (c.kind === Kind.Fresh) put(out, PAGE_CHARGE, [0, 0, 0, 0]);
+  if (c.kind === Kind.Fresh) put(out, PAGE_CHARGE, [0, c.color & 0xFF, 0, 0]);   // colour: [station] fresh_colour, else 0
   put(out, PAGE_YEAR0 + yIdx, [number, tier, (flags | SF.ORACLE) & 0xFF, chapter & 0xFF]);
   const prior = c.kind === Kind.Ours ? c.visits : 0;
   put(out, PAGE_MARKER, [MAGIC0, MAGIC1, SCHEMA, Math.min(prior + 1, 255)]);

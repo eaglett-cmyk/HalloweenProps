@@ -27,6 +27,7 @@ export const cfg = {
   attractHints: false,  // the attract loop's two crystal-and-arrow hints (put-back / sleepy keep theirs)
   anchorGlow: false,    // the glow on Butterscotch's tummy that breathes and pulses with his voice (the beams still aim there)
   webBeacon: false,     // show the website games' light on the meter, live (station.web_beacon; GET /api/web_beacon)
+  freshColour: 0,       // a blank crystal awakened in the show gets this colour id written (station.fresh_colour; 0 = pick from its serial, not written)
 };
 
 // config.ini key -> [field, type]  (types: int, bool, str, rush, reader)
@@ -37,7 +38,7 @@ const FIELDS = {
   'station.ring_brightness': ['ringBrightness', 'int'], 'station.rush': ['rush', 'rush'],
   'station.second_helpings': ['secondHelpings', 'bool'], 'station.allow_fresh': ['allowFresh', 'bool'],
   'station.log_visits': ['logVisits', 'bool'], 'station.show_counter': ['showCounter', 'bool'], 'station.ndef_url': ['ndefUrl', 'str'],
-  'station.plinth': ['plinth', 'str'], 'station.fit': ['fit', 'str'], 'station.attract_text': ['attractText', 'bool'], 'station.attract_hints': ['attractHints', 'bool'], 'station.anchor_glow': ['anchorGlow', 'bool'], 'station.web_beacon': ['webBeacon', 'bool'],
+  'station.plinth': ['plinth', 'str'], 'station.fit': ['fit', 'str'], 'station.attract_text': ['attractText', 'bool'], 'station.attract_hints': ['attractHints', 'bool'], 'station.anchor_glow': ['anchorGlow', 'bool'], 'station.web_beacon': ['webBeacon', 'bool'], 'station.fresh_colour': ['freshColour', 'int'],
   'odds.trick_pct': ['trickPct', 'int'], 'odds.rare_pct': ['rarePct', 'int'], 'odds.legend_pct': ['legendPct', 'int'],
   'odds.loyalty_rare_pct': ['loyaltyRarePct', 'int'], 'odds.loyalty_cap_pct': ['loyaltyCapPct', 'int'],
   'odds.charge_rare_pct': ['chargeRarePct', 'int'], 'odds.pity_after': ['pityAfter', 'int'], 'odds.first_no_trick': ['firstNoTrick', 'bool'],
