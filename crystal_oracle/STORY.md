@@ -225,7 +225,7 @@ Each result has the same name as the picture on its bowl, so a three-year-old he
 | 0 Trick | ~15% | 1–39 (hidden) | **GOBLIN TRICK!** (a silly gag, then candy) | **silver coin** | silver hoard coin |
 | 1 Treat | ~63% | 40–89 | **HOARD COIN!** | **silver coin** | silver hoard coin (`prop_coin`) |
 | 2 Rare | ~18% | 90–99 | **GOLDEN STAR!** | **gold star** | gold star (`prop_star`) |
-| 3 Legendary | ~4% | 100 | **DRAGON GEM!** | **dragon gem**, held by the host | ruby triangle gem (`prop_gem`) |
+| 3 Legendary | ~4% | 100 | **DRAGON GEM!** | **dragon gem**, held by the host | dark ruby cushion-cut gem (`prop_gem`) |
 
 ### Setting up the bowls
 - **Silver coin:** a big round stainless or foil bowl, with the silver coin sign.

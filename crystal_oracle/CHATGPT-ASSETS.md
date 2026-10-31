@@ -44,7 +44,7 @@ Everything the screen needs, in priority order. **MVP** = needed for Halloween n
 | 12 | `snuffwick_chicken.png` | instead of the snuffer he hugs a big pale lemon-yellow squeaky rubber chicken with an … | MVP | snuffwick_base | reveal_t0_1 |
 | 13 | `prop_crystal.png` | One pale clear faceted crystal with the shape of your real 3D-printed crystals (give … | MVP | — | awaken, chapter_d |
 | 14 | `prop_coin.png` | HOARD COIN: a big round shiny SILVER candy coin (#D9DEE8), like a chocolate coin in … | MVP | — | reveal_t0_1, reveal_t1 |
-| 15 | `prop_gem.png` | DRAGON GEM: a big ruby-red (#FF3B47) gem cut as a clear TRIANGLE (point up), chunky … | MVP | — | reveal_t3 |
+| 15 | `prop_gem.png` | DRAGON GEM: a big dark red ruby in a CUSHION CUT (rounded-corner square), chunky … | MVP | — | reveal_t3 |
 | 16 | `prop_star.png` | GOLDEN STAR: a chunky glossy gold (#FFC83D) five-point star with rounded points and a … | MVP | — | reveal_t2, reveal_t2_2 |
 | 17 | `bg_cave_lit.png` | the Hoard Beacon now BLAZES warm amber (#FFB347) with a soft warm pool of light on the … | NICE | bg_cave | attract_full, moonfull, chapter_a, chapter_b, chapter_e |
 | 18 | `butterscotch_yawn.png` | a big sleepy yawn - round open mouth (no teeth), eyes squeezed shut; face-only. (Sleepy … | NICE | butterscotch_base | sleepy |
@@ -165,7 +165,7 @@ A chunky glossy SILVER DRAGON COIN (#D9DEE8, polished smooth silver foil with so
 ### `prop_gem` — MVP · transparent
 
 ```text
-A big RUBY-RED (#FF3B47) dragon gem cut as a clear TRIANGLE with the point up: chunky glossy facets and one bright highlight. Front view, a clear triangle silhouette, no face, no text. Full figure, centred, nothing cropped, on a TRANSPARENT background (PNG). If you can't make it transparent, use a flat pure green #00FF00 background with no shadow and no floor. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; glossy candy-like materials; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and cozy, never scary.
+A big DARK RED RUBY dragon gem (deep garnet-ruby #7A0A16 with brighter ruby #D21A2C glints) in a classic CUSHION CUT: a rounded-corner square with gently bowed sides, a flat table facet and chunky glossy crown facets, one bright highlight and a warm inner glow. Front view, tilted very slightly, no face, no text. Full figure, centred, nothing cropped, on a TRANSPARENT background (PNG). If you can't make it transparent, use a flat pure green #00FF00 background with no shadow and no floor. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; glossy candy-like materials; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and cozy, never scary.
 ```
 
 ### `prop_star` — MVP · transparent

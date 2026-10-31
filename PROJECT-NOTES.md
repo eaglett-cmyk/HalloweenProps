@@ -44,6 +44,15 @@ Read `crystal_oracle/README.md` first, then `crystal_oracle/docs/DESIGN.md` (con
   2027-01-06) → stills from ChatGPT + our ffmpeg "layers" animator; voice from ElevenLabs/OpenAI TTS.
 
 ### Changelog
+- **2026-10-30 (Dragon Gem = dark red cushion-cut ruby)** — owner: the gem should be a dark red ruby,
+  cushion cut, art by Codex to fit the rest. `prop_gem.png` re-made with `make_image_codex.py` (refs: the
+  gold star + coin); first take was too bright (kept as `assets/.codex_jobs/prop_gem_bright_take.png`), the
+  installed one is a darker edit of it; the triangle original is `prop_gem.png.old`. Prompt/desc updated in
+  `gen_manifest_dragonglow.py` + `manifest.json` (hand-synced, not regenerated) + CHATGPT-ASSETS/STORY.
+  Rebuilt `reveal_t3` for both cards (`--only still:prop_gem`, plain + `--ipad`). Site: new
+  `site/img/prop_gem.webp` (640² yuva420p via ffmpeg, no PIL here) + `?v=2` on page 6 — live. **Not
+  changed:** caption/bowl colour `#FF3B47` (dark red would vanish on the indigo) and `bowl.legend_shape =
+  triangle` (the station only draws circle/triangle/star icons).
 - **2026-10-29 (run the iPad rig at the parents' house — DROPPED same day, mom doesn't want it)** —
   nothing was set up in UniFi. The two-network plinth firmware stays (harmless at home, already flashed).
   Original plan, for if it comes back: owner wanted the show at mom's (UniFi
@@ -277,7 +286,7 @@ Read `crystal_oracle/README.md` first, then `crystal_oracle/docs/DESIGN.md` (con
   rebuilt (reveal_t1/t2/t2_2 + the coin gag clip); storybook `site/img/prop_coin|prop_star.webp` replaced
   (640², `?v=2`). Print the new bowl signs from these.
 - **2026-10-26 (Dragon Gem = top prize; hoard fills the cave floor; no attract hints)** — owner:
-  * **Prize swap:** tier 3 (legendary, ~4%, GLOW 100, host-held) is now the **DRAGON GEM** (red triangle,
+  * **Prize swap:** tier 3 (legendary, ~4%, GLOW 100, host-held) is now the **DRAGON GEM** (red gem — a cushion-cut dark ruby since 2026-10-30; was a triangle,
     `prop_gem`, revealed on `bg_starburst`); tier 2 (rare, ~18%, 90–99) is the **GOLDEN STAR** (gold star
     bowl, `prop_star` rising out of the Wakestone). Odds/logic untouched — only what each tier shows/says.
     Done in `tools/gen_manifest_dragonglow.py` (clips, lines, words, sfx labels) → manifest,

@@ -194,10 +194,12 @@ STILLS = [
        "and candy dots inside the rim. No text, no numbers. Silver only - NOT gold.", SPRITE, STYLE),
      {}),
     ("prop_gem", "prop", True, "MVP",
-     "DRAGON GEM: a big ruby-red (#FF3B47) gem cut as a clear TRIANGLE (point up), chunky glossy facets, a bright "
-     "highlight; front view; no face. The TOP prize; also the dragon-gem bowl sign (the host holds it).",
-     P("A big RUBY-RED (#FF3B47) dragon gem cut as a clear TRIANGLE with the point up: chunky glossy facets and one "
-       "bright highlight. Front view, a clear triangle silhouette, no face, no text.", SPRITE, STYLE),
+     "DRAGON GEM: a big dark red ruby (#7A0A16, #D21A2C glints) in a CUSHION CUT (rounded-corner square), chunky "
+     "glossy facets, a bright highlight and a warm inner glow; front view; no face. The TOP prize; also the "
+     "dragon-gem bowl sign (the host holds it).",
+     P("A big DARK RED RUBY dragon gem (deep garnet-ruby #7A0A16 with brighter ruby #D21A2C glints) in a classic "
+       "CUSHION CUT: a rounded-corner square with gently bowed sides, a flat table facet and chunky glossy crown "
+       "facets, one bright highlight and a warm inner glow. Front view, tilted very slightly, no face, no text.", SPRITE, STYLE),
      {}),
     ("prop_star", "prop", True, "MVP",
      "GOLDEN STAR: a chunky glossy gold (#FFC83D) five-point star with rounded points and a soft warm glow; no face; "
