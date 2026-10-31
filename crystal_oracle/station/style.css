@@ -17,7 +17,8 @@ body { display: flex; align-items: center; justify-content: center; }
 /* ---- host menu ---- */
 #service { position: fixed; inset: 0; background: #0b0816; color: #eee; display: none; flex-direction: column; z-index: 20; font-size: 15px; }
 #service.open { display: flex; }
-#service .tabs { display: flex; gap: 6px; padding: 8px; background: #15102a; border-bottom: 1px solid #3b2d6b; flex-wrap: wrap; }
+/* the Home Screen app draws under the iPad's status bar (black-translucent): keep the tabs below it */
+#service .tabs { display: flex; gap: 6px; padding: 8px; padding-top: max(36px, calc(env(safe-area-inset-top, 0px) + 12px)); background: #15102a; border-bottom: 1px solid #3b2d6b; flex-wrap: wrap; }
 #service .tab { background: #241b45; color: #cfc6e8; border: 1px solid #3b2d6b; border-radius: 8px; padding: 10px 14px; font-size: 15px; cursor: pointer; }
 #service .tab.on { background: #7c3aed; color: #fff; }
 #service .tab.close { margin-left: auto; background: #5b1d1d; color: #fff; }

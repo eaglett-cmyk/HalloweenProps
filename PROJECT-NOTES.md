@@ -44,6 +44,11 @@ Read `crystal_oracle/README.md` first, then `crystal_oracle/docs/DESIGN.md` (con
   2027-01-06) → stills from ChatGPT + our ffmpeg "layers" animator; voice from ElevenLabs/OpenAI TTS.
 
 ### Changelog
+- **2026-10-30 (host menu tabs below the iPad status bar)** — owner: the iPad's top bar covered the
+  setup menu's buttons about halfway. The Home Screen app is `black-translucent`, so the page draws under
+  the clock/battery bar. `style.css` `#service .tabs` now has `padding-top: max(36px,
+  env(safe-area-inset-top) + 12px)`. Build `2026-10-30b`. Checked headless at 1180×820 (tabs at
+  y 36–75); not yet looked at on the iPad.
 - **2026-10-30 (iPad: odds 50 % rare / 4 % Dragon Gem; everything reset for the first night)** — owner:
   "50% rare 4% epic and reset everything so it is clean for the first Halloween".
   * `sd_card_ipad/oracle/config.ini` `rare_pct = 50` (`legend_pct` was already 4). The TF card's
