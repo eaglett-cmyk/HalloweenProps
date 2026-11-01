@@ -43,6 +43,9 @@
    "**Parent sign** — `print_keyart` with the sign text from STORY.md §13. Keep the line *\"Butterscotch's voice is AI-generated.\"* (OpenAI's and ElevenLabs' terms ask you to disclose AI voices.)"
   ]
  },
+ "extra_voice_groups": [
+  "awaken_b[1-9]"
+ ],
  "words": {
   "title": "Dragonglow",
   "character": "Butterscotch",
@@ -2669,6 +2672,36 @@
    "priority": "MVP"
   },
   {
+   "id": "awaken_a_3",
+   "group": "awaken_a",
+   "variant": 3,
+   "speaker": "Butterscotch",
+   "text": "Oh! A fresh crystal, opening its eyes!",
+   "caption": "NEW CRYSTAL!",
+   "delivery": "soft wonder, a little gasp",
+   "priority": "MVP"
+  },
+  {
+   "id": "awaken_a_4",
+   "group": "awaken_a",
+   "variant": 4,
+   "speaker": "Butterscotch",
+   "text": "Ooh, look! A baby crystal, blinking awake!",
+   "caption": "WAKE UP!",
+   "delivery": "hushed and delighted",
+   "priority": "MVP"
+  },
+  {
+   "id": "awaken_a_5",
+   "group": "awaken_a",
+   "variant": 5,
+   "speaker": "Butterscotch",
+   "text": "A new piece of my egg! Hello, hello!",
+   "caption": "HELLO!",
+   "delivery": "happy surprise, a warm chuckle",
+   "priority": "MVP"
+  },
+  {
    "id": "awaken_b_1",
    "group": "awaken_b",
    "variant": 1,
@@ -2699,6 +2732,156 @@
    "priority": "MVP"
   },
   {
+   "id": "awaken_b1_1",
+   "group": "awaken_b1",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Dragonberry! Purple and sweet, full of dreams!",
+   "caption": "DRAGONBERRY",
+   "delivery": "proud, then dreamy (same take as awaken_b_1)",
+   "priority": "MVP"
+  },
+  {
+   "id": "awaken_b1_2",
+   "group": "awaken_b1",
+   "variant": 2,
+   "speaker": "Butterscotch",
+   "text": "Dragonberry! Deep purple, like a berry dream!",
+   "caption": "DRAGONBERRY",
+   "delivery": "proud, then soft and dreamy",
+   "priority": "MVP"
+  },
+  {
+   "id": "awaken_b1_3",
+   "group": "awaken_b1",
+   "variant": 3,
+   "speaker": "Butterscotch",
+   "text": "Dragonberry! Sweet as jam, and twice as shiny!",
+   "caption": "DRAGONBERRY",
+   "delivery": "proud, a chuckle on 'twice as shiny'",
+   "priority": "MVP"
+  },
+  {
+   "id": "awaken_b1_4",
+   "group": "awaken_b1",
+   "variant": 4,
+   "speaker": "Butterscotch",
+   "text": "Dragonberry! The colour of a midnight treat!",
+   "caption": "DRAGONBERRY",
+   "delivery": "proud, then hushed on 'midnight'",
+   "priority": "MVP"
+  },
+  {
+   "id": "awaken_b1_5",
+   "group": "awaken_b1",
+   "variant": 5,
+   "speaker": "Butterscotch",
+   "text": "Dragonberry! Purple magic, warm and glowing!",
+   "caption": "DRAGONBERRY",
+   "delivery": "proud and warm",
+   "priority": "MVP"
+  },
+  {
+   "id": "awaken_b3_1",
+   "group": "awaken_b3",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Rainbow Fizz! Every colour, full of giggles!",
+   "caption": "RAINBOW FIZZ",
+   "delivery": "proud and bubbly (same take as awaken_b_3)",
+   "priority": "MVP"
+  },
+  {
+   "id": "awaken_b3_2",
+   "group": "awaken_b3",
+   "variant": 2,
+   "speaker": "Butterscotch",
+   "text": "Rainbow Fizz! All the colours, all at once!",
+   "caption": "RAINBOW FIZZ",
+   "delivery": "excited, bubbly",
+   "priority": "MVP"
+  },
+  {
+   "id": "awaken_b3_3",
+   "group": "awaken_b3",
+   "variant": 3,
+   "speaker": "Butterscotch",
+   "text": "Rainbow Fizz! It sparkles like soda pop!",
+   "caption": "RAINBOW FIZZ",
+   "delivery": "bubbly, a giggle on 'soda pop'",
+   "priority": "MVP"
+  },
+  {
+   "id": "awaken_b3_4",
+   "group": "awaken_b3",
+   "variant": 4,
+   "speaker": "Butterscotch",
+   "text": "Rainbow Fizz! A whole rainbow, just for you!",
+   "caption": "RAINBOW FIZZ",
+   "delivery": "delighted and warm",
+   "priority": "MVP"
+  },
+  {
+   "id": "awaken_b3_5",
+   "group": "awaken_b3",
+   "variant": 5,
+   "speaker": "Butterscotch",
+   "text": "Rainbow Fizz! Ooh, it's fizzing with fun!",
+   "caption": "RAINBOW FIZZ",
+   "delivery": "playful, bubbly",
+   "priority": "MVP"
+  },
+  {
+   "id": "awaken_b2_1",
+   "group": "awaken_b2",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Starfrost! Sparkly sky blue, full of wonder!",
+   "caption": "STARFROST",
+   "delivery": "proud, then hushed amazement on 'wonder' (same take as awaken_b_2; the station plays awaken_b<colour> when it exists)",
+   "priority": "MVP"
+  },
+  {
+   "id": "awaken_b2_2",
+   "group": "awaken_b2",
+   "variant": 2,
+   "speaker": "Butterscotch",
+   "text": "Starfrost! Twinkly blue, like a winter sky!",
+   "caption": "STARFROST",
+   "delivery": "proud, then dreamy on 'winter sky'",
+   "priority": "MVP"
+  },
+  {
+   "id": "awaken_b2_3",
+   "group": "awaken_b2",
+   "variant": 3,
+   "speaker": "Butterscotch",
+   "text": "Starfrost! Shiny and blue, full of sparkles!",
+   "caption": "STARFROST",
+   "delivery": "proud and bright, a smile on 'sparkles'",
+   "priority": "MVP"
+  },
+  {
+   "id": "awaken_b2_4",
+   "group": "awaken_b2",
+   "variant": 4,
+   "speaker": "Butterscotch",
+   "text": "Starfrost! Icy blue and glittery bright!",
+   "caption": "STARFROST",
+   "delivery": "crisp and admiring",
+   "priority": "MVP"
+  },
+  {
+   "id": "awaken_b2_5",
+   "group": "awaken_b2",
+   "variant": 5,
+   "speaker": "Butterscotch",
+   "text": "Starfrost! As blue as a frosty moon!",
+   "caption": "STARFROST",
+   "delivery": "proud, then soft and hushed on 'frosty moon'",
+   "priority": "MVP"
+  },
+  {
    "id": "awaken_c_1",
    "group": "awaken_c",
    "variant": 1,
@@ -2716,6 +2899,36 @@
    "text": "Sparkfinder! Look, two sparks already!",
    "caption": "SPARKFINDER!",
    "delivery": "delighted, impressed, quick",
+   "priority": "MVP"
+  },
+  {
+   "id": "awaken_c_3",
+   "group": "awaken_c",
+   "variant": 3,
+   "speaker": "Butterscotch",
+   "text": "Sparkfinder! Your very first spark!",
+   "caption": "SPARKFINDER!",
+   "delivery": "proud and warm, bright on 'Sparkfinder'",
+   "priority": "MVP"
+  },
+  {
+   "id": "awaken_c_4",
+   "group": "awaken_c",
+   "variant": 4,
+   "speaker": "Butterscotch",
+   "text": "Sparkfinder! What a brave traveler!",
+   "caption": "SPARKFINDER!",
+   "delivery": "admiring, a little grand",
+   "priority": "MVP"
+  },
+  {
+   "id": "awaken_c_5",
+   "group": "awaken_c",
+   "variant": 5,
+   "speaker": "Butterscotch",
+   "text": "Sparkfinder! Welcome to my cave!",
+   "caption": "SPARKFINDER!",
+   "delivery": "cozy welcome, smiling",
    "priority": "MVP"
   },
   {
@@ -2929,6 +3142,36 @@
    "priority": "MVP"
   },
   {
+   "id": "reveal_t1_3",
+   "group": "reveal_t1",
+   "variant": 3,
+   "speaker": "Butterscotch",
+   "text": "Hoard coin! Ooh, it's still warm!",
+   "caption": "HOARD COIN!",
+   "delivery": "pleased and cozy, a soft chuckle",
+   "priority": "MVP"
+  },
+  {
+   "id": "reveal_t1_4",
+   "group": "reveal_t1",
+   "variant": 4,
+   "speaker": "Butterscotch",
+   "text": "Hoard coin! Clink, clink! Lovely!",
+   "caption": "HOARD COIN!",
+   "delivery": "playful, two light 'clinks'",
+   "priority": "MVP"
+  },
+  {
+   "id": "reveal_t1_5",
+   "group": "reveal_t1",
+   "variant": 5,
+   "speaker": "Butterscotch",
+   "text": "Hoard coin! My favourite kind!",
+   "caption": "HOARD COIN!",
+   "delivery": "fond and happy",
+   "priority": "MVP"
+  },
+  {
    "id": "reveal_t2_1",
    "group": "reveal_t2",
    "variant": 1,
@@ -2946,6 +3189,36 @@
    "text": "Golden Star! Not many travelers find those!",
    "caption": "GOLDEN STAR!",
    "delivery": "thrilled, conspiratorial",
+   "priority": "MVP"
+  },
+  {
+   "id": "reveal_t2_3",
+   "group": "reveal_t2",
+   "variant": 3,
+   "speaker": "Butterscotch",
+   "text": "Golden Star! It's glowing just for you!",
+   "caption": "GOLDEN STAR!",
+   "delivery": "excited and tender",
+   "priority": "MVP"
+  },
+  {
+   "id": "reveal_t2_4",
+   "group": "reveal_t2",
+   "variant": 4,
+   "speaker": "Butterscotch",
+   "text": "Golden Star! Oh, how it twinkles!",
+   "caption": "GOLDEN STAR!",
+   "delivery": "awed delight",
+   "priority": "MVP"
+  },
+  {
+   "id": "reveal_t2_5",
+   "group": "reveal_t2",
+   "variant": 5,
+   "speaker": "Butterscotch",
+   "text": "Golden Star! What a lucky traveler!",
+   "caption": "GOLDEN STAR!",
+   "delivery": "thrilled, a happy laugh",
    "priority": "MVP"
   },
   {
@@ -2969,6 +3242,16 @@
    "priority": "MVP"
   },
   {
+   "id": "reveal_t3_3",
+   "group": "reveal_t3",
+   "variant": 3,
+   "speaker": "Butterscotch",
+   "text": "Dragon Gem! Oh my stars, you found it!",
+   "caption": "DRAGON GEM!",
+   "delivery": "amazed, rising to joy",
+   "priority": "MVP"
+  },
+  {
    "id": "bowl_common_1",
    "group": "bowl_common",
    "variant": 1,
@@ -2976,6 +3259,46 @@
    "text": "Silver coin! Take one treat!",
    "caption": "SILVER COIN",
    "delivery": "clear and friendly, crisp on 'Silver coin'",
+   "priority": "MVP"
+  },
+  {
+   "id": "bowl_common_2",
+   "group": "bowl_common",
+   "variant": 2,
+   "speaker": "Butterscotch",
+   "text": "Silver coin bowl! One treat for you!",
+   "caption": "SILVER COIN",
+   "delivery": "clear and friendly, crisp on 'Silver coin'",
+   "priority": "MVP"
+  },
+  {
+   "id": "bowl_common_3",
+   "group": "bowl_common",
+   "variant": 3,
+   "speaker": "Butterscotch",
+   "text": "To the silver coin bowl! Take one!",
+   "caption": "SILVER COIN",
+   "delivery": "cheery, pointing the way",
+   "priority": "MVP"
+  },
+  {
+   "id": "bowl_common_4",
+   "group": "bowl_common",
+   "variant": 4,
+   "speaker": "Butterscotch",
+   "text": "Silver coin! Pick one treat!",
+   "caption": "SILVER COIN",
+   "delivery": "clear, warm, crisp on 'Silver coin'",
+   "priority": "MVP"
+  },
+  {
+   "id": "bowl_common_5",
+   "group": "bowl_common",
+   "variant": 5,
+   "speaker": "Butterscotch",
+   "text": "Silver coin bowl! One yummy treat!",
+   "caption": "SILVER COIN",
+   "delivery": "friendly, a smile on 'yummy'",
    "priority": "MVP"
   },
   {
@@ -2989,6 +3312,46 @@
    "priority": "MVP"
   },
   {
+   "id": "bowl_rare_2",
+   "group": "bowl_rare",
+   "variant": 2,
+   "speaker": "Butterscotch",
+   "text": "Gold star bowl! One treat for you!",
+   "caption": "GOLD STAR",
+   "delivery": "clear, excited, crisp on 'Gold star'",
+   "priority": "MVP"
+  },
+  {
+   "id": "bowl_rare_3",
+   "group": "bowl_rare",
+   "variant": 3,
+   "speaker": "Butterscotch",
+   "text": "To the gold star bowl! Take one!",
+   "caption": "GOLD STAR",
+   "delivery": "excited, pointing the way",
+   "priority": "MVP"
+  },
+  {
+   "id": "bowl_rare_4",
+   "group": "bowl_rare",
+   "variant": 4,
+   "speaker": "Butterscotch",
+   "text": "Gold star! Pick one treat!",
+   "caption": "GOLD STAR",
+   "delivery": "bright, crisp on 'Gold star'",
+   "priority": "MVP"
+  },
+  {
+   "id": "bowl_rare_5",
+   "group": "bowl_rare",
+   "variant": 5,
+   "speaker": "Butterscotch",
+   "text": "Gold star bowl! One special treat!",
+   "caption": "GOLD STAR",
+   "delivery": "proud, a little grand on 'special'",
+   "priority": "MVP"
+  },
+  {
    "id": "bowl_legend_1",
    "group": "bowl_legend",
    "variant": 1,
@@ -2996,6 +3359,16 @@
    "text": "Dragon gem! The grown-up has it!",
    "caption": "DRAGON GEM",
    "delivery": "celebratory, pointing-out tone",
+   "priority": "MVP"
+  },
+  {
+   "id": "bowl_legend_2",
+   "group": "bowl_legend",
+   "variant": 2,
+   "speaker": "Butterscotch",
+   "text": "Dragon gem! Ask the grown-up for it!",
+   "caption": "DRAGON GEM",
+   "delivery": "celebratory, clear on 'grown-up'",
    "priority": "MVP"
   },
   {
@@ -3079,6 +3452,36 @@
    "priority": "MVP"
   },
   {
+   "id": "goodbye_3",
+   "group": "goodbye",
+   "variant": 3,
+   "speaker": "Butterscotch",
+   "text": "Goodnight, traveler! Come back next year!",
+   "caption": "SEE YOU 2027",
+   "delivery": "warm, a little sleepy",
+   "priority": "MVP"
+  },
+  {
+   "id": "goodbye_4",
+   "group": "goodbye",
+   "variant": 4,
+   "speaker": "Butterscotch",
+   "text": "Happy Halloween! See you next year!",
+   "caption": "SEE YOU 2027",
+   "delivery": "bright and cheery",
+   "priority": "MVP"
+  },
+  {
+   "id": "goodbye_5",
+   "group": "goodbye",
+   "variant": 5,
+   "speaker": "Butterscotch",
+   "text": "Thanks for the spark! See you next year!",
+   "caption": "SEE YOU 2027",
+   "delivery": "grateful, smiling",
+   "priority": "MVP"
+  },
+  {
    "id": "recall_t0_1",
    "group": "recall_t0",
    "variant": 1,
@@ -3139,6 +3542,46 @@
    "priority": "NICE"
   },
   {
+   "id": "rush_t1_2",
+   "group": "rush_t1",
+   "variant": 2,
+   "speaker": "Butterscotch",
+   "text": "Hoard coin! To the silver coin bowl!",
+   "caption": "HOARD COIN!",
+   "delivery": "fast and bright (rush mode)",
+   "priority": "NICE"
+  },
+  {
+   "id": "rush_t1_3",
+   "group": "rush_t1",
+   "variant": 3,
+   "speaker": "Butterscotch",
+   "text": "Coin for you! Silver coin bowl!",
+   "caption": "HOARD COIN!",
+   "delivery": "quick and cheery (rush mode)",
+   "priority": "NICE"
+  },
+  {
+   "id": "rush_t1_4",
+   "group": "rush_t1",
+   "variant": 4,
+   "speaker": "Butterscotch",
+   "text": "Shiny coin! Silver coin bowl!",
+   "caption": "HOARD COIN!",
+   "delivery": "fast, a smile in it (rush mode)",
+   "priority": "NICE"
+  },
+  {
+   "id": "rush_t1_5",
+   "group": "rush_t1",
+   "variant": 5,
+   "speaker": "Butterscotch",
+   "text": "Hoard coin! One from the silver coin bowl!",
+   "caption": "HOARD COIN!",
+   "delivery": "fast, crisp bowl words (rush mode)",
+   "priority": "NICE"
+  },
+  {
    "id": "rush_t2_1",
    "group": "rush_t2",
    "variant": 1,
@@ -3149,11 +3592,61 @@
    "priority": "NICE"
   },
   {
+   "id": "rush_t2_2",
+   "group": "rush_t2",
+   "variant": 2,
+   "speaker": "Butterscotch",
+   "text": "Golden Star! Gold star bowl!",
+   "caption": "GOLDEN STAR!",
+   "delivery": "fast, excited (rush mode)",
+   "priority": "NICE"
+  },
+  {
+   "id": "rush_t2_3",
+   "group": "rush_t2",
+   "variant": 3,
+   "speaker": "Butterscotch",
+   "text": "Ooh, Golden Star! Gold star bowl!",
+   "caption": "GOLDEN STAR!",
+   "delivery": "quick gasp, excited (rush mode)",
+   "priority": "NICE"
+  },
+  {
+   "id": "rush_t2_4",
+   "group": "rush_t2",
+   "variant": 4,
+   "speaker": "Butterscotch",
+   "text": "Golden Star! One from the gold star bowl!",
+   "caption": "GOLDEN STAR!",
+   "delivery": "fast, crisp bowl words (rush mode)",
+   "priority": "NICE"
+  },
+  {
+   "id": "rush_t2_5",
+   "group": "rush_t2",
+   "variant": 5,
+   "speaker": "Butterscotch",
+   "text": "A Golden Star! To the gold star bowl!",
+   "caption": "GOLDEN STAR!",
+   "delivery": "fast and thrilled (rush mode)",
+   "priority": "NICE"
+  },
+  {
    "id": "rush_t3_1",
    "group": "rush_t3",
    "variant": 1,
    "speaker": "Butterscotch",
    "text": "Dragon Gem! The grown-up has it!",
+   "caption": "DRAGON GEM!",
+   "delivery": "fast but awed (rush mode)",
+   "priority": "NICE"
+  },
+  {
+   "id": "rush_t3_2",
+   "group": "rush_t3",
+   "variant": 2,
+   "speaker": "Butterscotch",
+   "text": "Dragon Gem! Ask the grown-up!",
    "caption": "DRAGON GEM!",
    "delivery": "fast but awed (rush mode)",
    "priority": "NICE"

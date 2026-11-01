@@ -641,6 +641,10 @@ VOICE = [
      "sleepy gasp of wonder that wakes right up", "MVP"),
     ("awaken_a", 2, B, "A new crystal! Hello, little light!", "HELLO!",
      "tender delight, like greeting a baby bird", "MVP"),
+    # 2026-10-31: more takes so a group of up to 5 first-time travelers hears no repeats (owner)
+    ("awaken_a", 3, B, "Oh! A fresh crystal, opening its eyes!", "NEW CRYSTAL!", "soft wonder, a little gasp", "MVP"),
+    ("awaken_a", 4, B, "Ooh, look! A baby crystal, blinking awake!", "WAKE UP!", "hushed and delighted", "MVP"),
+    ("awaken_a", 5, B, "A new piece of my egg! Hello, hello!", "HELLO!", "happy surprise, a warm chuckle", "MVP"),
     # awaken_b_<n> names crystal colour n (CRYSTAL_COLORS): the name first, then what it looks like, then its gift.
     ("awaken_b", 1, B, "Dragonberry! Purple and sweet, full of dreams!", "DRAGONBERRY",
      "proud announcement of the name, then dreamy and soft on 'full of dreams' (colour ID 1: the deep-to-light "
@@ -649,10 +653,31 @@ VOICE = [
      "proud, then hushed amazement on 'wonder' (colour ID 2: the glittery sky-blue crystals)", "MVP"),
     ("awaken_b", 3, B, "Rainbow Fizz! Every colour, full of giggles!", "RAINBOW FIZZ",
      "proud and bubbly, then a giggle on 'giggles' (colour ID 3: the rainbow-candy glitter crystals)", "MVP"),
+    # 2026-10-31: more takes so a group of up to 5 first-time travelers hears no repeats (owner)
+    # awaken_b1_<n> / awaken_b3_<n>: more Dragonberry / Rainbow Fizz takes (_1 = a copy of awaken_b_1 / awaken_b_3)
+    ("awaken_b1", 1, B, "Dragonberry! Purple and sweet, full of dreams!", "DRAGONBERRY", "proud, then dreamy (same take as awaken_b_1)", "MVP"),
+    ("awaken_b1", 2, B, "Dragonberry! Deep purple, like a berry dream!", "DRAGONBERRY", "proud, then soft and dreamy", "MVP"),
+    ("awaken_b1", 3, B, "Dragonberry! Sweet as jam, and twice as shiny!", "DRAGONBERRY", "proud, a chuckle on 'twice as shiny'", "MVP"),
+    ("awaken_b1", 4, B, "Dragonberry! The colour of a midnight treat!", "DRAGONBERRY", "proud, then hushed on 'midnight'", "MVP"),
+    ("awaken_b1", 5, B, "Dragonberry! Purple magic, warm and glowing!", "DRAGONBERRY", "proud and warm", "MVP"),
+    ("awaken_b3", 1, B, "Rainbow Fizz! Every colour, full of giggles!", "RAINBOW FIZZ", "proud and bubbly (same take as awaken_b_3)", "MVP"),
+    ("awaken_b3", 2, B, "Rainbow Fizz! All the colours, all at once!", "RAINBOW FIZZ", "excited, bubbly", "MVP"),
+    ("awaken_b3", 3, B, "Rainbow Fizz! It sparkles like soda pop!", "RAINBOW FIZZ", "bubbly, a giggle on 'soda pop'", "MVP"),
+    ("awaken_b3", 4, B, "Rainbow Fizz! A whole rainbow, just for you!", "RAINBOW FIZZ", "delighted and warm", "MVP"),
+    ("awaken_b3", 5, B, "Rainbow Fizz! Ooh, it's fizzing with fun!", "RAINBOW FIZZ", "playful, bubbly", "MVP"),
+    ("awaken_b2", 1, B, "Starfrost! Sparkly sky blue, full of wonder!", "STARFROST", "proud, then hushed amazement on 'wonder' (same take as awaken_b_2; the station plays awaken_b<colour> when it exists)", "MVP"),
+    ("awaken_b2", 2, B, "Starfrost! Twinkly blue, like a winter sky!", "STARFROST", "proud, then dreamy on 'winter sky'", "MVP"),
+    ("awaken_b2", 3, B, "Starfrost! Shiny and blue, full of sparkles!", "STARFROST", "proud and bright, a smile on 'sparkles'", "MVP"),
+    ("awaken_b2", 4, B, "Starfrost! Icy blue and glittery bright!", "STARFROST", "crisp and admiring", "MVP"),
+    ("awaken_b2", 5, B, "Starfrost! As blue as a frosty moon!", "STARFROST", "proud, then soft and hushed on 'frosty moon'", "MVP"),
     ("awaken_c", 1, B, "Sparkfinder! Welcome, little traveler!", "SPARKFINDER!",
      "joyful welcome, bright on 'Sparkfinder' (also the rush-mode line, so the rank comes first)", "MVP"),
     ("awaken_c", 2, B, "Sparkfinder! Look, two sparks already!", "SPARKFINDER!",
      "delighted, impressed, quick", "MVP"),
+    # 2026-10-31: more takes so a group of up to 5 first-time travelers hears no repeats (owner)
+    ("awaken_c", 3, B, "Sparkfinder! Your very first spark!", "SPARKFINDER!", "proud and warm, bright on 'Sparkfinder'", "MVP"),
+    ("awaken_c", 4, B, "Sparkfinder! What a brave traveler!", "SPARKFINDER!", "admiring, a little grand", "MVP"),
+    ("awaken_c", 5, B, "Sparkfinder! Welcome to my cave!", "SPARKFINDER!", "cozy welcome, smiling", "MVP"),
     ("greet_r2", 1, B, "Apprentice! You found your way back!", "APPRENTICE", "thrilled reunion, a warm chuckle", "MVP"),
     ("greet_r2", 2, B, "Apprentice! Your crystal remembers you!", "APPRENTICE", "tender and proud", "NICE"),
     ("greet_r3", 1, B, "Glowcaster! Your glow is getting big!", "GLOWCASTER", "proud announcement, rising", "MVP"),
@@ -690,19 +715,41 @@ VOICE = [
      "then a happy chuckle on 'Candy anyway!'", "MVP"),
     ("reveal_t1", 1, B, "Hoard coin! A big shiny one!", "HOARD COIN!", "happy, admiring, warm", "MVP"),
     ("reveal_t1", 2, B, "Hoard coin! Shiny silver treasure!", "HOARD COIN!", "sweet and pleased, a little chuckle", "MVP"),
+    # 2026-10-31: more takes so a group of up to 5 first-time travelers hears no repeats (owner)
+    ("reveal_t1", 3, B, "Hoard coin! Ooh, it's still warm!", "HOARD COIN!", "pleased and cozy, a soft chuckle", "MVP"),
+    ("reveal_t1", 4, B, "Hoard coin! Clink, clink! Lovely!", "HOARD COIN!", "playful, two light 'clinks'", "MVP"),
+    ("reveal_t1", 5, B, "Hoard coin! My favourite kind!", "HOARD COIN!", "fond and happy", "MVP"),
     # 2026-10-26: the Dragon Gem is the top (legendary) prize, the Golden Star the rare one
     ("reveal_t2", 1, B, "Golden Star! Whoa, a rare one!", "GOLDEN STAR!",
      "genuinely surprised, an excited whisper-shout", "MVP"),
     ("reveal_t2", 2, B, "Golden Star! Not many travelers find those!", "GOLDEN STAR!", "thrilled, conspiratorial", "MVP"),
+    # 2026-10-31: more takes so a group of up to 5 first-time travelers hears no repeats (owner)
+    ("reveal_t2", 3, B, "Golden Star! It's glowing just for you!", "GOLDEN STAR!", "excited and tender", "MVP"),
+    ("reveal_t2", 4, B, "Golden Star! Oh, how it twinkles!", "GOLDEN STAR!", "awed delight", "MVP"),
+    ("reveal_t2", 5, B, "Golden Star! What a lucky traveler!", "GOLDEN STAR!", "thrilled, a happy laugh", "MVP"),
     ("reveal_t3", 1, B, "The Dragon Gem! You're legendary!", "DRAGON GEM!", "awed hush rising to joy", "MVP"),
     ("reveal_t3", 2, B, "Dragon Gem! The rarest treasure of all!", "DRAGON GEM!",
      "breathless wonder, slow and grand", "MVP"),
+    # 2026-10-31: more takes so a group of up to 5 first-time travelers hears no repeats (owner)
+    ("reveal_t3", 3, B, "Dragon Gem! Oh my stars, you found it!", "DRAGON GEM!", "amazed, rising to joy", "MVP"),
     # 2026-10-26: bowls are named after their prize, never their shape (owner)
     ("bowl_common", 1, B, "Silver coin! Take one treat!", "SILVER COIN",
      "clear and friendly, crisp on 'Silver coin'", "MVP"),
+    # 2026-10-31: more takes so a group of up to 5 first-time travelers hears no repeats (owner)
+    ("bowl_common", 2, B, "Silver coin bowl! One treat for you!", "SILVER COIN", "clear and friendly, crisp on 'Silver coin'", "MVP"),
+    ("bowl_common", 3, B, "To the silver coin bowl! Take one!", "SILVER COIN", "cheery, pointing the way", "MVP"),
+    ("bowl_common", 4, B, "Silver coin! Pick one treat!", "SILVER COIN", "clear, warm, crisp on 'Silver coin'", "MVP"),
+    ("bowl_common", 5, B, "Silver coin bowl! One yummy treat!", "SILVER COIN", "friendly, a smile on 'yummy'", "MVP"),
     ("bowl_rare", 1, B, "Gold star! Take one treat!", "GOLD STAR",
      "clear, excited, crisp on 'Gold star'", "MVP"),
+    # 2026-10-31: more takes so a group of up to 5 first-time travelers hears no repeats (owner)
+    ("bowl_rare", 2, B, "Gold star bowl! One treat for you!", "GOLD STAR", "clear, excited, crisp on 'Gold star'", "MVP"),
+    ("bowl_rare", 3, B, "To the gold star bowl! Take one!", "GOLD STAR", "excited, pointing the way", "MVP"),
+    ("bowl_rare", 4, B, "Gold star! Pick one treat!", "GOLD STAR", "bright, crisp on 'Gold star'", "MVP"),
+    ("bowl_rare", 5, B, "Gold star bowl! One special treat!", "GOLD STAR", "proud, a little grand on 'special'", "MVP"),
     ("bowl_legend", 1, B, "Dragon gem! The grown-up has it!", "DRAGON GEM", "celebratory, pointing-out tone", "MVP"),
+    # 2026-10-31: more takes so a group of up to 5 first-time travelers hears no repeats (owner)
+    ("bowl_legend", 2, B, "Dragon gem! Ask the grown-up for it!", "DRAGON GEM", "celebratory, clear on 'grown-up'", "MVP"),
     ("replay", 1, B, "Shh! Your crystal already glowed tonight!", "ALREADY GLOWED", "secretive and kind, smiling", "MVP"),
     ("replay", 2, B, "Still glowing from tonight! Clever crystal!", "ALREADY GLOWED",
      "gentle and proud, no scolding", "MVP"),
@@ -715,6 +762,10 @@ VOICE = [
     ("goodbye", 1, B, "Bring your crystal back next Halloween!", "SEE YOU 2027", "warm send-off, bright", "MVP"),
     ("goodbye", 2, B, "Keep it safe, traveler! See you next year!", "SEE YOU 2027",
      "fond, a sleepy-happy sigh, smiling", "MVP"),
+    # 2026-10-31: more takes so a group of up to 5 first-time travelers hears no repeats (owner)
+    ("goodbye", 3, B, "Goodnight, traveler! Come back next year!", "SEE YOU 2027", "warm, a little sleepy", "MVP"),
+    ("goodbye", 4, B, "Happy Halloween! See you next year!", "SEE YOU 2027", "bright and cheery", "MVP"),
+    ("goodbye", 5, B, "Thanks for the spark! See you next year!", "SEE YOU 2027", "grateful, smiling", "MVP"),
     # ---- nice to have ----
     ("recall_t0", 1, B, "Last year, Snuffwick tricked you! Silly goblin!", "LAST YEAR",
      "remembering fondly, a chuckle", "NICE"),
@@ -723,8 +774,20 @@ VOICE = [
     ("recall_t3", 1, B, "Last year, the Dragon Gem! Legendary!", "LAST YEAR", "awed remembering", "NICE"),
     ("rush_t0", 1, B, "Goblin trick! Silver coin bowl!", "GOBLIN TRICK!", "fast, giggly, bowl words crisp (rush mode)", "NICE"),
     ("rush_t1", 1, B, "Hoard coin! Silver coin bowl!", "HOARD COIN!", "fast and bright (rush mode)", "NICE"),
+    # 2026-10-31: more takes so a group of up to 5 first-time travelers hears no repeats (owner)
+    ("rush_t1", 2, B, "Hoard coin! To the silver coin bowl!", "HOARD COIN!", "fast and bright (rush mode)", "NICE"),
+    ("rush_t1", 3, B, "Coin for you! Silver coin bowl!", "HOARD COIN!", "quick and cheery (rush mode)", "NICE"),
+    ("rush_t1", 4, B, "Shiny coin! Silver coin bowl!", "HOARD COIN!", "fast, a smile in it (rush mode)", "NICE"),
+    ("rush_t1", 5, B, "Hoard coin! One from the silver coin bowl!", "HOARD COIN!", "fast, crisp bowl words (rush mode)", "NICE"),
     ("rush_t2", 1, B, "Gold star! Golden Star!", "GOLDEN STAR!", "fast, excited (rush mode)", "NICE"),
+    # 2026-10-31: more takes so a group of up to 5 first-time travelers hears no repeats (owner)
+    ("rush_t2", 2, B, "Golden Star! Gold star bowl!", "GOLDEN STAR!", "fast, excited (rush mode)", "NICE"),
+    ("rush_t2", 3, B, "Ooh, Golden Star! Gold star bowl!", "GOLDEN STAR!", "quick gasp, excited (rush mode)", "NICE"),
+    ("rush_t2", 4, B, "Golden Star! One from the gold star bowl!", "GOLDEN STAR!", "fast, crisp bowl words (rush mode)", "NICE"),
+    ("rush_t2", 5, B, "A Golden Star! To the gold star bowl!", "GOLDEN STAR!", "fast and thrilled (rush mode)", "NICE"),
     ("rush_t3", 1, B, "Dragon Gem! The grown-up has it!", "DRAGON GEM!", "fast but awed (rush mode)", "NICE"),
+    # 2026-10-31: more takes so a group of up to 5 first-time travelers hears no repeats (owner)
+    ("rush_t3", 2, B, "Dragon Gem! Ask the grown-up!", "DRAGON GEM!", "fast but awed (rush mode)", "NICE"),
     ("milestone", 1, B, "Another hundred crystals! Hooray, travelers!", "HOORAY, TRAVELERS!", "party cheer, bubbly", "NICE"),
     ("circle", 1, B, "A crystal circle! All the worlds together!", "CRYSTAL CIRCLE!",
      "delighted, gathering-everyone warmth", "NICE"),
@@ -1094,6 +1157,8 @@ def main():
     manifest = {
         "schema": 1, "title": TITLE, "fps": 13, "screen": SCREEN, "voice_style": VOICE_STYLE,
         "_asset_guide": ASSET_GUIDE,
+        # station-only groups (2026-10-31): awaken_b<colour>_N = more takes of a colour's name line (show.js)
+        "extra_voice_groups": [r"awaken_b[1-9]"],
         "words": all_words, "stills": stills, "clips": CLIPS, "voice": voice, "sfx": SFX, "music": MUSIC,
     }
     with open(OUT, "w", encoding="utf-8") as f:

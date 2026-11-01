@@ -104,7 +104,8 @@ let s_idleRgb = 0x8B5CF6, s_musicFile = false, s_musicFullFile = false, s_musicC
 let s_attractLoopsSeen = 0, s_loopsSinceChapter = 0, s_munchLoop = -1, s_ledCycleMs = 0, s_ledIdx = 0, s_chapterAvail = false, s_begun = false;
 let s_moonFrom = 0, s_moonTo = 0, s_moonAt = 0, s_moonPulseAt = 0, s_moonFinaleDue = false;
 const s_group = []; let s_groupLastMs = 0;
-const s_memo = new Map();
+const s_memo = new Map();   // group -> the variants played most recently (oldest first, at most RECENT_MAX)
+const RECENT_MAX = 4;       // a group of up to 5 travelers in a row hears no take twice (when a line has 5+)
 let s_canvas = null, s_ctx = null, s_running = false;
 const MUSIC_PATH = '/oracle/music/idle.wav', MUSIC_FULL_PATH = '/oracle/music/idle_full.wav';
 
@@ -144,17 +145,27 @@ function expandTokens(src) {
 }
 
 // ---------------------------------------------------------------- voice (groups, variants, no-button swaps)
-const memoFor = group => s_memo.get(group) || 0;
-const setMemo = (group, v) => s_memo.set(group, v);
+const recentFor = group => s_memo.get(group) || [];
+function setMemo(group, v) {
+  const a = recentFor(group).filter(x => x !== v);
+  a.push(v);
+  while (a.length > RECENT_MAX) a.shift();
+  s_memo.set(group, a);
+}
+// Of `ok`, the ones not among the last min(ok.length - 1, RECENT_MAX) played (never empty)
+function freshPool(ok, key) {
+  const k = Math.min(ok.length - 1, RECENT_MAX);
+  if (k <= 0) return ok;
+  const avoid = recentFor(key).slice(-k);
+  const pool = ok.filter(v => !avoid.includes(v));
+  return pool.length ? pool : ok;
+}
 const voicePath = (group, v) => `/oracle/voice/${group}_${v}.wav`;
 const voiceFileExists = (group, v) => media.exists(voicePath(group, v));
 function pickAvoiding(n, key) {
   if (!n) return 0;
-  const last = memoFor(key);
-  let v;
-  if (n === 1) v = 1;
-  else if (last >= 1 && last <= n) { v = 1 + randBelow(n - 1); if (v >= last) v++; }
-  else v = 1 + randBelow(n);
+  const pool = freshPool(Array.from({ length: n }, (_, i) => i + 1), key);
+  const v = pool[randBelow(pool.length)];
   setMemo(key, v);
   return v;
 }
@@ -202,9 +213,8 @@ function pickVariant(group, prefer) {
   const ok = [];
   for (let v = 1; v <= n; v++) if (!lineBlocked(group, v)) ok.push(v);
   if (!ok.length) return 0;
-  const last = memoFor(group);
   if (prefer >= 1 && prefer <= n && ok.includes(prefer)) { setMemo(group, prefer); return prefer; }
-  const pool = ok.length > 1 && ok.includes(last) ? ok.filter(v => v !== last) : ok;
+  const pool = freshPool(ok, group);
   const v = pool[randBelow(pool.length)];
   setMemo(group, v);
   return v;
@@ -979,7 +989,8 @@ async function stepAwaken() {
   if (!q.rush) {
     addVoice(st, 'awaken_a', 0, s_w.capAwaken);
     const bench = token.benchColor(q.c);
-    if (bench) addVoice(st, 'awaken_b', bench, s_w.colorName[bench]);
+    // a colour with its own takes (awaken_b<colour>_N, e.g. awaken_b2 = Starfrost) rotates them; else awaken_b_<colour>
+    if (bench) { if (voiceExists(`awaken_b${bench}`)) addVoice(st, `awaken_b${bench}`, 0, s_w.colorName[bench]); else addVoice(st, 'awaken_b', bench, s_w.colorName[bench]); }
     addVoice(st, 'awaken_c', 0, q.capRank);
     st.caption = s_w.capAwaken;
   } else { addVoice(st, 'awaken_c', 0, q.capRank); st.caption = q.capRank; }

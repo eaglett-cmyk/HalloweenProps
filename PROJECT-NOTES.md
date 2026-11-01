@@ -44,6 +44,30 @@ Read `crystal_oracle/README.md` first, then `crystal_oracle/docs/DESIGN.md` (con
   2027-01-06) → stills from ChatGPT + our ffmpeg "layers" animator; voice from ElevenLabs/OpenAI TTS.
 
 ### Changelog
+- **2026-10-31 (no repeats for a group of 5: 46 new Butterscotch takes + a no-repeat picker)** — owner:
+  more voice lines so a group of up to 5 hears no repeats (Codex art for new animations was deferred:
+  owner picked "voice + picker first" on show day).
+  * **Picker (`station/js/show.js`):** `s_memo` now keeps each group's last `RECENT_MAX = 4` takes and
+    `freshPool()` avoids the last min(n-1, 4). Five or more takes therefore never repeat within 5 kids in
+    a row; fewer takes rotate through all of them before repeating. Used by `pickVariant` and
+    `pickAvoiding` (trick gags).
+  * **Colour lines:** `awaken_b<colour>_N` groups (`awaken_b1` Dragonberry, `awaken_b2` Starfrost,
+    `awaken_b3` Rainbow Fizz, 5 takes each; `_1` = a copy of the old `awaken_b_<colour>`). `stepAwaken`
+    plays that group when it exists, else falls back to `awaken_b_<colour>`. Manifest
+    `"extra_voice_groups": ["awaken_b[1-9]"]`, so the builder accepts groups the firmware lacks.
+  * **New takes** (all 5 per group now): awaken_a, awaken_c, reveal_t1, reveal_t2, bowl_common, bowl_rare,
+    goodbye, rush_t1, rush_t2; reveal_t3 → 3, bowl_legend / rush_t3 → 2. Lines are in
+    `tools/gen_manifest_dragonglow.py` (marked 2026-10-31) → manifest regenerated (identical otherwise).
+    Recorded through the claude.ai ElevenLabs connector, flow "Crystal Oracle - Butterscotch voice lines",
+    eleven_v4, voice `fdyOZ9JDAGXDTrmohg4r`, one take each, ~2,500 credits. Downloaded from each
+    generation's signed `full_res_url` (`creative_get_generations`, 2 h expiry) →
+    `assets/source/voice/<id>.mp3`. All 1.8–3.9 s. **Not listened to by a human yet.**
+  * Both cards rebuilt (`--only "voice:*"`, 49 built, 0 failed; iPad card 123 voice files). New reveal
+    takes have no matching clip, so they fall back to the base reveal clip (`media.findVisual`). Build
+    `2026-10-31b`.
+  * Headless group test (scratch copy + fake plinth, 5 fresh crystals ~1.5 s apart): kid 1 full sequence
+    (awaken_a_4, awaken_b2_1, awaken_c_3, reveal_t2_4, bowl_rare_3, goodbye_2). Kids 2–5 ran in rush mode
+    (only awaken_c + rush_tN play there): awaken_c 4, 2, 5, 1 and rush_t2 3, 4, 5, no repeats.
 - **2026-10-31 (blank crystals awaken as Starfrost)** — owner had more crystals made (all Starfrost) and
   the owner's dad runs the station tonight, so no batch provisioning first. Blank tags already awaken in
   the show (`allow_fresh = yes`: link + visit in one write), but with colour 0 the screen picked a colour
