@@ -44,6 +44,23 @@ Read `crystal_oracle/README.md` first, then `crystal_oracle/docs/DESIGN.md` (con
   2027-01-06) → stills from ChatGPT + our ffmpeg "layers" animator; voice from ElevenLabs/OpenAI TTS.
 
 ### Changelog
+- **2026-10-31 (7 new reveal animations from 6 Codex stills)** — the art pass deferred from the voice change
+  below (owner: "push now so I can restart the iPad, then run the new art").
+  * **New stills** (`make_image_codex.py start`, all 6 in parallel, ~45 s each, all on-model first try):
+    `butterscotch_laugh`, `butterscotch_starry` (gold star eyes), `butterscotch_clap` (face/pose edits,
+    `--ref butterscotch_base`); `prop_coins` (a tumbling shower of 5 silver coins, `--ref prop_coin`);
+    `fx_sparkle` (gold four-point twinkle, screen-blended); `bg_silverburst` (the silver twin of
+    bg_starburst). `butterscotch_starry` came back on a 1619×971 canvas instead of ~square, but the figure
+    still fills the height, so it sizes like the others.
+  * **New clips** in `gen_manifest_dragonglow.py` (marked 2026-10-31): `reveal_t1_2` (coin drops and bounces,
+    clap), `_3` (coin shower + one flips up, laugh), `_4` (silver burst, coin grows centre), `_5` (coin arcs in
+    from the left with a twinkle, wink); `reveal_t2_3` (gold burst, star-eyed), `_4` (Wakestone, star
+    wobbles + 2 twinkles, clap), `_5` (star swoops in from the corner, laugh). The voice take N plays clip
+    `<id>_N`, so coin takes 2–5 and star takes 2–5 each have their own animation now (take 1 = the base clip).
+    Sparkle heights must be ≥ 8 (the checker refuses 0), so they fade in and out instead.
+  * Both cards built (`--only "reveal_t1_*,reveal_t2_*"`, 7 built, 0 failed); preview sheets in
+    `assets/previews/` checked by eye. Headless run on a scratch copy: all 14 reveal clips load, no errors.
+    Live on :8460 now; reload the iPad page.
 - **2026-10-31 (no repeats for a group of 5: 46 new Butterscotch takes + a no-repeat picker)** — owner:
   more voice lines so a group of up to 5 hears no repeats (Codex art for new animations was deferred:
   owner picked "voice + picker first" on show day).

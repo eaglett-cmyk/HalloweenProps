@@ -303,6 +303,50 @@ STILLS = [
        "a green forest, a pink sunset), as if they are leaving to find someone. No people.",
        BG, STYLE),
      {"refs": ["butterscotch_base"]}),
+    # ---- 2026-10-31: more reveal variety for groups (owner): new poses, coin shower, sparkle, silver burst ----
+    ("butterscotch_laugh", "character", True, "NICE",
+     "Edit of butterscotch_base: laughing - eyes squeezed into happy upside-down crescents, mouth wide open in a big "
+     "laugh (no teeth), rosy cheeks; face-only. (Reveal variants.)",
+     BS_FACE.format(what="laughing happily: eyes squeezed shut into happy upside-down crescents, mouth wide open in a big "
+                         "laugh (no teeth, just a soft pink mouth), rosy cheeks"),
+     {"edit_of": "butterscotch_base", "anchor": [0.5, 0.62]}),
+    ("butterscotch_starry", "character", True, "NICE",
+     "Edit of butterscotch_base: star-struck - both eyes are big shiny gold five-point stars, a huge open smile (no "
+     "teeth), rosy cheeks; face-only. (Golden Star reveal variants.)",
+     BS_FACE.format(what="star-struck: both eyes are big shiny gold (#FFC83D) five-point stars with white highlights, a "
+                         "huge open happy smile (no teeth, just a soft pink mouth), rosy cheeks"),
+     {"edit_of": "butterscotch_base", "anchor": [0.5, 0.62]}),
+    ("butterscotch_clap", "character", True, "NICE",
+     "Edit of butterscotch_base: both paws raised together in front of his chest in a happy clap, a big open smile "
+     "(no teeth), happy closed eyes. (Reveal variants.)",
+     "Use the attached butterscotch_base image as Image 1. Edit Image 1: change ONLY his paws and face: both small "
+     "rounded paws raised together in front of his chest in a happy clap, a big open happy smile (no teeth, just a soft "
+     "pink mouth), happy closed eyes. Keep his body shape, tiny wings, swirl horns, curly tail, the faded purple wizard "
+     "hat (same tilt, same two stars), size, colours, framing and the transparent background EXACTLY identical. Same "
+     "style.",
+     {"edit_of": "butterscotch_base", "anchor": [0.5, 0.62]}),
+    ("prop_coins", "prop", True, "NICE",
+     "A little tumbling shower of five SILVER dragon coins (exactly like prop_coin) at different angles and sizes, "
+     "loosely grouped as if falling; no floor. (Hoard coin reveal variants.)",
+     P("Five chunky glossy SILVER DRAGON COINS exactly like the attached prop_coin (same silver foil, same embossed "
+       "chubby dragon), tumbling through the air at different angles and slightly different sizes, loosely grouped "
+       "as if they were just tossed up; some seen face-on, some tilted to show the thick rim. Silver only - NOT gold. "
+       "No text.", SPRITE, STYLE),
+     {}),
+    ("fx_sparkle", "fx", True, "NICE",
+     "One big soft four-point twinkle sparkle, warm white with a gold glow, on transparent (screen-blended). (Reveal "
+     "variants.)",
+     P("One big soft four-point twinkle sparkle: long thin rays up, down, left and right and short diagonal rays, warm "
+       "white centre with a soft gold (#FFC83D) glow. Nothing else.", SPRITE, STYLE),
+     {}),
+    ("bg_silverburst", "background", False, "NICE",
+     "Hoard Coin burst: the silver partner of bg_starburst - a blue-black night sky with about 12 broad, soft-edged "
+     "silver-lavender (#D9DEE8) rays fanning from the exact centre, a soft silver glow at the centre, a few large "
+     "simple stars; bottom quarter fades to near-black. (Hoard coin reveal variants.)",
+     P("Same layout and style as the attached bg_starburst, but SILVER instead of gold: a deep blue-black night sky "
+       "with about 12 broad, soft-edged silver-lavender (#D9DEE8) rays fanning out from the exact centre of the "
+       "image, a soft silver glow at the centre and a few large simple stars. Nothing else. No gold.", BG, STYLE),
+     {}),
     ("print_keyart", "print", False, "NICE",
      "Portrait 2:3 key art: Butterscotch floating happily with his paws around one glowing crystal, Snuffwick peeking "
      "out from behind his tail with a cheeky grin, the Hoard Beacon glowing warm amber above; generous plain dark space "
@@ -504,6 +548,65 @@ CLIPS = [
                  "fade_in": 0.15, "rotate": [-8, 8, -8, 0]}],
      "anchor_layer": 0,
      "notes": "Variant 2 (with reveal_t2_2's line): the star wobbles up and Butterscotch's gasp turns into a beam."},
+    # 2026-10-31: more reveal variants so a group of up to 5 sees different animations (voice variant N plays
+    # clip <id>_N when it exists, else the base clip)
+    {"id": "reveal_t1_2", "priority": "NICE", "recipe": "layers", "seconds": 2.5, "loop": False, "bg": {"image": "bg_cave"},
+     "layers": [bs("butterscotch_clap", fin=0.15, fout=0),
+                {"sprite": "prop_coin", "height": 100, "x": 615, "y": [-120, 95, 70, 95, 88, 95], "t": [0.1, 2.5],
+                 "spin": 2}],
+     "anchor_layer": 0,
+     "notes": "Coin variant 2: the silver coin drops in from above, bounces twice and settles; Butterscotch claps."},
+    {"id": "reveal_t1_3", "priority": "NICE", "recipe": "layers", "seconds": 2.5, "loop": False, "bg": {"image": "bg_cave"},
+     "layers": [bs("butterscotch_laugh", fin=0.15, fout=0),
+                {"sprite": "prop_coins", "height": 170, "x": [560, 640], "y": [-190, 300], "t": [0, 2.2],
+                 "rotate": [-10, 12], "fade_out": 0.3},
+                {"sprite": "prop_coin", "height": [40, 110, 100], "x": [420, 605, 615], "y": [215, 85, 95],
+                 "t": [0.6, 2.5], "fade_in": 0.15, "spin": 1}],
+     "anchor_layer": 0,
+     "notes": "Coin variant 3: a shower of silver coins tumbles past, one flips up and stays; Butterscotch laughs."},
+    {"id": "reveal_t1_4", "priority": "NICE", "recipe": "layers", "seconds": 2.5, "loop": False,
+     "bg": {"image": "bg_silverburst", "rotate": [0, 12]},
+     "layers": [{"sprite": "prop_coin", "height": [60, 210, 200], "x": 380, "y": [260, 70, 80], "t": [0, 2.5],
+                 "fade_in": 0.25, "spin": 1, "bob": {"amp": 3, "period": 1.25}},
+                bs_side("butterscotch_delight", t=[0.4, 2.5], x=655, height=200, y=85, fade_in=0.3)],
+     "anchor_layer": 1,
+     "notes": "Coin variant 4: silver rays turn, the coin rises and grows in the middle; Butterscotch beams beside it."},
+    {"id": "reveal_t1_5", "priority": "NICE", "recipe": "layers", "seconds": 2.5, "loop": False, "bg": {"image": "bg_cave_lit"},
+     "layers": [bs("butterscotch_wink", fin=0.15, fout=0),
+                {"sprite": "prop_coin", "height": 100, "x": [120, 360, 615], "y": [260, 20, 95], "t": [0.1, 1.4],
+                 "spin": 3},
+                {"sprite": "prop_coin", "height": 100, "x": 615, "y": 95, "t": [1.35, 2.5],
+                 "bob": {"amp": 3, "period": 1.25}},
+                {"sprite": "fx_sparkle", "height": [40, 150, 10], "fade_in": 0.1, "fade_out": 0.2, "x": 615, "y": [125, 70, 145], "t": [1.3, 1.9],
+                 "blend": "screen", "optional": True}],
+     "anchor_layer": 0,
+     "notes": "Coin variant 5: the coin arcs over from the left and lands with a twinkle; Butterscotch winks."},
+    {"id": "reveal_t2_3", "priority": "NICE", "recipe": "layers", "seconds": 2.5, "loop": False,
+     "bg": {"image": "bg_starburst", "rotate": [0, 12]},
+     "layers": [{"sprite": "prop_star", "height": [60, 200, 190], "x": 380, "y": [260, 70, 80], "t": [0, 2.5],
+                 "fade_in": 0.25, "spin": 1},
+                bs_side("butterscotch_starry", t=[0.3, 2.5], x=655, height=200, y=85, fade_in=0.3)],
+     "anchor_layer": 1,
+     "notes": "Star variant 3: gold rays turn, the star rises and grows; Butterscotch goes star-eyed."},
+    {"id": "reveal_t2_4", "priority": "NICE", "recipe": "layers", "seconds": 2.5, "loop": False,
+     "bg": {"image": "bg_wakestone"},
+     "layers": [bs_side("butterscotch_clap", fade_in=0.15, bob=(6, 2.5)),
+                {"sprite": "prop_star", "height": [50, 150, 140], "x": 400, "y": [155, 55, 65], "t": [0.2, 2.5],
+                 "fade_in": 0.15, "rotate": [0, -10, 10, 0]},
+                {"sprite": "fx_sparkle", "height": [10, 120, 10], "fade_in": 0.1, "fade_out": 0.2, "x": 470, "y": [40, 30, 40], "t": [0.9, 1.5],
+                 "blend": "screen", "optional": True},
+                {"sprite": "fx_sparkle", "height": [10, 90, 10], "fade_in": 0.1, "fade_out": 0.2, "x": 330, "y": [130, 120, 130], "t": [1.4, 2.0],
+                 "blend": "screen", "optional": True}],
+     "anchor_layer": 0,
+     "notes": "Star variant 4: the star rises out of the Wakestone and twinkles twice; Butterscotch claps."},
+    {"id": "reveal_t2_5", "priority": "NICE", "recipe": "layers", "seconds": 2.5, "loop": False, "bg": {"image": "bg_cave_lit"},
+     "layers": [bs("butterscotch_laugh", fin=0.15, fout=0),
+                {"sprite": "prop_star", "height": [60, 130, 120], "x": [820, 700, 615], "y": [-60, 20, 85],
+                 "t": [0.1, 2.5], "spin": 2},
+                {"sprite": "fx_sparkle", "height": [10, 140, 10], "fade_in": 0.1, "fade_out": 0.2, "x": 615, "y": [110, 60, 110], "t": [1.6, 2.3],
+                 "blend": "screen", "optional": True}],
+     "anchor_layer": 0,
+     "notes": "Star variant 5: the star swoops down from the corner and twinkles into place; Butterscotch laughs."},
     {"id": "reveal_t3", "priority": "MVP", "recipe": "layers", "seconds": 3, "loop": False,
      "bg": {"image": "bg_starburst", "rotate": [0, 15]},
      "layers": [{"sprite": "prop_gem", "height": [70, 240], "x": 380, "y": [300, 60], "t": [0, 3], "fade_in": 0.3,
