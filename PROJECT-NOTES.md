@@ -835,6 +835,31 @@ Read `crystal_oracle/README.md` first, then `crystal_oracle/docs/DESIGN.md` (con
   chapter_b/d/e_1. Screen **flashed** (COM3, verified). TF card (E:) updated file-by-file and byte-verified:
   `captions.ini`, `README.txt` and those 6 voice WAVs (config.ini, logs/, state/ untouched).
 
+### Before Halloween 2027: voice lines for groups of 5 (audit 2026-11-01)
+
+The picker avoids the last min(n-1, 4) takes of a group, so a group of 5 hears no repeats only
+when that group has **5 takes**. Next year most visits are **returning** crystals:
+absorb → `greet_r2` → `recall_t<last year's tier>` → reveal → bowl → goodbye. Every 2026
+crystal is at 1 visit, so next year it reaches rank 2. Charge is skipped because there is no button.
+
+| Group | Takes now | Need | Why |
+|---|---|---|---|
+| `greet_r2` | 2 | **+3** | every returning 2026 crystal says it (`rankup_r2` doesn't exist → falls back to greet) |
+| `recall_t1` | 1 | **+4** | ~46% of 2026 crystals got a coin |
+| `recall_t2` | 1 | **+4** | ~50% got a gold star (rare_pct 50) |
+| `recall_t3` | 1 | +1–2 | 4% got a gem; two in one group is rare |
+| `reveal_t0` (trick gags) | 3 | +2 (optional) | tricks come back for returners (15%, `first_no_trick` only covers visit 1); each gag needs its own clip too |
+| `nocrystal` | 2 | +3 | siblings without crystals tap in a row |
+| `rush_t0` | 1 | +2 | rush + trick |
+| `greet_r3` | 2 | +3 | only matters for 2028 (rank 3) |
+
+Already enough: awaken_a/c, awaken_b1/b2/b3, reveal_t1/t2, bowl_common/rare, goodbye, rush_t1/t2 (5 each).
+Legend-only groups (reveal_t3 3, bowl_legend 2, rush_t3 2), milestone, circle and keeper (rank 7) are
+fine at 4% / once per group. `recall_t0` isn't needed in 2027, because no 2026 visit could be a trick.
+Record with the ElevenLabs flow `O2Sif9M6oAF573lT7t1I` (voice `fdyOZ9JDAGXDTrmohg4r`). Add each take to
+`gen_manifest_dragonglow.py`, then run `build_assets.py` with and without `--ipad`. Also remember to set
+`event_year = 2027`.
+
 Orientation file for future Claude Code sessions (or developers). The firmware version
 lives in the sketch's header comment; note the date when you change behavior.
 
