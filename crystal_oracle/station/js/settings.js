@@ -239,15 +239,17 @@ export async function loadCounters(year) {
     if (r.ok) { remote = await r.json(); s_lastServerOk = true; }
   } catch { s_lastServerOk = false; }
   // The server was wiped (state.json carries a resetId this browser hasn't seen): take the server's
-  // copy, and drop the host menu's Odds overrides so config.ini's [odds] count again.
+  // copy, and drop the host menu's Odds + event year overrides so config.ini's count again.
   const wiped = !!(remote && remote.resetId && (!local || local.resetId !== remote.resetId));
   if (wiped) {
-    const dropped = Object.keys(s_overrides).filter(k => k.startsWith('odds.'));
+    const reset = k => k.startsWith('odds.') || k === 'station.event_year';
+    const dropped = Object.keys(s_overrides).filter(reset);
     if (dropped.length) {
       for (const k of dropped) delete s_overrides[k];
       try { localStorage.setItem(OVERRIDES_KEY, JSON.stringify(s_overrides)); } catch {}
-      for (const [k, v] of parseIni(s_iniText)) if (k.startsWith('odds.')) applyKV(k, v);
-      console.log(`settings: server state was reset - dropped odds overrides ${dropped.join(', ')}`);
+      for (const [k, v] of parseIni(s_iniText)) if (reset(k)) applyKV(k, v);
+      console.log(`settings: server state was reset - dropped overrides ${dropped.join(', ')}`);
+      year = s_cntYear = cfg.eventYear;
     }
   }
   const pick = (remote && remote.station) ? ((!wiped && local && local.station && (local.station.crystals | 0) > (remote.station.crystals | 0)) ? local : remote) : local;

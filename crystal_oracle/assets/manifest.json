@@ -3523,6 +3523,36 @@
    "priority": "NICE"
   },
   {
+   "id": "greet_r2_3",
+   "group": "greet_r2",
+   "variant": 3,
+   "speaker": "Butterscotch",
+   "text": "Apprentice! Welcome back, traveler!",
+   "caption": "APPRENTICE",
+   "delivery": "cozy and delighted",
+   "priority": "NICE"
+  },
+  {
+   "id": "greet_r2_4",
+   "group": "greet_r2",
+   "variant": 4,
+   "speaker": "Butterscotch",
+   "text": "Apprentice! I knew you'd come back!",
+   "caption": "APPRENTICE",
+   "delivery": "happy little gasp",
+   "priority": "NICE"
+  },
+  {
+   "id": "greet_r2_5",
+   "group": "greet_r2",
+   "variant": 5,
+   "speaker": "Butterscotch",
+   "text": "Hello again, Apprentice! You came back!",
+   "caption": "APPRENTICE",
+   "delivery": "warm and bubbly",
+   "priority": "NICE"
+  },
+  {
    "id": "greet_r3_1",
    "group": "greet_r3",
    "variant": 1,
@@ -3540,6 +3570,36 @@
    "text": "Glowcaster! Welcome back! Shine on!",
    "caption": "GLOWCASTER",
    "delivery": "cozy and admiring",
+   "priority": "NICE"
+  },
+  {
+   "id": "greet_r3_3",
+   "group": "greet_r3",
+   "variant": 3,
+   "speaker": "Butterscotch",
+   "text": "Glowcaster! Look how bright you've grown!",
+   "caption": "GLOWCASTER",
+   "delivery": "proud and amazed",
+   "priority": "NICE"
+  },
+  {
+   "id": "greet_r3_4",
+   "group": "greet_r3",
+   "variant": 4,
+   "speaker": "Butterscotch",
+   "text": "Glowcaster! Three Halloweens together!",
+   "caption": "GLOWCASTER",
+   "delivery": "tender and happy",
+   "priority": "NICE"
+  },
+  {
+   "id": "greet_r3_5",
+   "group": "greet_r3",
+   "variant": 5,
+   "speaker": "Butterscotch",
+   "text": "Glowcaster! Your crystal shines so bright!",
+   "caption": "GLOWCASTER",
+   "delivery": "admiring, a warm chuckle",
    "priority": "NICE"
   },
   {
@@ -3983,6 +4043,36 @@
    "priority": "MVP"
   },
   {
+   "id": "nocrystal_3",
+   "group": "nocrystal",
+   "variant": 3,
+   "speaker": "Butterscotch",
+   "text": "A dragon blessing for you! Sparkle, sparkle!",
+   "caption": "DRAGON BLESSING!",
+   "delivery": "generous and cheery",
+   "priority": "MVP"
+  },
+  {
+   "id": "nocrystal_4",
+   "group": "nocrystal",
+   "variant": 4,
+   "speaker": "Butterscotch",
+   "text": "Dragon blessing! Your spark helps my beacon!",
+   "caption": "DRAGON BLESSING!",
+   "delivery": "warm thank-you",
+   "priority": "MVP"
+  },
+  {
+   "id": "nocrystal_5",
+   "group": "nocrystal",
+   "variant": 5,
+   "speaker": "Butterscotch",
+   "text": "Whoosh! A dragon blessing, just for you!",
+   "caption": "DRAGON BLESSING!",
+   "delivery": "playful, a soft whoosh like blowing a bubble",
+   "priority": "MVP"
+  },
+  {
    "id": "sleepy_1",
    "group": "sleepy",
    "variant": 1,
@@ -4093,6 +4183,106 @@
    "priority": "NICE"
   },
   {
+   "id": "recall_t1_2",
+   "group": "recall_t1",
+   "variant": 2,
+   "speaker": "Butterscotch",
+   "text": "Last year, a silver hoard coin!",
+   "caption": "LAST YEAR",
+   "delivery": "fond memory, warm",
+   "priority": "NICE"
+  },
+  {
+   "id": "recall_t1_3",
+   "group": "recall_t1",
+   "variant": 3,
+   "speaker": "Butterscotch",
+   "text": "I remember! A hoard coin last year!",
+   "caption": "LAST YEAR",
+   "delivery": "remembering happily",
+   "priority": "NICE"
+  },
+  {
+   "id": "recall_t1_4",
+   "group": "recall_t1",
+   "variant": 4,
+   "speaker": "Butterscotch",
+   "text": "Last year, you got a shiny coin!",
+   "caption": "LAST YEAR",
+   "delivery": "cozy, smiling",
+   "priority": "NICE"
+  },
+  {
+   "id": "recall_t1_5",
+   "group": "recall_t1",
+   "variant": 5,
+   "speaker": "Butterscotch",
+   "text": "Your crystal remembers a hoard coin!",
+   "caption": "LAST YEAR",
+   "delivery": "secretive and warm",
+   "priority": "NICE"
+  },
+  {
+   "id": "recall_t2_2",
+   "group": "recall_t2",
+   "variant": 2,
+   "speaker": "Butterscotch",
+   "text": "Last year, a Golden Star! So shiny!",
+   "caption": "LAST YEAR",
+   "delivery": "impressed memory",
+   "priority": "NICE"
+  },
+  {
+   "id": "recall_t2_3",
+   "group": "recall_t2",
+   "variant": 3,
+   "speaker": "Butterscotch",
+   "text": "I remember! A Golden Star last year!",
+   "caption": "LAST YEAR",
+   "delivery": "remembering, delighted",
+   "priority": "NICE"
+  },
+  {
+   "id": "recall_t2_4",
+   "group": "recall_t2",
+   "variant": 4,
+   "speaker": "Butterscotch",
+   "text": "Last year, you got a Golden Star!",
+   "caption": "LAST YEAR",
+   "delivery": "proud and warm",
+   "priority": "NICE"
+  },
+  {
+   "id": "recall_t2_5",
+   "group": "recall_t2",
+   "variant": 5,
+   "speaker": "Butterscotch",
+   "text": "Your crystal remembers a Golden Star!",
+   "caption": "LAST YEAR",
+   "delivery": "secretive and twinkly",
+   "priority": "NICE"
+  },
+  {
+   "id": "recall_t3_2",
+   "group": "recall_t3",
+   "variant": 2,
+   "speaker": "Butterscotch",
+   "text": "I remember! The Dragon Gem last year!",
+   "caption": "LAST YEAR",
+   "delivery": "awed remembering",
+   "priority": "NICE"
+  },
+  {
+   "id": "recall_t3_3",
+   "group": "recall_t3",
+   "variant": 3,
+   "speaker": "Butterscotch",
+   "text": "Your crystal remembers the Dragon Gem!",
+   "caption": "LAST YEAR",
+   "delivery": "hushed and amazed",
+   "priority": "NICE"
+  },
+  {
    "id": "rush_t0_1",
    "group": "rush_t0",
    "variant": 1,
@@ -4100,6 +4290,26 @@
    "text": "Goblin trick! Silver coin bowl!",
    "caption": "GOBLIN TRICK!",
    "delivery": "fast, giggly, bowl words crisp (rush mode)",
+   "priority": "NICE"
+  },
+  {
+   "id": "rush_t0_2",
+   "group": "rush_t0",
+   "variant": 2,
+   "speaker": "Butterscotch",
+   "text": "Snuffwick trick! Silver coin bowl!",
+   "caption": "GOBLIN TRICK!",
+   "delivery": "fast and giggly (rush mode)",
+   "priority": "NICE"
+  },
+  {
+   "id": "rush_t0_3",
+   "group": "rush_t0",
+   "variant": 3,
+   "speaker": "Butterscotch",
+   "text": "Goblin giggles! Silver coin bowl!",
+   "caption": "GOBLIN TRICK!",
+   "delivery": "quick, chuckling (rush mode)",
    "priority": "NICE"
   },
   {

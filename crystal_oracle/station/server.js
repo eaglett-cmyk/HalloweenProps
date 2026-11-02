@@ -155,6 +155,12 @@ async function handler(req, res) {
     try {
       const { file, line } = JSON.parse(await readBody(req));
       if (!/^[a-z0-9_]+\.(csv|log)$/i.test(file || '') || typeof line !== 'string') throw new Error('bad request');
+      // a finished Halloween is archived in logs/_halloween_<year>/: never log to that year again
+      const yr = /^visits_(\d{4})\.csv$/i.exec(file);
+      if (yr && fs.existsSync(path.join(LOG_DIR, `_halloween_${yr[1]}`))) {
+        send(res, 409, JSON.stringify({ error: `${yr[1]} is archived - set event_year to the coming Halloween` }), 'application/json; charset=utf-8');
+        return;
+      }
       fs.mkdirSync(LOG_DIR, { recursive: true });
       fs.appendFileSync(path.join(LOG_DIR, file), line.replace(/\r?\n?$/, '\n'));
       send(res, 200, '{"ok":true}', 'application/json; charset=utf-8');
