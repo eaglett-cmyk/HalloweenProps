@@ -796,10 +796,14 @@ function hintsBand(t) {
   const rgb = colourCycle(t, 18000);
   fx.placeHintAt(HINT_L, t, rgb); fx.placeHintAt(HINT_R, t + 800, rgb);
 }
-// chapter 2 mixes in Butterscotch's 2027 calls. Never Toffee's toffee_s* takes: those five per stage are for the
-// kids at the stone (a group of 5 hears no repeat), and an idle call would use one up.
+// chapter 2 mixes in Butterscotch's 2027 calls and Toffee's own idle calls (sleep-talk until the finale, then
+// flying practice). Never her toffee_s* takes: those five per stage are for the kids at the stone (a group of 5
+// hears no repeat), and an idle call would use one up.
 function attractCallGroup() {
-  if (toffee.on() && randBelow(2) === 0 && voiceExists('attract2_call')) return 'attract2_call';
+  if (!toffee.on()) return cue.ATTRACT_CALL;
+  const r = randBelow(3), mine = toffeeStage() >= 3 ? 'toffee_idle_awake' : 'toffee_idle_sleep';
+  if (r === 0 && voiceExists('attract2_call')) return 'attract2_call';
+  if (r === 1 && voiceExists(mine)) return mine;
   return cue.ATTRACT_CALL;
 }
 function attractTick(t) {

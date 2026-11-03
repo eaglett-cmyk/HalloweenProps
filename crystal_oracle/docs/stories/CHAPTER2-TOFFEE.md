@@ -131,6 +131,16 @@ All lines short (Toffee 2–5 words, Butterscotch ≤ 10). Delivery notes in `ge
 
 **Toffee, finale (`moonfull2_toffee_1`)**: "Teach me to fly! Please, please!"
 
+**Toffee, idle loop** (2026-11-02; her own calls between kids, mixed with Butterscotch's. She sleep-talks until the
+beacon is full, then practises flying. These are separate from her per-crystal takes, so the five kids in a group
+still hear five different ones.)
+- Asleep (`toffee_idle_sleep_1…5`): "Zzz... Butterscotch... you're snoring... zzz..." · "Mmm... candy dreams... zzz..." ·
+  "Mmf... my sock... my cozy sock... zzz..." · "Mmm... bring a crystal... wake me up... zzz..." ·
+  "Zzz... one day... I'll fly... zzz..."
+- After the finale (`toffee_idle_awake_1…5`): "Flap, flap, flap! Are you watching, Butterscotch?" ·
+  "Wheee! A loop! Almost a loop!" · "Travelers! Come see me fly!" · "Oops! Bumpy landing! Hee hee!" ·
+  "Higher! Higher! Wheee!"
+
 **Butterscotch, attract calls 2027 (`attract2_call_1…5`)**
 1. "Shh... Toffee's napping. Wake us with a crystal!"
 2. "Toffee needs lots of glow to wake up!"

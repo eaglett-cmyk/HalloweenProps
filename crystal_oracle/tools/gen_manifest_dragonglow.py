@@ -1051,6 +1051,17 @@ VOICE = [
     ("toffee_s3", 4, T, "Thank you, traveler! Hee hee!", "TOFFEE'S AWAKE!", "sweet thank-you, giggle", "NICE"),
     ("toffee_s3", 5, T, "Your glow helps me fly!", "TOFFEE'S AWAKE!", "happy and grateful", "NICE"),
     ("moonfull2_toffee", 1, T, "Teach me to fly! Please, please!", "FLYING LESSONS!", "wide awake, begging, bouncing", "NICE"),
+    # her own idle-loop calls (2026-11-02, owner): asleep until the finale, then practising (show.js attractCallGroup)
+    ("toffee_idle_sleep", 1, T, "Zzz... Butterscotch... you're snoring... zzz...", "SHH... TOFFEE'S ASLEEP", "sleep-talking, a giggly snore", "NICE"),
+    ("toffee_idle_sleep", 2, T, "Mmm... candy dreams... zzz...", "SHH... TOFFEE'S ASLEEP", "dreamy murmur", "NICE"),
+    ("toffee_idle_sleep", 3, T, "Mmf... my sock... my cozy sock... zzz...", "SHH... TOFFEE'S ASLEEP", "snuggling-in mumble", "NICE"),
+    ("toffee_idle_sleep", 4, T, "Mmm... bring a crystal... wake me up... zzz...", "SHH... TOFFEE'S ASLEEP", "sleepy hopeful mumble", "NICE"),
+    ("toffee_idle_sleep", 5, T, "Zzz... one day... I'll fly... zzz...", "SHH... TOFFEE'S ASLEEP", "dreaming, wistful and sweet", "NICE"),
+    ("toffee_idle_awake", 1, T, "Flap, flap, flap! Are you watching, Butterscotch?", "FLYING PRACTICE!", "effortful, proud huffs", "NICE"),
+    ("toffee_idle_awake", 2, T, "Wheee! A loop! Almost a loop!", "FLYING PRACTICE!", "thrilled, a giggle", "NICE"),
+    ("toffee_idle_awake", 3, T, "Travelers! Come see me fly!", "FLYING PRACTICE!", "bright call across the porch", "NICE"),
+    ("toffee_idle_awake", 4, T, "Oops! Bumpy landing! Hee hee!", "FLYING PRACTICE!", "giggly, not hurt at all", "NICE"),
+    ("toffee_idle_awake", 5, T, "Higher! Higher! Wheee!", "FLYING PRACTICE!", "breathless joy", "NICE"),
     # Butterscotch's 2027 lines
     ("attract2_call", 1, B, "Shh... Toffee's napping. Wake us with a crystal!", "SHH... TOFFEE'S NAPPING",
      "soft whisper that warms up on 'Wake us'", "NICE"),
@@ -1398,7 +1409,7 @@ def main():
         words = len(text.split())
         if g in ("attract_call", "attract_tap"):
             assert words <= ATTRACT_MAX_WORDS, (e["id"], words)
-        elif not g.startswith(("chapter_", "moonfull_", "chapter2_", "moonfull2_", "attract2_")):
+        elif not g.startswith(("chapter_", "moonfull_", "chapter2_", "moonfull2_", "attract2_", "toffee_idle_")):
             assert words <= INTERACTION_MAX_WORDS, (e["id"], words)
         assert len(cap) <= CAPTION_MAX, (e["id"], cap)
         voice.append(e)
@@ -1436,7 +1447,7 @@ def main():
         "_asset_guide": ASSET_GUIDE,
         # station-only groups (2026-10-31): awaken_b<colour>_N = more takes of a colour's name line (show.js)
         # chapter 2 (2026-11-02): Toffee + Butterscotch's 2027 lines; toffee_* sprites go to sprites/ on the iPad card
-        "extra_voice_groups": [r"awaken_b[1-9]", r"toffee_s[0-3]", r"moonfull2_toffee", r"attract2_call",
+        "extra_voice_groups": [r"awaken_b[1-9]", r"toffee_s[0-3]", r"toffee_idle_(sleep|awake)", r"moonfull2_toffee", r"attract2_call",
                                r"chapter2_[a-f]", r"moonfull2_[ab]"],
         "_station_sprites": [s[0] for s in STILLS if s[0].startswith("toffee_") and s[0] != "toffee_base"],
         "words": all_words, "stills": stills, "clips": CLIPS, "voice": voice, "sfx": SFX, "music": MUSIC,

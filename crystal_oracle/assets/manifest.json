@@ -46,6 +46,7 @@
  "extra_voice_groups": [
   "awaken_b[1-9]",
   "toffee_s[0-3]",
+  "toffee_idle_(sleep|awake)",
   "moonfull2_toffee",
   "attract2_call",
   "chapter2_[a-f]",
@@ -5023,6 +5024,106 @@
    "text": "Teach me to fly! Please, please!",
    "caption": "FLYING LESSONS!",
    "delivery": "wide awake, begging, bouncing",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_idle_sleep_1",
+   "group": "toffee_idle_sleep",
+   "variant": 1,
+   "speaker": "Toffee",
+   "text": "Zzz... Butterscotch... you're snoring... zzz...",
+   "caption": "SHH... TOFFEE'S ASLEEP",
+   "delivery": "sleep-talking, a giggly snore",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_idle_sleep_2",
+   "group": "toffee_idle_sleep",
+   "variant": 2,
+   "speaker": "Toffee",
+   "text": "Mmm... candy dreams... zzz...",
+   "caption": "SHH... TOFFEE'S ASLEEP",
+   "delivery": "dreamy murmur",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_idle_sleep_3",
+   "group": "toffee_idle_sleep",
+   "variant": 3,
+   "speaker": "Toffee",
+   "text": "Mmf... my sock... my cozy sock... zzz...",
+   "caption": "SHH... TOFFEE'S ASLEEP",
+   "delivery": "snuggling-in mumble",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_idle_sleep_4",
+   "group": "toffee_idle_sleep",
+   "variant": 4,
+   "speaker": "Toffee",
+   "text": "Mmm... bring a crystal... wake me up... zzz...",
+   "caption": "SHH... TOFFEE'S ASLEEP",
+   "delivery": "sleepy hopeful mumble",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_idle_sleep_5",
+   "group": "toffee_idle_sleep",
+   "variant": 5,
+   "speaker": "Toffee",
+   "text": "Zzz... one day... I'll fly... zzz...",
+   "caption": "SHH... TOFFEE'S ASLEEP",
+   "delivery": "dreaming, wistful and sweet",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_idle_awake_1",
+   "group": "toffee_idle_awake",
+   "variant": 1,
+   "speaker": "Toffee",
+   "text": "Flap, flap, flap! Are you watching, Butterscotch?",
+   "caption": "FLYING PRACTICE!",
+   "delivery": "effortful, proud huffs",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_idle_awake_2",
+   "group": "toffee_idle_awake",
+   "variant": 2,
+   "speaker": "Toffee",
+   "text": "Wheee! A loop! Almost a loop!",
+   "caption": "FLYING PRACTICE!",
+   "delivery": "thrilled, a giggle",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_idle_awake_3",
+   "group": "toffee_idle_awake",
+   "variant": 3,
+   "speaker": "Toffee",
+   "text": "Travelers! Come see me fly!",
+   "caption": "FLYING PRACTICE!",
+   "delivery": "bright call across the porch",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_idle_awake_4",
+   "group": "toffee_idle_awake",
+   "variant": 4,
+   "speaker": "Toffee",
+   "text": "Oops! Bumpy landing! Hee hee!",
+   "caption": "FLYING PRACTICE!",
+   "delivery": "giggly, not hurt at all",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_idle_awake_5",
+   "group": "toffee_idle_awake",
+   "variant": 5,
+   "speaker": "Toffee",
+   "text": "Higher! Higher! Wheee!",
+   "caption": "FLYING PRACTICE!",
+   "delivery": "breathless joy",
    "priority": "NICE"
   },
   {
