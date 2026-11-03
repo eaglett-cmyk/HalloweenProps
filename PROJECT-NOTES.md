@@ -835,6 +835,26 @@ Read `crystal_oracle/README.md` first, then `crystal_oracle/docs/DESIGN.md` (con
   chapter_b/d/e_1. Screen **flashed** (COM3, verified). TF card (E:) updated file-by-file and byte-verified:
   `captions.ini`, `README.txt` and those 6 voice WAVs (config.ini, logs/, state/ untouched).
 
+### Chapter 2 (2027): baby Toffee (2026-11-02)
+- **Story:** `crystal_oracle/docs/stories/CHAPTER2-TOFFEE.md`, "The Egg in the Sock". It covers the story, the lines, how Toffee plays and the website plan. **Nothing is on the live site** (owner).
+- **Toffee's design:** the owner's picture: a glittery purple baby dragon with candy-corn horns. The source is `assets/source/images/ref_toffee_owner.png`, cropped from a phone screenshot the owner sent.
+  - Codex redrew her in Butterscotch's style as `toffee_base`, plus five poses in Snuffwick's sock: `toffee_sleep`, `_drowsy`, `_yawn`, `_awake`, `_flap`.
+  - Story stills: `chapter2_sock`, `_hatch`, `_nap`, `_lesson`.
+  - A first pink-cream design was rejected; it is kept in `assets/source/images/old_toffee_v1/`.
+- **Station:**
+  - **Switch:** `[station] chapter = 2` in `sd_card_ipad/oracle/config.ini` turns on `station/js/toffee.js`. Set 1 to get 2026 back.
+  - **How she's drawn:** Toffee is drawn live over every scene except the chapter story, lower left in her sock with a warm halo. The sprites are `sd_card_ipad/oracle/sprites/toffee_*.png`, written by `build_assets.py --ipad` from the manifest's `_station_sprites`. `server.js` /api/index now lists `sprites`.
+  - **Wake stage:** how far a crystal wakes her follows tonight's beacon: asleep under 1/3, drowsy under 2/3, then yawning into awake. After the finale she is wide awake and flaps.
+  - **Voice:** one Toffee line per crystal (`toffee_s<stage>`, 5 takes each) plays after Butterscotch's greet or awaken line. Rush mode skips it.
+  - **Attract and chapter:** attract calls mix in `attract2_call` (never her `toffee_s*` takes, which are kept for the kids so a group of 5 hears no repeat). The idle chapter plays `chapter2_a…f` instead of chapter 1.
+  - **Finale:** `moonfull2_a`, then `moonfull2_toffee`, then `moonfull2_b`.
+  - **Build:** `2026-11-02a`. Tested headless: stages 0–3, attract and the chapter 2 story all render. Not tested on the iPad yet.
+- **Voice recorded (2026-11-02):**
+  - **Toffee's voice:** "Toffee - Young Purple Dragon" (ElevenLabs voice id `Rd9E5LTphNiJM4tDJ47w`), the owner's pick from the 3rd design round. The first two rounds were too squeaky, then too babyish and not dragon enough. The previews are in `assets/source/voice_review/`. A voice-design prompt that names a child's age gets blocked; describe "a cartoon young dragon, youthful, girlish" instead.
+  - **What was recorded:** her 21 lines (`toffee_s0…s3` ×5 + `moonfull2_toffee_1`) and Butterscotch's 13 2027 lines.
+  - **Lengths:** her takes run 2.2–6.8 s. The greet/awaken step's cap grows by 6.5 s when her line is queued (`addToffeeLine`), so she is never cut off.
+- **Groups of 5:** the headless run with 5 returning kids at stage 0 heard 5 different Toffee takes. Her takes are never used as idle calls, because that used one up and caused a repeat.
+
 ### Halloween 2026 closed out → station on 2027 (2026-11-01)
 
 **The night:** 58 crystals awakened, plus 5 replays. Prizes: 24 coins, 32 gold stars, 2 Dragon Gems, no tricks. The Hoard Beacon filled. Every visit was a first visit.

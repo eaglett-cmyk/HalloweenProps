@@ -44,7 +44,19 @@
   ]
  },
  "extra_voice_groups": [
-  "awaken_b[1-9]"
+  "awaken_b[1-9]",
+  "toffee_s[0-3]",
+  "moonfull2_toffee",
+  "attract2_call",
+  "chapter2_[a-f]",
+  "moonfull2_[ab]"
+ ],
+ "_station_sprites": [
+  "toffee_sleep",
+  "toffee_drowsy",
+  "toffee_yawn",
+  "toffee_awake",
+  "toffee_flap"
  ],
  "words": {
   "title": "Dragonglow",
@@ -103,6 +115,18 @@
   "caption.chapter_d": "YOUR GLOW",
   "caption.chapter_e": "LIGHT THE BEACON",
   "caption.chapter_f": "WHAT'S IN THE SOCK?",
+  "caption.chapter2_a": "SNUFFWICK'S SOCK",
+  "caption.chapter2_b": "TAP... TAP... TAP...",
+  "caption.chapter2_c": "MEET TOFFEE!",
+  "caption.chapter2_d": "SO SLEEPY...",
+  "caption.chapter2_e": "BRING YOUR CRYSTAL",
+  "caption.chapter2_f": "FLYING LESSONS!",
+  "caption.moonfull2": "TOFFEE'S AWAKE!",
+  "caption.toffee_s0": "SHH... TOFFEE'S ASLEEP",
+  "caption.toffee_s1": "TOFFEE'S STIRRING",
+  "caption.toffee_s2": "TOFFEE'S WAKING UP!",
+  "caption.toffee_s3": "TOFFEE'S AWAKE!",
+  "caption.moonfull2_b": "FLYING LESSONS!",
   "caption.moonfull": "BEACON LIT!",
   "caption.moonfull_b": "OFFICIAL PRANKSTER",
   "caption.recall": "LAST YEAR",
@@ -699,6 +723,156 @@
    "refs": [
     "butterscotch_base",
     "snuffwick_base"
+   ]
+  },
+  {
+   "id": "toffee_base",
+   "kind": "character",
+   "transparent": true,
+   "priority": "NICE",
+   "desc": "MASTER IMAGE. Toffee, a small chubby baby girl dragon in glittery lilac-violet purple with shiny rounded scales, a row of soft rounded spikes down her head and back, two little CANDY-CORN horns (white tip, orange middle, yellow base), soft pale-lavender belly plates, huge sparkly amber-brown eyes with big highlights, rosy cheeks, a sweet little smile, translucent shimmering pink-lilac wings and a long curled tail. No teeth, no claws, no fire, nothing scary. Sitting upright facing the viewer, sleepy sweet closed-mouth smile.",
+   "used_by": [],
+   "prompt": "MASTER CHARACTER IMAGE of a NEW character. Toffee, a small chubby baby girl dragon in glittery lilac-violet purple with shiny rounded scales, a row of soft rounded spikes down her head and back, two little CANDY-CORN horns (white tip, orange middle, yellow base), soft pale-lavender belly plates, huge sparkly amber-brown eyes with big highlights, rosy cheeks, a sweet little smile, translucent shimmering pink-lilac wings and a long curled tail. No teeth, no claws, no fire, nothing scary. She sits upright facing the viewer, paws together in front of her tummy, a sleepy sweet smile. Full figure, centred, nothing cropped, on a TRANSPARENT background (PNG). If you can't make it transparent, use a flat pure green #00FF00 background with no shadow and no floor. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; glossy candy-like materials; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and cozy, never scary.",
+   "refs": [
+    "butterscotch_base"
+   ],
+   "note": "made from the owner's design, ref_toffee_owner.png (Image 1), in Butterscotch's style"
+  },
+  {
+   "id": "toffee_sleep",
+   "kind": "character",
+   "transparent": true,
+   "priority": "NICE",
+   "desc": "Toffee fast asleep, curled up in Snuffwick's plum-and-cream striped sock, cheek on her paws (stage 0).",
+   "used_by": [],
+   "prompt": "Image 1 is Toffee (toffee_base): keep her EXACTLY the same character, style, size and proportions. Image 2 (snuffwick_sock) shows Snuffwick's plum-and-cream striped sock: it is her nest, lying on its side under her like a sleeping bag. POSE: fast asleep, curled up snugly inside the striped sock with only her head, paws and wing tips poking out, cheek resting on her paws, eyes peacefully closed, a tiny content smile. Full figure (Toffee and the sock), centred, nothing cropped, same framing as Image 1, TRANSPARENT background (PNG), no floor, no shadow, no text, nothing gold, no teeth.",
+   "refs": [
+    "toffee_base",
+    "snuffwick_sock"
+   ],
+   "edit_of": "toffee_base"
+  },
+  {
+   "id": "toffee_drowsy",
+   "kind": "character",
+   "transparent": true,
+   "priority": "NICE",
+   "desc": "Toffee sitting up in the sock, one eye half open, rubbing the other (stage 1).",
+   "used_by": [],
+   "prompt": "Image 1 is Toffee (toffee_base): keep her EXACTLY the same character, style, size and proportions. Image 2 (snuffwick_sock) shows Snuffwick's plum-and-cream striped sock: it is her nest, lying on its side under her like a sleeping bag. POSE: sitting up inside the striped sock, very groggy: ONE eye half-open and the other still closed, a paw rubbing the closed eye, wings limp. Full figure (Toffee and the sock), centred, nothing cropped, same framing as Image 1, TRANSPARENT background (PNG), no floor, no shadow, no text, nothing gold, no teeth.",
+   "refs": [
+    "toffee_base",
+    "snuffwick_sock"
+   ],
+   "edit_of": "toffee_base"
+  },
+  {
+   "id": "toffee_yawn",
+   "kind": "character",
+   "transparent": true,
+   "priority": "NICE",
+   "desc": "Toffee in the sock, a huge yawn and stretch, wings out (stage 2).",
+   "used_by": [],
+   "prompt": "Image 1 is Toffee (toffee_base): keep her EXACTLY the same character, style, size and proportions. Image 2 (snuffwick_sock) shows Snuffwick's plum-and-cream striped sock: it is her nest, lying on its side under her like a sleeping bag. POSE: sitting up inside the striped sock, a huge sleepy yawn (soft pink mouth, NO teeth), eyes squeezed shut, both paws stretched up high and both wings stretched out wide. Full figure (Toffee and the sock), centred, nothing cropped, same framing as Image 1, TRANSPARENT background (PNG), no floor, no shadow, no text, nothing gold, no teeth.",
+   "refs": [
+    "toffee_base",
+    "snuffwick_sock"
+   ],
+   "edit_of": "toffee_base"
+  },
+  {
+   "id": "toffee_awake",
+   "kind": "character",
+   "transparent": true,
+   "priority": "NICE",
+   "desc": "Toffee in the sock, wide awake and delighted, wings spread (stages 2-3).",
+   "used_by": [],
+   "prompt": "Image 1 is Toffee (toffee_base): keep her EXACTLY the same character, style, size and proportions. Image 2 (snuffwick_sock) shows Snuffwick's plum-and-cream striped sock: it is her nest, lying on its side under her like a sleeping bag. POSE: sitting up inside the striped sock, WIDE AWAKE and delighted: huge sparkling eyes, a big open happy smile (no teeth), paws raised, wings spread out wide. Full figure (Toffee and the sock), centred, nothing cropped, same framing as Image 1, TRANSPARENT background (PNG), no floor, no shadow, no text, nothing gold, no teeth.",
+   "refs": [
+    "toffee_base",
+    "snuffwick_sock"
+   ],
+   "edit_of": "toffee_base"
+  },
+  {
+   "id": "toffee_flap",
+   "kind": "character",
+   "transparent": true,
+   "priority": "NICE",
+   "desc": "Toffee hovering just above the empty sock, flapping hard (stage 3, the finale, flying lessons).",
+   "used_by": [],
+   "prompt": "Image 1 is Toffee (toffee_base): keep her EXACTLY the same character, style, size and proportions. Image 2 (snuffwick_sock) shows Snuffwick's plum-and-cream striped sock: it is her nest, lying on its side under her like a sleeping bag. POSE: hovering just above the empty striped sock, flapping her little wings as hard as she can (soft motion arcs), tongue poking out in concentration, eyes bright, tail curled up. Full figure (Toffee and the sock), centred, nothing cropped, same framing as Image 1, TRANSPARENT background (PNG), no floor, no shadow, no text, nothing gold, no teeth.",
+   "refs": [
+    "toffee_base",
+    "snuffwick_sock"
+   ],
+   "edit_of": "toffee_base"
+  },
+  {
+   "id": "chapter2_sock",
+   "kind": "background",
+   "transparent": false,
+   "priority": "NICE",
+   "desc": "Chapter 2 part a/b: Snuffwick alone in a cozy dark corner of the cave, hugging his striped sock; a smooth egg inside glows warm honey through the holes and sparkles pop out as it taps.",
+   "used_by": [
+    "chapter2_a",
+    "chapter2_b"
+   ],
+   "prompt": "Snuffwick alone in a cozy dark corner of the cave at night on a soft cushion, hugging his plum-and-cream striped sock. Inside the sock a smooth round egg glows a warm honey light through the holes and tiny sparkles pop out as it taps from inside. He looks down at it with a proud, secretive grin. Format: wide landscape, 5:3 (1600x960 if you can choose; otherwise the widest landscape option). Dark midnight-indigo and plum colours (#140F2E, #2B1650). Keep the BOTTOM QUARTER of the image plain near-black and empty (the screen draws words there). Big simple shapes, clean smooth gradients. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; glossy candy-like materials; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and cozy, never scary.",
+   "refs": [
+    "bg_cave",
+    "snuffwick_base"
+   ]
+  },
+  {
+   "id": "chapter2_hatch",
+   "kind": "background",
+   "transparent": false,
+   "priority": "NICE",
+   "desc": "Chapter 2 part c: the egg cracks open in the sock on the candy pile; baby Toffee peeks out wearing a piece of shell as a cap; Butterscotch (left) amazed, Snuffwick (right) proud; the beacon dark upper-left.",
+   "used_by": [
+    "chapter2_c"
+   ],
+   "prompt": "The Hoard Cave. On a low candy pile in the centre lies the striped sock; in it a glowing egg cracks open into chunky pastel-rainbow crystal shell pieces and baby Toffee pokes her head out wearing a piece as a cap, blinking sleepily. Butterscotch floats on the left, paws on his cheeks, amazed; Snuffwick on the right beams proudly. The Hoard Beacon hangs dark in the upper-left. Format: wide landscape, 5:3 (1600x960 if you can choose; otherwise the widest landscape option). Dark midnight-indigo and plum colours (#140F2E, #2B1650). Keep the BOTTOM QUARTER of the image plain near-black and empty (the screen draws words there). Big simple shapes, clean smooth gradients. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; glossy candy-like materials; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and cozy, never scary.",
+   "refs": [
+    "bg_cave",
+    "butterscotch_base",
+    "snuffwick_base",
+    "toffee_base"
+   ]
+  },
+  {
+   "id": "chapter2_nap",
+   "kind": "background",
+   "transparent": false,
+   "priority": "NICE",
+   "desc": "Chapter 2 parts d/e: both dragons asleep - Butterscotch floating in the middle, Toffee curled in the sock on a candy pile at his left; the beacon a faint ember.",
+   "used_by": [
+    "chapter2_d",
+    "chapter2_e"
+   ],
+   "prompt": "The Hoard Cave at night, very quiet. Butterscotch floats asleep in the middle; beside him, low on the left on a soft candy pile, tiny Toffee sleeps curled up in the striped sock. The Hoard Beacon in the upper-left glows only a faint ember. Format: wide landscape, 5:3 (1600x960 if you can choose; otherwise the widest landscape option). Dark midnight-indigo and plum colours (#140F2E, #2B1650). Keep the BOTTOM QUARTER of the image plain near-black and empty (the screen draws words there). Big simple shapes, clean smooth gradients. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; glossy candy-like materials; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and cozy, never scary.",
+   "refs": [
+    "bg_cave",
+    "butterscotch_base",
+    "toffee_base"
+   ]
+  },
+  {
+   "id": "chapter2_lesson",
+   "kind": "background",
+   "transparent": false,
+   "priority": "NICE",
+   "desc": "Chapter 2 part f (and the website's flying lessons): the beacon blazes; Toffee flies her first wobbly loop with a sparkly trail; Butterscotch cheers, Snuffwick claps.",
+   "used_by": [
+    "chapter2_f"
+   ],
+   "prompt": "The Hoard Cave, bright and warm: the Hoard Beacon in the upper-left blazes. Tiny Toffee flies her very first wobbly loop in the middle, wings flapping hard, a sparkly trail behind her. Butterscotch floats below on the right cheering; Snuffwick on the left claps and hops. Crystals in purple, sky blue and rainbow sparkle. Format: wide landscape, 5:3 (1600x960 if you can choose; otherwise the widest landscape option). Dark midnight-indigo and plum colours (#140F2E, #2B1650). Keep the BOTTOM QUARTER of the image plain near-black and empty (the screen draws words there). Big simple shapes, clean smooth gradients. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; glossy candy-like materials; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and cozy, never scary.",
+   "refs": [
+    "bg_cave",
+    "butterscotch_base",
+    "snuffwick_base",
+    "toffee_base"
    ]
   }
  ],
@@ -3118,6 +3292,84 @@
    ],
    "anchor_layer": 0,
    "notes": "The cliffhanger: Snuffwick scampers past hugging a lumpy sock that glows gold inside."
+  },
+  {
+   "id": "chapter2_a",
+   "priority": "NICE",
+   "recipe": "kenburns",
+   "image": "chapter2_sock",
+   "seconds": 4.5,
+   "zoom": [
+    1.0,
+    1.06
+   ],
+   "pan": "center",
+   "notes": "Last Halloween Snuffwick found something in his sock."
+  },
+  {
+   "id": "chapter2_b",
+   "priority": "NICE",
+   "recipe": "kenburns",
+   "image": "chapter2_sock",
+   "seconds": 4.5,
+   "zoom": [
+    1.06,
+    1.16
+   ],
+   "pan": "center",
+   "notes": "An egg - warm, glowing, tapping (push-in on the sock)."
+  },
+  {
+   "id": "chapter2_c",
+   "priority": "NICE",
+   "recipe": "kenburns",
+   "image": "chapter2_hatch",
+   "seconds": 4.5,
+   "zoom": [
+    1.06,
+    1.12
+   ],
+   "pan": "up",
+   "notes": "Crack! Baby Toffee hatches."
+  },
+  {
+   "id": "chapter2_d",
+   "priority": "NICE",
+   "recipe": "kenburns",
+   "image": "chapter2_nap",
+   "seconds": 4.5,
+   "zoom": [
+    1.0,
+    1.05
+   ],
+   "pan": "center",
+   "notes": "Toffee is SO sleepy: both dragons asleep, the beacon an ember."
+  },
+  {
+   "id": "chapter2_e",
+   "priority": "NICE",
+   "recipe": "kenburns",
+   "image": "chapter2_nap",
+   "seconds": 4.5,
+   "zoom": [
+    1.05,
+    1.14
+   ],
+   "pan": "left",
+   "notes": "Every crystal wakes her a little more (slow push-in towards her)."
+  },
+  {
+   "id": "chapter2_f",
+   "priority": "NICE",
+   "recipe": "kenburns",
+   "image": "chapter2_lesson",
+   "seconds": 5,
+   "zoom": [
+    1.04,
+    1.1
+   ],
+   "pan": "up",
+   "notes": "Fill the beacon, and Toffee gets flying lessons."
   }
  ],
  "voice": [
@@ -4561,6 +4813,346 @@
    "text": "Psst... what's Snuffwick hiding in that lumpy sock?",
    "caption": "WHAT'S IN THE SOCK?",
    "delivery": "curious, teasing whisper (the 2027 cliffhanger)",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_s0_1",
+   "group": "toffee_s0",
+   "variant": 1,
+   "speaker": "Toffee",
+   "text": "Mmm... five more minutes...",
+   "caption": "SHH... TOFFEE'S ASLEEP",
+   "delivery": "fast-asleep mumble, slurry",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_s0_2",
+   "group": "toffee_s0",
+   "variant": 2,
+   "speaker": "Toffee",
+   "text": "Zzz... sparkly... zzz...",
+   "caption": "SHH... TOFFEE'S ASLEEP",
+   "delivery": "tiny snore, a dreamy sigh on 'sparkly'",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_s0_3",
+   "group": "toffee_s0",
+   "variant": 3,
+   "speaker": "Toffee",
+   "text": "Mmf... is it morning?",
+   "caption": "SHH... TOFFEE'S ASLEEP",
+   "delivery": "half-asleep, muffled, drifting off",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_s0_4",
+   "group": "toffee_s0",
+   "variant": 4,
+   "speaker": "Toffee",
+   "text": "Mmm... warm crystal... zzz...",
+   "caption": "SHH... TOFFEE'S ASLEEP",
+   "delivery": "cozy sleepy murmur",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_s0_5",
+   "group": "toffee_s0",
+   "variant": 5,
+   "speaker": "Toffee",
+   "text": "Zzz... flying... wheee... zzz...",
+   "caption": "SHH... TOFFEE'S ASLEEP",
+   "delivery": "dreaming, a sleepy giggle",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_s1_1",
+   "group": "toffee_s1",
+   "variant": 1,
+   "speaker": "Toffee",
+   "text": "Hmm? A crystal? Ooh...",
+   "caption": "TOFFEE'S STIRRING",
+   "delivery": "groggy, slowly curious",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_s1_2",
+   "group": "toffee_s1",
+   "variant": 2,
+   "speaker": "Toffee",
+   "text": "Yawwn... hello, traveler...",
+   "caption": "TOFFEE'S STIRRING",
+   "delivery": "big yawn first, then a drowsy hello",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_s1_3",
+   "group": "toffee_s1",
+   "variant": 3,
+   "speaker": "Toffee",
+   "text": "One eye open! Glowy...",
+   "caption": "TOFFEE'S STIRRING",
+   "delivery": "drowsy but pleased",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_s1_4",
+   "group": "toffee_s1",
+   "variant": 4,
+   "speaker": "Toffee",
+   "text": "Is that for me? So warm...",
+   "caption": "TOFFEE'S STIRRING",
+   "delivery": "sleepy and sweet",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_s1_5",
+   "group": "toffee_s1",
+   "variant": 5,
+   "speaker": "Toffee",
+   "text": "More glow, please... yawn...",
+   "caption": "TOFFEE'S STIRRING",
+   "delivery": "sleepy request, yawning",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_s2_1",
+   "group": "toffee_s2",
+   "variant": 1,
+   "speaker": "Toffee",
+   "text": "I'm waking up! More glow!",
+   "caption": "TOFFEE'S WAKING UP!",
+   "delivery": "brightening, excited",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_s2_2",
+   "group": "toffee_s2",
+   "variant": 2,
+   "speaker": "Toffee",
+   "text": "Look! My wings are wiggling!",
+   "caption": "TOFFEE'S WAKING UP!",
+   "delivery": "delighted discovery, a giggle",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_s2_3",
+   "group": "toffee_s2",
+   "variant": 3,
+   "speaker": "Toffee",
+   "text": "Almost awake! Hee hee!",
+   "caption": "TOFFEE'S WAKING UP!",
+   "delivery": "giggly",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_s2_4",
+   "group": "toffee_s2",
+   "variant": 4,
+   "speaker": "Toffee",
+   "text": "Glow tickles! Wheee!",
+   "caption": "TOFFEE'S WAKING UP!",
+   "delivery": "ticklish squeal, giggling",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_s2_5",
+   "group": "toffee_s2",
+   "variant": 5,
+   "speaker": "Toffee",
+   "text": "Hi, traveler! I'm Toffee!",
+   "caption": "TOFFEE'S WAKING UP!",
+   "delivery": "proud and bubbly",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_s3_1",
+   "group": "toffee_s3",
+   "variant": 1,
+   "speaker": "Toffee",
+   "text": "Wheee! I'm all awake!",
+   "caption": "TOFFEE'S AWAKE!",
+   "delivery": "bouncy joy",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_s3_2",
+   "group": "toffee_s3",
+   "variant": 2,
+   "speaker": "Toffee",
+   "text": "Watch me flap! Flap, flap!",
+   "caption": "TOFFEE'S AWAKE!",
+   "delivery": "effortful and proud",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_s3_3",
+   "group": "toffee_s3",
+   "variant": 3,
+   "speaker": "Toffee",
+   "text": "Look, Butterscotch! I'm hovering!",
+   "caption": "TOFFEE'S AWAKE!",
+   "delivery": "amazed and thrilled",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_s3_4",
+   "group": "toffee_s3",
+   "variant": 4,
+   "speaker": "Toffee",
+   "text": "Thank you, traveler! Hee hee!",
+   "caption": "TOFFEE'S AWAKE!",
+   "delivery": "sweet thank-you, giggle",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_s3_5",
+   "group": "toffee_s3",
+   "variant": 5,
+   "speaker": "Toffee",
+   "text": "Your glow helps me fly!",
+   "caption": "TOFFEE'S AWAKE!",
+   "delivery": "happy and grateful",
+   "priority": "NICE"
+  },
+  {
+   "id": "moonfull2_toffee_1",
+   "group": "moonfull2_toffee",
+   "variant": 1,
+   "speaker": "Toffee",
+   "text": "Teach me to fly! Please, please!",
+   "caption": "FLYING LESSONS!",
+   "delivery": "wide awake, begging, bouncing",
+   "priority": "NICE"
+  },
+  {
+   "id": "attract2_call_1",
+   "group": "attract2_call",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Shh... Toffee's napping. Wake us with a crystal!",
+   "caption": "SHH... TOFFEE'S NAPPING",
+   "delivery": "soft whisper that warms up on 'Wake us'",
+   "priority": "NICE"
+  },
+  {
+   "id": "attract2_call_2",
+   "group": "attract2_call",
+   "variant": 2,
+   "speaker": "Butterscotch",
+   "text": "Toffee needs lots of glow to wake up!",
+   "caption": "BRING YOUR GLOW",
+   "delivery": "fond grandpa, gently amused",
+   "priority": "NICE"
+  },
+  {
+   "id": "attract2_call_3",
+   "group": "attract2_call",
+   "variant": 3,
+   "speaker": "Butterscotch",
+   "text": "Zzz... two sleepy dragons... zzz...",
+   "caption": "TWO SLEEPY DRAGONS",
+   "delivery": "half-asleep mumble with a soft snore",
+   "priority": "NICE"
+  },
+  {
+   "id": "attract2_call_4",
+   "group": "attract2_call",
+   "variant": 4,
+   "speaker": "Butterscotch",
+   "text": "Crystal on the Wakestone! Wake us both!",
+   "caption": "WAKE US BOTH!",
+   "delivery": "sleepy rumble that brightens on 'Wake us both!'",
+   "priority": "NICE"
+  },
+  {
+   "id": "attract2_call_5",
+   "group": "attract2_call",
+   "variant": 5,
+   "speaker": "Butterscotch",
+   "text": "Snuffwick found an egg! Now we have Toffee!",
+   "caption": "MEET TOFFEE!",
+   "delivery": "proud, delighted chuckle",
+   "priority": "NICE"
+  },
+  {
+   "id": "chapter2_a_1",
+   "group": "chapter2_a",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Last Halloween, Snuffwick found something in his sock...",
+   "caption": "SNUFFWICK'S SOCK",
+   "delivery": "bedtime-story opening, unhurried and mysterious",
+   "priority": "NICE"
+  },
+  {
+   "id": "chapter2_b_1",
+   "group": "chapter2_b",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "An egg! Warm and glowing, going tap, tap, tap!",
+   "caption": "TAP... TAP... TAP...",
+   "delivery": "hushed wonder, soft taps in the voice",
+   "priority": "NICE"
+  },
+  {
+   "id": "chapter2_c_1",
+   "group": "chapter2_c",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Crack! Out popped a baby dragon. Toffee!",
+   "caption": "MEET TOFFEE!",
+   "delivery": "a soft 'Crack!', then overjoyed and tender on 'Toffee!'",
+   "priority": "NICE"
+  },
+  {
+   "id": "chapter2_d_1",
+   "group": "chapter2_d",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "But Toffee is SO sleepy. Babies need lots of glow.",
+   "caption": "SO SLEEPY...",
+   "delivery": "a fond yawn, gently amused",
+   "priority": "NICE"
+  },
+  {
+   "id": "chapter2_e_1",
+   "group": "chapter2_e",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Every crystal wakes her up a little more!",
+   "caption": "BRING YOUR CRYSTAL",
+   "delivery": "warm, encouraging",
+   "priority": "NICE"
+  },
+  {
+   "id": "chapter2_f_1",
+   "group": "chapter2_f",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Fill the beacon, and Toffee gets flying lessons!",
+   "caption": "FLYING LESSONS!",
+   "delivery": "rising excitement, a proud chuckle",
+   "priority": "NICE"
+  },
+  {
+   "id": "moonfull2_a_1",
+   "group": "moonfull2_a",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "My beacon is lit! Toffee's wide awake!",
+   "caption": "TOFFEE'S AWAKE!",
+   "delivery": "overjoyed triumph, warm, never booming",
+   "priority": "NICE"
+  },
+  {
+   "id": "moonfull2_b_1",
+   "group": "moonfull2_b",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Flying lessons, little one! Starting tonight!",
+   "caption": "FLYING LESSONS!",
+   "delivery": "proud grandpa, a happy chuckle",
    "priority": "NICE"
   }
  ],

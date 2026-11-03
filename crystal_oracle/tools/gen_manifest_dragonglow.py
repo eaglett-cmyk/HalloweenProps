@@ -71,6 +71,17 @@ BUTTERSCOTCH_LOOK = (
     "tail ending in a little round tuft. A crooked, faded purple wizard hat (#6E5A9E) with exactly TWO big simple "
     "pale-cream five-point stars (#F3E6C4) sits between his horns.")
 
+# Toffee's look (chapter 2, 2027): her master still and every pose edit use it
+TOFFEE_LOOK = (   # the owner's design (2026-11-02): assets/source/images/ref_toffee_owner.png
+    "Toffee, a small chubby baby girl dragon in glittery lilac-violet purple with shiny rounded scales, a row of soft "
+    "rounded spikes down her head and back, two little CANDY-CORN horns (white tip, orange middle, yellow base), soft "
+    "pale-lavender belly plates, huge sparkly amber-brown eyes with big highlights, rosy cheeks, a sweet little smile, "
+    "translucent shimmering pink-lilac wings and a long curled tail. No teeth, no claws, no fire, nothing scary.")
+TF_POSE = ("Image 1 is Toffee (toffee_base): keep her EXACTLY the same character, style, size and proportions. Image 2 "
+           "(snuffwick_sock) shows Snuffwick's plum-and-cream striped sock: it is her nest, lying on its side under her "
+           "like a sleeping bag. POSE: {what}. Full figure (Toffee and the sock), centred, nothing cropped, same framing "
+           "as Image 1, TRANSPARENT background (PNG), no floor, no shadow, no text, nothing gold, no teeth.")
+
 # --------------------------------------------------------------------------- stills
 # (id, kind, transparent, priority, desc, prompt, extra)
 STILLS = [
@@ -356,6 +367,68 @@ STILLS = [
        "from behind Butterscotch's tail with a cheeky grin; the Hoard Beacon glowing warm amber above them.",
        "Generous plain dark space at the top and the bottom for sign text. Dark midnight-indigo cave background.", STYLE),
      {"refs": ["butterscotch_base", "snuffwick_base"]}),
+    # ---- Chapter 2 (2027, "The Egg in the Sock"): baby Toffee - docs/stories/CHAPTER2-TOFFEE.md (2026-11-02).
+    # The toffee_* poses are station SPRITES (drawn live over every scene, stage = tonight's beacon), not clip layers.
+    ("toffee_base", "character", True, "NICE",
+     "MASTER IMAGE. " + TOFFEE_LOOK + " Sitting upright facing the viewer, sleepy sweet closed-mouth smile.",
+     P("MASTER CHARACTER IMAGE of a NEW character. " + TOFFEE_LOOK,
+       "She sits upright facing the viewer, paws together in front of her tummy, a sleepy sweet smile.", SPRITE, STYLE),
+     {"refs": ["butterscotch_base"], "note": "made from the owner's design, ref_toffee_owner.png (Image 1), in "
+                                             "Butterscotch's style"}),
+    ("toffee_sleep", "character", True, "NICE",
+     "Toffee fast asleep, curled up in Snuffwick's plum-and-cream striped sock, cheek on her paws (stage 0).",
+     TF_POSE.format(what="fast asleep, curled up snugly inside the striped sock with only her head, paws and wing tips "
+                         "poking out, cheek resting on her paws, eyes peacefully closed, a tiny content smile"),
+     {"refs": ["toffee_base", "snuffwick_sock"], "edit_of": "toffee_base"}),
+    ("toffee_drowsy", "character", True, "NICE",
+     "Toffee sitting up in the sock, one eye half open, rubbing the other (stage 1).",
+     TF_POSE.format(what="sitting up inside the striped sock, very groggy: ONE eye half-open and the other still closed, "
+                         "a paw rubbing the closed eye, wings limp"),
+     {"refs": ["toffee_base", "snuffwick_sock"], "edit_of": "toffee_base"}),
+    ("toffee_yawn", "character", True, "NICE",
+     "Toffee in the sock, a huge yawn and stretch, wings out (stage 2).",
+     TF_POSE.format(what="sitting up inside the striped sock, a huge sleepy yawn (soft pink mouth, NO teeth), eyes "
+                         "squeezed shut, both paws stretched up high and both wings stretched out wide"),
+     {"refs": ["toffee_base", "snuffwick_sock"], "edit_of": "toffee_base"}),
+    ("toffee_awake", "character", True, "NICE",
+     "Toffee in the sock, wide awake and delighted, wings spread (stages 2-3).",
+     TF_POSE.format(what="sitting up inside the striped sock, WIDE AWAKE and delighted: huge sparkling eyes, a big open "
+                         "happy smile (no teeth), paws raised, wings spread out wide"),
+     {"refs": ["toffee_base", "snuffwick_sock"], "edit_of": "toffee_base"}),
+    ("toffee_flap", "character", True, "NICE",
+     "Toffee hovering just above the empty sock, flapping hard (stage 3, the finale, flying lessons).",
+     TF_POSE.format(what="hovering just above the empty striped sock, flapping her little wings as hard as she can "
+                         "(soft motion arcs), tongue poking out in concentration, eyes bright, tail curled up"),
+     {"refs": ["toffee_base", "snuffwick_sock"], "edit_of": "toffee_base"}),
+    ("chapter2_sock", "background", False, "NICE",
+     "Chapter 2 part a/b: Snuffwick alone in a cozy dark corner of the cave, hugging his striped sock; a smooth egg "
+     "inside glows warm honey through the holes and sparkles pop out as it taps.",
+     P("Snuffwick alone in a cozy dark corner of the cave at night on a soft cushion, hugging his plum-and-cream "
+       "striped sock. Inside the sock a smooth round egg glows a warm honey light through the holes and tiny sparkles "
+       "pop out as it taps from inside. He looks down at it with a proud, secretive grin.", BG, STYLE),
+     {"refs": ["bg_cave", "snuffwick_base"]}),
+    ("chapter2_hatch", "background", False, "NICE",
+     "Chapter 2 part c: the egg cracks open in the sock on the candy pile; baby Toffee peeks out wearing a piece of "
+     "shell as a cap; Butterscotch (left) amazed, Snuffwick (right) proud; the beacon dark upper-left.",
+     P("The Hoard Cave. On a low candy pile in the centre lies the striped sock; in it a glowing egg cracks open into "
+       "chunky pastel-rainbow crystal shell pieces and baby Toffee pokes her head out wearing a piece as a cap, "
+       "blinking sleepily. Butterscotch floats on the left, paws on his cheeks, amazed; Snuffwick on the right beams "
+       "proudly. The Hoard Beacon hangs dark in the upper-left.", BG, STYLE),
+     {"refs": ["bg_cave", "butterscotch_base", "snuffwick_base", "toffee_base"]}),
+    ("chapter2_nap", "background", False, "NICE",
+     "Chapter 2 parts d/e: both dragons asleep - Butterscotch floating in the middle, Toffee curled in the sock on a "
+     "candy pile at his left; the beacon a faint ember.",
+     P("The Hoard Cave at night, very quiet. Butterscotch floats asleep in the middle; beside him, low on the left on a "
+       "soft candy pile, tiny Toffee sleeps curled up in the striped sock. The Hoard Beacon in the upper-left glows "
+       "only a faint ember.", BG, STYLE),
+     {"refs": ["bg_cave", "butterscotch_base", "toffee_base"]}),
+    ("chapter2_lesson", "background", False, "NICE",
+     "Chapter 2 part f (and the website's flying lessons): the beacon blazes; Toffee flies her first wobbly loop with "
+     "a sparkly trail; Butterscotch cheers, Snuffwick claps.",
+     P("The Hoard Cave, bright and warm: the Hoard Beacon in the upper-left blazes. Tiny Toffee flies her very first "
+       "wobbly loop in the middle, wings flapping hard, a sparkly trail behind her. Butterscotch floats below on the "
+       "right cheering; Snuffwick on the left claps and hops. Crystals in purple, sky blue and rainbow sparkle.", BG, STYLE),
+     {"refs": ["bg_cave", "butterscotch_base", "snuffwick_base", "toffee_base"]}),
 ]
 
 # Extra "used by" notes that are not clips (printables)
@@ -709,11 +782,24 @@ CLIPS = [
                 sn("snuffwick_sock", x=[900, -100], y=222, t=[0.8, 4.4], fallback="snuffwick_base")],
      "anchor_layer": 0,
      "notes": "The cliffhanger: Snuffwick scampers past hugging a lumpy sock that glows gold inside."},
+    # ---------------------------------------------------------------- chapter 2 (2027, [station] chapter = 2)
+    {"id": "chapter2_a", "priority": "NICE", "recipe": "kenburns", "image": "chapter2_sock", "seconds": 4.5,
+     "zoom": [1.0, 1.06], "pan": "center", "notes": "Last Halloween Snuffwick found something in his sock."},
+    {"id": "chapter2_b", "priority": "NICE", "recipe": "kenburns", "image": "chapter2_sock", "seconds": 4.5,
+     "zoom": [1.06, 1.16], "pan": "center", "notes": "An egg - warm, glowing, tapping (push-in on the sock)."},
+    {"id": "chapter2_c", "priority": "NICE", "recipe": "kenburns", "image": "chapter2_hatch", "seconds": 4.5,
+     "zoom": [1.06, 1.12], "pan": "up", "notes": "Crack! Baby Toffee hatches."},
+    {"id": "chapter2_d", "priority": "NICE", "recipe": "kenburns", "image": "chapter2_nap", "seconds": 4.5,
+     "zoom": [1.0, 1.05], "pan": "center", "notes": "Toffee is SO sleepy: both dragons asleep, the beacon an ember."},
+    {"id": "chapter2_e", "priority": "NICE", "recipe": "kenburns", "image": "chapter2_nap", "seconds": 4.5,
+     "zoom": [1.05, 1.14], "pan": "left", "notes": "Every crystal wakes her a little more (slow push-in towards her)."},
+    {"id": "chapter2_f", "priority": "NICE", "recipe": "kenburns", "image": "chapter2_lesson", "seconds": 5,
+     "zoom": [1.04, 1.1], "pan": "up", "notes": "Fill the beacon, and Toffee gets flying lessons."},
 ]
 
 # --------------------------------------------------------------------------- voice
 # (group, n, speaker, text, caption, delivery, priority)   speaker "Snuffwick" -> fx "smudge"
-B, S = "Butterscotch", "Snuffwick"
+B, S, T = "Butterscotch", "Snuffwick", "Toffee"
 VOICE = [
     ("attract_call", 1, B, "Crystal on the Wakestone! Wake me up!", "CRYSTAL HERE",
      "sleepy rumble that brightens on 'Wake me up'; cozy, not loud", "MVP"),
@@ -942,6 +1028,56 @@ VOICE = [
      "clear instruction, rising excitement", "NICE"),
     ("chapter_f", 1, B, "Psst... what's Snuffwick hiding in that lumpy sock?", "WHAT'S IN THE SOCK?",
      "curious, teasing whisper (the 2027 cliffhanger)", "NICE"),
+    # ---- Chapter 2 (2027): baby Toffee ([station] chapter = 2). Her own voice (speaker "Toffee"); one line per
+    # crystal after Butterscotch's greeting, the take group = how awake she is (stage = tonight's beacon, 0..3).
+    ("toffee_s0", 1, T, "Mmm... five more minutes...", "SHH... TOFFEE'S ASLEEP", "fast-asleep mumble, slurry", "NICE"),
+    ("toffee_s0", 2, T, "Zzz... sparkly... zzz...", "SHH... TOFFEE'S ASLEEP", "tiny snore, a dreamy sigh on 'sparkly'", "NICE"),
+    ("toffee_s0", 3, T, "Mmf... is it morning?", "SHH... TOFFEE'S ASLEEP", "half-asleep, muffled, drifting off", "NICE"),
+    ("toffee_s0", 4, T, "Mmm... warm crystal... zzz...", "SHH... TOFFEE'S ASLEEP", "cozy sleepy murmur", "NICE"),
+    ("toffee_s0", 5, T, "Zzz... flying... wheee... zzz...", "SHH... TOFFEE'S ASLEEP", "dreaming, a sleepy giggle", "NICE"),
+    ("toffee_s1", 1, T, "Hmm? A crystal? Ooh...", "TOFFEE'S STIRRING", "groggy, slowly curious", "NICE"),
+    ("toffee_s1", 2, T, "Yawwn... hello, traveler...", "TOFFEE'S STIRRING", "big yawn first, then a drowsy hello", "NICE"),
+    ("toffee_s1", 3, T, "One eye open! Glowy...", "TOFFEE'S STIRRING", "drowsy but pleased", "NICE"),
+    ("toffee_s1", 4, T, "Is that for me? So warm...", "TOFFEE'S STIRRING", "sleepy and sweet", "NICE"),
+    ("toffee_s1", 5, T, "More glow, please... yawn...", "TOFFEE'S STIRRING", "sleepy request, yawning", "NICE"),
+    ("toffee_s2", 1, T, "I'm waking up! More glow!", "TOFFEE'S WAKING UP!", "brightening, excited", "NICE"),
+    ("toffee_s2", 2, T, "Look! My wings are wiggling!", "TOFFEE'S WAKING UP!", "delighted discovery, a giggle", "NICE"),
+    ("toffee_s2", 3, T, "Almost awake! Hee hee!", "TOFFEE'S WAKING UP!", "giggly", "NICE"),
+    ("toffee_s2", 4, T, "Glow tickles! Wheee!", "TOFFEE'S WAKING UP!", "ticklish squeal, giggling", "NICE"),
+    ("toffee_s2", 5, T, "Hi, traveler! I'm Toffee!", "TOFFEE'S WAKING UP!", "proud and bubbly", "NICE"),
+    ("toffee_s3", 1, T, "Wheee! I'm all awake!", "TOFFEE'S AWAKE!", "bouncy joy", "NICE"),
+    ("toffee_s3", 2, T, "Watch me flap! Flap, flap!", "TOFFEE'S AWAKE!", "effortful and proud", "NICE"),
+    ("toffee_s3", 3, T, "Look, Butterscotch! I'm hovering!", "TOFFEE'S AWAKE!", "amazed and thrilled", "NICE"),
+    ("toffee_s3", 4, T, "Thank you, traveler! Hee hee!", "TOFFEE'S AWAKE!", "sweet thank-you, giggle", "NICE"),
+    ("toffee_s3", 5, T, "Your glow helps me fly!", "TOFFEE'S AWAKE!", "happy and grateful", "NICE"),
+    ("moonfull2_toffee", 1, T, "Teach me to fly! Please, please!", "FLYING LESSONS!", "wide awake, begging, bouncing", "NICE"),
+    # Butterscotch's 2027 lines
+    ("attract2_call", 1, B, "Shh... Toffee's napping. Wake us with a crystal!", "SHH... TOFFEE'S NAPPING",
+     "soft whisper that warms up on 'Wake us'", "NICE"),
+    ("attract2_call", 2, B, "Toffee needs lots of glow to wake up!", "BRING YOUR GLOW",
+     "fond grandpa, gently amused", "NICE"),
+    ("attract2_call", 3, B, "Zzz... two sleepy dragons... zzz...", "TWO SLEEPY DRAGONS",
+     "half-asleep mumble with a soft snore", "NICE"),
+    ("attract2_call", 4, B, "Crystal on the Wakestone! Wake us both!", "WAKE US BOTH!",
+     "sleepy rumble that brightens on 'Wake us both!'", "NICE"),
+    ("attract2_call", 5, B, "Snuffwick found an egg! Now we have Toffee!", "MEET TOFFEE!",
+     "proud, delighted chuckle", "NICE"),
+    ("chapter2_a", 1, B, "Last Halloween, Snuffwick found something in his sock...", "SNUFFWICK'S SOCK",
+     "bedtime-story opening, unhurried and mysterious", "NICE"),
+    ("chapter2_b", 1, B, "An egg! Warm and glowing, going tap, tap, tap!", "TAP... TAP... TAP...",
+     "hushed wonder, soft taps in the voice", "NICE"),
+    ("chapter2_c", 1, B, "Crack! Out popped a baby dragon. Toffee!", "MEET TOFFEE!",
+     "a soft 'Crack!', then overjoyed and tender on 'Toffee!'", "NICE"),
+    ("chapter2_d", 1, B, "But Toffee is SO sleepy. Babies need lots of glow.", "SO SLEEPY...",
+     "a fond yawn, gently amused", "NICE"),
+    ("chapter2_e", 1, B, "Every crystal wakes her up a little more!", "BRING YOUR CRYSTAL",
+     "warm, encouraging", "NICE"),
+    ("chapter2_f", 1, B, "Fill the beacon, and Toffee gets flying lessons!", "FLYING LESSONS!",
+     "rising excitement, a proud chuckle", "NICE"),
+    ("moonfull2_a", 1, B, "My beacon is lit! Toffee's wide awake!", "TOFFEE'S AWAKE!",
+     "overjoyed triumph, warm, never booming", "NICE"),
+    ("moonfull2_b", 1, B, "Flying lessons, little one! Starting tonight!", "FLYING LESSONS!",
+     "proud grandpa, a happy chuckle", "NICE"),
 ]
 
 # --------------------------------------------------------------------------- sounds
@@ -1045,6 +1181,18 @@ WORDS = {
     "caption.chapter_d": "YOUR GLOW",
     "caption.chapter_e": "LIGHT THE BEACON",
     "caption.chapter_f": "WHAT'S IN THE SOCK?",
+    "caption.chapter2_a": "SNUFFWICK'S SOCK",
+    "caption.chapter2_b": "TAP... TAP... TAP...",
+    "caption.chapter2_c": "MEET TOFFEE!",
+    "caption.chapter2_d": "SO SLEEPY...",
+    "caption.chapter2_e": "BRING YOUR CRYSTAL",
+    "caption.chapter2_f": "FLYING LESSONS!",
+    "caption.moonfull2": "TOFFEE'S AWAKE!",
+    "caption.toffee_s0": "SHH... TOFFEE'S ASLEEP",
+    "caption.toffee_s1": "TOFFEE'S STIRRING",
+    "caption.toffee_s2": "TOFFEE'S WAKING UP!",
+    "caption.toffee_s3": "TOFFEE'S AWAKE!",
+    "caption.moonfull2_b": "FLYING LESSONS!",
     "caption.moonfull": "BEACON LIT!",
     "caption.moonfull_b": "OFFICIAL PRANKSTER",
     "caption.recall": "LAST YEAR",
@@ -1250,7 +1398,7 @@ def main():
         words = len(text.split())
         if g in ("attract_call", "attract_tap"):
             assert words <= ATTRACT_MAX_WORDS, (e["id"], words)
-        elif not g.startswith(("chapter_", "moonfull_")):
+        elif not g.startswith(("chapter_", "moonfull_", "chapter2_", "moonfull2_", "attract2_")):
             assert words <= INTERACTION_MAX_WORDS, (e["id"], words)
         assert len(cap) <= CAPTION_MAX, (e["id"], cap)
         voice.append(e)
@@ -1287,7 +1435,10 @@ def main():
         "schema": 1, "title": TITLE, "fps": 13, "screen": SCREEN, "voice_style": VOICE_STYLE,
         "_asset_guide": ASSET_GUIDE,
         # station-only groups (2026-10-31): awaken_b<colour>_N = more takes of a colour's name line (show.js)
-        "extra_voice_groups": [r"awaken_b[1-9]"],
+        # chapter 2 (2026-11-02): Toffee + Butterscotch's 2027 lines; toffee_* sprites go to sprites/ on the iPad card
+        "extra_voice_groups": [r"awaken_b[1-9]", r"toffee_s[0-3]", r"moonfull2_toffee", r"attract2_call",
+                               r"chapter2_[a-f]", r"moonfull2_[ab]"],
+        "_station_sprites": [s[0] for s in STILLS if s[0].startswith("toffee_") and s[0] != "toffee_base"],
         "words": all_words, "stills": stills, "clips": CLIPS, "voice": voice, "sfx": SFX, "music": MUSIC,
     }
     with open(OUT, "w", encoding="utf-8") as f:

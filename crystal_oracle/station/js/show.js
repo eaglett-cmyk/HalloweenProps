@@ -26,6 +26,7 @@ import { link, LED, WS, statusName } from './link.js';
 import { input } from './input.js';
 import { vlog } from './vlog.js';
 import { service } from './service.js';
+import { toffee } from './toffee.js';
 
 const cue = {
   ATTRACT: 'attract', ATTRACT_FULL: 'attract_full', ATTRACT_CALL: 'attract_call', CHAPTER: 'chapter', ABSORB: 'absorb',
@@ -261,6 +262,7 @@ function moonTargetPhase() { if (counters.moonFull) return 8; const goal = cfg.m
 function moonPhaseNow(t) { const dt = t - s_moonAt; const f = easeOut(dt <= 0 ? 0 : dt / MOON_EASE_MS); return s_moonFrom + (s_moonTo - s_moonFrom) * f; }
 function updateMoonTarget(t) { const target = moonTargetPhase(); if (target === s_moonTo) return; s_moonFrom = moonPhaseNow(t); s_moonTo = target; s_moonAt = t; }
 function moonSnap() { s_moonFrom = s_moonTo = moonTargetPhase(); s_moonAt = now(); }
+function toffeeStage() { return toffee.stageFor(meterPoints(), cfg.moonGoal, counters.moonFull); }
 function moonFinalePending() { return !counters.moonFull && meterPoints() >= (cfg.moonGoal || 1); }
 
 // ---- the website's games, live ([station] web_beacon = yes): a quiet poll of the station
@@ -674,6 +676,7 @@ function drawFrame(t, dt, nowMs) {
     else fx.orbBackground(t, rgb, st.energy, auraRgb);
   }
   if (s_art) drawAnchorGlow(t);
+  if (toffee.on()) drawToffee(t, nowMs);
   if (s_meterOn) drawMeter(t, nowMs);
   fx.sparklesAmbient(rgb, st.ambient, nowMs);
   if (st.overlay) st.overlay(t);
@@ -685,6 +688,28 @@ function drawFrame(t, dt, nowMs) {
   if (st.band) st.band(t);
   drawStepBowl(t);
   drawBadges(nowMs);
+}
+
+// chapter 2: baby Toffee in every scene but the chapter story (its stills paint her themselves)
+function drawToffee(t, nowMs) {
+  const q = s_seq, o = { scene: 'idle', stage: toffeeStage(), since: nowMs, reveal: false, hidden: false, rgb: 0 };
+  if (s_mode === Mode.Chapter) return;
+  if (s_mode === Mode.MoonFull) { o.scene = 'finale'; o.stage = 3; o.since = t; }
+  else if (q.active) {
+    o.scene = 'seq'; o.stage = q.toffeeStage; o.since = nowMs - q.toffeeT0; o.rgb = q.rgb;
+    o.reveal = (s_mode === Mode.Reveal || s_mode === Mode.Extra || s_mode === Mode.Goodbye) && q.decided && q.o.tier >= 1;
+  }
+  o.hidden = s_shown === 'reveal_t0_3' && t >= 720 && t < 1420;   // the Snuff-Out gag's dark beat
+  toffee.draw(s_ctx, nowMs, o);
+}
+// her one line per visit, after Butterscotch's greeting (skipped in rush); call it after setTiming: her takes run
+// up to ~6.5 s, so the step's cap grows by that much and she is never cut off
+const TOFFEE_LINE_MS = 6500;
+function addToffeeLine(st) {
+  const q = s_seq;
+  if (!toffee.on() || q.rush) return;
+  const g = `toffee_s${q.toffeeStage}`;
+  if (voiceExists(g) && addVoice(st, g, 0, s_w.capToffee[q.toffeeStage] || null) !== NO_PART) st.maxMs += TOFFEE_LINE_MS;
 }
 
 // ---------------------------------------------------------------- the step runner
@@ -771,6 +796,12 @@ function hintsBand(t) {
   const rgb = colourCycle(t, 18000);
   fx.placeHintAt(HINT_L, t, rgb); fx.placeHintAt(HINT_R, t + 800, rgb);
 }
+// chapter 2 mixes in Butterscotch's 2027 calls. Never Toffee's toffee_s* takes: those five per stage are for the
+// kids at the stone (a group of 5 hears no repeat), and an idle call would use one up.
+function attractCallGroup() {
+  if (toffee.on() && randBelow(2) === 0 && voiceExists('attract2_call')) return 'attract2_call';
+  return cue.ATTRACT_CALL;
+}
 function attractTick(t) {
   const nowMs = s_stepT0 + t;
   const orPress = cfg.hasButton ? cfg.reader === S.READER.PLINTH : input.ok();
@@ -781,7 +812,7 @@ function attractTick(t) {
   if (nowMs - s_ledCycleMs >= LED_CYCLE_MS) { s_ledCycleMs = nowMs; s_ledIdx = (s_ledIdx + 1) % nColors(); crystalLed(LED.IDLE, 1 + s_ledIdx); }
   webApply(nowMs);
   if (nowMs - s_musicCheckMs >= MUSIC_RETRY_MS) { s_musicCheckMs = nowMs; if (!audio.musicPlaying()) startMusic(); }
-  if (cfg.attractCallSec && nowMs - s_lastCallMs >= cfg.attractCallSec * 1000) { s_lastCallMs = nowMs; if (!audio.voiceBusy()) sayGroup(cue.ATTRACT_CALL); }
+  if (cfg.attractCallSec && nowMs - s_lastCallMs >= cfg.attractCallSec * 1000) { s_lastCallMs = nowMs; if (!audio.voiceBusy()) sayGroup(attractCallGroup()); }
   let loopLen = ATTRACT_LOOP_MS;
   const clip = s_vis.kind === 'clip' && s_clip.isOpen() && s_clipFails < 3;
   if (clip) loopLen = Math.max(s_clip.durationMs(), 4000);
@@ -915,7 +946,7 @@ function moonfullOverlay(t) {
 }
 
 // ================================================================== flows
-function beginSequence(t) { s_seq = newSeq(); s_seq.active = true; oracle.sequenceStarted(t); s_seq.rush = oracle.rush(t); s_buttonReq = s_tapReq = false; }
+function beginSequence(t) { s_seq = newSeq(); s_seq.active = true; s_seq.toffeeStage = toffeeStage(); s_seq.toffeeT0 = t; oracle.sequenceStarted(t); s_seq.rush = oracle.rush(t); s_buttonReq = s_tapReq = false; }
 function endSequence() {
   const q = s_seq, t = now();
   let wr = '-';
@@ -994,7 +1025,7 @@ async function stepAwaken() {
     addVoice(st, 'awaken_c', 0, q.capRank);
     st.caption = s_w.capAwaken;
   } else { addVoice(st, 'awaken_c', 0, q.capRank); st.caption = q.capRank; }
-  setTiming(st, T.AWAKEN);
+  setTiming(st, T.AWAKEN); addToffeeLine(st);
   q.gemAt = st.minMs * 3 / 10; q.gemAt2 = st.minMs * 5 / 10;
   tintCrystal(st); st.energy = 190; st.ambient = 10; st.sfx = s_sfx.awaken; st.chime = CHIME.REVEAL; st.overlay = awakenOverlay;
   await runStep();
@@ -1013,7 +1044,7 @@ async function stepGreet() {
     addVoice(st, g);
   }
   st.caption = s_w.rank[q.rankAfter]; st.titleDup = st.caption;
-  setTiming(st, T.GREET);
+  setTiming(st, T.GREET); addToffeeLine(st);
   q.gemAt = st.minMs * 2 / 5;
   tintCrystal(st); st.energy = 150; st.ambient = 6; st.sfx = s_sfx.whoosh; st.chime = CHIME.TAP; st.overlay = greetOverlay;
   await runStep();
@@ -1201,15 +1232,21 @@ async function runNoCrystal(viaButton) {
   await stepNoCrystal(false, viaButton);
   endSequence();
 }
+// chapter 2's story (chapter2_a..f) replaces chapter 1's when Toffee is on and it is on the card
+function chapterPrefix() {
+  if (toffee.on()) for (let p = 0; p < 6; p++) { const id = `chapter2_${String.fromCharCode(97 + p)}`; if (voiceExists(id) || media.findVisual(id).kind !== 'none') return 'chapter2'; }
+  return cue.CHAPTER;
+}
 async function runChapter() {
   let played = 0;
+  const ch = chapterPrefix(), caps = ch === cue.CHAPTER ? s_w.capChapterPart : s_w.capChapter2Part;
   for (let i = 0; i < 6; i++) {
-    const id = `${cue.CHAPTER}_${String.fromCharCode(97 + i)}`;
+    const id = `${ch}_${String.fromCharCode(97 + i)}`;
     const hasVoice = voiceExists(id), hasVis = media.findVisual(id).kind !== 'none';
     if (!hasVoice && !hasVis) continue;
     const st = s_step = newStep(Mode.Chapter);
     st.vis[0] = id; if (hasVoice) { st.vis[1] = cue.CHAPTER; addVoice(st, id); }
-    st.caption = s_w.capChapterPart[i]; st.fbTitle = st.caption || null;
+    st.caption = caps[i]; st.fbTitle = st.caption || null;
     st.minMs = (hasVoice && audio.ok()) ? 0 : CHAPTER_PART_MIN_MS; st.maxMs = CHAPTER_PART_MAX_MS; st.minFromClip = true;
     st.rgb = s_idleRgb; st.rainbow = true; st.energy = 90; st.ambient = 6; st.interruptible = true;
     played++;
@@ -1233,8 +1270,13 @@ async function runMoonFull() {
   fx.sparklesClear();
   const st = s_step = newStep(Mode.MoonFull);
   st.vis[0] = cue.MOONFULL; st.coherent = false;
-  addVoice(st, 'moonfull_a', 0, s_w.capMoonFull); addVoice(st, 'moonfull_b', 0, s_w.capMoonFull2);
-  st.caption = s_w.capMoonFull; st.fbTitle = s_w.capMoonFull;
+  if (toffee.on() && voiceExists('moonfull2_a')) {
+    addVoice(st, 'moonfull2_a', 0, s_w.capMoonFullT); addVoice(st, 'moonfull2_toffee', 0, s_w.capMoonFullT2); addVoice(st, 'moonfull2_b', 0, s_w.capMoonFullT2);
+    st.caption = s_w.capMoonFullT; st.fbTitle = s_w.capMoonFullT;
+  } else {
+    addVoice(st, 'moonfull_a', 0, s_w.capMoonFull); addVoice(st, 'moonfull_b', 0, s_w.capMoonFull2);
+    st.caption = s_w.capMoonFull; st.fbTitle = s_w.capMoonFull;
+  }
   st.minMs = (audio.ok() && voiceExists('moonfull_a')) ? 0 : MOONFULL_MIN_MS; st.maxMs = MOONFULL_MAX_MS; st.minFromClip = true;
   st.rgb = s_meter.rgb; st.rainbow = true; st.energy = 230; st.ambient = 20; st.sfx = s_sfx.moonfull; st.chime = CHIME.LEGEND; st.overlay = moonfullOverlay;
   await runStep();
@@ -1278,6 +1320,9 @@ function loadWords() {
   w.capCircle = S.text('caption.circle', 'Circle complete!'); w.capKeeper = S.text('caption.keeper', 'Keeper!'); w.capChapter = S.text('caption.chapter', '');
   w.capMoonFull = S.text('caption.moonfull', 'WE DID IT!'); w.capMoonFull2 = S.text('caption.moonfull_b', w.capMoonFull);
   w.capChapterPart = []; for (let i = 0; i < 6; i++) w.capChapterPart[i] = S.text(`caption.chapter_${String.fromCharCode(97 + i)}`, w.capChapter);
+  w.capChapter2Part = []; for (let i = 0; i < 6; i++) w.capChapter2Part[i] = S.text(`caption.chapter2_${String.fromCharCode(97 + i)}`, w.capChapter);
+  w.capToffee = []; for (let i = 0; i < 4; i++) w.capToffee[i] = S.text(`caption.toffee_s${i}`, '');
+  w.capMoonFullT = S.text('caption.moonfull2', w.capMoonFull); w.capMoonFullT2 = S.text('caption.moonfull2_b', w.capMoonFullT);
   w.uiHold = S.text('ui.hold', 'Hold still...'); w.uiPower = S.text('ui.power', 'POWER'); w.uiCounter = S.text('ui.counter', 'crystals awakened');
   w.uiPress = S.text('ui.press', 'Press the button!'); w.uiAsleep = S.text('ui.reader_asleep', 'READER ASLEEP'); w.uiRush = S.text('ui.rush', 'RUSH');
   w.uiTouch = S.text('ui.touch', 'Touch me for a blessing!'); w.uiNoCard = S.text('ui.no_card', 'NO TF CARD'); w.uiOrPress = S.text('ui.or_press', 'OR PRESS');
@@ -1296,6 +1341,7 @@ function loadAllSfx() {
   s_sfx.munch = loadSfx('munch'); s_sfx.milestone = loadSfx('milestone'); s_sfx.moonfull = loadSfx('moonfull');
 }
 function refreshMediaFacts() {
+  toffee.load(cfg.chapter);
   let chapter = media.findVisual(cue.CHAPTER).kind !== 'none';
   for (let p = 0; p < 6 && !chapter; p++) { const id = `${cue.CHAPTER}_${String.fromCharCode(97 + p)}`; chapter = voiceExists(id) || media.findVisual(id).kind !== 'none'; }
   s_chapterAvail = chapter;
@@ -1342,7 +1388,7 @@ export const show = {
     s_lastCallMs = s_musicCheckMs = s_ledCycleMs = t;
     s_begun = true;
     if (cfg.webBeacon && !s_webTimer) { s_webTimer = setInterval(webPoll, WEB_POLL_MS); webPoll(); }
-    vlog.event(`show ready: chapter=${s_chapterAvail} music=${s_musicFile}/${s_musicFullFile} sfx absorb=${s_sfx.absorb} reveal=${s_sfx.reveal.join('/')} meter=${counters.moonPoints}/${cfg.moonGoal}${counters.moonFull ? ' full' : ''}${cfg.webBeacon ? ` web=${counters.webPoints} (live)` : ''}`);
+    vlog.event(`show ready: chapter=${s_chapterAvail} toffee=${toffee.on()} music=${s_musicFile}/${s_musicFullFile} sfx absorb=${s_sfx.absorb} reveal=${s_sfx.reveal.join('/')} meter=${counters.moonPoints}/${cfg.moonGoal}${counters.moonFull ? ' full' : ''}${cfg.webBeacon ? ` web=${counters.webPoints} (live)` : ''}`);
   },
   // Runs the show until stop(): the attract loop, then whatever is waiting, forever.
   async start() {

@@ -495,6 +495,39 @@ class Builder:
                 wrote.append("config.ini (new template)")
         return wrote
 
+    def write_sprites(self):
+        """iPad only: the manifest's _station_sprites (Toffee's poses, chapter 2) -> oracle/sprites/<id>.png, drawn
+        live by the station over every scene. All poses share one canvas framing, so they are cropped to the union
+        of their bounding boxes (they stay registered) and scaled to SPRITE_H px tall."""
+        SPRITE_H = 320
+        with open(self.manifest, encoding="utf-8") as f:
+            ids = json.load(f).get("_station_sprites") or []
+        srcs = {i: os.path.join(self.assets, "source", "images", i + ".png") for i in ids}
+        srcs = {i: p for i, p in srcs.items() if os.path.exists(p)}
+        if not srcs:
+            return []
+        from PIL import Image
+        outdir = os.path.join(self.oracle, "sprites")
+        os.makedirs(outdir, exist_ok=True)
+        key = key_of(TOOL_VERSION, "sprites", SPRITE_H, sorted((i, self.cache.file_hash(p)) for i, p in srcs.items()))
+        stamp = os.path.join(outdir, ".key")
+        if os.path.exists(stamp) and open(stamp).read() == key and all(
+                os.path.exists(os.path.join(outdir, i + ".png")) for i in srcs):
+            return []
+        ims = {i: Image.open(p).convert("RGBA") for i, p in srcs.items()}
+        box = None
+        for im in ims.values():
+            b = im.split()[3].point(lambda v: 255 if v > 40 else 0).getbbox()
+            if b:
+                box = b if box is None else (min(box[0], b[0]), min(box[1], b[1]), max(box[2], b[2]), max(box[3], b[3]))
+        for i, im in ims.items():
+            c = im.crop(box) if box else im
+            c = c.resize((max(1, round(c.width * SPRITE_H / c.height)), SPRITE_H), Image.LANCZOS)
+            c.save(os.path.join(outdir, i + ".png"), optimize=True)
+        with open(stamp, "w") as f:
+            f.write(key)
+        return ["sprites/ (%d)" % len(ims)]
+
     def write_readme(self):
         counts = {"clips": 0, "voice": 0, "sfx": 0, "music": 0, "placeholders": 0}
         for d in OUT_DIRS:
@@ -746,6 +779,8 @@ def main(argv=None):
         if stale:
             log("  removed %d stale placeholder(s) the manifest no longer lists: %s" % (len(stale), ", ".join(stale)))
         wrote = b.write_text_outputs()
+        if a.ipad:
+            wrote += b.write_sprites()
         b.write_readme()
         if wrote:
             log("  wrote " + ", ".join(wrote))

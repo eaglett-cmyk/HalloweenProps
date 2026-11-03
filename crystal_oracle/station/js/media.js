@@ -1,10 +1,10 @@
 // media.js - the "TF card" over HTTP: the asset index (the firmware's name cache), OMJ clips
 // decoded frame by frame in the browser, stills, and a background prefetch into memory.
-//   /oracle/clips/<id>[_<n>].omj | .jpg     /oracle/voice/<group>_<n>.wav
+//   /oracle/clips/<id>[_<n>].omj | .jpg     /oracle/voice/<group>_<n>.wav     /oracle/sprites/<id>.png (chapter 2)
 //   /oracle/sfx/<id>.wav                    /oracle/music/<id>.wav
 // OMJ1 (media.h): "OMJ1" u16 w, u16 h, u16 fps*100, u16 0, u32 frames, u32 maxFrameBytes, then per
 // frame u32 len + JPEG + pad to 4. Frames are independent JPEGs: late frames are skipped.
-const s_index = { ok: false, assetsOk: false, dirs: { clips: new Set(), voice: new Set(), sfx: new Set(), music: new Set() }, hasConfig: false, hasCaptions: false };
+const s_index = { ok: false, assetsOk: false, dirs: { clips: new Set(), voice: new Set(), sfx: new Set(), music: new Set(), sprites: new Set() }, hasConfig: false, hasCaptions: false };
 const s_buffers = new Map();    // path -> ArrayBuffer | Promise<ArrayBuffer>
 const s_stills = new Map();     // path -> ImageBitmap | 'loading' | 'failed'
 let s_bytesLoaded = 0;
@@ -26,7 +26,7 @@ export const media = {
       s_index.ok = true;
       s_index.assetsOk = !!j.assetsOk;
       s_index.hasConfig = !!j.hasConfig; s_index.hasCaptions = !!j.hasCaptions;
-      for (const d of ['clips', 'voice', 'sfx', 'music']) s_index.dirs[d] = new Set((j[d] || []).map(s => s.toLowerCase()));
+      for (const d of ['clips', 'voice', 'sfx', 'music', 'sprites']) s_index.dirs[d] = new Set((j[d] || []).map(s => s.toLowerCase()));
     } catch (e) {
       console.warn('media: no asset index', e);
       s_index.ok = false; s_index.assetsOk = false;
@@ -39,7 +39,7 @@ export const media = {
   bytesLoaded() { return s_bytesLoaded; },
   // "/oracle/voice/x.wav" -> is it on the card?
   exists(path) {
-    const m = /^\/oracle\/(clips|voice|sfx|music)\/([^/]+)$/i.exec(path);
+    const m = /^\/oracle\/(clips|voice|sfx|music|sprites)\/([^/]+)$/i.exec(path);
     return !!m && s_index.dirs[m[1].toLowerCase()].has(m[2].toLowerCase());
   },
   // Under /oracle/clips, in order: <id>_<variant>.omj, <id>_<variant>.jpg, <id>.omj, <id>.jpg
@@ -92,6 +92,17 @@ export const media = {
     return false;
   },
   stillFailed(path) { return s_stills.get(path) === 'failed'; },
+  // A transparent PNG sprite (sprites/, chapter 2): the decoded bitmap, or null while it loads / when it failed.
+  sprite(path) {
+    const s = s_stills.get(path);
+    if (s instanceof ImageBitmap) return s;
+    if (!s) {
+      s_stills.set(path, 'loading');
+      this.getBuffer(path).then(buf => createImageBitmap(new Blob([buf], { type: 'image/png' })))
+        .then(bm => s_stills.set(path, bm)).catch(e => { console.warn('sprite', path, e.message); s_stills.set(path, 'failed'); });
+    }
+    return null;
+  },
   Clip: null,   // set below
 };
 

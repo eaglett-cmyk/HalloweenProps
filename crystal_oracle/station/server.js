@@ -105,6 +105,7 @@ async function handler(req, res) {
       assets: ASSETS, assetsOk,
       clips: listDir('clips', ['.omj', '.jpg', '.jpeg']),
       voice: listDir('voice', ['.wav']), sfx: listDir('sfx', ['.wav']), music: listDir('music', ['.wav']),
+      sprites: listDir('sprites', ['.png']),
       hasConfig: fs.existsSync(path.join(ASSETS, 'config.ini')), hasCaptions: fs.existsSync(path.join(ASSETS, 'captions.ini')),
       serverTime: Date.now(),
     }), 'application/json; charset=utf-8');

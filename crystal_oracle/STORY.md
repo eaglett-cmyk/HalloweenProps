@@ -263,7 +263,7 @@ The firmware picks gag *n* and plays clip `reveal_t0_n`, line `reveal_t0_n` and 
 
 ### Hooks for later years
 The cave, the Wakestone, Butterscotch, Snuffwick and the beacon all stay the same. Each new year needs about 5 new stills and 8 new lines.
-- **2027, "The Egg in the Sock".** The sock held a **dragon egg**. It hatches into baby **Toffee**, who needs crystal glow to learn to fly, and the meter becomes Toffee's flying lessons. Snuffwick, very proud, is the egg-sitter.
+- **2027, "The Egg in the Sock".** The sock held a **dragon egg**. It hatches into baby **Toffee**, who needs crystal glow to learn to fly, and the meter becomes Toffee's flying lessons. Snuffwick, very proud, is the egg-sitter. **Written up 2026-11-02 in `docs/stories/CHAPTER2-TOFFEE.md`** (story, Toffee's design from the owner's picture, how she plays at the station, every line, the website plan).
 - **2028, "The Door That Wouldn't Open".** One world's door gets stuck, and the crystals learn a new spell to open it. The 2026 Sparkfinders are Glowcasters by now, and the Worldwalkers' hat (rank 5) starts to matter.
 - **2029, "The All-Night Feast".** Butterscotch tries to stay awake all night for the very first time, and Snuffwick, who used to want the dark, joins the feast as a full member of the hoard. This sets up a new mischief-maker for 2030.
 
