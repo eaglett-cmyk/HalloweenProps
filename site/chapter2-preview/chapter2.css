@@ -1,0 +1,84 @@
+/* Chapter 2 preview (Toffee): extra sprites and page animations on top of ../style.css. */
+
+.preview-flag {
+  position: fixed; top: 10px; right: 10px; z-index: 50; margin: 0;
+  padding: 4px 10px; border-radius: 999px;
+  background: #b4235a; color: #fff; font: 600 12px/1.4 "Fredoka", sans-serif; letter-spacing: .04em;
+  box-shadow: 0 2px 8px rgba(0,0,0,.4);
+}
+
+/* the stills are composed for the station screen (empty dark bottom quarter): frame the scene, not the band */
+.page-art img.bg[src*="chapter2_"] { object-position: 50% 30%; }
+
+/* slow Ken Burns moves on the full-scene stills */
+@keyframes kb-in   { from { transform: scale(1); }    to { transform: scale(1.12); } }
+@keyframes kb-up   { from { transform: scale(1.06) translateY(2%); } to { transform: scale(1.14) translateY(-2%); } }
+@keyframes kb-left { from { transform: scale(1.04); transform-origin: 30% 60%; } to { transform: scale(1.16); transform-origin: 30% 60%; } }
+.kb-in   { animation: kb-in 14s ease-in-out infinite alternate; }
+.kb-up   { animation: kb-up 12s ease-in-out infinite alternate; }
+.kb-left { animation: kb-left 14s ease-in-out infinite alternate; transform-origin: 30% 60%; }
+
+/* Toffee */
+.s-toffee-c { width: 34%; left: 50%; bottom: 5%; transform: translateX(-50%); }
+.s-toffee-c.s-float { animation: floaty 3.2s ease-in-out infinite; }
+.s-toffee-l { width: 28%; left: 8%; bottom: 14%; }
+@keyframes flap { 0% { transform: translateY(0) rotate(-2deg); } 100% { transform: translateY(-16px) rotate(2deg); } }
+.s-flap { animation: flap .45s ease-in-out infinite alternate; }
+.s-crystal-c { width: 20%; left: 50%; top: 22%; margin-left: -10%; }
+
+/* page 6: she wakes a little more each time (asleep -> one eye -> yawn -> awake), on a loop */
+.wake-cycle { position: absolute; left: 4%; bottom: 10%; width: 32%; aspect-ratio: 1; }
+.wake-cycle img {
+  position: absolute; left: 0; right: 0; bottom: 0; margin: auto;
+  width: 100%; height: 100%; object-fit: contain; object-position: 50% 100%;
+  opacity: 0; filter: drop-shadow(0 12px 18px rgba(0,0,0,.5));
+  animation: wake-step 10s infinite;
+}
+.wake-cycle img:nth-child(2) { animation-delay: 2.5s; }
+.wake-cycle img:nth-child(3) { animation-delay: 5s; }
+.wake-cycle img:nth-child(4) { animation-delay: 7.5s; }
+@keyframes wake-step { 0% { opacity: 0; } 3% { opacity: 1; } 25% { opacity: 1; } 28% { opacity: 0; } 100% { opacity: 0; } }
+.glow-beam {
+  position: absolute; left: 21%; bottom: 14%; width: 26%; height: 30%;
+  background: radial-gradient(ellipse at center, rgba(255,214,170,.55), rgba(255,214,170,0) 70%);
+  mix-blend-mode: screen; animation: breathe 2.5s ease-in-out infinite;
+}
+
+/* little effects */
+.sock-spark, .glitter {
+  position: absolute; width: 10px; height: 10px; border-radius: 50%;
+  background: radial-gradient(circle, #fff6d0, rgba(255,214,120,0) 70%);
+  animation: twinkle 1.8s ease-in-out infinite;
+}
+.sock-spark.sp1 { left: 47%; top: 46%; } .sock-spark.sp2 { left: 52%; top: 40%; animation-delay: .6s; } .sock-spark.sp3 { left: 44%; top: 38%; animation-delay: 1.2s; }
+.glitter { background: radial-gradient(circle, #fbe6ff, rgba(200,140,255,0) 70%); }
+.glitter.g1 { left: 36%; top: 30%; } .glitter.g2 { left: 62%; top: 26%; animation-delay: .5s; }
+.glitter.g3 { left: 40%; top: 66%; animation-delay: 1s; } .glitter.g4 { left: 60%; top: 60%; animation-delay: 1.4s; }
+@keyframes twinkle { 0%,100% { transform: scale(.3); opacity: 0; } 50% { transform: scale(1.6); opacity: 1; } }
+
+.tap {
+  position: absolute; font: 700 clamp(14px, 2.4vw, 22px) "Fredoka", sans-serif; color: #ffe2a8;
+  text-shadow: 0 0 8px rgba(255,190,90,.8); opacity: 0; animation: tap-pop 3s infinite;
+}
+.tap1 { left: 58%; top: 50%; } .tap2 { left: 64%; top: 40%; animation-delay: .5s; } .tap3 { left: 70%; top: 30%; animation-delay: 1s; }
+@keyframes tap-pop { 0% { opacity: 0; transform: scale(.6); } 8% { opacity: 1; transform: scale(1.1); } 25% { opacity: 1; transform: scale(1); } 35%,100% { opacity: 0; } }
+
+.zzz {
+  position: absolute; left: 22%; top: 52%; font: 700 clamp(14px, 2.6vw, 26px) "Fredoka", sans-serif; color: #d9c8ff;
+  opacity: 0; animation: zzz-up 4.5s infinite;
+}
+.zzz.z2 { animation-delay: 1.5s; } .zzz.z3 { animation-delay: 3s; }
+@keyframes zzz-up { 0% { opacity: 0; transform: translate(0, 0) scale(.7); } 15% { opacity: 1; } 100% { opacity: 0; transform: translate(40px, -90px) scale(1.4); } }
+
+.crack-flash {
+  position: absolute; left: 50%; top: 58%; width: 30%; aspect-ratio: 1; transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(255,255,255,.75), rgba(255,220,255,0) 65%);
+  mix-blend-mode: screen; opacity: 0; animation: crack 5s ease-out infinite;
+}
+@keyframes crack { 0%, 70% { opacity: 0; transform: translate(-50%, -50%) scale(.4); } 74% { opacity: 1; } 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.6); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .kb-in, .kb-up, .kb-left, .tap, .zzz, .crack-flash, .sock-spark, .glitter, .glow-beam { animation: none !important; }
+  .wake-cycle img { animation: none !important; opacity: 0; }
+  .wake-cycle img:nth-child(4) { opacity: 1; }
+}

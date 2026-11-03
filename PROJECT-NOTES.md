@@ -854,6 +854,11 @@ Read `crystal_oracle/README.md` first, then `crystal_oracle/docs/DESIGN.md` (con
   - **What was recorded:** her 21 lines (`toffee_s0…s3` ×5 + `moonfull2_toffee_1`) and Butterscotch's 13 2027 lines.
   - **Lengths:** her takes run 2.2–6.8 s. The greet/awaken step's cap grows by 6.5 s when her line is queued (`addToffeeLine`), so she is never cut off.
 - **Toffee's idle calls (added the same day):** `toffee_idle_sleep_1…5` play before the finale and `toffee_idle_awake_1…5` after it. `attractCallGroup` picks one of three each call: Butterscotch's `attract2_call`, her idle group, or the 2026 `attract_call`. Headless check: both phases picked her lines up.
+- **Chapter 2 storybook — UNPUBLISHED preview (2026-11-02):** `site/chapter2-preview/` serves https://halloween.ciancio.cloud/chapter2-preview/.
+  - **Hidden:** `noindex`, linked from nowhere, with a pink "Preview · not published yet" badge.
+  - **Content:** 8 pages that reuse the live book's `style.css` + `book.js`, plus `chapter2.css`. The animations are Ken Burns moves on the chapter2 stills, sock sparkles, "tap tap tap", zzz, the hatch flash, Toffee floating and flapping, and a 4-pose wake-up loop on page 6. The webp copies live in `site/img/toffee_*`, `chapter2_*`.
+  - **To publish:** link it from the cover or end of the book (or make it the main book), remove the badge and the noindex.
+  - **Not built yet:** the flying-lessons pages and a chapter 2 hardcover; it reuses chapter 1's.
 - **Groups of 5:** the headless run with 5 returning kids at stage 0 heard 5 different Toffee takes. Her takes are never used as idle calls, because that used one up and caused a repeat.
 
 ### Halloween 2026 closed out → station on 2027 (2026-11-01)
