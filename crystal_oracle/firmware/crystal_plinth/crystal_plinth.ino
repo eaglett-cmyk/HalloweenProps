@@ -1,6 +1,9 @@
 /*
  * ============================================================================
  *  CRYSTAL PLINTH  --  the reader half of the Crystal Oracle (the "Wakestone")
+ *  v1.4.0 (2026-11-12: Hoard Hub relay, CHEST_RELAY 1: LT_CHEST from the show ->
+ *          LT_CHEST_CMD broadcasts to the prize-chest hub (hoard_link.h), beacon
+ *          every 2 s, the hub's status back as LT_CHEST_INFO; both link modes)
  *  v1.3.0 (2026-10-24: optional Wi-Fi / WebSocket carrier for the iPad station
  *          web app, PLINTH_LINK_WIFI 1 + plinth_wifi.h; the packets are unchanged)
  *  v1.2.0 (2026-10-22: the owner's v7 plinth has NO LED ring and NO big button:
@@ -136,9 +139,22 @@
 #include <string.h>
 #include "crystal_link.h"
 
+// --- Hoard Hub relay (TUNE): 1 = relay the show's LT_CHEST requests to the Hoard Hub (the prize
+//     chests, ../../hoard_chests/) as ESP-NOW broadcasts, beacon every 2 s so the hub finds our
+//     channel, and pass the hub's status back as LT_CHEST_INFO. Costs one 8-byte broadcast every
+//     2 s when no hub exists. 0 = none of it (LT_CHEST is then an unknown packet, ignored).
+//     Contract: ../../hoard_chests/docs/ORACLE-LINK.md. Override: -DCHEST_RELAY=0
+#ifndef CHEST_RELAY
+  #define CHEST_RELAY       1
+#endif
+#if CHEST_RELAY
+  #include "hoard_link.h"              // AFTER crystal_link.h: it then skips its own LinkHeader copy
+#endif
+
 // ============================ configuration (TUNE) ==========================
-#define FW_VERSION          130        // 1.3.0 -> LinkHello.fwVersion (1.1 = understands LED_DUAL,
-                                       //   1.2 = TAG_PLACED carries readMs, 1.3 = Wi-Fi/WebSocket transport option)
+#define FW_VERSION          140        // 1.4.0 -> LinkHello.fwVersion (1.1 = understands LED_DUAL,
+                                       //   1.2 = TAG_PLACED carries readMs, 1.3 = Wi-Fi/WebSocket transport option,
+                                       //   1.4 = Hoard Hub relay, LT_CHEST / LT_CHEST_INFO, CHEST_RELAY)
 #define DEBUG               1          // 1 = log to Serial @115200
 
 // --- how this plinth talks to the show (TUNE) ---
@@ -197,6 +213,12 @@
 #define RX_QUEUE_LEN        12         // received packets waiting for loop()
 #define PLACED_WATCH_MS     400        // a radio failure reported this soon after a unicast
 #define PLACED_RESENDS      2          //   TAG_PLACED -> send it again (at most this often)
+
+// --- Hoard Hub relay (CHEST_RELAY 1; hoard_link.h / DESIGN.md "Link to the Oracle") ---
+#define CHEST_BEACON_MS     2000       // LT_CHEST_BEACON period (the hub hops channels after 20 s without one)
+#define CHEST_REPEATS       3          // every LT_CHEST_CMD goes out this many times (same cmdId) ...
+#define CHEST_REPEAT_MS     40         //   ... this far apart
+#define CHEST_STALE_MS      1000       // repeats not sent within this long after the request are dropped
 
 // --- NFC (PN532) ---
 #define I2C_HZ              100000     // TUNE: PN532 I2C clock; 400000 is fine with short wires
@@ -385,6 +407,25 @@ static LinkTagPlaced placedPkt;
 static bool     placedWatch = false;
 static uint8_t  placedResends = 0;
 static uint32_t placedSentMs = 0, placedFailMark = 0;
+
+#if CHEST_RELAY
+// --- Hoard Hub relay ---
+static bool     chestNowOk = false;    // ESP-NOW usable for the hub broadcasts
+static uint32_t chestLastTryMs = 0;
+static LinkChestCmd chestCmd;          // the command being repeated
+static uint8_t  chestLeft = 0;         // repeats still to send
+static uint32_t chestNextMs = 0, chestCmdMs = 0;
+static uint16_t chestCmdId = 0;        // last cmdId used (starts random: a rebooted plinth never repeats an id the hub saw)
+static uint16_t chestSeq = 0;          // own header seq for the hub broadcasts (the screen link keeps txSeq)
+static uint32_t chestBeaconMs = 0;
+static bool     chestHeard = false;    // a hub STATUS has been heard
+static uint32_t chestHeardMs = 0;
+static LinkChestStatus chestLast;      // the last one
+static uint32_t chestCmds = 0, chestTx = 0, chestTxErr = 0, chestRx = 0;
+#if PLINTH_LINK_WIFI
+static QueueHandle_t chestQ = nullptr; // hub STATUS packets from the WiFi task (Wi-Fi mode has no rxQ)
+#endif
+#endif
 
 #if PLINTH_LINK_WIFI
   #include "plinth_wifi.h"             // the Wi-Fi / WebSocket carrier (needs RxPacket + the globals above)
@@ -866,7 +907,11 @@ static bool linkSend(const void *pkt, size_t len) {
 static void onRecv(const esp_now_recv_info_t *info, const uint8_t *data, int len) {
   if (!rxQ || !info || !info->src_addr || !data) return;
   if (len < (int)sizeof(LinkHeader) || len > ESP_NOW_MAX_DATA_LEN) return;
+#if CHEST_RELAY
+  if (data[0] != LINK_MAGIC0 || (data[1] != LINK_MAGIC1 && data[1] != HOARD_MAGIC1)) return;   // not ours, not the hub's
+#else
   if (data[0] != LINK_MAGIC0 || data[1] != LINK_MAGIC1) return;      // not Crystal Oracle traffic
+#endif
   RxPacket &p = rxScratch;
   memcpy(p.mac, info->src_addr, 6);
   p.len = (uint8_t)len;
@@ -985,6 +1030,175 @@ static void sendWriteResult(uint16_t reqId, uint8_t status, uint8_t failedPage, 
   m.written = written;
   linkSend(&m, sizeof(m));
 }
+
+// =============================== Hoard Hub relay ===========================
+//  The show asks (LT_CHEST); the plinth broadcasts LT_CHEST_CMD to FF:FF:FF:FF:FF:FF three times,
+//  40 ms apart, with one fresh cmdId (the hub drops the repeats), and LT_CHEST_BEACON every 2 s.
+//  Every LT_CHEST_STATUS the hub broadcasts is passed to the screen as LT_CHEST_INFO. All sends
+//  are scheduled from loop() / pump(): nothing here waits, so tag reads never stall.
+//  ESP-NOW mode: the screen link's radio (fixed channel, broadcast peer already added).
+//  Wi-Fi mode: ESP-NOW is started next to the Wi-Fi station and broadcasts on the AP's channel.
+#if CHEST_RELAY
+static const char *const CHEST_ACTIONS[] = { "QUERY", "AWARD", "TEASE", "IDLE", "IDENTIFY", "OPEN_ALL", "OPEN_PORT" };
+static const char *const CHEST_RESULTS[] = { "ok", "TIER EMPTY", "STUCK", "busy" };
+
+#if PLINTH_LINK_WIFI
+// WiFi task: copy hub STATUS packets out; chestService() handles them in loop().
+static void chestOnRecvWifi(const esp_now_recv_info_t *info, const uint8_t *data, int len) {
+  (void)info;
+  if (!chestQ || !data || len < (int)sizeof(LinkChestStatus) || len > ESP_NOW_MAX_DATA_LEN) return;
+  if (!hoardHeaderOk(data, len, LINK_GROUP) || data[offsetof(LinkHeader, type)] != LT_CHEST_STATUS) return;
+  LinkChestStatus s;
+  memcpy(&s, data, sizeof(s));
+  xQueueSend(chestQ, &s, 0);
+}
+#endif
+
+static void chestBegin() {
+  chestLastTryMs = millis();
+  if (!chestCmdId) chestCmdId = (uint16_t)random(1, 65535);
+#if PLINTH_LINK_WIFI
+  if (!chestQ) chestQ = xQueueCreate(4, sizeof(LinkChestStatus));
+  if (!chestQ) { logLine("chests: no memory for the status queue"); return; }
+  esp_err_t e = esp_now_init();        // the Wi-Fi station is already started (wifiBegin)
+  if (e != ESP_OK) { logLine("chests: esp_now_init failed (%s) - retrying in 5 s", esp_err_to_name(e)); return; }
+  esp_now_register_recv_cb(chestOnRecvWifi);
+  if (!esp_now_is_peer_exist(BCAST)) {
+    esp_now_peer_info_t peer;
+    memset(&peer, 0, sizeof(peer));
+    memcpy(peer.peer_addr, BCAST, 6);
+    peer.channel = 0;                  // 0 = the channel we're on (the AP's)
+    peer.ifidx = WIFI_IF_STA;
+    peer.encrypt = false;
+    e = esp_now_add_peer(&peer);
+    if (e != ESP_OK) { logLine("chests: add broadcast peer failed (%s)", esp_err_to_name(e)); esp_now_deinit(); return; }
+  }
+  chestNowOk = true;
+  logLine("chests: Hoard Hub relay on - ESP-NOW broadcasts on the Wi-Fi channel, beacon every %d s",
+          CHEST_BEACON_MS / 1000);
+#else
+  chestNowOk = espnowOk;               // shares the screen link's ESP-NOW
+  if (chestNowOk)
+    logLine("chests: Hoard Hub relay on - broadcasts on channel %d, beacon every %d s", LINK_CHANNEL,
+            CHEST_BEACON_MS / 1000);
+#endif
+}
+
+static bool chestRadioReady() {
+#if PLINTH_LINK_WIFI
+  return chestNowOk && plinth_wifi::connected();   // no channel to broadcast on before the join
+#else
+  return espnowOk;
+#endif
+}
+
+static void chestRadioSend(const void *pkt, size_t len) {
+  esp_err_t e = esp_now_send(BCAST, (const uint8_t *)pkt, len);
+  if (e == ESP_OK) { chestTx++; return; }
+  if (++chestTxErr <= 5 || chestTxErr % 100 == 0) logLine("chests: esp_now_send failed (%s)", esp_err_to_name(e));
+}
+
+// Radio only (no screen-link sends): also called from pump() inside long tag jobs, so the
+// three repeats stay ~40 ms apart while a crystal is being read or written.
+static void chestPump(uint32_t now) {
+  if (chestLeft && now - chestCmdMs > CHEST_STALE_MS) {
+    logLine("chests: cmd %u - %u repeat(s) not sent (radio not ready)", (unsigned)chestCmd.cmdId, (unsigned)chestLeft);
+    chestLeft = 0;
+  }
+  if (!chestRadioReady()) return;
+  if (chestLeft && (int32_t)(now - chestNextMs) >= 0) {
+    chestCmd.h.seq = chestSeq++;
+    chestRadioSend(&chestCmd, sizeof(chestCmd));
+    chestLeft--;
+    chestNextMs = now + CHEST_REPEAT_MS;
+  }
+  if (now - chestBeaconMs >= CHEST_BEACON_MS) {
+    chestBeaconMs = now;
+    LinkChestBeacon b;
+    hoardFillHeader(b.h, LT_CHEST_BEACON, chestSeq++, LINK_GROUP);
+    chestRadioSend(&b, sizeof(b));
+  }
+}
+
+// The hub's last status to the screen (only while a screen / browser is linked).
+static void chestSendInfo() {
+  if (!linked) return;
+  LinkChestInfo m;
+  memset(&m, 0, sizeof(m));
+  linkFillHeader(m.h, LT_CHEST_INFO, txSeq++, LINK_GROUP);
+  if (chestHeard) {
+    const uint32_t age = (millis() - chestHeardMs) / 1000;
+    m.cmdId     = chestLast.cmdId;
+    m.result    = chestLast.result;
+    m.port      = chestLast.port;
+    m.armedMask = chestLast.armedMask;
+    m.openMask  = chestLast.openMask;
+    m.stuckMask = chestLast.stuckMask;
+    m.ageS      = (uint16_t)(age > 0xFFFE ? 0xFFFE : age);
+  } else {
+    m.ageS = 0xFFFF;                   // never heard the hub
+  }
+  linkSend(&m, sizeof(m));
+}
+
+static void chestOnStatus(const LinkChestStatus &s) {
+  const bool changed = !chestHeard || s.cmdId != chestLast.cmdId || s.result != chestLast.result ||
+                       s.port != chestLast.port || s.armedMask != chestLast.armedMask ||
+                       s.openMask != chestLast.openMask || s.stuckMask != chestLast.stuckMask;
+  chestLast = s;
+  chestHeard = true;
+  chestHeardMs = millis();
+  chestRx++;
+  if (changed)
+    logLine("chests: hub says cmd %u %s, chest %u opened | armed %04X open %04X stuck %04X | hub fw %u, up %lu s",
+            (unsigned)s.cmdId, s.result <= CR_BUSY ? CHEST_RESULTS[s.result] : "?", (unsigned)s.port,
+            (unsigned)s.armedMask, (unsigned)s.openMask, (unsigned)s.stuckMask, (unsigned)s.fwVersion,
+            (unsigned long)s.uptimeS);
+  chestSendInfo();
+}
+
+// LT_CHEST from the screen / browser.
+static void chestRequest(const uint8_t *data, int len) {
+  if (len < (int)sizeof(LinkChest)) { logLine("chests: request too short (%d bytes) - ignored", len); return; }
+  LinkChest r;
+  memcpy(&r, data, sizeof(r));
+  if (r.action == CHEST_QUERY) { chestSendInfo(); return; }
+  if (r.action > CA_OPEN_PORT) { logLine("chests: unknown action %u ignored", (unsigned)r.action); return; }
+  const uint32_t now = millis();
+  if (++chestCmdId == 0) chestCmdId = 1;   // 0 = "no command" in the hub's STATUS
+  if (chestLeft) logLine("chests: cmd %u replaced before its %u last repeat(s)", (unsigned)chestCmd.cmdId, (unsigned)chestLeft);
+  memset(&chestCmd, 0, sizeof(chestCmd));
+  hoardFillHeader(chestCmd.h, LT_CHEST_CMD, 0, LINK_GROUP);
+  chestCmd.cmdId  = chestCmdId;
+  chestCmd.action = r.action;
+  chestCmd.tier   = r.tier;
+  chestCmd.port   = r.port;
+  chestCmd.color  = r.color & 0xFFFFFFu;
+  chestCmd.ms     = r.ms;
+  chestLeft = CHEST_REPEATS;
+  chestNextMs = chestCmdMs = now;
+  chestCmds++;
+  logLine("chests: %s tier %u port %u colour #%06lX %u ms -> broadcast as cmd %u (%dx, %d ms apart)%s",
+          CHEST_ACTIONS[r.action], (unsigned)r.tier, (unsigned)r.port, (unsigned long)chestCmd.color, (unsigned)r.ms,
+          (unsigned)chestCmdId, CHEST_REPEATS, CHEST_REPEAT_MS, chestRadioReady() ? "" : " - RADIO NOT READY");
+  chestPump(now);                      // the first copy at once
+}
+
+// loop(): (re)start, hub STATUS packets (Wi-Fi mode), repeats + beacon.
+static void chestService(uint32_t now) {
+#if PLINTH_LINK_WIFI
+  if (!chestNowOk) {
+    if (now - chestLastTryMs >= 5000) chestBegin();
+  } else {
+    LinkChestStatus s;
+    for (int i = 0; i < 4 && xQueueReceive(chestQ, &s, 0) == pdTRUE; i++) chestOnStatus(s);
+  }
+#else
+  chestNowOk = espnowOk;
+#endif
+  chestPump(millis());
+}
+#endif  // CHEST_RELAY
 
 // The screen's MAC becomes our unicast peer. Any screen->plinth packet in our
 // group counts, not just HELLO_ACK: the screen only ever sends unicast to the
@@ -1522,6 +1736,18 @@ static void handleWriteReq(const uint8_t *data, int len) {
 // ============================ packet handling ==============================
 static void handlePacket(const RxPacket &p) {
   const LinkHeader *h = (const LinkHeader *)p.data;
+#if CHEST_RELAY
+  if (p.len >= sizeof(LinkHeader) && h->magic0 == HOARD_MAGIC0 && h->magic1 == HOARD_MAGIC1) {
+    // a Hoard Hub packet (magic 'C','H', ESP-NOW mode: it shares our channel): only its STATUS matters;
+    // never "the screen" (no adoption, no lastHeardMs), never counted as a bad link version
+    if (hoardHeaderOk(p.data, p.len, LINK_GROUP) && h->type == LT_CHEST_STATUS && p.len >= sizeof(LinkChestStatus)) {
+      LinkChestStatus s;
+      memcpy(&s, p.data, sizeof(s));
+      chestOnStatus(s);
+    }
+    return;
+  }
+#endif
   if (!linkHeaderOk(p.data, p.len, LINK_GROUP)) {
     rxIgnored++;
     if (h->version != LINK_VERSION) {
@@ -1534,7 +1760,7 @@ static void handlePacket(const RxPacket &p) {
     }
     return;                            // other group = another station: silently ignore
   }
-  if (!(h->type & 0x80)) return;       // plinth->screen traffic from some other plinth
+  if (!(h->type & 0x80)) return;      // plinth->screen traffic from some other plinth
 
   const bool wasStandalone = standalone;
   adoptScreen(p.mac);
@@ -1574,6 +1800,11 @@ static void handlePacket(const RxPacket &p) {
     case LT_WRITE_REQ:
       handleWriteReq(p.data, p.len);
       break;
+#if CHEST_RELAY
+    case LT_CHEST:
+      chestRequest(p.data, p.len);
+      break;
+#endif
     default:
       logLine("link: unknown packet type 0x%02X ignored", (unsigned)h->type);
       break;
@@ -1676,6 +1907,9 @@ static void pump() {
   uint32_t now = millis();
   buttonService(now);
   ringService(now);
+#if CHEST_RELAY
+  chestPump(now);                      // chest command repeats + beacon keep their timing during tag jobs
+#endif
 }
 
 // ============================ serial console ===============================
@@ -1690,9 +1924,15 @@ static void printStatus() {
   char u[TAG_UID_MAX * 3 + 1] = "none";
   if (tagPresent) hexStr(curTag.uid, curTag.uidLen, u, sizeof(u));
   uint32_t now = millis();
+  char hub[64] = "";
+#if CHEST_RELAY
+  if (chestHeard) snprintf(hub, sizeof(hub), " | hub heard %lu s ago, cmds %lu", (unsigned long)((now - chestHeardMs) / 1000),
+                           (unsigned long)chestCmds);
+  else snprintf(hub, sizeof(hub), " | hub never heard, cmds %lu%s", (unsigned long)chestCmds, chestNowOk ? "" : " (relay down)");
+#endif
   logLine("status: up %lu s | link %s %s (heard %ld ms ago) | reader %s | tag %s | polls %lu placed %lu "
        "readfail %lu resets %lu writes %lu | rx %lu drop %lu ign %lu | tx ok %lu fail %lu err %lu | "
-       "ring %s%s cap %u%s | heap %lu",
+       "ring %s%s cap %u%s | heap %lu%s",
        (unsigned long)(now / 1000),
 #if PLINTH_LINK_WIFI
        linked ? "browser(s) via" : (plinth_wifi::connected() ? "waiting for a browser on" : "no wifi"), mac,
@@ -1705,7 +1945,7 @@ static void printStatus() {
        (unsigned long)rxDropped.load(), (unsigned long)rxIgnored, (unsigned long)txOk.load(),
        (unsigned long)txFail.load(), (unsigned long)txErr, PLINTH_HAS_RING ? "" : "none, asked ",
        modeName(rs.mode), (unsigned)ringCap(),
-       standalone ? " standalone" : "", (unsigned long)ESP.getFreeHeap());
+       standalone ? " standalone" : "", (unsigned long)ESP.getFreeHeap(), hub);
 }
 
 static void dumpImage() {
@@ -1725,8 +1965,19 @@ static void serialService() {
     switch (ch) {
       case 'h': case '?':
         Serial.println(F("commands: s = status | d = dump last tag | f = flare | m = next ring mode "
-                         "(test) | b = fake button press"));
+                         "(test) | b = fake button press | c = test chest (Hoard Hub award, tier 1)"));
         break;
+#if CHEST_RELAY
+      case 'c': {                      // bench test of the relay without a screen: as if the show asked
+        LinkChest r;
+        memset(&r, 0, sizeof(r));
+        linkFillHeader(r.h, LT_CHEST, 0, LINK_GROUP);
+        r.action = CA_AWARD;
+        r.tier = 1;
+        chestRequest((const uint8_t *)&r, (int)sizeof(r));
+        break;
+      }
+#endif
       case 's': printStatus(); break;
       case 'd': dumpImage(); break;
       case 'f': ringFlare(); break;
@@ -1803,6 +2054,9 @@ void setup() {
   logLine("link: %s, plinth MAC %s, channel %u, group %d - broadcasting HELLO until the screen answers",
        espnowOk ? "ESP-NOW up" : "ESP-NOW FAILED (retrying every 5 s)", ms, (unsigned)ch, LINK_GROUP);
 #endif
+#if CHEST_RELAY
+  chestBegin();                        // after linkBegin(): ESP-NOW (or the Wi-Fi station) is up
+#endif
   logLine("type h for serial commands");
 }
 
@@ -1814,6 +2068,9 @@ void loop() {
   nfcService(millis());                // poll the PN532 (may place / remove a tag)
   statusService(millis());
   ringService(millis());
+#if CHEST_RELAY
+  chestService(millis());              // hub relay: status in (Wi-Fi mode), command repeats + beacon out
+#endif
   serialService();
 
 #if DEBUG

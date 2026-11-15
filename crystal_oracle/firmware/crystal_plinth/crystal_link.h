@@ -48,12 +48,20 @@ enum LinkType : uint8_t {
   LT_TAG_REMOVED  = 0x03,   // the tag left the field (~300 ms of misses)
   LT_WRITE_RESULT = 0x04,   // answer to LT_WRITE_REQ
   LT_BUTTON       = 0x05,   // big plinth button pressed / released
+  LT_CHEST_INFO   = 0x06,   // the Hoard Hub's last status, relayed by the plinth (added 2026-11-12, see below)
   // screen -> plinth
   LT_HELLO_ACK    = 0x81,   // "I'm the screen, talk to me" (unicast)
   LT_WRITE_REQ    = 0x82,   // ordered page writes for the tag currently on the reader
   LT_LED          = 0x83,   // set the plinth light mode
   LT_PING         = 0x84,   // optional keep-alive from the screen
+  LT_CHEST        = 0x85,   // ask the plinth to broadcast a Hoard Hub command (added 2026-11-12, see below)
 };
+
+// Hoard Hub (prize chests, crystal_oracle/hoard_chests/firmware/hoard_hub/hoard_link.h) packets
+// share this radio, header layout and group but carry their OWN magic 'C','H', so linkHeaderOk()
+// drops them here (a screen can never take the hub for its plinth). Their types: 0x11
+// LT_CHEST_STATUS (hub -> broadcast), 0x90 LT_CHEST_CMD, 0x91 LT_CHEST_BEACON (plinth -> broadcast).
+// Only the plinth's relay (CHEST_RELAY) reads or writes 'C','H' packets.
 
 // Plinth light modes (LT_LED). Colours are 0xRRGGBB.
 enum LedMode : uint8_t {
@@ -178,7 +186,42 @@ struct LinkLed {
   uint32_t color2;           // 0xRRGGBB (LED_REVEAL settle colour, LED_DUAL second colour, LED_CHARGING 2nd comet)
   uint16_t ms;               // duration for timed effects (0 = until next command)
 };
+
+// ---- Hoard Hub relay (added 2026-11-12; ADDITIVE, LINK_VERSION unchanged) ----
+//  An older plinth logs "unknown packet type 0x85 ignored" and does nothing; an older screen
+//  or station app ignores LT_CHEST_INFO. Contract: hoard_chests/docs/ORACLE-LINK.md.
+//
+// LT_CHEST (screen -> plinth). 8 + 9 = 17 bytes. The plinth turns it into an LT_CHEST_CMD
+// broadcast (3 times, 40 ms apart, a fresh cmdId). `action` = hoard_link.h ChestAction
+// (1 AWARD, 2 TEASE, 3 IDLE, 4 IDENTIFY, 5 OPEN_ALL, 6 OPEN_PORT) or CHEST_QUERY (0):
+// broadcast nothing, just answer LT_CHEST_INFO with what the plinth last heard from the hub.
+#define CHEST_QUERY 0
+struct LinkChest {
+  LinkHeader h;
+  uint8_t  action;           // CHEST_QUERY or a hoard_link.h ChestAction
+  uint8_t  tier;             // 1..3, 0 = all
+  uint8_t  port;             // 1..16, 0 = the hub picks
+  uint32_t color;            // 0xRRGGBB, 0 = the tier colour
+  uint16_t ms;               // effect length, 0 = the hub's default
+};
+
+// LT_CHEST_INFO (plinth -> screen). 8 + 12 = 20 bytes. Sent for every LT_CHEST_STATUS the
+// plinth hears from the hub (about every 5 s, and after each command) and as the answer to
+// a CHEST_QUERY. Masks: bit (port - 1).
+struct LinkChestInfo {
+  LinkHeader h;
+  uint16_t cmdId;            // the hub's echo of the last command id (0 = none / a local command)
+  uint8_t  result;           // hoard_link.h ChestResult: 0 ok, 1 tier empty, 2 stuck, 3 busy
+  uint8_t  port;             // the chest that opened (0 = none)
+  uint16_t armedMask;        // ARMED (latched, prize inside)
+  uint16_t openMask;         // lid switch reads open
+  uint16_t stuckMask;        // STUCK (needs the grown-up)
+  uint16_t ageS;             // seconds since the plinth last heard the hub; 0xFFFF = never heard
+};
 #pragma pack(pop)
+
+static_assert(sizeof(LinkChest) == 17, "LinkChest layout");
+static_assert(sizeof(LinkChestInfo) == 20, "LinkChestInfo layout");
 
 static_assert(sizeof(LinkTagPlaced) <= 250, "ESP-NOW v1 payload limit");
 static_assert(sizeof(LinkWriteReq)  <= 250, "ESP-NOW v1 payload limit");

@@ -7,7 +7,7 @@
 import * as S from './settings.js';
 import { cfg, counters } from './settings.js';
 import * as token from './token.js';
-import { link, WS, statusName } from './link.js';
+import { link, WS, CHEST, statusName, chestResultName } from './link.js';
 import { audio } from './audio.js';
 import { vlog } from './vlog.js';
 import { media } from './media.js';
@@ -259,9 +259,47 @@ function pageReader() {
     el('div', { class: 'row' }, el('span', { class: 'label' }, 'Plinth address:'), addr,
       el('button', { class: 'btn accent', onclick: () => { S.setConfig('station.plinth', addr.value.trim()); link.connect(cfg.plinth); s_msg = `connecting to ${link.url()}`; render(); } }, 'Connect')),
     el('div', { id: 'reader-live' }),
+    cfg.chests ? chestsBlock() : null,
     el('p', { class: 'hint' }, 'The plinth must be on the same Wi-Fi, flashed with PLINTH_LINK_WIFI 1. Its serial console prints the IP; http://<plinth>:81/ shows its status in any browser. For a test without hardware run station/fake_plinth.js and use 127.0.0.1:81 (or the PC\'s IP from the iPad).'));
 }
+// ---- Chests ([station] chests = yes): the Hoard Hub's prize chests, through the plinth (LT_CHEST / LT_CHEST_INFO).
+// Counts per tier assume the hub's default port tiers (1-5 = Silver Coin, 6-10 = Gold Star, 11-15 = Dragon Gem):
+// the hub's STATUS carries masks, not its tier map.
+const CHEST_TIERS = [['Silver', 1, 0x001F], ['Gold', 2, 0x03E0], ['Gem', 3, 0x7C00]];
+const bits = m => { let n = 0; for (; m; m &= m - 1) n++; return n; };
+function chestCmd(label, action, tier) {
+  const ok = link.chest(action, tier);
+  s_msg = ok ? `${label} sent to the plinth` : `${label}: NOT sent - the plinth is not connected`;
+  vlog.event(`chests: ${label} from the host menu${ok ? '' : ' (not sent)'}`);
+  render();
+}
+function chestsBlock() {
+  link.chest(CHEST.QUERY);              // ask the plinth for what it last heard from the hub
+  return el('div', { class: 'batch' },
+    el('h3', {}, 'Chests (Hoard Hub)'),
+    el('div', { id: 'chests-live' }),
+    el('div', { class: 'row' },
+      ...CHEST_TIERS.map(([name, tier]) => el('button', { class: 'btn', onclick: () => chestCmd(`Test ${name}`, CHEST.AWARD, tier) }, `Test ${name}`)),
+      armedButton('openall', 'Open all (reload)', true, () => chestCmd('Open all (reload)', CHEST.OPEN_ALL, 0))),
+    el('p', { class: 'hint' }, 'A test opens one armed chest of that tier. Open all unlatches every chest so they can be refilled; close each lid for half a second to re-arm it. Counts assume the hub\'s default tiers (ports 1-5 / 6-10 / 11-15).'));
+}
+function renderChestsLive() {
+  const box = $('#chests-live', s_root);
+  if (!box) return;
+  const ci = link.chestInfo();
+  let rows;
+  if (!ci) rows = [['Hub', 'no answer from the plinth yet (plinth firmware 1.4 or later relays the hub)']];
+  else if (!ci.heard) rows = [['Hub', 'never heard by the plinth (hub off, out of range, or another group)']];
+  else {
+    const age = ci.ageS + Math.round((performance.now() - ci.atMs) / 1000);
+    rows = [['Hub', `heard ${age} s ago${age > 15 ? ' - NOT HEARD LATELY' : ''}`],
+      ...CHEST_TIERS.map(([name, , m]) => [name, `${bits(ci.armedMask & m)} armed / ${bits(ci.openMask & m)} open / ${bits(ci.stuckMask & m)} stuck`]),
+      ['Last command', `${chestResultName(ci.result)}${ci.port ? `, chest ${ci.port} opened` : ''}`]];
+  }
+  box.replaceChildren(kv(rows));
+}
 function renderReaderLive() {
+  renderChestsLive();
   const box = $('#reader-live', s_root);
   if (!box) return;
   const p = link.plinth();

@@ -13,8 +13,11 @@
 import { TAG_UID_MAX, TAG_NUM_PAGES, LINK_MAX_WRITES, newImage, sameUid, uidHex } from './token.js';
 
 export const LINK_VERSION = 1;
-export const LT = { HELLO: 0x01, TAG_PLACED: 0x02, TAG_REMOVED: 0x03, WRITE_RESULT: 0x04, BUTTON: 0x05,
-                    HELLO_ACK: 0x81, WRITE_REQ: 0x82, LED: 0x83, PING: 0x84 };
+export const LT = { HELLO: 0x01, TAG_PLACED: 0x02, TAG_REMOVED: 0x03, WRITE_RESULT: 0x04, BUTTON: 0x05, CHEST_INFO: 0x06,
+                    HELLO_ACK: 0x81, WRITE_REQ: 0x82, LED: 0x83, PING: 0x84, CHEST: 0x85 };
+// Hoard Hub (prize chests) actions for link.chest(): hoard_link.h ChestAction, plus QUERY (crystal_link.h CHEST_QUERY)
+export const CHEST = { QUERY: 0, AWARD: 1, TEASE: 2, IDLE: 3, IDENTIFY: 4, OPEN_ALL: 5, OPEN_PORT: 6 };
+export const chestResultName = r => ['ok', 'tier empty', 'STUCK', 'busy'][r] || '?';
 export const LED = { OFF: 0, IDLE: 1, FLARE: 2, CHARGING: 3, REVEAL: 4, SLEEPY: 5, RAINBOW: 6, SOLID: 7, METER: 8, DUAL: 9 };
 export const WS = { OK: 0, NO_TAG: 1, WRONG_TAG: 2, WRITE_FAIL: 3, VERIFY_FAIL: 4, BAD_REQUEST: 5 };
 export const statusName = s => ['ok', 'no_tag', 'wrong_tag', 'write_fail', 'verify_fail', 'bad_request'][s] || 'error';
@@ -35,6 +38,7 @@ let s_plinth = { fw: 0, board: 0, readerOk: false, uptimeMs: 0 };
 const s_events = [];
 const s_writes = new Map();   // reqId -> { buf, firstMs, lastMs }
 let s_lastLed = null;
+let s_chestInfo = null;       // the Hoard Hub's last status as relayed by the plinth (LT_CHEST_INFO), + atMs
 // simulated crystal (host menu): a perfect reader
 let s_sim = null;             // TagImage, present on the "reader"
 let s_simPresent = false;
@@ -70,6 +74,13 @@ function pktWriteReq(reqId, uid, uidLen, writes) {
   header(v, LT.WRITE_REQ);
   u8.set(uid.subarray(0, uidLen), 8); v.setUint8(18, uidLen); v.setUint16(19, reqId, true); v.setUint8(21, writes.length);
   writes.forEach((w, i) => { u8[22 + i * 5] = w.page; u8.set(w.data.subarray(0, 4), 23 + i * 5); });
+  return b;
+}
+function pktChest(action, tier, port, color, ms) {
+  const b = new ArrayBuffer(17), v = new DataView(b);
+  header(v, LT.CHEST);
+  v.setUint8(8, action & 255); v.setUint8(9, tier & 255); v.setUint8(10, port & 255);
+  v.setUint32(11, (color & 0xFFFFFF) >>> 0, true); v.setUint16(15, ms & 0xFFFF, true);
   return b;
 }
 function parseTagPlaced(u8) {
@@ -182,6 +193,13 @@ function onPacket(u8) {
       post({ type: 'Button', button: u8[8], pressed: u8[9] === 1, heldMs: v.getUint16(10, true) });
       break;
     }
+    case LT.CHEST_INFO: {                       // kept for the host menu; never an event (the show doesn't wait on it)
+      if (u8.length < 20) break;
+      const ageS = v.getUint16(18, true);
+      s_chestInfo = { cmdId: v.getUint16(8, true), result: u8[10], port: u8[11], armedMask: v.getUint16(12, true),
+                      openMask: v.getUint16(14, true), stuckMask: v.getUint16(16, true), ageS, heard: ageS !== 0xFFFF, atMs: t };
+      break;
+    }
   }
 }
 function postRemoved(uid, len, why) {
@@ -261,6 +279,11 @@ export const link = {
     if (steady) s_lastLed = args;
     send(pktLed(...args));
   },
+  // Hoard Hub (prize chests): the plinth broadcasts it to the hub (crystal_link.h LT_CHEST). Fire and
+  // forget; true if it went out on the socket. CHEST.QUERY only asks the plinth for LT_CHEST_INFO.
+  chest(action, tier = 0, port = 0, color = 0, ms = 0) { return send(pktChest(action, tier, port, color, ms)); },
+  // The hub's last status ({cmdId, result, port, armedMask, openMask, stuckMask, ageS, heard, atMs}) or null.
+  chestInfo() { return s_chestInfo; },
   setIdleLight(color, brightness) {
     if (color === s_idleColor && brightness === s_idleBright) return;
     s_idleColor = color & 0xFFFFFF; s_idleBright = brightness & 255;

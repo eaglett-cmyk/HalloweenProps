@@ -1,0 +1,33 @@
+** Drc report for hoard_hub.kicad_pcb **
+** Created on 2026-11-12T22:18:36-0600 **
+
+** Found 7 DRC violations **
+[lib_footprint_issues]: The current configuration does not include the footprint library 'hoard'.
+    Local override; warning
+    @(170.0000 mm, 158.0000 mm): Footprint H2
+[lib_footprint_issues]: The current configuration does not include the footprint library 'hoard'.
+    Local override; warning
+    @(170.0000 mm, 54.0000 mm): Footprint H4
+[lib_footprint_issues]: The current configuration does not include the footprint library 'hoard'.
+    Local override; warning
+    @(55.0800 mm, 93.4200 mm): Footprint U1
+[lib_footprint_issues]: The current configuration does not include the footprint library 'hoard'.
+    Local override; warning
+    @(54.0000 mm, 158.0000 mm): Footprint H1
+[lib_footprint_issues]: The current configuration does not include the footprint library 'hoard'.
+    Local override; warning
+    @(54.0000 mm, 54.0000 mm): Footprint H3
+[silk_overlap]: Silkscreen overlap
+    Rule: board setup constraints silk; warning
+    @(51.6000 mm, 91.9700 mm): Segment of U1 on F.Silkscreen
+    @(51.6000 mm, 109.5000 mm): PCB text 'USB' on F.Silkscreen
+[silk_overlap]: Silkscreen overlap
+    Rule: board setup constraints silk; warning
+    @(95.7200 mm, 132.5350 mm): Value field of J_I2C (I2C)
+    @(96.9900 mm, 133.0000 mm): PCB text 'SDA' on F.Silkscreen
+
+** Found 0 unconnected pads **
+
+** Found 0 Footprint errors **
+
+** End of Report **

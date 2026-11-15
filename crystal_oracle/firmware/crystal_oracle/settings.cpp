@@ -551,6 +551,7 @@ const Field FIELDS[] = {
   {"station", "log_visits", FT::Bool, &cfg.logVisits, 0, 0, "yes = anonymous visit + event logs in /oracle/logs"},
   {"station", "show_counter", FT::Bool, &cfg.showCounter, 0, 0, "yes = station-wide crystal counter on the idle screen"},
   {"station", "ndef_url", FT::Url, cfg.ndefUrl, 0, 0, "site written to crystals as <url>/c/<id> (https:// implied, max 29 chars)"},
+  {"station", "chests", FT::Bool, &cfg.chests, 0, 0, "yes = the Hoard Hub opens a prize chest at each crystal's bowl line (plinth 1.4+)"},
   // [odds]
   {"odds", "trick_pct", FT::U8, &cfg.trickPct, 0, 100, "% of visits that are a TRICK (rest of the non-prizes = treat)"},
   {"odds", "rare_pct", FT::U8, &cfg.rarePct, 0, 100, "% base chance of RARE"},

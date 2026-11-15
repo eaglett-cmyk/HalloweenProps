@@ -22,7 +22,7 @@ import { audio, CHIME } from './audio.js';
 import * as fx from './fx.js';
 import * as token from './token.js';
 import * as oracle from './oracle.js';
-import { link, LED, WS, statusName } from './link.js';
+import { link, LED, WS, CHEST, statusName, chestResultName } from './link.js';
 import { input } from './input.js';
 import { vlog } from './vlog.js';
 import { service } from './service.js';
@@ -83,7 +83,7 @@ function newSeq() {
            writeStatus: WS.OK, failedPage: 0, writeTries: 0, writeSentMs: 0, simDoneAt: 0,
            rankBefore: 1, rankAfter: 1, meterFrom: 1, meterTo: 2, gemAt: 0, gemAt2: 0, gemsLit: 0, gemLit: false,
            chargeFill: 0, chargeFullT: -1, chargeLedSent: 0xFF, lockAt: 0, locked: false, gag: 0, bowlTier: -1, bowlShownAt: -1,
-           milestone: false, circle: false, fxNext: 0, fxDone: false, capRank: '', recallLine: '' };
+           milestone: false, circle: false, fxNext: 0, fxDone: false, capRank: '', recallLine: '', chestSent: false, chestBeforeCmd: -1, chestAwardAt: 0, chestEmptySaid: false };
 }
 const s_w = {};               // words
 const s_sfx = { absorb: -1, awaken: -1, tap: -1, full: -1, sleepy: -1, button: -1, whoosh: -1, munch: -1, milestone: -1, moonfull: -1, reveal: [-1, -1, -1, -1], gag: [-1, -1, -1, -1, -1, -1] };
@@ -711,6 +711,16 @@ function addToffeeLine(st) {
   const g = `toffee_s${q.toffeeStage}`;
   if (voiceExists(g) && addVoice(st, g, 0, s_w.capToffee[q.toffeeStage] || null) !== NO_PART) st.maxMs += TOFFEE_LINE_MS;
 }
+// her second line (owner, 2026-11-15): her reaction to the kid's treat, by stage - sleepy mumbles early, giggles
+// once awake. At goodbye after a prize (not after "ask the grown-up") and after a no-crystal blessing; not in rush.
+function addToffeeTreat(st) {
+  const q = s_seq;
+  if (!toffee.on() || q.rush || q.chestEmptySaid) return;
+  const g = `toffee_treat_s${q.toffeeStage}`;
+  if (!voiceExists(g)) return;
+  st.coherent = false;                            // her own take, not tied to Butterscotch's line in the same step
+  if (addVoice(st, g, 0, s_w.capToffee[q.toffeeStage] || null) !== NO_PART) { st.minMs += 1500; st.maxMs += TOFFEE_LINE_MS; }
+}
 
 // ---------------------------------------------------------------- the step runner
 function addVoice(st, group, variant = 0, cap = null, notBefore = 0) {
@@ -719,14 +729,56 @@ function addVoice(st, group, variant = 0, cap = null, notBefore = 0) {
   st.voice[i] = group; st.voiceVar[i] = variant; st.partCap[i] = cap; st.partNotBefore[i] = notBefore;
   return i;
 }
-function addBowlPart(st, tier, notBefore, fallbackAt) {
+// award = false: no chest opens for this kid (a no-crystal blessing). With chests on, that plays the chest_none
+// line ("the grown-up has a treat") and shows no bowl icon; a crystal visit plays chest_<key>.
+function addBowlPart(st, tier, notBefore, fallbackAt, award = true) {
   tier = clampTier(tier);
+  if (cfg.chests && !award && voiceExists(CHEST_NONE)) {
+    s_seq.bowlTier = -1; st.bowlTier = -1;
+    addVoice(st, CHEST_NONE, 0, s_w.capChestNone, notBefore);
+    return;
+  }
   s_seq.bowlTier = tier; st.bowlTier = tier;
-  const g = `bowl_${cue.BOWL_KEY[tier]}`;
-  if (voiceExists(g)) { st.bowlPart = addVoice(st, g, 0, s_w.bowlName[tier], notBefore); st.bowlAt = st.maxMs > 1200 ? st.maxMs - 1200 : 0; }
+  let g = `bowl_${cue.BOWL_KEY[tier]}`, cap = s_w.bowlName[tier];
+  if (cfg.chests && voiceExists(`chest_${cue.BOWL_KEY[tier]}`)) { g = `chest_${cue.BOWL_KEY[tier]}`; cap = s_w.chestName[tier]; }
+  if (voiceExists(g)) { st.bowlPart = addVoice(st, g, 0, cap, notBefore); st.bowlAt = st.maxMs > 1200 ? st.maxMs - 1200 : 0; }
   else st.bowlAt = fallbackAt;
 }
 function setTiming(st, tm) { st.minMs = timingMin(tm); st.maxMs = Math.max(st.minMs, timingMax(tm)); }
+
+// [station] chests = yes (opt-in, hoard_chests/docs/ORACLE-LINK.md): the Hoard Hub opens one prize chest per
+// crystal visit, the moment the reveal's bowl line starts (rush: the reveal start). Trick / Hoard Coin -> chest
+// tier 1, Gold Star -> 2, Dragon Gem -> 3. Once per visit; never for a simulated crystal, a replay or a blessing.
+const CHEST_NONE = 'chest_none', CHEST_EMPTY = 'chest_empty', REPLAY_DONE = 'replay_done';
+function chestAward() {
+  const q = s_seq;
+  if (!cfg.chests || q.chestSent || q.simulated || !q.decided || !q.o) return;
+  q.chestSent = true;
+  const before = link.chestInfo();
+  q.chestBeforeCmd = before ? before.cmdId : -1; q.chestAwardAt = now();
+  const tier = clampTier(q.o.tier), chestTier = tier <= 1 ? 1 : tier;
+  const sent = link.chest(CHEST.AWARD, chestTier);
+  vlog.event(`chests: award tier ${chestTier} (prize tier ${tier})${sent ? '' : ' - NOT SENT, plinth socket closed'}`);
+}
+// true once the hub answered this visit's AWARD with TIER EMPTY (1), STUCK (2) or busy (3): no chest opened. A new
+// command id after the award = the hub's reply to it (its 5-s status repeats the last id, so an old failure never counts).
+function chestFailed() {
+  const q = s_seq, ci = link.chestInfo();
+  if (!cfg.chests || !q.chestSent || !ci || ci.atMs < q.chestAwardAt || ci.cmdId === q.chestBeforeCmd) return false;
+  return ci.result >= 1 && ci.result <= 3;
+}
+// "No chest for that one! Ask the grown-up!" - once per visit, right after the reveal (or before goodbye if the
+// reply came late). Never waits for the hub: no reply (hub off, out of range) = nothing is said.
+async function stepChestEmpty() {
+  const q = s_seq;
+  if (q.chestEmptySaid || !chestFailed() || !voiceExists(CHEST_EMPTY)) return;
+  q.chestEmptySaid = true;
+  vlog.event(`chests: hub answered ${chestResultName(link.chestInfo().result)} - ${CHEST_EMPTY}`);
+  const st = s_step = newStep(Mode.Extra);
+  st.vis[0] = CHEST_EMPTY; st.vis[1] = cue.GREET; addVoice(st, CHEST_EMPTY, 0, s_w.capChestEmpty); st.caption = s_w.capChestEmpty;
+  setTiming(st, T.EXTRA); tintCrystal(st); st.energy = 120; st.ambient = 8;
+  await runStep();
+}
 const nextFrame = () => new Promise(r => requestAnimationFrame(r));
 
 // Runs s_step until it finishes. Resolves false if an event interrupted it.
@@ -766,6 +818,7 @@ async function runStep() {
     if (s_endStep) { completed = false; break; }
     advanceVoice(t);
     timedPartCaptions(t);
+    if (cfg.chests && st.mode === Mode.Reveal && bowlVisible(t)) chestAward();
     if (st.tick && st.tick(t)) break;
     if (stepFinished(t)) break;
     drawFrame(t, frameStart - lastFrame, frameStart);
@@ -801,7 +854,10 @@ function hintsBand(t) {
 // hears no repeat), and an idle call would use one up.
 function attractCallGroup() {
   if (!toffee.on()) return cue.ATTRACT_CALL;
-  const r = randBelow(3), mine = toffeeStage() >= 3 ? 'toffee_idle_awake' : 'toffee_idle_sleep';
+  // her idle calls follow her stage all night (owner, 2026-11-15): asleep, drowsy, waking, then flying practice
+  const IDLE = ['toffee_idle_sleep', 'toffee_idle_drowsy', 'toffee_idle_waking', 'toffee_idle_awake'];
+  const r = randBelow(3), st = toffeeStage();
+  const mine = voiceExists(IDLE[st]) ? IDLE[st] : st >= 3 ? IDLE[3] : IDLE[0];
   if (r === 0 && voiceExists('attract2_call')) return 'attract2_call';
   if (r === 1 && voiceExists(mine)) return mine;
   return cue.ATTRACT_CALL;
@@ -1107,7 +1163,9 @@ async function stepReveal() {
     setTiming(st, rt);
     q.bowlTier = tier; st.bowlTier = tier; st.bowlAt = 0;
     let g = `${cue.RUSH}_t${tier}`;
-    if (!voiceExists(g)) g = `bowl_${cue.BOWL_KEY[tier]}`;
+    if (cfg.chests && voiceExists(`chest_rush_t${tier}`)) g = `chest_rush_t${tier}`;
+    else if (cfg.chests && voiceExists(`chest_${cue.BOWL_KEY[tier]}`)) g = `chest_${cue.BOWL_KEY[tier]}`;
+    else if (!voiceExists(g)) g = `bowl_${cue.BOWL_KEY[tier]}`;
     addVoice(st, g);
   } else {
     st.minMs = rt[0] + T.BOWL[0]; st.maxMs = rt[1] + T.BOWL[1];
@@ -1119,6 +1177,7 @@ async function stepReveal() {
   q.locked = false; q.lockAt = q.rush ? 350 : 650;
   st.overlay = revealOverlay; st.band = revealBand;
   await runStep();
+  if (cfg.chests) chestAward();                   // the step ended before its bowl showed: the visit still earns its chest
 }
 async function stepExtra(m, id, captionText, ov, led, sfx, chime) {
   if (led === LED.RAINBOW) link.led(LED.RAINBOW, 0); else if (led !== LED.OFF) crystalLed(led, s_seq.colorIdx);
@@ -1130,8 +1189,10 @@ async function stepExtra(m, id, captionText, ov, led, sfx, chime) {
 }
 async function stepGoodbye() {
   const st = s_step = newStep(Mode.Goodbye);
+  setTiming(st, T.GOODBYE);
+  addToffeeTreat(st);                             // Toffee reacts to the treat first, then Butterscotch says goodbye
   st.vis[0] = cue.GOODBYE; addVoice(st, cue.GOODBYE); st.caption = s_w.capGoodbye; st.fbTitle = s_w.capGoodbye;
-  setTiming(st, T.GOODBYE); tintCrystal(st); st.energy = 90; st.ambient = 4;
+  tintCrystal(st); st.energy = 90; st.ambient = 4;
   if (s_seq.bowlTier >= 0) { st.bowlTier = s_seq.bowlTier; st.bowlMini = true; st.bowlAt = 0; }
   await runStep();
 }
@@ -1141,7 +1202,14 @@ async function stepReplay() {
   const st = s_step = newStep(Mode.Replay);
   st.vis[0] = cue.REPLAY; addVoice(st, cue.REPLAY); st.caption = s_w.capReplay;
   setTiming(st, T.REPLAY);
-  if (cfg.secondHelpings) { const partMin = st.minMs; st.minMs += timingMin(T.BOWL_NC); st.maxMs += timingMax(T.BOWL_NC); addBowlPart(st, 0, partMin > 600 ? partMin - 600 : 0, partMin); }
+  // this kid already has tonight's candy (owner, 2026-11-15): replay_done ("You already found your treasure!")
+  // follows the replay line. Only second_helpings with bowls (chests off) still sends them to the bowl.
+  const partMin = st.minMs;
+  if (cfg.secondHelpings && !cfg.chests) { st.minMs += timingMin(T.BOWL_NC); st.maxMs += timingMax(T.BOWL_NC); addBowlPart(st, 0, partMin > 600 ? partMin - 600 : 0, partMin); }
+  else if (voiceExists(REPLAY_DONE)) {             // coherent = false: its own take (replay has only 2), no repeats in a group
+    st.coherent = false; st.minMs += timingMin(T.BOWL_NC); st.maxMs += timingMax(T.BOWL_NC);
+    addVoice(st, REPLAY_DONE, 0, s_w.capReplayDone, partMin > 600 ? partMin - 600 : 0);
+  }
   tintCrystal(st); st.energy = 130; st.ambient = 6;
   st.sfx = tier >= 2 ? -1 : s_sfx.reveal[tier]; st.chime = CHIME.REVEAL; st.overlay = replayOverlay; st.band = replayBand;
   await runStep();
@@ -1155,7 +1223,8 @@ async function stepNoCrystal(foreign, viaButton) {
   st.fbTitle = st.caption;
   const partMin = timingMin(T.NOCRYSTAL);
   st.minMs = partMin + timingMin(T.BOWL_NC); st.maxMs = timingMax(T.NOCRYSTAL) + timingMax(T.BOWL_NC);
-  addBowlPart(st, 0, partMin > 500 ? partMin - 500 : 0, partMin);
+  addBowlPart(st, 0, partMin > 500 ? partMin - 500 : 0, partMin, false);
+  addToffeeTreat(st);
   tintCrystal(st); st.energy = 170; st.ambient = 14; st.sfx = viaButton ? s_sfx.button : s_sfx.whoosh; st.chime = CHIME.REVEAL; st.overlay = nocrystalOverlay;
   await runStep();
 }
@@ -1171,10 +1240,12 @@ async function revealChain() {
   await stepHold();
   recordVisit();
   await stepReveal();
+  await stepChestEmpty();
   if (clampRank(q.o.rank) >= 7 && !q.rush && cfg.keeperOneIn && randBelow(cfg.keeperOneIn) === 0)
     await stepExtra(Mode.Extra, cue.KEEPER, s_w.capKeeper, keeperOverlay, LED.SOLID, -1, CHIME.TAP);
   if (q.milestone) await stepExtra(Mode.Extra, cue.MILESTONE, s_w.capMilestone, milestoneOverlay, LED.RAINBOW, s_sfx.milestone, CHIME.LEGEND);
   if (q.circle) await stepExtra(Mode.Extra, cue.CIRCLE, s_w.capCircle, circleOverlay, LED.RAINBOW, s_sfx.whoosh, CHIME.RARE);
+  await stepChestEmpty();                         // a late hub reply (STUCK comes after the 1.2 s tease)
   if (!q.rush && !s_hasNext) await stepGoodbye();
 }
 
@@ -1307,14 +1378,17 @@ function loadWords() {
   const RANK_FALLBACK = ['', 'Spark', 'Glimmer', 'Glow', 'Radiant', 'Luminous', 'Starborn', 'Keeper'];
   w.rank = []; for (let r = 1; r <= 7; r++) w.rank[r] = S.text(`rank.${r}`, RANK_FALLBACK[r]); w.rank[0] = w.rank[1];
   const TIER_FALLBACK = ['TRICK!', 'TREAT!', 'RARE!', 'LEGENDARY!'];
-  w.tier = []; w.tierRgb = [0x84CC16, 0x22C55E, 0xA855F7, 0xF59E0B]; w.bowlName = []; w.bowlRgb = [0x22C55E, 0x22C55E, 0xA855F7, 0xF59E0B]; w.bowlShape = []; w.capReveal = [];
+  w.tier = []; w.tierRgb = [0x84CC16, 0x22C55E, 0xA855F7, 0xF59E0B]; w.bowlName = []; w.bowlRgb = [0x22C55E, 0x22C55E, 0xA855F7, 0xF59E0B]; w.bowlShape = []; w.capReveal = []; w.chestName = [];
   for (let t = 0; t < 4; t++) {
     w.tier[t] = S.text(`tier.${t}`, TIER_FALLBACK[t]); w.tierRgb[t] = S.color(`tier.${t}_color`, w.tierRgb[t]);
     const bk = cue.BOWL_KEY[t];
     w.bowlName[t] = S.text(`bowl.${bk}`, bk); w.bowlRgb[t] = S.color(`bowl.${bk}_color`, w.bowlRgb[t]);
     w.bowlShape[t] = fx.shapeFromName(S.text(`bowl.${bk}_shape`, t === 2 ? 'triangle' : t === 3 ? 'star' : 'circle'));
     w.capReveal[t] = S.text(`caption.reveal_t${t}`, '');
+    w.chestName[t] = S.text(`chest.${bk}`, `${w.bowlName[t]} Chest`);
   }
+  w.capChestEmpty = S.text('caption.chest_empty', 'Ask the grown-up'); w.capChestNone = S.text('caption.chest_none', w.capChestEmpty);
+  w.capReplayDone = S.text('caption.replay_done', 'Treasure found');
   const COLOR_FALLBACK = ['', 'Violet', 'Ember', 'Frost', 'Moss', 'Rose', 'Moon'];
   w.colorName = []; for (let n = 1; n <= 6; n++) w.colorName[n] = S.text(`color.${n}`, COLOR_FALLBACK[n]); w.colorName[0] = w.colorName[1];
   w.capAttract = S.text('caption.attract', 'Place your crystal'); w.capAbsorb = S.text('caption.absorb', ''); w.capAwaken = S.text('caption.awaken', 'Awake!');

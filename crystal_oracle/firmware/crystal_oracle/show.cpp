@@ -355,6 +355,7 @@ struct Seq {
   uint8_t  gag = 0;              // trick gag 1..n (tier 0)
   int8_t   bowlTier = -1;        // tier whose bowl was shown (mini reminder icon), -1 = none
   int32_t  bowlShownAt = -1;     // step time the step's bowl icon appeared (pop-in)
+  bool     chestSent = false;    // [station] chests: this visit's Hoard Hub AWARD has gone out
   bool     milestone = false;
   bool     circle = false;
   uint32_t fxNext = 0;           // per-step effect scheduler (confetti, wisp trail)
@@ -1777,6 +1778,20 @@ void setTiming(Step &st, const Timing &tm) {
   st.maxMs = max(st.minMs, timingMax(tm));
 }
 
+// [station] chests = yes (opt-in, hoard_chests/docs/ORACLE-LINK.md; same as the station app): the
+// Hoard Hub opens one prize chest per crystal visit, the moment the reveal's bowl line starts (rush:
+// the reveal start). Trick / Hoard Coin -> chest tier 1, Gold Star -> 2, Dragon Gem -> 3. Once per
+// visit; never for a simulated crystal, a replay or a no-crystal blessing.
+void chestAward() {
+  Seq &q = s_seq;
+  if (!cfg.chests || q.chestSent || q.simulated || !q.decided) return;
+  q.chestSent = true;
+  const uint8_t tier = clampTier(q.o.tier);
+  const uint8_t chestTier = tier <= 1 ? 1 : tier;
+  const bool sent = reader::chest(1 /* hoard_link.h CA_AWARD */, chestTier);
+  vlog::event("chests: award tier %u (prize tier %u)%s", chestTier, tier, sent ? "" : " - NOT SENT, no plinth");
+}
+
 // Runs s_step until it finishes. Returns false if an event interrupted it.
 bool runStep() {
   Step &st = s_step;
@@ -1836,6 +1851,7 @@ bool runStep() {
     if (s_endStep) { completed = false; break; }
     advanceVoice(t);
     timedPartCaptions(t);
+    if (cfg.chests && st.mode == Mode::Reveal && bowlVisible(t)) chestAward();
     if (st.tick && st.tick(t)) break;
     if (stepFinished(t)) break;
 
@@ -2540,6 +2556,7 @@ void stepReveal() {
   st.overlay = revealOverlay;
   st.band = revealBand;
   runStep();
+  if (cfg.chests) chestAward();          // the step ended before its bowl showed: the visit still earns its chest
 }
 
 void stepExtra(Mode m, const char *id, const char *caption, Overlay ov, LedMode led, int sfx, audio::Chime chime) {

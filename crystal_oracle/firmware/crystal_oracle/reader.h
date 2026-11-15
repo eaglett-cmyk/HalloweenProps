@@ -58,6 +58,11 @@ uint16_t write(const uint8_t *uid, uint8_t uidLen, const PageWrite *writes, uint
 void led(LedMode mode, uint32_t color, uint32_t color2 = 0, uint16_t ms = 0, uint8_t speed = 0, uint8_t level = 0);
 void setIdleLight(uint32_t color, uint8_t brightness);   // what the ring does when idle
 
+// Hoard Hub prize chests (plinth backend only; plinth firmware 1.4+ relays it, an older one ignores
+// it): one LT_CHEST to the plinth, fire and forget. `action` = CHEST_QUERY or a hoard_link.h
+// ChestAction (1 = AWARD). True if it was handed to the radio.
+bool chest(uint8_t action, uint8_t tier, uint8_t port = 0, uint32_t color = 0, uint16_t ms = 0);
+
 // The crystal on the reader right now has been dealt with (the host menu closed: e.g. it was
 // prepared on the Crystals page, or it already played before the menu opened). A plinth that
 // went standalone while the menu ran re-reads a crystal that is still sitting there when the

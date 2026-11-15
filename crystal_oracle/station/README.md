@@ -85,6 +85,19 @@ Differs because it is a browser:
   Points are applied only in the attract loop, as one pulse, and only up to `moon_goal − 1`, so the
   finale is always fired by a real traveler (or *Fill the Beacon*). *Reset* clears them too. If the
   site or its file is missing, nothing changes.
+* **Prize chests (opt-in, 2026-11-12):** `[station] chests = yes` (default `no`). At each crystal
+  visit's bowl line the app sends one `LT_CHEST` AWARD (trick/coin → chest tier 1, star → 2, gem → 3)
+  to the plinth, which broadcasts it to the Hoard Hub (plinth firmware 1.4+). The host menu's
+  *Reader* tab then shows a *Chests* block (armed / open / stuck per tier, Test Silver / Gold / Gem,
+  Open all). Details: `../hoard_chests/docs/ORACLE-LINK.md`. `fake_plinth.js` pretends to be the hub
+  (`FAKE_HUB_EMPTY=1` starts it with every chest open, so each award answers "tier empty").
+  **Chest voice lines (2026-11-15):** with chests on, a visit plays `chest_common/rare/legend` instead of
+  `bowl_*` (rush: `chest_rush_t0..3`), a blessing plays `chest_none` (no bowl icon), and
+  if the hub answers TIER EMPTY / STUCK / busy to this visit's award, `chest_empty` plays right after the
+  reveal (or before goodbye if the reply was late). Missing chest lines fall back to the bowl lines.
+  **Replays** (already played tonight, chests on or off) play `replay_done` after the replay line ("You already
+  found your treasure!", own take, so 5 replays in a row hear 5 takes); only `second_helpings` without chests
+  still plays the bowl line.
 
 ## Gotchas
 

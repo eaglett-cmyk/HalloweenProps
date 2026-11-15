@@ -19,7 +19,12 @@ function setPose(p, nowMs) { if (p !== s_pose) { s_prev = s_pose; s_pose = p; s_
 // The pose for a moment of the show. scene: 'idle' | 'seq' (a crystal / blessing) | 'finale'; since = ms into it.
 function poseFor(scene, stage, since, reveal) {
   if (scene === 'finale') return since < 1500 ? 'yawn' : since < 3200 ? 'awake' : 'flap';
-  if (scene === 'idle') return stage >= 3 ? ((since % 5000) < 2500 ? 'awake' : 'flap') : 'sleep';
+  if (scene === 'idle') {                     // between kids she follows her stage too (owner, 2026-11-15)
+    if (stage >= 3) return (since % 5000) < 2500 ? 'awake' : 'flap';
+    if (stage === 2) { const c = since % 9000; return c < 1500 ? 'yawn' : c < 6000 ? 'awake' : 'drowsy'; }
+    if (stage === 1) return (since % 10000) < 3000 ? 'drowsy' : 'sleep';   // peeks now and then
+    return 'sleep';                                                        // extra sleepy at the start of the night
+  }
   if (since < GLOW_AT_MS) return stage >= 3 ? 'awake' : 'sleep';
   if (stage === 0) return 'sleep';
   if (stage === 1) return 'drowsy';

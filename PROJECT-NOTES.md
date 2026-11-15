@@ -44,6 +44,147 @@ Read `crystal_oracle/README.md` first, then `crystal_oracle/docs/DESIGN.md` (con
   2027-01-06) → stills from ChatGPT + our ffmpeg "layers" animator; voice from ElevenLabs/OpenAI TTS.
 
 ### Changelog
+- **2026-11-15 (chest voice lines written + recorded; Butterscotch can fly)** —
+  * **Hoard Chest lines** (written + recorded, NOT wired into the show): 45 Butterscotch lines in
+    `tools/gen_manifest_dragonglow.py`, 5 takes per group so a group of 5 hears no repeat (the show's
+    `RECENT_MAX = 4` memo): `chest_common` / `chest_rare` / `chest_legend` (replace `bowl_*` when
+    `[station] chests = yes`), `chest_rush_t0…t3` (replace `rush_t*`), `chest_empty` (hub answered TIER EMPTY /
+    STUCK → "ask the grown-up"; Snuffwick takes the blame) and `chest_none` (no chest for this kid: blessing,
+    second helpings). Chests are named after their prize like the bowls; no line mentions how a chest works.
+    All NICE, ≤ 8 words, registered in `extra_voice_groups` (build check 0 errors). **Recorded the same day**
+    (with the new `keeper_2`) through the claude.ai ElevenLabs connector, flow "Crystal Oracle - Butterscotch
+    voice lines", eleven_v4, voice `fdyOZ9JDAGXDTrmohg4r`, inline tags from each delivery note, one take
+    each, ~2,300 credits; downloaded from each generation's signed `full_res_url` →
+    `assets/source/voice/<id>.mp3` (old `keeper_2` kept only in the session scratchpad). Raw 2.5–6.0 s
+    (longest `chest_rush_t0_4`), all under `LINE_MS` 7.5 s. Both cards rebuilt (`--only "voice:*"`, 46 built;
+    the `--ipad` build needs plain `python`, not `python -I`, because Pillow is a user-site package).
+    **Not listened to by a human yet** (eleven_v4 can speak a tag aloud, e.g. `[mock outrage]` in
+    `chest_empty_4`).
+  * **Wired into the station app** (`station/js/show.js`, BUILD `2026-11-15a`): with `chests = yes` a visit
+    plays `chest_<key>` / `chest_rush_t*`, blessings and second helpings play `chest_none` (no bowl icon), and a
+    hub reply of empty / stuck / busy to this visit's award plays `chest_empty` after the reveal. Table + test
+    results in `hoard_chests/docs/ORACLE-LINK.md` "Voice lines"; `fake_plinth.js` gained `FAKE_HUB_EMPTY=1`.
+    Headless runs on a scratch copy (:8471 / plinth :8191, the real :8460 untouched): off / on / empty / rush,
+    0 page errors. **Not done:** `show.cpp` (Waveshare) still plays bowl lines; the PC's :8460 station serves
+    the new build only after a page reload.
+  * **Replay = no more candy (owner):** a kid who already played tonight hears a new `replay_done` line after the
+    replay line ("You already found your treasure, traveler!", 5 takes, caption TREASURE FOUND), chests on or
+    off; never `chest_none`. Only `second_helpings` without chests still sends them to the bowl. The step sets
+    `coherent = false` so the take isn't tied to the replay line's (which has only 2). Recorded (~285 credits,
+    3.4–4.1 s), both cards rebuilt, BUILD `2026-11-15b`. Headless: 5 replays in a row → 5 different takes,
+    chests on and off, 0 page errors. The `replay` line got takes 3–5 the same day ("Ooh, I remember this crystal
+    from tonight!" · "Hello again! Your crystal's still sparkling!" · "Back so soon? It's still warm from tonight!",
+    ~190 credits, 4.0–4.6 s): 5 replays in a row → replay 4, 5, 1, 3, 2 with replay_done 2, 5, 1, 3, 4.
+  * **Toffee all night (owner: "interact all night, not just at the end; extra sleepy to start"):** 30 new lines in
+    her voice ("Toffee - Young Purple Dragon" `Rd9E5LTphNiJM4tDJ47w`, eleven_v4, ~1,450 credits, 1.8–6.0 s
+    trimmed): `toffee_treat_s0…s3` (treat reaction before goodbye + after blessings; `addToffeeTreat`, skipped in
+    rush / after chest_empty) and idle `toffee_idle_drowsy` / `toffee_idle_waking`. `attractCallGroup` picks her
+    idle group by stage; `toffee.js` idle pose follows the stage. BUILD `2026-11-15c`. Headless (scratch copy):
+    stages 0–3 visits each played greet + treat line in order; blessing at stage 0 → `toffee_treat_s0_4`; idle
+    calls sleep / drowsy / waking / awake at stages 0–3; 0 page errors. Lists in `docs/stories/CHAPTER2-TOFFEE.md`.
+  * **Butterscotch can fly (owner):** he floats around on screen and teaches Toffee to fly in chapter 2, so
+    nothing may say his wings can't fly. Fixed: STORY.md (look, Keeper secret, keeper line, a rule note at
+    the top), the base-still prompt (dropped "much too small to fly"; art unchanged), `keeper_2` → "Shh...
+    tiny wings, but they fly just fine!" (re-recorded the same day; keeper plays at rank 7, years away), CHAPTER2-TOFFEE.md and
+    `site/chapter2-preview/index.html` (PC copy only). **Correction:** the chapter 2 preview was never copied to
+    HomeServ at the 11-02 cutover (`/srv/sites/Halloween/site/chapter2-preview` doesn't exist), so
+    halloween.ciancio.cloud/chapter2-preview/ is a 404 - nothing wrong is live. 2026-11-15: the 4 `chapter2_*.webp`
+    were copied to HomeServ `site/img/` (scp + `sudo install -o sites -g sites -m 644`) so ElevenLabs can fetch them.
+  * **Video test (ElevenLabs connector, flow "Crystal Oracle - animations"):** default Seedance 2.5 priced ~16.8k
+    credits/5 s (480p silent still ~7.8k); Runway Gen-4 Turbo 5 s 720p silent = 1,515 (LTX v2 fast ~1.45k, Veo 3.1
+    lite ~2.4k, MiniMax H3 ~3.9k). One Runway test of `chapter_egg` → `assets/source/video/chapter_egg_runway_test.mp4`
+    (on-model). The build's `video` recipe takes MP4s from `assets/source/video/` (crop to 5:3, loop fade).
+  * **Art landmine (owner):** the NEWER hoard style is candy heaps on the sides with an open **walking path** through
+    the middle (the chapter 2 stills). The full candy-heap floor in `bg_cave.png` is the OLDER style - never use it
+    as a reference, and never paint over the paths. A repaint of the 5 story stills from `bg_cave` was reverted the
+    same day (stills = git again, cards rebuilt). `chapter_egg` still has the old gumball floor: two path-style
+    repaints are waiting for the owner's pick in `assets/.codex_jobs/20261115-163916-img-3fd5` (ref
+    chapter2_lesson) and `...-c95e` (ref chapter2_nap). **Owner picked take A** (`-3fd5`): installed as
+    `assets/source/images/chapter_egg.png` (old one in git), both cards rebuilt (chapter_c). Web copy for ElevenLabs at
+    the unlinked `halloween.ciancio.cloud/img/anim/chapter_egg_v2.webp` (HomeServ `site/img/anim/`); the live
+    storybook's `img/chapter_egg.webp` is unchanged.
+  * **Image-to-video prices (connector estimates on the new egg, silent, 2026-11-15; credits per clip):** Veo 3.1 Lite
+    6 s 720p 1,091 · LTX 2 Fast 6 s 1080p 1,454 · Runway Gen-4 Turbo 5 s 720p 1,515 (tested, on-model) · MiniMax H3
+    5 s 768p 1,818 · Gemini Omni Flash 1.2 5 s 720p 2,153 · LTX 2 Pro 6 s 1080p 2,182 · MiniMax H3 Max 5 s 768p
+    2,424 · Runway Gen-4.5 5 s 720p 3,636 · Veo 3.1 Fast 6 s 720p 3,636 · FLUX 3 5 s 720p 5,151 · Veo 3.1 6 s 720p
+    7,272 · Seedance 2.5 5 s 480p 7,814 · Seedance 2.0 5 s 720p 10,996. Runway Ruby takes no start image. Defaults
+    with generated audio cost 2-3x more (Veo 3.1 8 s + audio = 19,392): always set `generate_audio` false.
+  * **Veo 3.1 Lite test** on the new egg (6 s, 720p, silent, negative prompt "gold sparkles...", 1,091 credits) →
+    `assets/source/video/chapter_egg_veolite_test.mp4`: on-model, he waves and giggles, violet/blue sparkles, a
+    stronger push-in than Runway. Veo pillarboxes a 5:3 start frame (picture 1200x720 + 40 px bars each side in
+    1280x720); the `video` recipe's centre crop to 5:3 removes them exactly. ~16.4k credits left after it.
+  * **No claws (owner):** Veo Lite invents paw palms whenever his paws move: take 1 nails + pads + tiny teeth;
+    take 2 (paws/mouth described, negative prompt claws/nails/pads/teeth) toothless but still a pad + pointed tips on
+    the waving paw (`chapter_egg_veolite_v2.mp4`); take 3 (no wave, paws to stay put) raised both paws palm-out,
+    grew his ears, added head bumps and a tooth (`_v3`). Negative prompts don't stop it; keep his paws out of the
+    motion. ~14.2k credits left after the three takes.
+  * **Runway Gen-4 Turbo + Veo's motion** (owner's pick; positive-only prompt: dolly-in, giggle, wave, happy
+    squint, paws "smooth round caramel mittens", violet/blue sparkles; 5 s 720p, 1,515) →
+    `assets/source/video/chapter_egg_runway_v2.mp4`: clean paws, no teeth, on-model, giggle + eyes-closed smile;
+    he didn't wave (raised paw only bobs). Fills 16:9 (no bars; the 5:3 crop trims the sides). ~12.7k credits left.
+  * **Chapter 2 batch (Runway Gen-4 Turbo, 5 s 720p, 6 x 1,515; originals from `img/chapter2_*.webp`):** b (sock
+    taps, sparkles) and d (both asleep, breathing) are good. e (Toffee stirs) came back with a teal haze, Butterscotch
+    washed out and a blue eye: rejected (kept as `chapter2_e_runway_teal_REJECTED.mp4`). **a, c, f failed Runway
+    moderation** ("Text prompt did not pass moderation check"): all three said "little green goblin" (= the Marvel
+    villain's name); b said only "the goblin" and passed. Never write "green goblin" in a video prompt. The failed
+    runs list a 1,515 price each; whether ElevenLabs refunded them is unverified (`account_get_usage` needs the
+    connector reconnected with more access). Credits left: ~3.6k if charged, ~8.2k if refunded.
+  * **Wired in:** `gen_manifest_dragonglow.py` `use_video_beats()` turns `chapter_c` and `chapter2_a…f` into the
+    `video` recipe when `assets/source/video/<clip id>.mp4` exists (else the kenburns pan stays; the still is kept in
+    `used_by` via `VIDEO_STILL`). Live now: `chapter_c.mp4` (= `chapter_egg_runway_v2`), `chapter2_b.mp4`,
+    `chapter2_d.mp4`; a, c, e, f still pan. Both cards built (59 frames each, 0 failed). Headless attract run with
+    `chapterEvery = 1`: chapter2_a…f in order, b and d show the video under their captions, no clip errors.
+    **`assets/source/video/` is git-ignored** - the MP4s are only on the PC (and in the ElevenLabs flow).
+  * **Retakes (same nodes, Snuffwick = "the big-eared cave creature", Toffee = "the young purple dragon"):** all 4
+    passed moderation. a (sock hug) and c (hatch) are good and now live; e again off-story (Butterscotch sinks to the
+    floor, Toffee climbs out and vanishes) and f (Toffee lands, a glowing gold carpet of light spreads over the floor)
+    rejected (`*_REJECTED.mp4`). The 4 retakes (6,060) were accepted, so the 3 moderation failures were evidently
+    refunded; ~2.1k credits left (inferred, not read from the account). **Live video beats: chapter_c, chapter2_a-d;
+    chapter2_e and _f still pan.** Both cards rebuilt; headless story run plays a-f in order with the videos, no clip errors.
+- **2026-11-12 (Hoard Chests: 15 pop-open prize chests + hub, DESIGNED, nothing built)** — owner asked for
+  a candy system to pair with the Oracle, with all build files. First plan (3 bulk hopper dispensers) was
+  dropped the same evening; owner's choice: **15 pop-open boxes, 5 per tier, reloaded between groups, each
+  detecting a closed lid so the system knows it is available again.** Everything is in
+  **`crystal_oracle/hoard_chests/`** (start with its `README.md`, contract in `docs/DESIGN.md`):
+  * **Chest** (`cad/hoard_chest.scad`, STLs in `cad/stl/`, small bay 110x58x40 + long 160x58x40 for full-size
+    bars): lid on a pin hinge, pulled open by a rubber band; SG90 in a back compartment swings a printed arm
+    90 degrees through a window in a lid tab into a slot in the box (clockwise from above = release; manual
+    release = Phillips screwdriver through the keyhole in the lid's back slope onto the horn screw;
+    **2026-11-13: all printed-part screws are #4 x 1/2" flat-head, the size bought for the plinth cover
+    (7 per chest + 4 in the hub case = 109), and two covers hide the works from the kids: a flush "deck"
+    over the back compartment and a "backplate" over the rubber band / lid tail. The node board sits 5.5 mm
+    higher and the small chest's latch group moved 4 mm right to make room; collision check re-run clean;
+    STLs re-exported: bodies, lids, decks, backplate, hub case base**); lever
+    microswitch = lid closed; one pre-wired WS2812B disc behind a translucent emblem (coin / star / gem);
+    Hoard Node board (RJ45 out the back). `part="check"` = collision test (only two 0.06 mm slivers left).
+  * **Hub** (`pcb/`, KiCad 9 boards generated by `pcb/gen_boards.py` with its own router; DRC 0 violations /
+    0 unconnected on both; Gerber zips for JLCPCB): ESP32 30-pin DevKit + three CD74HCT4067M96 (SOIC-24W:
+    the DIP part is no longer made) fan one servo-pulse pin, one pixel pin and one switch pin to 15 RJ45
+    ports over ordinary patch cables (**not Ethernet**). 5 V only. Case: `cad/hoard_hub_case.scad`.
+  * **Firmware** `firmware/hoard_hub/` (Opus agent; compiles, 72 % flash; serial console, per-port latch
+    calibration in NVS, `arm auto|confirm`, TEST button).
+  * **Oracle link** (Opus agent; `docs/ORACLE-LINK.md`): `[station] chests = no` (default off) in the station
+    app AND the screen firmware; at the bowl line the show sends `LT_CHEST` (0x85) to the plinth, which
+    broadcasts to the hub over ESP-NOW (hoard packets use magic 'C','H' so old screens ignore them; plinth
+    v1.4.0, `CHEST_RELAY 1`, both link modes). `crystal_link.h` gained 0x85 / 0x06 (additive, both copies
+    identical). Station BUILD `2026-11-12a` is what :8460 serves now (feature off = no behaviour change;
+    e2e on a scratch copy passed off and on). **Plinth and screen are NOT reflashed**; nothing committed.
+  * Parts list with part numbers: `docs/PARTS-RESEARCH.md` (about $250-320 without filament). Codex's
+    critique: `docs/codex/`.
+  * **Ordering (2026-11-13):** bare boards put in the owner's JLCPCB cart through the JLCONE desktop app (hub x5
+    $12.10, node x20 $7.40; 2 layer, 1.6 mm, 1 oz, lead-free HASL), checkout left to the owner. 2 oz copper on
+    the hub would be $49.80: owner chose 1 oz. JLCPCB assembly was priced and rejected: node x20 = $60.78 with
+    3 of 4 parts vs about $37 DIY; the 54602-908LF jack and the 3.5 mm 5-way terminal are out of stock there.
+    `pcb/make_assembly_files.py` writes BOM/CPL csv files (good for a quote only: placements use pad-1 origins).
+    Mux to buy: **CD74HCT4067M** (DigiKey, SOIC-24W tube; owner checked the page). 100 nF caps: K104K15X7RF53H5.
+    **Parts ordered 2026-11-13:** Mouser (muxes x4, AHCT125 x2 + socket, 54602-908LF x34, SIP-9 x4, 100 nF x5,
+    1000 uF, 100 uF x18 [only 1 needed], 470 uF EEU-FR1A471 x20 for the nodes, PJ-102AH, 2-pin terminal, B3F-1000,
+    node terminals Phoenix 1984646 x17) and Amazon (AITRIP ESP32 3-pack, Miuzei SG90 x20, KW11-3Z-2 hinge-lever
+    switches x24 [body 20 x 6 x 10.6 mm, check `sw_op`], BTF-LIGHTING bare WS2812B discs x100 [no leads: solder
+    3 wires each, cut to length], male + female headers). **Not ordered yet:** 1/4 W resistors (10k, 4k7, 1k,
+    100R), 5 V 4 A supply, 17 patch cables, #4 x 1/2" flat-head screws (109), rubber bands, 26 AWG wire, feet.
+  * **Not verified on hardware: everything.** Build ONE chest first; measure the SG90 (`sv_tab_z`,
+    `sv_boss`) before printing bodies. Open: Codex art pass on the chest shell, per-tier look.
 - **2026-10-31 (7 new reveal animations from 6 Codex stills)** — the art pass deferred from the voice change
   below (owner: "push now so I can restart the iPad, then run the new art").
   * **New stills** (`make_image_codex.py start`, all 6 in parallel, ~45 s each, all on-model first try):

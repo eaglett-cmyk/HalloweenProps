@@ -46,11 +46,15 @@
  "extra_voice_groups": [
   "awaken_b[1-9]",
   "toffee_s[0-3]",
-  "toffee_idle_(sleep|awake)",
+  "toffee_idle_(sleep|drowsy|waking|awake)",
+  "toffee_treat_s[0-3]",
   "moonfull2_toffee",
   "attract2_call",
   "chapter2_[a-f]",
-  "moonfull2_[ab]"
+  "moonfull2_[ab]",
+  "chest_(common|rare|legend|empty|none)",
+  "chest_rush_t[0-3]",
+  "replay_done"
  ],
  "_station_sprites": [
   "toffee_sleep",
@@ -224,12 +228,12 @@
    "kind": "character",
    "transparent": true,
    "priority": "MVP",
-   "desc": "MASTER IMAGE. Butterscotch, a chubby, round old dragon shaped like a soft gumdrop or a pear, floating like a balloon (two short stubby feet tucked under, not standing). Glossy, candy-smooth skin with NO scales, in warm CARAMEL / butterscotch-toffee orange-brown (#C77A35, deeper toffee #9A5424 in the shadows) with a smooth cream belly (#FBE3BF) - NOT gold, NOT yellow. Two small rounded horns shaped like caramel swirls; two tiny stubby wings, much too small to fly; big warm amber-brown eyes with bright highlights; small rounded paws; a short curly tail ending in a little round tuft. A crooked, faded purple wizard hat (#6E5A9E) with exactly TWO big simple pale-cream five-point stars (#F3E6C4) sits between his horns. Small rounded paws held together in front of his tummy; gentle closed-mouth smile; facing the viewer; no teeth, no claws, no fire, nothing gold.",
+   "desc": "MASTER IMAGE. Butterscotch, a chubby, round old dragon shaped like a soft gumdrop or a pear, floating like a balloon (two short stubby feet tucked under, not standing). Glossy, candy-smooth skin with NO scales, in warm CARAMEL / butterscotch-toffee orange-brown (#C77A35, deeper toffee #9A5424 in the shadows) with a smooth cream belly (#FBE3BF) - NOT gold, NOT yellow. Two small rounded horns shaped like caramel swirls; two tiny stubby wings; big warm amber-brown eyes with bright highlights; small rounded paws; a short curly tail ending in a little round tuft. A crooked, faded purple wizard hat (#6E5A9E) with exactly TWO big simple pale-cream five-point stars (#F3E6C4) sits between his horns. Small rounded paws held together in front of his tummy; gentle closed-mouth smile; facing the viewer; no teeth, no claws, no fire, nothing gold.",
    "used_by": [
     "charge",
     "reveal_t0_2"
    ],
-   "prompt": "MASTER CHARACTER IMAGE. Butterscotch, a chubby, round old dragon shaped like a soft gumdrop or a pear, floating like a balloon (two short stubby feet tucked under, not standing). Glossy, candy-smooth skin with NO scales, in warm CARAMEL / butterscotch-toffee orange-brown (#C77A35, deeper toffee #9A5424 in the shadows) with a smooth cream belly (#FBE3BF) - NOT gold, NOT yellow. Two small rounded horns shaped like caramel swirls; two tiny stubby wings, much too small to fly; big warm amber-brown eyes with bright highlights; small rounded paws; a short curly tail ending in a little round tuft. A crooked, faded purple wizard hat (#6E5A9E) with exactly TWO big simple pale-cream five-point stars (#F3E6C4) sits between his horns. His small rounded paws are held together in front of his tummy. Gentle closed-mouth smile, facing the viewer. No teeth, no claws, no fire, no smoke, nothing sharp, nothing gold. Keep the design SIMPLE: big clean shapes and only a few small details. Full figure, centred, nothing cropped, on a TRANSPARENT background (PNG). If you can't make it transparent, use a flat pure green #00FF00 background with no shadow and no floor. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; glossy candy-like materials; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and cozy, never scary.",
+   "prompt": "MASTER CHARACTER IMAGE. Butterscotch, a chubby, round old dragon shaped like a soft gumdrop or a pear, floating like a balloon (two short stubby feet tucked under, not standing). Glossy, candy-smooth skin with NO scales, in warm CARAMEL / butterscotch-toffee orange-brown (#C77A35, deeper toffee #9A5424 in the shadows) with a smooth cream belly (#FBE3BF) - NOT gold, NOT yellow. Two small rounded horns shaped like caramel swirls; two tiny stubby wings; big warm amber-brown eyes with bright highlights; small rounded paws; a short curly tail ending in a little round tuft. A crooked, faded purple wizard hat (#6E5A9E) with exactly TWO big simple pale-cream five-point stars (#F3E6C4) sits between his horns. His small rounded paws are held together in front of his tummy. Gentle closed-mouth smile, facing the viewer. No teeth, no claws, no fire, no smoke, nothing sharp, nothing gold. Keep the design SIMPLE: big clean shapes and only a few small details. Full figure, centred, nothing cropped, on a TRANSPARENT background (PNG). If you can't make it transparent, use a flat pure green #00FF00 background with no shadow and no floor. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; glossy candy-like materials; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and cozy, never scary.",
    "anchor": [
     0.5,
     0.62
@@ -849,8 +853,8 @@
    "priority": "NICE",
    "desc": "Chapter 2 parts d/e: both dragons asleep - Butterscotch floating in the middle, Toffee curled in the sock on a candy pile at his left; the beacon a faint ember.",
    "used_by": [
-    "chapter2_d",
-    "chapter2_e"
+    "chapter2_e",
+    "chapter2_d"
    ],
    "prompt": "The Hoard Cave at night, very quiet. Butterscotch floats asleep in the middle; beside him, low on the left on a soft candy pile, tiny Toffee sleeps curled up in the striped sock. The Hoard Beacon in the upper-left glows only a faint ember. Format: wide landscape, 5:3 (1600x960 if you can choose; otherwise the widest landscape option). Dark midnight-indigo and plum colours (#140F2E, #2B1650). Keep the BOTTOM QUARTER of the image plain near-black and empty (the screen draws words there). Big simple shapes, clean smooth gradients. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; glossy candy-like materials; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and cozy, never scary.",
    "refs": [
@@ -3122,15 +3126,11 @@
   {
    "id": "chapter_c",
    "priority": "NICE",
-   "recipe": "kenburns",
-   "image": "chapter_egg",
+   "recipe": "video",
    "seconds": 4.5,
-   "zoom": [
-    1.05,
-    1.12
-   ],
-   "pan": "up",
-   "notes": "Lore: Butterscotch hatched from a crystal egg long ago; its shell pieces scattered through the worlds and became the crystals."
+   "notes": "Lore: Butterscotch hatched from a crystal egg long ago; its shell pieces scattered through the worlds and became the crystals.",
+   "source": "chapter_c",
+   "crop": "center"
   },
   {
    "id": "chapter_d",
@@ -3297,54 +3297,38 @@
   {
    "id": "chapter2_a",
    "priority": "NICE",
-   "recipe": "kenburns",
-   "image": "chapter2_sock",
+   "recipe": "video",
    "seconds": 4.5,
-   "zoom": [
-    1.0,
-    1.06
-   ],
-   "pan": "center",
-   "notes": "Last Halloween Snuffwick found something in his sock."
+   "notes": "Last Halloween Snuffwick found something in his sock.",
+   "source": "chapter2_a",
+   "crop": "center"
   },
   {
    "id": "chapter2_b",
    "priority": "NICE",
-   "recipe": "kenburns",
-   "image": "chapter2_sock",
+   "recipe": "video",
    "seconds": 4.5,
-   "zoom": [
-    1.06,
-    1.16
-   ],
-   "pan": "center",
-   "notes": "An egg - warm, glowing, tapping (push-in on the sock)."
+   "notes": "An egg - warm, glowing, tapping (push-in on the sock).",
+   "source": "chapter2_b",
+   "crop": "center"
   },
   {
    "id": "chapter2_c",
    "priority": "NICE",
-   "recipe": "kenburns",
-   "image": "chapter2_hatch",
+   "recipe": "video",
    "seconds": 4.5,
-   "zoom": [
-    1.06,
-    1.12
-   ],
-   "pan": "up",
-   "notes": "Crack! Baby Toffee hatches."
+   "notes": "Crack! Baby Toffee hatches.",
+   "source": "chapter2_c",
+   "crop": "center"
   },
   {
    "id": "chapter2_d",
    "priority": "NICE",
-   "recipe": "kenburns",
-   "image": "chapter2_nap",
+   "recipe": "video",
    "seconds": 4.5,
-   "zoom": [
-    1.0,
-    1.05
-   ],
-   "pan": "center",
-   "notes": "Toffee is SO sleepy: both dragons asleep, the beacon an ember."
+   "notes": "Toffee is SO sleepy: both dragons asleep, the beacon an ember.",
+   "source": "chapter2_d",
+   "crop": "center"
   },
   {
    "id": "chapter2_e",
@@ -4276,6 +4260,36 @@
    "priority": "MVP"
   },
   {
+   "id": "replay_3",
+   "group": "replay",
+   "variant": 3,
+   "speaker": "Butterscotch",
+   "text": "Ooh, I remember this crystal from tonight!",
+   "caption": "ALREADY GLOWED",
+   "delivery": "remembering happily, a soft chuckle",
+   "priority": "MVP"
+  },
+  {
+   "id": "replay_4",
+   "group": "replay",
+   "variant": 4,
+   "speaker": "Butterscotch",
+   "text": "Hello again! Your crystal's still sparkling!",
+   "caption": "ALREADY GLOWED",
+   "delivery": "delighted and warm, no scolding",
+   "priority": "MVP"
+  },
+  {
+   "id": "replay_5",
+   "group": "replay",
+   "variant": 5,
+   "speaker": "Butterscotch",
+   "text": "Back so soon? It's still warm from tonight!",
+   "caption": "ALREADY GLOWED",
+   "delivery": "playful surprise, a little giggle",
+   "priority": "MVP"
+  },
+  {
    "id": "nocrystal_1",
    "group": "nocrystal",
    "variant": 1,
@@ -4686,6 +4700,506 @@
    "priority": "NICE"
   },
   {
+   "id": "chest_common_1",
+   "group": "chest_common",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Silver coin chest! Pop! Peek inside!",
+   "caption": "SILVER COIN CHEST",
+   "delivery": "clear and friendly, a playful little 'Pop!'",
+   "priority": "NICE"
+  },
+  {
+   "id": "chest_common_2",
+   "group": "chest_common",
+   "variant": 2,
+   "speaker": "Butterscotch",
+   "text": "Look! A silver coin chest is glowing!",
+   "caption": "SILVER COIN CHEST",
+   "delivery": "delighted, pointing it out",
+   "priority": "NICE"
+  },
+  {
+   "id": "chest_common_3",
+   "group": "chest_common",
+   "variant": 3,
+   "speaker": "Butterscotch",
+   "text": "To the glowing silver coin chest!",
+   "caption": "SILVER COIN CHEST",
+   "delivery": "cheery, pointing the way",
+   "priority": "NICE"
+  },
+  {
+   "id": "chest_common_4",
+   "group": "chest_common",
+   "variant": 4,
+   "speaker": "Butterscotch",
+   "text": "Silver coin chest! Your treasure's inside!",
+   "caption": "SILVER COIN CHEST",
+   "delivery": "warm, crisp on 'Silver coin'",
+   "priority": "NICE"
+  },
+  {
+   "id": "chest_common_5",
+   "group": "chest_common",
+   "variant": 5,
+   "speaker": "Butterscotch",
+   "text": "My silver coin chest is opening for you!",
+   "caption": "SILVER COIN CHEST",
+   "delivery": "proud and cozy",
+   "priority": "NICE"
+  },
+  {
+   "id": "chest_rare_1",
+   "group": "chest_rare",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Gold star chest! Pop! Peek inside!",
+   "caption": "GOLD STAR CHEST",
+   "delivery": "bright and excited, a playful 'Pop!'",
+   "priority": "NICE"
+  },
+  {
+   "id": "chest_rare_2",
+   "group": "chest_rare",
+   "variant": 2,
+   "speaker": "Butterscotch",
+   "text": "Look! A gold star chest is glowing!",
+   "caption": "GOLD STAR CHEST",
+   "delivery": "excited, pointing it out",
+   "priority": "NICE"
+  },
+  {
+   "id": "chest_rare_3",
+   "group": "chest_rare",
+   "variant": 3,
+   "speaker": "Butterscotch",
+   "text": "To the glowing gold star chest!",
+   "caption": "GOLD STAR CHEST",
+   "delivery": "excited, pointing the way",
+   "priority": "NICE"
+  },
+  {
+   "id": "chest_rare_4",
+   "group": "chest_rare",
+   "variant": 4,
+   "speaker": "Butterscotch",
+   "text": "Gold star chest! Something special inside!",
+   "caption": "GOLD STAR CHEST",
+   "delivery": "conspiratorial thrill on 'special'",
+   "priority": "NICE"
+  },
+  {
+   "id": "chest_rare_5",
+   "group": "chest_rare",
+   "variant": 5,
+   "speaker": "Butterscotch",
+   "text": "My gold star chest is opening for you!",
+   "caption": "GOLD STAR CHEST",
+   "delivery": "proud, a little grand",
+   "priority": "NICE"
+  },
+  {
+   "id": "chest_legend_1",
+   "group": "chest_legend",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "The Dragon Gem chest! Open it, traveler!",
+   "caption": "DRAGON GEM CHEST",
+   "delivery": "awed and grand, presenting a treasure",
+   "priority": "NICE"
+  },
+  {
+   "id": "chest_legend_2",
+   "group": "chest_legend",
+   "variant": 2,
+   "speaker": "Butterscotch",
+   "text": "Look! The Dragon Gem chest is glowing!",
+   "caption": "DRAGON GEM CHEST",
+   "delivery": "breathless wonder",
+   "priority": "NICE"
+  },
+  {
+   "id": "chest_legend_3",
+   "group": "chest_legend",
+   "variant": 3,
+   "speaker": "Butterscotch",
+   "text": "My Dragon Gem chest! It's opening for you!",
+   "caption": "DRAGON GEM CHEST",
+   "delivery": "hushed, then rising to joy",
+   "priority": "NICE"
+  },
+  {
+   "id": "chest_legend_4",
+   "group": "chest_legend",
+   "variant": 4,
+   "speaker": "Butterscotch",
+   "text": "To the Dragon Gem chest! Legendary treasure!",
+   "caption": "DRAGON GEM CHEST",
+   "delivery": "triumphant",
+   "priority": "NICE"
+  },
+  {
+   "id": "chest_legend_5",
+   "group": "chest_legend",
+   "variant": 5,
+   "speaker": "Butterscotch",
+   "text": "Dragon Gem chest! My very best treasure!",
+   "caption": "DRAGON GEM CHEST",
+   "delivery": "tender and proud, like sharing a secret",
+   "priority": "NICE"
+  },
+  {
+   "id": "chest_rush_t0_1",
+   "group": "chest_rush_t0",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Goblin trick! Silver coin chest!",
+   "caption": "GOBLIN TRICK!",
+   "delivery": "fast, giggly, chest words crisp (rush mode)",
+   "priority": "NICE"
+  },
+  {
+   "id": "chest_rush_t0_2",
+   "group": "chest_rush_t0",
+   "variant": 2,
+   "speaker": "Butterscotch",
+   "text": "Snuffwick trick! Silver coin chest!",
+   "caption": "GOBLIN TRICK!",
+   "delivery": "fast and giggly (rush mode)",
+   "priority": "NICE"
+  },
+  {
+   "id": "chest_rush_t0_3",
+   "group": "chest_rush_t0",
+   "variant": 3,
+   "speaker": "Butterscotch",
+   "text": "Goblin giggles! Silver coin chest!",
+   "caption": "GOBLIN TRICK!",
+   "delivery": "quick, chuckling (rush mode)",
+   "priority": "NICE"
+  },
+  {
+   "id": "chest_rush_t0_4",
+   "group": "chest_rush_t0",
+   "variant": 4,
+   "speaker": "Butterscotch",
+   "text": "Tricked! Candy anyway! Silver coin chest!",
+   "caption": "GOBLIN TRICK!",
+   "delivery": "fast, a laugh, reassuring on 'Candy anyway!' (rush mode)",
+   "priority": "NICE"
+  },
+  {
+   "id": "chest_rush_t0_5",
+   "group": "chest_rush_t0",
+   "variant": 5,
+   "speaker": "Butterscotch",
+   "text": "Silly goblin! Silver coin chest!",
+   "caption": "GOBLIN TRICK!",
+   "delivery": "quick eye-roll chuckle (rush mode)",
+   "priority": "NICE"
+  },
+  {
+   "id": "chest_rush_t1_1",
+   "group": "chest_rush_t1",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Hoard coin! Silver coin chest!",
+   "caption": "HOARD COIN!",
+   "delivery": "fast and bright (rush mode)",
+   "priority": "NICE"
+  },
+  {
+   "id": "chest_rush_t1_2",
+   "group": "chest_rush_t1",
+   "variant": 2,
+   "speaker": "Butterscotch",
+   "text": "Hoard coin! To the silver coin chest!",
+   "caption": "HOARD COIN!",
+   "delivery": "fast and bright (rush mode)",
+   "priority": "NICE"
+  },
+  {
+   "id": "chest_rush_t1_3",
+   "group": "chest_rush_t1",
+   "variant": 3,
+   "speaker": "Butterscotch",
+   "text": "Coin for you! Silver coin chest!",
+   "caption": "HOARD COIN!",
+   "delivery": "quick and cheery (rush mode)",
+   "priority": "NICE"
+  },
+  {
+   "id": "chest_rush_t1_4",
+   "group": "chest_rush_t1",
+   "variant": 4,
+   "speaker": "Butterscotch",
+   "text": "Shiny coin! Silver coin chest!",
+   "caption": "HOARD COIN!",
+   "delivery": "fast, a smile in it (rush mode)",
+   "priority": "NICE"
+  },
+  {
+   "id": "chest_rush_t1_5",
+   "group": "chest_rush_t1",
+   "variant": 5,
+   "speaker": "Butterscotch",
+   "text": "Hoard coin! Peek in the silver coin chest!",
+   "caption": "HOARD COIN!",
+   "delivery": "fast, crisp chest words (rush mode)",
+   "priority": "NICE"
+  },
+  {
+   "id": "chest_rush_t2_1",
+   "group": "chest_rush_t2",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Golden Star! Gold star chest!",
+   "caption": "GOLDEN STAR!",
+   "delivery": "fast, excited (rush mode)",
+   "priority": "NICE"
+  },
+  {
+   "id": "chest_rush_t2_2",
+   "group": "chest_rush_t2",
+   "variant": 2,
+   "speaker": "Butterscotch",
+   "text": "Ooh, Golden Star! Gold star chest!",
+   "caption": "GOLDEN STAR!",
+   "delivery": "quick gasp, excited (rush mode)",
+   "priority": "NICE"
+  },
+  {
+   "id": "chest_rush_t2_3",
+   "group": "chest_rush_t2",
+   "variant": 3,
+   "speaker": "Butterscotch",
+   "text": "Golden Star! To the gold star chest!",
+   "caption": "GOLDEN STAR!",
+   "delivery": "fast and thrilled (rush mode)",
+   "priority": "NICE"
+  },
+  {
+   "id": "chest_rush_t2_4",
+   "group": "chest_rush_t2",
+   "variant": 4,
+   "speaker": "Butterscotch",
+   "text": "Lucky you! Gold star chest!",
+   "caption": "GOLDEN STAR!",
+   "delivery": "fast, a happy laugh (rush mode)",
+   "priority": "NICE"
+  },
+  {
+   "id": "chest_rush_t2_5",
+   "group": "chest_rush_t2",
+   "variant": 5,
+   "speaker": "Butterscotch",
+   "text": "Golden Star! Peek in the gold star chest!",
+   "caption": "GOLDEN STAR!",
+   "delivery": "fast, crisp chest words (rush mode)",
+   "priority": "NICE"
+  },
+  {
+   "id": "chest_rush_t3_1",
+   "group": "chest_rush_t3",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "Dragon Gem! The Dragon Gem chest!",
+   "caption": "DRAGON GEM!",
+   "delivery": "fast but awed (rush mode)",
+   "priority": "NICE"
+  },
+  {
+   "id": "chest_rush_t3_2",
+   "group": "chest_rush_t3",
+   "variant": 2,
+   "speaker": "Butterscotch",
+   "text": "Dragon Gem! To the Dragon Gem chest!",
+   "caption": "DRAGON GEM!",
+   "delivery": "fast but awed (rush mode)",
+   "priority": "NICE"
+  },
+  {
+   "id": "chest_rush_t3_3",
+   "group": "chest_rush_t3",
+   "variant": 3,
+   "speaker": "Butterscotch",
+   "text": "Legendary! Dragon Gem chest!",
+   "caption": "DRAGON GEM!",
+   "delivery": "fast, triumphant (rush mode)",
+   "priority": "NICE"
+  },
+  {
+   "id": "chest_rush_t3_4",
+   "group": "chest_rush_t3",
+   "variant": 4,
+   "speaker": "Butterscotch",
+   "text": "Oh my stars! Dragon Gem chest!",
+   "caption": "DRAGON GEM!",
+   "delivery": "quick amazed gasp (rush mode)",
+   "priority": "NICE"
+  },
+  {
+   "id": "chest_rush_t3_5",
+   "group": "chest_rush_t3",
+   "variant": 5,
+   "speaker": "Butterscotch",
+   "text": "Dragon Gem! My very best chest!",
+   "caption": "DRAGON GEM!",
+   "delivery": "fast, proud (rush mode)",
+   "priority": "NICE"
+  },
+  {
+   "id": "chest_empty_1",
+   "group": "chest_empty",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "No chest for that one! Ask the grown-up!",
+   "caption": "ASK THE GROWN-UP",
+   "delivery": "unbothered and cheerful, a quick change of plan",
+   "priority": "NICE"
+  },
+  {
+   "id": "chest_empty_2",
+   "group": "chest_empty",
+   "variant": 2,
+   "speaker": "Butterscotch",
+   "text": "Uh-oh, empty chests! The grown-up has yours!",
+   "caption": "ASK THE GROWN-UP",
+   "delivery": "playfully surprised, then reassuring",
+   "priority": "NICE"
+  },
+  {
+   "id": "chest_empty_3",
+   "group": "chest_empty",
+   "variant": 3,
+   "speaker": "Butterscotch",
+   "text": "That chest is stuck! The grown-up will help!",
+   "caption": "ASK THE GROWN-UP",
+   "delivery": "puzzled for a beat, then warm and helpful",
+   "priority": "NICE"
+  },
+  {
+   "id": "chest_empty_4",
+   "group": "chest_empty",
+   "variant": 4,
+   "speaker": "Butterscotch",
+   "text": "Snuffwick emptied my chests! The grown-up has yours!",
+   "caption": "ASK THE GROWN-UP",
+   "delivery": "mock-outrage at the goblin, then a chuckle",
+   "priority": "NICE"
+  },
+  {
+   "id": "chest_empty_5",
+   "group": "chest_empty",
+   "variant": 5,
+   "speaker": "Butterscotch",
+   "text": "Sleepy chest! The grown-up has your treat!",
+   "caption": "ASK THE GROWN-UP",
+   "delivery": "sleepy-silly, a tiny yawn on 'Sleepy', then warm",
+   "priority": "NICE"
+  },
+  {
+   "id": "replay_done_1",
+   "group": "replay_done",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "You already found your treasure, traveler!",
+   "caption": "TREASURE FOUND",
+   "delivery": "warm and proud of them",
+   "priority": "NICE"
+  },
+  {
+   "id": "replay_done_2",
+   "group": "replay_done",
+   "variant": 2,
+   "speaker": "Butterscotch",
+   "text": "One treasure each! Yours is already found!",
+   "caption": "TREASURE FOUND",
+   "delivery": "friendly and fair, a smile on 'Yours'",
+   "priority": "NICE"
+  },
+  {
+   "id": "replay_done_3",
+   "group": "replay_done",
+   "variant": 3,
+   "speaker": "Butterscotch",
+   "text": "Enjoy the treasure you already found!",
+   "caption": "TREASURE FOUND",
+   "delivery": "cozy and glad for them",
+   "priority": "NICE"
+  },
+  {
+   "id": "replay_done_4",
+   "group": "replay_done",
+   "variant": 4,
+   "speaker": "Butterscotch",
+   "text": "Already got your treasure! See you next Halloween!",
+   "caption": "TREASURE FOUND",
+   "delivery": "cheery send-off, no disappointment",
+   "priority": "NICE"
+  },
+  {
+   "id": "replay_done_5",
+   "group": "replay_done",
+   "variant": 5,
+   "speaker": "Butterscotch",
+   "text": "Save room for next Halloween's treasure!",
+   "caption": "TREASURE FOUND",
+   "delivery": "playful, a little chuckle",
+   "priority": "NICE"
+  },
+  {
+   "id": "chest_none_1",
+   "group": "chest_none",
+   "variant": 1,
+   "speaker": "Butterscotch",
+   "text": "The grown-up has a treat for you!",
+   "caption": "ASK THE GROWN-UP",
+   "delivery": "warm and generous",
+   "priority": "NICE"
+  },
+  {
+   "id": "chest_none_2",
+   "group": "chest_none",
+   "variant": 2,
+   "speaker": "Butterscotch",
+   "text": "Hands out! The grown-up has a treat!",
+   "caption": "ASK THE GROWN-UP",
+   "delivery": "playful, inviting",
+   "priority": "NICE"
+  },
+  {
+   "id": "chest_none_3",
+   "group": "chest_none",
+   "variant": 3,
+   "speaker": "Butterscotch",
+   "text": "Go see the grown-up for a treat!",
+   "caption": "ASK THE GROWN-UP",
+   "delivery": "cheery, pointing the way",
+   "priority": "NICE"
+  },
+  {
+   "id": "chest_none_4",
+   "group": "chest_none",
+   "variant": 4,
+   "speaker": "Butterscotch",
+   "text": "A treat from the grown-up, just for you!",
+   "caption": "ASK THE GROWN-UP",
+   "delivery": "fond, a smile in it",
+   "priority": "NICE"
+  },
+  {
+   "id": "chest_none_5",
+   "group": "chest_none",
+   "variant": 5,
+   "speaker": "Butterscotch",
+   "text": "The grown-up has candy for you, traveler!",
+   "caption": "ASK THE GROWN-UP",
+   "delivery": "bright and friendly",
+   "priority": "NICE"
+  },
+  {
    "id": "milestone_1",
    "group": "milestone",
    "variant": 1,
@@ -4731,9 +5245,9 @@
    "group": "keeper",
    "variant": 2,
    "speaker": "Butterscotch",
-   "text": "Shh... my wings are tiny. I just float!",
+   "text": "Shh... tiny wings, but they fly just fine!",
    "caption": "SHH... SECRET",
-   "delivery": "embarrassed confiding whisper, then a tiny giggle",
+   "delivery": "proud confiding whisper, then a tiny giggle",
    "priority": "NICE"
   },
   {
@@ -5124,6 +5638,306 @@
    "text": "Higher! Higher! Wheee!",
    "caption": "FLYING PRACTICE!",
    "delivery": "breathless joy",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_treat_s0_1",
+   "group": "toffee_treat_s0",
+   "variant": 1,
+   "speaker": "Toffee",
+   "text": "Mmm... candy... zzz...",
+   "caption": "SHH... TOFFEE'S ASLEEP",
+   "delivery": "fast-asleep mumble, smacking her lips",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_treat_s0_2",
+   "group": "toffee_treat_s0",
+   "variant": 2,
+   "speaker": "Toffee",
+   "text": "Zzz... save me one... zzz...",
+   "caption": "SHH... TOFFEE'S ASLEEP",
+   "delivery": "sleep-talking, a tiny giggle",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_treat_s0_3",
+   "group": "toffee_treat_s0",
+   "variant": 3,
+   "speaker": "Toffee",
+   "text": "Mmf... treasure? Nice... zzz...",
+   "caption": "SHH... TOFFEE'S ASLEEP",
+   "delivery": "barely awake, drifting right back off",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_treat_s0_4",
+   "group": "toffee_treat_s0",
+   "variant": 4,
+   "speaker": "Toffee",
+   "text": "Mmm... yummy dreams... zzz...",
+   "caption": "SHH... TOFFEE'S ASLEEP",
+   "delivery": "cozy dreamy murmur",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_treat_s0_5",
+   "group": "toffee_treat_s0",
+   "variant": 5,
+   "speaker": "Toffee",
+   "text": "Zzz... sparkly treat... zzz...",
+   "caption": "SHH... TOFFEE'S ASLEEP",
+   "delivery": "tiny snore, a dreamy sigh on 'sparkly'",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_treat_s1_1",
+   "group": "toffee_treat_s1",
+   "variant": 1,
+   "speaker": "Toffee",
+   "text": "Ooh... a treat? Yawwn...",
+   "caption": "TOFFEE'S STIRRING",
+   "delivery": "drowsy and curious, yawning",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_treat_s1_2",
+   "group": "toffee_treat_s1",
+   "variant": 2,
+   "speaker": "Toffee",
+   "text": "Mmm... lucky you, traveler...",
+   "caption": "TOFFEE'S STIRRING",
+   "delivery": "sleepy and sweet",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_treat_s1_3",
+   "group": "toffee_treat_s1",
+   "variant": 3,
+   "speaker": "Toffee",
+   "text": "Shiny... so shiny... yawn...",
+   "caption": "TOFFEE'S STIRRING",
+   "delivery": "drowsy wonder, a yawn at the end",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_treat_s1_4",
+   "group": "toffee_treat_s1",
+   "variant": 4,
+   "speaker": "Toffee",
+   "text": "Is it yummy? Mmm...",
+   "caption": "TOFFEE'S STIRRING",
+   "delivery": "groggy, hopeful",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_treat_s1_5",
+   "group": "toffee_treat_s1",
+   "variant": 5,
+   "speaker": "Toffee",
+   "text": "Bye-bye... sleepy wave...",
+   "caption": "TOFFEE'S STIRRING",
+   "delivery": "half-asleep, waving goodbye",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_treat_s2_1",
+   "group": "toffee_treat_s2",
+   "variant": 1,
+   "speaker": "Toffee",
+   "text": "Ooh! Treasure! Hee hee!",
+   "caption": "TOFFEE'S WAKING UP!",
+   "delivery": "brightening, giggly",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_treat_s2_2",
+   "group": "toffee_treat_s2",
+   "variant": 2,
+   "speaker": "Toffee",
+   "text": "Yay! A treat for you!",
+   "caption": "TOFFEE'S WAKING UP!",
+   "delivery": "excited and sweet",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_treat_s2_3",
+   "group": "toffee_treat_s2",
+   "variant": 3,
+   "speaker": "Toffee",
+   "text": "Wow! Is it chocolate?",
+   "caption": "TOFFEE'S WAKING UP!",
+   "delivery": "curious, bouncy",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_treat_s2_4",
+   "group": "toffee_treat_s2",
+   "variant": 4,
+   "speaker": "Toffee",
+   "text": "Hee hee! You're so lucky!",
+   "caption": "TOFFEE'S WAKING UP!",
+   "delivery": "giggly and happy for them",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_treat_s2_5",
+   "group": "toffee_treat_s2",
+   "variant": 5,
+   "speaker": "Toffee",
+   "text": "Ooh! Can I see?",
+   "caption": "TOFFEE'S WAKING UP!",
+   "delivery": "eager, wide-eyed",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_treat_s3_1",
+   "group": "toffee_treat_s3",
+   "variant": 1,
+   "speaker": "Toffee",
+   "text": "Wheee! Treasure! Hooray!",
+   "caption": "TOFFEE'S AWAKE!",
+   "delivery": "bouncy joy",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_treat_s3_2",
+   "group": "toffee_treat_s3",
+   "variant": 2,
+   "speaker": "Toffee",
+   "text": "Yay! I'll do a loop for you!",
+   "caption": "TOFFEE'S AWAKE!",
+   "delivery": "proud and thrilled",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_treat_s3_3",
+   "group": "toffee_treat_s3",
+   "variant": 3,
+   "speaker": "Toffee",
+   "text": "Treat time! Flap, flap, hooray!",
+   "caption": "TOFFEE'S AWAKE!",
+   "delivery": "effortful flaps, cheering",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_treat_s3_4",
+   "group": "toffee_treat_s3",
+   "variant": 4,
+   "speaker": "Toffee",
+   "text": "Ooh! Shiny! Hee hee!",
+   "caption": "TOFFEE'S AWAKE!",
+   "delivery": "delighted giggle",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_treat_s3_5",
+   "group": "toffee_treat_s3",
+   "variant": 5,
+   "speaker": "Toffee",
+   "text": "Bye, traveler! Thank you!",
+   "caption": "TOFFEE'S AWAKE!",
+   "delivery": "sweet, waving, a giggle",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_idle_drowsy_1",
+   "group": "toffee_idle_drowsy",
+   "variant": 1,
+   "speaker": "Toffee",
+   "text": "Mmm... is someone there? Yawn...",
+   "caption": "TOFFEE'S STIRRING",
+   "delivery": "drowsy, peeking",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_idle_drowsy_2",
+   "group": "toffee_idle_drowsy",
+   "variant": 2,
+   "speaker": "Toffee",
+   "text": "One eye open... any crystals?",
+   "caption": "TOFFEE'S STIRRING",
+   "delivery": "sleepy and hopeful",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_idle_drowsy_3",
+   "group": "toffee_idle_drowsy",
+   "variant": 3,
+   "speaker": "Toffee",
+   "text": "Yawwn... more glow, please...",
+   "caption": "TOFFEE'S STIRRING",
+   "delivery": "big yawn, sleepy request",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_idle_drowsy_4",
+   "group": "toffee_idle_drowsy",
+   "variant": 4,
+   "speaker": "Toffee",
+   "text": "Mmm... Butterscotch? Is it time?",
+   "caption": "TOFFEE'S STIRRING",
+   "delivery": "groggy, sweet",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_idle_drowsy_5",
+   "group": "toffee_idle_drowsy",
+   "variant": 5,
+   "speaker": "Toffee",
+   "text": "Zzz... oh! Hi... zzz...",
+   "caption": "TOFFEE'S STIRRING",
+   "delivery": "nodding off, waking for a blink, nodding off again",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_idle_waking_1",
+   "group": "toffee_idle_waking",
+   "variant": 1,
+   "speaker": "Toffee",
+   "text": "Psst! Travelers! Bring a crystal!",
+   "caption": "TOFFEE'S WAKING UP!",
+   "delivery": "bright whisper-call across the porch",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_idle_waking_2",
+   "group": "toffee_idle_waking",
+   "variant": 2,
+   "speaker": "Toffee",
+   "text": "I'm almost awake! Hee hee!",
+   "caption": "TOFFEE'S WAKING UP!",
+   "delivery": "giggly, wriggling",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_idle_waking_3",
+   "group": "toffee_idle_waking",
+   "variant": 3,
+   "speaker": "Toffee",
+   "text": "Stretch... and wiggle! Hee hee!",
+   "caption": "TOFFEE'S WAKING UP!",
+   "delivery": "stretching, then giggling",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_idle_waking_4",
+   "group": "toffee_idle_waking",
+   "variant": 4,
+   "speaker": "Toffee",
+   "text": "Butterscotch! More crystals, please!",
+   "caption": "TOFFEE'S WAKING UP!",
+   "delivery": "eager, bouncing",
+   "priority": "NICE"
+  },
+  {
+   "id": "toffee_idle_waking_5",
+   "group": "toffee_idle_waking",
+   "variant": 5,
+   "speaker": "Toffee",
+   "text": "Is the beacon full yet?",
+   "caption": "TOFFEE'S WAKING UP!",
+   "delivery": "impatient and excited",
    "priority": "NICE"
   },
   {

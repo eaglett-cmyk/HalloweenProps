@@ -18,7 +18,14 @@
 //   button           press + release the (optional) big button
 //   dump             print the current crystal's pages 3..39
 //   fail <status>    make the next write fail with WriteStatus 1..5 (once)
+//   refill           the pretend Hoard Hub: all 15 prize chests armed again
+//   (FAKE_HUB_EMPTY=1 node fake_plinth.js starts the pretend hub with every chest open: awards answer "tier empty")
 //   quit
+//
+// Hoard Hub relay (plinth 1.4, LT_CHEST 0x85 -> LT_CHEST_INFO 0x06): every LT_CHEST is logged as
+// "chest: <ACTION> tier N ..." and answered by a pretend hub with 15 chests (ports 1-5 tier 1,
+// 6-10 tier 2, 11-15 tier 3, all armed at start): an AWARD opens the lowest armed port of the tier
+// (or answers "tier empty") after 1.2 s, OPEN_ALL opens everything, QUERY answers at once.
 //
 // Writes from the app are applied to the fake tag's pages and verified like the real plinth
 // (UID check, pages 3..39 only, CC page skipped when already E1, result cached by reqId + hash).
@@ -30,8 +37,10 @@ const readline = require('readline');
 const PORT = Number(process.env.FAKE_PLINTH_PORT || 81);
 const GROUP = Number(process.env.FAKE_PLINTH_GROUP || 1);
 const LINK_VERSION = 1;
-const LT = { HELLO: 0x01, TAG_PLACED: 0x02, TAG_REMOVED: 0x03, WRITE_RESULT: 0x04, BUTTON: 0x05,
-             HELLO_ACK: 0x81, WRITE_REQ: 0x82, LED: 0x83, PING: 0x84 };
+const LT = { HELLO: 0x01, TAG_PLACED: 0x02, TAG_REMOVED: 0x03, WRITE_RESULT: 0x04, BUTTON: 0x05, CHEST_INFO: 0x06,
+             HELLO_ACK: 0x81, WRITE_REQ: 0x82, LED: 0x83, PING: 0x84, CHEST: 0x85 };
+const CHEST_ACTIONS = ['QUERY', 'AWARD', 'TEASE', 'IDLE', 'IDENTIFY', 'OPEN_ALL', 'OPEN_PORT'];
+const CHEST_ALL = 0x7FFF;   // ports 1..15
 const WS = { OK: 0, NO_TAG: 1, WRONG_TAG: 2, WRITE_FAIL: 3, VERIFY_FAIL: 4, BAD_REQUEST: 5 };
 const FIRST_PAGE = 3, LAST_PAGE = 39, NUM_PAGES = 37, UID_MAX = 10, MAX_WRITES = 18;
 const EVENT_YEAR = Number(process.env.FAKE_PLINTH_YEAR || new Date().getFullYear());
@@ -46,6 +55,10 @@ let standalone = true, lastHeard = 0;
 const clients = new Set();
 const wcache = [];
 let stat = { placed: 0, writes: 0 };
+// the pretend Hoard Hub behind the plinth
+// FAKE_HUB_EMPTY=1 starts it with every chest open, so each AWARD answers "tier empty" (tests chest_empty)
+const hub = { cmdId: 0, result: 0, port: 0, armed: process.env.FAKE_HUB_EMPTY ? 0 : CHEST_ALL,
+              open: process.env.FAKE_HUB_EMPTY ? CHEST_ALL : 0, stuck: 0, heardAt: Date.now() };
 
 function randUid() {
   const b = crypto.randomBytes(7); b[0] = 0x04; return b;   // NXP NTAG UIDs start with 04
@@ -123,6 +136,38 @@ function pktButton(pressed, heldMs) {
   return b;
 }
 
+function pktChestInfo() {
+  const b = Buffer.alloc(20);
+  header(LT.CHEST_INFO).copy(b);
+  b.writeUInt16LE(hub.cmdId, 8); b[10] = hub.result; b[11] = hub.port;
+  b.writeUInt16LE(hub.armed, 12); b.writeUInt16LE(hub.open, 14); b.writeUInt16LE(hub.stuck, 16);
+  b.writeUInt16LE(Math.min(0xFFFE, Math.floor((Date.now() - hub.heardAt) / 1000)), 18);
+  return b;
+}
+function chestRequest(buf) {
+  if (buf.length < 17) { log(`chest: request too short (${buf.length} bytes)`); return; }
+  const action = buf[8], tier = buf[9], port = buf[10], color = buf.readUInt32LE(11) & 0xFFFFFF, ms = buf.readUInt16LE(15);
+  log(`chest: ${CHEST_ACTIONS[action] || `action ${action}`} tier ${tier} port ${port} colour #${color.toString(16).padStart(6, '0')} ${ms} ms`);
+  if (action === 0) { broadcast(pktChestInfo()); return; }
+  const id = hub.cmdId = (hub.cmdId + 1) & 0xFFFF || 1;
+  const done = (result, p) => { hub.cmdId = id; hub.result = result; hub.port = p; hub.heardAt = Date.now(); broadcast(pktChestInfo()); };
+  if (action === 1) {
+    const lo = tier >= 1 && tier <= 3 ? (tier - 1) * 5 : 0, hi = tier >= 1 && tier <= 3 ? lo + 5 : 15;
+    let p = 0;
+    for (let i = lo; i < hi; i++) if (hub.armed & (1 << i)) { p = i + 1; break; }
+    setTimeout(() => {
+      if (!p) { log(`chest: hub says tier ${tier} EMPTY`); done(1, 0); return; }
+      hub.armed &= ~(1 << (p - 1)); hub.open |= 1 << (p - 1);
+      log(`chest: hub opened chest ${p} (tier ${tier})`); done(0, p);
+    }, 1200);
+  } else if (action === 5) {
+    hub.armed = 0; hub.open = CHEST_ALL; hub.stuck = 0;
+    setTimeout(() => done(0, 0), 500);
+  } else {
+    setTimeout(() => done(0, 0), 100);
+  }
+}
+
 function broadcast(buf) { for (const c of clients) wsSend(c, 0x2, buf); }
 
 // ---------------------------------------------------------------- the reader
@@ -192,6 +237,7 @@ function handlePacket(buf) {
       log(`write #${req.reqId}: ${req.count} page(s) -> ${['OK', 'NO_TAG', 'WRONG_TAG', 'WRITE_FAIL', 'VERIFY_FAIL', 'BAD_REQUEST'][res[0]]} (written ${res[2]})`);
       break;
     }
+    case LT.CHEST: chestRequest(buf); break;
     default: log(`link: unknown packet type 0x${type.toString(16)}`);
   }
 }
@@ -272,10 +318,11 @@ rl.on('line', line => {
     case 'again':  if (lastTag) place(lastTag); else log('no previous crystal'); break;
     case 'lift':   lift(); break;
     case 'button': broadcast(pktButton(true, 0)); setTimeout(() => broadcast(pktButton(false, 150)), 150); log('button: pressed'); break;
+    case 'refill': hub.armed = CHEST_ALL; hub.open = 0; hub.stuck = 0; hub.heardAt = Date.now(); log('chest: all 15 chests armed again'); broadcast(pktChestInfo()); break;
     case 'fail':   failNext = Number(arg) || WS.WRITE_FAIL; log(`the next write fails with status ${failNext}`); break;
     case 'dump':   if (!tag) log('no tag'); else for (let p = FIRST_PAGE; p <= LAST_PAGE; p++) console.log(`   page ${String(p).padStart(2)}: ${hex(pageOf(tag.pages, p))}`); break;
     case 'quit': case 'exit': process.exit(0);
     case '': break;
-    default: log('commands: fresh [colour] | ours [visits] | played | foreign | bad | again | lift | button | fail [1-5] | dump | quit');
+    default: log('commands: fresh [colour] | ours [visits] | played | foreign | bad | again | lift | button | fail [1-5] | dump | refill | quit');
   }
 });

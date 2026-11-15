@@ -151,6 +151,16 @@ crystal on it). `PLINTH_LINK_WIFI 0` (the default) is the 2026 ESP-NOW rig, unch
 builds compile (esp32 core 3.3.10; Wi-Fi build = 75 % of the 1.3 MB app partition).
 **Not yet run on hardware** (2026-10-24): tested against `station/fake_plinth.js` only.
 
+## 3c. Hoard Hub relay (prize chests, 1.4.0, 2026-11-12)
+
+`#define CHEST_RELAY 1` (default; `-DCHEST_RELAY=0` removes it). The plinth relays the show's
+`LT_CHEST` to the Hoard Hub (`../../hoard_chests/`) as ESP-NOW broadcasts (`hoard_link.h`, a copy of
+the hub's file: `LT_CHEST_CMD` three times 40 ms apart with a fresh `cmdId`, `LT_CHEST_BEACON` every
+2 s) and passes every hub status back as `LT_CHEST_INFO`. Works in both link modes (Wi-Fi mode starts
+ESP-NOW next to the station connection, on the AP's channel). Serial: `chests: ...` lines, the status
+line ends in `hub heard N s ago`, and `c` sends a test award (tier 1). Contract and test notes:
+`../../hoard_chests/docs/ORACLE-LINK.md`. Not yet run on hardware.
+
 ## 4. Physical build (v7)
 
 * **Controller:** the terminal board sits in the 92 × 74 mm cavity, located by the four L-shaped

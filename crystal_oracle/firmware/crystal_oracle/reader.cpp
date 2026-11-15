@@ -554,6 +554,27 @@ void handleButton(const RxPkt &p) {
   postEvent(ev);
 }
 
+// The Hoard Hub's status as relayed by the plinth (about every 5 s): serial log on a change only.
+// The screen has no Chests page; the station app's host menu shows these.
+void handleChestInfo(const RxPkt &p) {
+  if (p.len < sizeof(LinkChestInfo)) return;
+  static LinkChestInfo last = {};
+  static bool have = false;
+  LinkChestInfo c;
+  memcpy(&c, p.data, sizeof(c));
+  if (have && c.cmdId == last.cmdId && c.result == last.result && c.port == last.port && c.armedMask == last.armedMask &&
+      c.openMask == last.openMask && c.stuckMask == last.stuckMask && (c.ageS == 0xFFFF) == (last.ageS == 0xFFFF)) return;
+  last = c;
+  have = true;
+  if (c.ageS == 0xFFFF) {
+    Serial.println("[reader] chests: the plinth has never heard the Hoard Hub");
+    return;
+  }
+  static const char *const RES[] = {"ok", "TIER EMPTY", "STUCK", "busy"};
+  Serial.printf("[reader] chests: hub cmd %u %s, chest %u opened | armed %04X open %04X stuck %04X\n", c.cmdId,
+                c.result <= 3 ? RES[c.result] : "?", c.port, c.armedMask, c.openMask, c.stuckMask);
+}
+
 void handlePacket(const RxPkt &p, uint32_t now) {
   const uint8_t type = p.data[offsetof(LinkHeader, type)];
   bool acked = false;
@@ -580,6 +601,7 @@ void handlePacket(const RxPkt &p, uint32_t now) {
     case LT_TAG_REMOVED:  handleTagRemoved(p); break;
     case LT_WRITE_RESULT: handleWriteResult(p); break;
     case LT_BUTTON:       handleButton(p); break;
+    case LT_CHEST_INFO:   handleChestInfo(p); break;
     default:              break;   // unknown plinth->screen type (newer plinth): heard, otherwise ignored
   }
 }
@@ -1366,6 +1388,20 @@ void led(LedMode mode, uint32_t color, uint32_t color2, uint16_t ms, uint8_t spe
   Guard g;
   if (!g.ok()) return;
   plinthLed(mode, color, color2, ms, speed, level);
+}
+
+bool chest(uint8_t action, uint8_t tier, uint8_t port, uint32_t color, uint16_t ms) {
+  if (s_backend != READER_PLINTH) return false;   // rfid2 / none: no plinth to relay it
+  Guard g;
+  if (!g.ok() || !s_espnowOk || !s_pl.known) return false;
+  LinkChest c = {};
+  linkFillHeader(c.h, LT_CHEST, ++s_pl.seq, s_group.load());
+  c.action = action;
+  c.tier = tier;
+  c.port = port;
+  c.color = color & 0xFFFFFF;
+  c.ms = ms;
+  return sendRaw(s_pl.mac, &c, sizeof(c));
 }
 
 void setIdleLight(uint32_t color, uint8_t brightness) {

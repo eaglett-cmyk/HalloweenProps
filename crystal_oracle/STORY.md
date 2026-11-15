@@ -1,5 +1,7 @@
 <!-- Story bible for the Crystal Oracle station. Written 2026-10-22 when the owner chose DRAGONGLOW (the kids' judge's pick, 8.5/10) over the panel winner Moonshards (archived: docs/stories/MOONSHARDS.md), with every judge fix applied. Revised 2026-10-23 (owner): the kids are travelers from other worlds, not wizards, and the crystals are pieces of Butterscotch's crystal egg instead of the Moonstone (§1). Revised 2026-10-26 (owner): the DRAGON GEM is now the top (legendary, ~4%, host-held red triangle) prize and the GOLDEN STAR the rare one (~18%, gold star bowl); the tables and lines below that still name them the other way round are superseded by the manifest. The asset manifest is generated from tools/gen_manifest_dragonglow.py. -->
 
+> **2026-11-15 (owner): Butterscotch can fly.** The art shows him floating around, and he teaches Toffee to fly in chapter 2, so no line may say his wings can't fly or are just for show.
+
 > **2026-10-26 prize swap:** the **Dragon Gem is the top prize** (legendary, the dragon gem bowl the host holds) and the **Golden Star is the rare prize** (gold star bowl). Where older text below says otherwise, this note and `tools/gen_manifest_dragonglow.py` win.
 
 # DRAGONGLOW — The Sleepy Candy Dragon
@@ -81,7 +83,7 @@ The sequence is absorb (1 s), then **greet** (2 s), then the **reveal** with the
 There is no big button this year. A kid without a crystal **taps the Dragon's Window** (the screen). Butterscotch puffs his cheeks and blows a sparkly **dragon blessing** bubble down to the kid. The beacon gains a spark, because this kid helped too. Then he says "Silver coin! Take one treat!" The whole thing takes about 4 s.
 
 ### Crystal already used tonight
-**replay** (2 s). Butterscotch winks with a paw to his lips: "Shh! Your crystal already glowed tonight!" Tonight's result shows again, dimmed, with a ✓. There is no bowl line unless the `second_helpings` setting is on.
+**replay** (2 s). Butterscotch winks with a paw to his lips: "Shh! Your crystal already glowed tonight!" Tonight's result shows again, dimmed, with a ✓. That kid already has tonight's candy and gets no more (owner, 2026-11-15), so a **replay_done** line follows: "You already found your treasure, traveler!" (5 takes, caption TREASURE FOUND). Only `second_helpings` with bowls (no chests) still sends them to the silver coin bowl.
 
 ### Bad read, or a tag that isn't ours
 - If the tag can't be read, **sleepy** plays: a big yawn and "Again, please! Sleepy crystal." It is never shown as an error.
@@ -114,7 +116,7 @@ Both are optional extras for a later year; the plinth firmware already supports 
 **How he looks (for the illustrator)**
 - An old, chubby, round dragon shaped like a soft gumdrop or a pear. He **floats like a balloon**: two short stubby feet are tucked under him, never standing.
 - Glossy, candy-smooth skin with no scales and no stripes, in warm **caramel / butterscotch toffee** (#C77A35, deeper toffee #9A5424 in the shadows), with a smooth **cream belly** (#FBE3BF). Caramel, **never gold or yellow**.
-- Two small rounded horns shaped like caramel swirls, and two tiny stubby wings that are much too small to fly.
+- Two small rounded horns shaped like caramel swirls, and two tiny stubby wings. They look too small, but **he can fly**: he floats and drifts all around the cave on them, and in 2027 he gives Toffee her flying lessons (owner, 2026-11-15). Never write that he can't fly.
 - Big warm amber-brown eyes, small rounded paws, and a short curly tail ending in a little round tuft.
 - A crooked, faded purple **wizard hat** (#6E5A9E) with exactly **two** big simple pale-cream stars (#F3E6C4). It was a gift from a wizard traveler, long ago (one costume among many).
 - **No fire, ever:** he breathes sparkles in the colour of the crystal he's looking at. No teeth, no claws, nothing sharp, and he never roars.
@@ -124,7 +126,7 @@ Both are optional extras for a later year; the plinth firmware already supports 
 - A cozy grandpa who yawns in the middle of sentences, chuckles a lot and is easily amazed.
 - Fiercely proud of "my travelers", and delighted by every world they come from.
 - Never scolds anyone and never sounds scary. When Snuffwick pranks him, he laughs hardest.
-- Two secrets for the Keepers: his real name is Bartholomew, and his wings are just for show (he floats).
+- Two secrets for the Keepers: his real name is Bartholomew, and his tiny wings fly just fine, however small they look.
 
 **TTS voice direction**
 - **Prompt to paste:** "Warm, slow, cozy old dragon grandpa telling a bedtime story: soft and round, a gentle low purr-rumble, smiling, a little whispery, a yawn hiding in some lines, delighted chuckles, bright on exclamations. Never booming, never growly, never a roar. Quick delivery: each line fits in about 2-2.5 seconds."
@@ -331,12 +333,13 @@ Line 1 is the main line. Line 2 plays at random, including on a repeat visit at 
 - **reveal_t1:** "Hoard coin! A big shiny one!" · "Hoard coin! Shiny silver treasure!"
 - **reveal_t2:** "Dragon Gem! Whoa, a rare one!" · "Dragon Gem! Not many travelers find those!"
 - **reveal_t3:** "The Golden Star! You're legendary!" · "Golden Star! The rarest treasure of all!"
-- **replay:** "Shh! Your crystal already glowed tonight!" · "Still glowing from tonight! Clever crystal!"
+- **replay:** "Shh! Your crystal already glowed tonight!" · "Still glowing from tonight! Clever crystal!" · "Ooh, I remember this crystal from tonight!" · "Hello again! Your crystal's still sparkling!" · "Back so soon? It's still warm from tonight!"
+- **replay_done** (after replay): "You already found your treasure, traveler!" · "One treasure each! Yours is already found!" · "Enjoy the treasure you already found!" · "Already got your treasure! See you next Halloween!" · "Save room for next Halloween's treasure!"
 - **nocrystal:** "A dragon blessing! Whoosh, you sparkle!" · "Dragon blessing! You added a spark too!"
 - **sleepy:** "Again, please! Sleepy crystal." · "Place it again! Your crystal's yawning."
 - **goodbye:** "Bring your crystal back next Halloween!" · "Keep it safe, traveler! See you next year!"
 - **recall_t0…t3:** "Last year, Snuffwick tricked you! Silly goblin!" · "Last year, a shiny hoard coin!" · "Last year, a Dragon Gem! Remember?" · "Last year, the Golden Star! Legendary!"
-- **keeper:** "Psst, Keeper... my real name's Bartholomew." · "Shh... my wings are tiny. I just float!"
+- **keeper:** "Psst, Keeper... my real name's Bartholomew." · "Shh... tiny wings, but they fly just fine!"
 
 Every interaction line is 8 words or fewer and starts with its key word; attract calls are 10 words or fewer. Delivery notes for every line are in `CHATGPT-ASSETS.md` §4.
 

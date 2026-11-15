@@ -1,0 +1,17 @@
+** Drc report for hoard_node.kicad_pcb **
+** Created on 2026-11-12T22:18:53-0600 **
+
+** Found 2 DRC violations **
+[lib_footprint_issues]: The current configuration does not include the footprint library 'hoard'.
+    Local override; warning
+    @(80.0000 mm, 65.0000 mm): Footprint H1
+[silk_overlap]: Silkscreen overlap
+    Rule: board setup constraints silk; warning
+    @(85.9000 mm, 61.7500 mm): Reference field of J3
+    @(85.9000 mm, 51.1300 mm): Segment of J3 on F.Silkscreen
+
+** Found 0 unconnected pads **
+
+** Found 0 Footprint errors **
+
+** End of Report **

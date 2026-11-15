@@ -83,9 +83,15 @@ resends every 250 ms, 2 s give-up, presence resync from HELLO.tagPresent, ignore
 | `0x82 LT_WRITE_REQ` | S→P | `LinkWriteReq` | An ordered page-write list for the tag on the reader (§4). |
 | `0x83 LT_LED` | S→P | `LinkLed` | Ring light mode (§5). |
 | `0x84 LT_PING` | S→P | `LinkHelloAck` | Keep-alive from the screen, every 1 s while linked. Same body as HELLO_ACK. |
+| `0x06 LT_CHEST_INFO` | P→S | `LinkChestInfo` | (2026-11-12, plinth 1.4) The Hoard Hub's last status, relayed. See `hoard_chests/docs/ORACLE-LINK.md`. |
+| `0x85 LT_CHEST` | S→P | `LinkChest` | (2026-11-12, plinth 1.4) "Broadcast this command to the Hoard Hub" (prize chests), or `CHEST_QUERY`. Older plinths ignore it. |
 
 Types with bit 7 set always travel screen→plinth. The screen drops any of them it
 hears, because they come from another screen in the same group.
+
+The Hoard Hub's own packets (`hoard_link.h`: `0x11` status, `0x90` command, `0x91` beacon) share the
+radio, header layout and group but use their own magic **'C','H'**, so every screen and plinth
+firmware drops them at the header check (`linkHeaderOk`). Only the plinth's relay (1.4+) reads them.
 
 ## 3. Discovery, heartbeat, link state
 

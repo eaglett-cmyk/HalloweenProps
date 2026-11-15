@@ -66,8 +66,8 @@ BUTTERSCOTCH_LOOK = (
     "Butterscotch, a chubby, round old dragon shaped like a soft gumdrop or a pear, floating like a balloon "
     "(two short stubby feet tucked under, not standing). Glossy, candy-smooth skin with NO scales, in warm CARAMEL / "
     "butterscotch-toffee orange-brown (#C77A35, deeper toffee #9A5424 in the shadows) with a smooth cream belly "
-    "(#FBE3BF) - NOT gold, NOT yellow. Two small rounded horns shaped like caramel swirls; two tiny stubby wings, "
-    "much too small to fly; big warm amber-brown eyes with bright highlights; small rounded paws; a short curly "
+    "(#FBE3BF) - NOT gold, NOT yellow. Two small rounded horns shaped like caramel swirls; two tiny stubby wings; "
+    "big warm amber-brown eyes with bright highlights; small rounded paws; a short curly "
     "tail ending in a little round tuft. A crooked, faded purple wizard hat (#6E5A9E) with exactly TWO big simple "
     "pale-cream five-point stars (#F3E6C4) sits between his horns.")
 
@@ -950,6 +950,10 @@ VOICE = [
     ("replay", 1, B, "Shh! Your crystal already glowed tonight!", "ALREADY GLOWED", "secretive and kind, smiling", "MVP"),
     ("replay", 2, B, "Still glowing from tonight! Clever crystal!", "ALREADY GLOWED",
      "gentle and proud, no scolding", "MVP"),
+    # 2026-11-15: 3 more takes so a group of up to 5 hears no repeats (owner); replay_done follows with the candy part
+    ("replay", 3, B, "Ooh, I remember this crystal from tonight!", "ALREADY GLOWED", "remembering happily, a soft chuckle", "MVP"),
+    ("replay", 4, B, "Hello again! Your crystal's still sparkling!", "ALREADY GLOWED", "delighted and warm, no scolding", "MVP"),
+    ("replay", 5, B, "Back so soon? It's still warm from tonight!", "ALREADY GLOWED", "playful surprise, a little giggle", "MVP"),
     ("nocrystal", 1, B, "A dragon blessing! Whoosh, you sparkle!", "DRAGON BLESSING!",
      "generous and cheery, a soft 'whoosh' like blowing a bubble", "MVP"),
     ("nocrystal", 2, B, "Dragon blessing! You added a spark too!", "DRAGON BLESSING!",
@@ -1003,6 +1007,83 @@ VOICE = [
     ("rush_t3", 1, B, "Dragon Gem! The grown-up has it!", "DRAGON GEM!", "fast but awed (rush mode)", "NICE"),
     # 2026-10-31: more takes so a group of up to 5 first-time travelers hears no repeats (owner)
     ("rush_t3", 2, B, "Dragon Gem! Ask the grown-up!", "DRAGON GEM!", "fast but awed (rush mode)", "NICE"),
+    # ---- Hoard Chests (2026-11-15, hoard_chests/): with [station] chests = yes a prize chest of the tier glows and
+    # pops open as the bowl line starts, so these play INSTEAD of bowl_* / rush_t* (not wired into the show yet).
+    # Chests are named after their prize like the bowls (Silver Coin / Gold Star / Dragon Gem chest), never a shape.
+    # Never mention how a chest works (immersion). 5 takes each, so a group of up to 5 hears no repeats (owner).
+    # chest_common = trick + Hoard Coin (silver coin chests), chest_rare = Golden Star, chest_legend = Dragon Gem.
+    ("chest_common", 1, B, "Silver coin chest! Pop! Peek inside!", "SILVER COIN CHEST",
+     "clear and friendly, a playful little 'Pop!'", "NICE"),
+    ("chest_common", 2, B, "Look! A silver coin chest is glowing!", "SILVER COIN CHEST", "delighted, pointing it out", "NICE"),
+    ("chest_common", 3, B, "To the glowing silver coin chest!", "SILVER COIN CHEST", "cheery, pointing the way", "NICE"),
+    ("chest_common", 4, B, "Silver coin chest! Your treasure's inside!", "SILVER COIN CHEST",
+     "warm, crisp on 'Silver coin'", "NICE"),
+    ("chest_common", 5, B, "My silver coin chest is opening for you!", "SILVER COIN CHEST", "proud and cozy", "NICE"),
+    ("chest_rare", 1, B, "Gold star chest! Pop! Peek inside!", "GOLD STAR CHEST",
+     "bright and excited, a playful 'Pop!'", "NICE"),
+    ("chest_rare", 2, B, "Look! A gold star chest is glowing!", "GOLD STAR CHEST", "excited, pointing it out", "NICE"),
+    ("chest_rare", 3, B, "To the glowing gold star chest!", "GOLD STAR CHEST", "excited, pointing the way", "NICE"),
+    ("chest_rare", 4, B, "Gold star chest! Something special inside!", "GOLD STAR CHEST",
+     "conspiratorial thrill on 'special'", "NICE"),
+    ("chest_rare", 5, B, "My gold star chest is opening for you!", "GOLD STAR CHEST", "proud, a little grand", "NICE"),
+    ("chest_legend", 1, B, "The Dragon Gem chest! Open it, traveler!", "DRAGON GEM CHEST",
+     "awed and grand, presenting a treasure", "NICE"),
+    ("chest_legend", 2, B, "Look! The Dragon Gem chest is glowing!", "DRAGON GEM CHEST", "breathless wonder", "NICE"),
+    ("chest_legend", 3, B, "My Dragon Gem chest! It's opening for you!", "DRAGON GEM CHEST",
+     "hushed, then rising to joy", "NICE"),
+    ("chest_legend", 4, B, "To the Dragon Gem chest! Legendary treasure!", "DRAGON GEM CHEST", "triumphant", "NICE"),
+    ("chest_legend", 5, B, "Dragon Gem chest! My very best treasure!", "DRAGON GEM CHEST",
+     "tender and proud, like sharing a secret", "NICE"),
+    # rush mode with chests: the tier name first, then the chest (replaces rush_t*)
+    ("chest_rush_t0", 1, B, "Goblin trick! Silver coin chest!", "GOBLIN TRICK!", "fast, giggly, chest words crisp (rush mode)", "NICE"),
+    ("chest_rush_t0", 2, B, "Snuffwick trick! Silver coin chest!", "GOBLIN TRICK!", "fast and giggly (rush mode)", "NICE"),
+    ("chest_rush_t0", 3, B, "Goblin giggles! Silver coin chest!", "GOBLIN TRICK!", "quick, chuckling (rush mode)", "NICE"),
+    ("chest_rush_t0", 4, B, "Tricked! Candy anyway! Silver coin chest!", "GOBLIN TRICK!",
+     "fast, a laugh, reassuring on 'Candy anyway!' (rush mode)", "NICE"),
+    ("chest_rush_t0", 5, B, "Silly goblin! Silver coin chest!", "GOBLIN TRICK!", "quick eye-roll chuckle (rush mode)", "NICE"),
+    ("chest_rush_t1", 1, B, "Hoard coin! Silver coin chest!", "HOARD COIN!", "fast and bright (rush mode)", "NICE"),
+    ("chest_rush_t1", 2, B, "Hoard coin! To the silver coin chest!", "HOARD COIN!", "fast and bright (rush mode)", "NICE"),
+    ("chest_rush_t1", 3, B, "Coin for you! Silver coin chest!", "HOARD COIN!", "quick and cheery (rush mode)", "NICE"),
+    ("chest_rush_t1", 4, B, "Shiny coin! Silver coin chest!", "HOARD COIN!", "fast, a smile in it (rush mode)", "NICE"),
+    ("chest_rush_t1", 5, B, "Hoard coin! Peek in the silver coin chest!", "HOARD COIN!", "fast, crisp chest words (rush mode)", "NICE"),
+    ("chest_rush_t2", 1, B, "Golden Star! Gold star chest!", "GOLDEN STAR!", "fast, excited (rush mode)", "NICE"),
+    ("chest_rush_t2", 2, B, "Ooh, Golden Star! Gold star chest!", "GOLDEN STAR!", "quick gasp, excited (rush mode)", "NICE"),
+    ("chest_rush_t2", 3, B, "Golden Star! To the gold star chest!", "GOLDEN STAR!", "fast and thrilled (rush mode)", "NICE"),
+    ("chest_rush_t2", 4, B, "Lucky you! Gold star chest!", "GOLDEN STAR!", "fast, a happy laugh (rush mode)", "NICE"),
+    ("chest_rush_t2", 5, B, "Golden Star! Peek in the gold star chest!", "GOLDEN STAR!", "fast, crisp chest words (rush mode)", "NICE"),
+    ("chest_rush_t3", 1, B, "Dragon Gem! The Dragon Gem chest!", "DRAGON GEM!", "fast but awed (rush mode)", "NICE"),
+    ("chest_rush_t3", 2, B, "Dragon Gem! To the Dragon Gem chest!", "DRAGON GEM!", "fast but awed (rush mode)", "NICE"),
+    ("chest_rush_t3", 3, B, "Legendary! Dragon Gem chest!", "DRAGON GEM!", "fast, triumphant (rush mode)", "NICE"),
+    ("chest_rush_t3", 4, B, "Oh my stars! Dragon Gem chest!", "DRAGON GEM!", "quick amazed gasp (rush mode)", "NICE"),
+    ("chest_rush_t3", 5, B, "Dragon Gem! My very best chest!", "DRAGON GEM!", "fast, proud (rush mode)", "NICE"),
+    # the hub answered TIER EMPTY or STUCK after the chest line (hoard_chests/docs/DESIGN.md): send the kid to the
+    # grown-up without any disappointment; Snuffwick takes the blame, as in the tricks
+    ("chest_empty", 1, B, "No chest for that one! Ask the grown-up!", "ASK THE GROWN-UP",
+     "unbothered and cheerful, a quick change of plan", "NICE"),
+    ("chest_empty", 2, B, "Uh-oh, empty chests! The grown-up has yours!", "ASK THE GROWN-UP",
+     "playfully surprised, then reassuring", "NICE"),
+    ("chest_empty", 3, B, "That chest is stuck! The grown-up will help!", "ASK THE GROWN-UP",
+     "puzzled for a beat, then warm and helpful", "NICE"),
+    ("chest_empty", 4, B, "Snuffwick emptied my chests! The grown-up has yours!", "ASK THE GROWN-UP",
+     "mock-outrage at the goblin, then a chuckle", "NICE"),
+    ("chest_empty", 5, B, "Sleepy chest! The grown-up has your treat!", "ASK THE GROWN-UP",
+     "sleepy-silly, a tiny yawn on 'Sleepy', then warm", "NICE"),
+    # no chest opens for this kid (a no-crystal blessing): with chests on and no bowls out, these replace bowl_common
+    # after nocrystal (a replay plays replay_done instead: that kid already has their candy)
+    # 2026-11-15 (owner): a kid who already played tonight already has their candy and gets no more, so after the
+    # replay line they hear one of these (never "the grown-up has a treat"); kind, never scolding
+    ("replay_done", 1, B, "You already found your treasure, traveler!", "TREASURE FOUND", "warm and proud of them", "NICE"),
+    ("replay_done", 2, B, "One treasure each! Yours is already found!", "TREASURE FOUND",
+     "friendly and fair, a smile on 'Yours'", "NICE"),
+    ("replay_done", 3, B, "Enjoy the treasure you already found!", "TREASURE FOUND", "cozy and glad for them", "NICE"),
+    ("replay_done", 4, B, "Already got your treasure! See you next Halloween!", "TREASURE FOUND",
+     "cheery send-off, no disappointment", "NICE"),
+    ("replay_done", 5, B, "Save room for next Halloween's treasure!", "TREASURE FOUND", "playful, a little chuckle", "NICE"),
+    ("chest_none", 1, B, "The grown-up has a treat for you!", "ASK THE GROWN-UP", "warm and generous", "NICE"),
+    ("chest_none", 2, B, "Hands out! The grown-up has a treat!", "ASK THE GROWN-UP", "playful, inviting", "NICE"),
+    ("chest_none", 3, B, "Go see the grown-up for a treat!", "ASK THE GROWN-UP", "cheery, pointing the way", "NICE"),
+    ("chest_none", 4, B, "A treat from the grown-up, just for you!", "ASK THE GROWN-UP", "fond, a smile in it", "NICE"),
+    ("chest_none", 5, B, "The grown-up has candy for you, traveler!", "ASK THE GROWN-UP", "bright and friendly", "NICE"),
     ("milestone", 1, B, "Another hundred crystals! Hooray, travelers!", "HOORAY, TRAVELERS!", "party cheer, bubbly", "NICE"),
     ("circle", 1, B, "A crystal circle! All the worlds together!", "CRYSTAL CIRCLE!",
      "delighted, gathering-everyone warmth", "NICE"),
@@ -1010,8 +1091,9 @@ VOICE = [
      "Snuffwick (pitched up by the builder): a dazzled squeak, then a giggle", "NICE"),
     ("keeper", 1, B, "Psst, Keeper... my real name's Bartholomew.", "SHH... SECRET",
      "close secret whisper, barely holding a chuckle", "NICE"),
-    ("keeper", 2, B, "Shh... my wings are tiny. I just float!", "SHH... SECRET",
-     "embarrassed confiding whisper, then a tiny giggle", "NICE"),
+    # 2026-11-15 (owner): he CAN fly (he floats around on screen and teaches Toffee to fly); was "my wings are tiny. I just float!"
+    ("keeper", 2, B, "Shh... tiny wings, but they fly just fine!", "SHH... SECRET",
+     "proud confiding whisper, then a tiny giggle", "NICE"),
     ("moonfull_a", 1, B, "My beacon is lit! You did it, travelers!", "BEACON LIT!",
      "overjoyed triumph, the biggest moment of the night - warm, never booming", "NICE"),
     ("moonfull_b", 1, B, "Silly Snuffwick... come to the feast! You're my Official Prankster!", "OFFICIAL PRANKSTER",
@@ -1062,6 +1144,39 @@ VOICE = [
     ("toffee_idle_awake", 3, T, "Travelers! Come see me fly!", "FLYING PRACTICE!", "bright call across the porch", "NICE"),
     ("toffee_idle_awake", 4, T, "Oops! Bumpy landing! Hee hee!", "FLYING PRACTICE!", "giggly, not hurt at all", "NICE"),
     ("toffee_idle_awake", 5, T, "Higher! Higher! Wheee!", "FLYING PRACTICE!", "breathless joy", "NICE"),
+    # 2026-11-15 (owner): Toffee is part of the WHOLE night, extra sleepy at first. (1) Her idle calls follow her
+    # stage (drowsy at 1/3, nearly awake at 2/3), not only asleep-then-awake; (2) a second line per visit: her
+    # reaction to the kid's treat at goodbye (and after a no-crystal blessing), by stage. Not in rush mode.
+    ("toffee_treat_s0", 1, T, "Mmm... candy... zzz...", "SHH... TOFFEE'S ASLEEP", "fast-asleep mumble, smacking her lips", "NICE"),
+    ("toffee_treat_s0", 2, T, "Zzz... save me one... zzz...", "SHH... TOFFEE'S ASLEEP", "sleep-talking, a tiny giggle", "NICE"),
+    ("toffee_treat_s0", 3, T, "Mmf... treasure? Nice... zzz...", "SHH... TOFFEE'S ASLEEP", "barely awake, drifting right back off", "NICE"),
+    ("toffee_treat_s0", 4, T, "Mmm... yummy dreams... zzz...", "SHH... TOFFEE'S ASLEEP", "cozy dreamy murmur", "NICE"),
+    ("toffee_treat_s0", 5, T, "Zzz... sparkly treat... zzz...", "SHH... TOFFEE'S ASLEEP", "tiny snore, a dreamy sigh on 'sparkly'", "NICE"),
+    ("toffee_treat_s1", 1, T, "Ooh... a treat? Yawwn...", "TOFFEE'S STIRRING", "drowsy and curious, yawning", "NICE"),
+    ("toffee_treat_s1", 2, T, "Mmm... lucky you, traveler...", "TOFFEE'S STIRRING", "sleepy and sweet", "NICE"),
+    ("toffee_treat_s1", 3, T, "Shiny... so shiny... yawn...", "TOFFEE'S STIRRING", "drowsy wonder, a yawn at the end", "NICE"),
+    ("toffee_treat_s1", 4, T, "Is it yummy? Mmm...", "TOFFEE'S STIRRING", "groggy, hopeful", "NICE"),
+    ("toffee_treat_s1", 5, T, "Bye-bye... sleepy wave...", "TOFFEE'S STIRRING", "half-asleep, waving goodbye", "NICE"),
+    ("toffee_treat_s2", 1, T, "Ooh! Treasure! Hee hee!", "TOFFEE'S WAKING UP!", "brightening, giggly", "NICE"),
+    ("toffee_treat_s2", 2, T, "Yay! A treat for you!", "TOFFEE'S WAKING UP!", "excited and sweet", "NICE"),
+    ("toffee_treat_s2", 3, T, "Wow! Is it chocolate?", "TOFFEE'S WAKING UP!", "curious, bouncy", "NICE"),
+    ("toffee_treat_s2", 4, T, "Hee hee! You're so lucky!", "TOFFEE'S WAKING UP!", "giggly and happy for them", "NICE"),
+    ("toffee_treat_s2", 5, T, "Ooh! Can I see?", "TOFFEE'S WAKING UP!", "eager, wide-eyed", "NICE"),
+    ("toffee_treat_s3", 1, T, "Wheee! Treasure! Hooray!", "TOFFEE'S AWAKE!", "bouncy joy", "NICE"),
+    ("toffee_treat_s3", 2, T, "Yay! I'll do a loop for you!", "TOFFEE'S AWAKE!", "proud and thrilled", "NICE"),
+    ("toffee_treat_s3", 3, T, "Treat time! Flap, flap, hooray!", "TOFFEE'S AWAKE!", "effortful flaps, cheering", "NICE"),
+    ("toffee_treat_s3", 4, T, "Ooh! Shiny! Hee hee!", "TOFFEE'S AWAKE!", "delighted giggle", "NICE"),
+    ("toffee_treat_s3", 5, T, "Bye, traveler! Thank you!", "TOFFEE'S AWAKE!", "sweet, waving, a giggle", "NICE"),
+    ("toffee_idle_drowsy", 1, T, "Mmm... is someone there? Yawn...", "TOFFEE'S STIRRING", "drowsy, peeking", "NICE"),
+    ("toffee_idle_drowsy", 2, T, "One eye open... any crystals?", "TOFFEE'S STIRRING", "sleepy and hopeful", "NICE"),
+    ("toffee_idle_drowsy", 3, T, "Yawwn... more glow, please...", "TOFFEE'S STIRRING", "big yawn, sleepy request", "NICE"),
+    ("toffee_idle_drowsy", 4, T, "Mmm... Butterscotch? Is it time?", "TOFFEE'S STIRRING", "groggy, sweet", "NICE"),
+    ("toffee_idle_drowsy", 5, T, "Zzz... oh! Hi... zzz...", "TOFFEE'S STIRRING", "nodding off, waking for a blink, nodding off again", "NICE"),
+    ("toffee_idle_waking", 1, T, "Psst! Travelers! Bring a crystal!", "TOFFEE'S WAKING UP!", "bright whisper-call across the porch", "NICE"),
+    ("toffee_idle_waking", 2, T, "I'm almost awake! Hee hee!", "TOFFEE'S WAKING UP!", "giggly, wriggling", "NICE"),
+    ("toffee_idle_waking", 3, T, "Stretch... and wiggle! Hee hee!", "TOFFEE'S WAKING UP!", "stretching, then giggling", "NICE"),
+    ("toffee_idle_waking", 4, T, "Butterscotch! More crystals, please!", "TOFFEE'S WAKING UP!", "eager, bouncing", "NICE"),
+    ("toffee_idle_waking", 5, T, "Is the beacon full yet?", "TOFFEE'S WAKING UP!", "impatient and excited", "NICE"),
     # Butterscotch's 2027 lines
     ("attract2_call", 1, B, "Shh... Toffee's napping. Wake us with a crystal!", "SHH... TOFFEE'S NAPPING",
      "soft whisper that warms up on 'Wake us'", "NICE"),
@@ -1374,7 +1489,26 @@ def meter_zoom_words(clips, words):
     return out
 
 
+# 2026-11-15 (owner): story beats animated from their stills with Runway Gen-4 Turbo (ElevenLabs connector, flow
+# "Crystal Oracle - animations"). A beat uses assets/source/video/<clip id>.mp4 when it exists (the build's `video`
+# recipe: cover-crop to 5:3, denoise), else keeps its kenburns pan. The still is remembered in VIDEO_STILL so its
+# `used_by` still names the clip, and it is the fallback the moment the MP4 is removed.
+VIDEO_DIR = os.path.join(HERE, "..", "assets", "source", "video")
+VIDEO_STILL = {}
+VIDEO_BEATS = ["chapter_c", "chapter2_a", "chapter2_b", "chapter2_c", "chapter2_d", "chapter2_e", "chapter2_f"]
+
+
+def use_video_beats(clips):
+    for c in clips:
+        if c["id"] in VIDEO_BEATS and os.path.exists(os.path.join(VIDEO_DIR, c["id"] + ".mp4")):
+            VIDEO_STILL[c["id"]] = c.pop("image", None)
+            for k in ("zoom", "pan"):
+                c.pop(k, None)
+            c.update({"recipe": "video", "source": c["id"], "crop": "center"})
+
+
 def main():
+    use_video_beats(CLIPS)
     all_words = dict(WORDS)
     all_words.update(meter_zoom_words(CLIPS, WORDS))
     still_ids = [s[0] for s in STILLS]
@@ -1392,7 +1526,8 @@ def main():
 
     stills = []
     for sid, kind, tr, prio, desc, prompt, extra in STILLS:
-        used = [c["id"] for c in CLIPS if sid in clip_stills(c)] + USED_EXTRA.get(sid, [])
+        used = ([c["id"] for c in CLIPS if sid in clip_stills(c)] + [k for k, v in VIDEO_STILL.items() if v == sid]
+                + USED_EXTRA.get(sid, []))
         e = {"id": sid, "kind": kind, "transparent": tr, "priority": prio, "desc": desc, "used_by": used,
              "prompt": prompt}
         e.update(extra)
@@ -1447,8 +1582,8 @@ def main():
         "_asset_guide": ASSET_GUIDE,
         # station-only groups (2026-10-31): awaken_b<colour>_N = more takes of a colour's name line (show.js)
         # chapter 2 (2026-11-02): Toffee + Butterscotch's 2027 lines; toffee_* sprites go to sprites/ on the iPad card
-        "extra_voice_groups": [r"awaken_b[1-9]", r"toffee_s[0-3]", r"toffee_idle_(sleep|awake)", r"moonfull2_toffee", r"attract2_call",
-                               r"chapter2_[a-f]", r"moonfull2_[ab]"],
+        "extra_voice_groups": [r"awaken_b[1-9]", r"toffee_s[0-3]", r"toffee_idle_(sleep|drowsy|waking|awake)", r"toffee_treat_s[0-3]", r"moonfull2_toffee", r"attract2_call",
+                               r"chapter2_[a-f]", r"moonfull2_[ab]", r"chest_(common|rare|legend|empty|none)", r"chest_rush_t[0-3]", r"replay_done"],
         "_station_sprites": [s[0] for s in STILLS if s[0].startswith("toffee_") and s[0] != "toffee_base"],
         "words": all_words, "stills": stills, "clips": CLIPS, "voice": voice, "sfx": SFX, "music": MUSIC,
     }

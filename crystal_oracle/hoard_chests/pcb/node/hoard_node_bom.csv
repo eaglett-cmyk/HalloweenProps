@@ -1,0 +1,5 @@
+Comment,Designator,Footprint,Manufacturer Part Number
+470uF 10V,C1,CP_Radial_D8.0mm_P3.50mm,
+RJ45 8P8C horizontal THT,J1,RJ45_Amphenol_54602-x08_Horizontal,54602-908LF
+SERVO,J2,PinHeader_1x03_P2.54mm_Vertical,
+"PT 1,5/5-3,5-H",J3,"TerminalBlock_Phoenix_PT-1,5-5-3.5-H_1x05_P3.50mm_Horizontal",

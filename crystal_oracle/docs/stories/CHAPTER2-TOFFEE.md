@@ -25,7 +25,7 @@ style as the master still `toffee_base`; every pose is an edit of it)
 - Glittery **lilac-violet purple** with shiny rounded scales and a row of soft rounded spikes down her head and back.
 - Two little **candy-corn horns** (white tip, orange middle, yellow base): the Halloween candy she is named for.
 - Pale-lavender belly plates, rosy cheeks, huge sparkly amber-brown eyes, a sweet little smile.
-- Translucent, shimmering pink-lilac **wings** (hers will fly one day, unlike Butterscotch's) and a long curled tail.
+- Translucent, shimmering pink-lilac **wings** (brand new and wobbly; Butterscotch flies just fine on his tiny ones and is her flying teacher) and a long curled tail.
 - Her bed is **Snuffwick's striped sock** (plum and cream, slouchy, a little holey). She sleeps in it, sits up in
   it and, when she flies, hovers just above it.
 - No fire, no teeth, no claws, never scary. Same rules as Butterscotch.
@@ -87,6 +87,13 @@ middle). Because she is drawn live, one set of clips serves every stage and ever
 | 3 Wide awake | full (after the finale) | `toffee_awake` / `toffee_flap`, practising | `toffee_awake`, flaps on the prize | awake and flying (`toffee_s3`) |
 
 - Her glow: while a crystal is on the Wakestone, a soft glow in the crystal's colour sits behind her too.
+- **All night, not just at the end (owner, 2026-11-15):** she is extra sleepy at the start but part of every visit
+  and of the idle loop between kids. Between kids her pose follows her stage (stage 0 asleep; stage 1 asleep with
+  a drowsy peek every 10 s; stage 2 yawn / awake / drowsy; stage 3 awake and flapping) and so do her idle calls
+  (`toffee_idle_sleep` → `toffee_idle_drowsy` → `toffee_idle_waking` → `toffee_idle_awake`). Each crystal visit
+  now has **two** Toffee lines: her greeting (below) and a **treat reaction** (`toffee_treat_s<stage>`) just
+  before Butterscotch's goodbye; a no-crystal blessing gets the treat reaction too. Not after "ask the
+  grown-up", not on a replay, not in rush mode.
 - Her line plays after Butterscotch's greeting (first visit: after "Sparkfinder!"; returning: after the rank line),
   about 1.5–2 s. **Rush mode** skips her line (she still shows and still reacts).
 - Five takes per stage, so a group of up to five never hears the same Toffee line twice.
@@ -140,6 +147,22 @@ still hear five different ones.)
 - After the finale (`toffee_idle_awake_1…5`): "Flap, flap, flap! Are you watching, Butterscotch?" ·
   "Wheee! A loop! Almost a loop!" · "Travelers! Come see me fly!" · "Oops! Bumpy landing! Hee hee!" ·
   "Higher! Higher! Wheee!"
+
+**Toffee, treat reaction (2026-11-15, `toffee_treat_s0…s3`, 5 each)** — before Butterscotch's goodbye and after a blessing:
+- s0 asleep: "Mmm... candy... zzz..." · "Zzz... save me one... zzz..." · "Mmf... treasure? Nice... zzz..." ·
+  "Mmm... yummy dreams... zzz..." · "Zzz... sparkly treat... zzz..."
+- s1 drowsy: "Ooh... a treat? Yawwn..." · "Mmm... lucky you, traveler..." · "Shiny... so shiny... yawn..." ·
+  "Is it yummy? Mmm..." · "Bye-bye... sleepy wave..."
+- s2 waking: "Ooh! Treasure! Hee hee!" · "Yay! A treat for you!" · "Wow! Is it chocolate?" · "Hee hee! You're so lucky!" ·
+  "Ooh! Can I see?"
+- s3 awake: "Wheee! Treasure! Hooray!" · "Yay! I'll do a loop for you!" · "Treat time! Flap, flap, hooray!" ·
+  "Ooh! Shiny! Hee hee!" · "Bye, traveler! Thank you!"
+
+**Toffee, idle calls by stage (2026-11-15)**
+- Drowsy (`toffee_idle_drowsy_1…5`): "Mmm... is someone there? Yawn..." · "One eye open... any crystals?" ·
+  "Yawwn... more glow, please..." · "Mmm... Butterscotch? Is it time?" · "Zzz... oh! Hi... zzz..."
+- Waking (`toffee_idle_waking_1…5`): "Psst! Travelers! Bring a crystal!" · "I'm almost awake! Hee hee!" ·
+  "Stretch... and wiggle! Hee hee!" · "Butterscotch! More crystals, please!" · "Is the beacon full yet?"
 
 **Butterscotch, attract calls 2027 (`attract2_call_1…5`)**
 1. "Shh... Toffee's napping. Wake us with a crystal!"

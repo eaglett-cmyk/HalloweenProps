@@ -39,6 +39,7 @@ struct Settings {
   bool     logVisits      = true;   // anonymised CSV on the SD card
   bool     showCounter    = true;   // station-wide "crystals awakened" counter on the attract screen
   char     ndefUrl[64]    = "halloween.ciancio.cloud";                 // crystals get <ndefUrl>/c/<anonId> (https:// prefix implied)
+  bool     chests         = false;  // Hoard Hub prize chests: one LT_CHEST AWARD per crystal visit at the bowl line (plinth 1.4+)
   // [odds]  (percent of crystal visits; trick+treat get the rest)
   uint8_t  trickPct       = 15;
   uint8_t  rarePct        = 18;

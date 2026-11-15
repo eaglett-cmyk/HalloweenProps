@@ -1,0 +1,18 @@
+Comment,Designator,Footprint,Manufacturer Part Number
+1000uF 10V,C1,CP_Radial_D10.0mm_P5.00mm,
+100uF 10V,C2,CP_Radial_D6.3mm_P2.50mm,
+100nF,"C3,C4,C5,C6",C_Disc_D5.0mm_W2.5mm_P5.00mm,
+RJ45 8P8C horizontal THT,"J1,J10,J11,J12,J13,J14,J15,J2,J3,J4,J5,J6,J7,J8,J9",RJ45_Amphenol_54602-x08_Horizontal,54602-908LF
+SPARE PORT 16,J16,PinHeader_1x05_P2.54mm_Vertical,
+I2C,J_I2C,PinHeader_1x04_P2.54mm_Vertical,
+DC barrel jack 5.5x2.1,J_PWR,BarrelJack_CUI_PJ-102AH_Horizontal,PJ-102AH
+"MKDS 1,5/2-5.08",J_PWR2,"TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal",
+10k,R1,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,
+4k7,R2,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,
+1k,R3,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,
+100R,R4,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,
+10k x8 bussed SIP-9,"RN1,RN2,RN3,RN4",R_Array_SIP9,4609X-101-103LF
+TEST,SW1,SW_PUSH_6mm,
+ESP32 DevKit V1 30p,U1,ESP32_DevKitV1_30pin_dual_width,
+CD74HCT4067 SOIC-24W,"U2,U3,U4",SOIC-24W_7.5x15.4mm_P1.27mm,CD74HCT4067M96
+SN74AHCT125N DIP-14,U5,DIP-14_W7.62mm_Socket_LongPads,SN74AHCT125N
