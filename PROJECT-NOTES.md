@@ -141,6 +141,9 @@ Read `crystal_oracle/README.md` first, then `crystal_oracle/docs/DESIGN.md` (con
     rejected (`*_REJECTED.mp4`). The 4 retakes (6,060) were accepted, so the 3 moderation failures were evidently
     refunded; ~2.1k credits left (inferred, not read from the account). **Live video beats: chapter_c, chapter2_a-d;
     chapter2_e and _f still pan.** Both cards rebuilt; headless story run plays a-f in order with the videos, no clip errors.
+  * **NAS backup of the clips (2026-11-15):** all 13 MP4s (5 live + tests/rejects, 38 MB) + a README (which is
+    live, how to restore) at `\192.168.1.180	est\Halloweenideo-clips\`, SHA-256 verified against the PC. One-off
+    copy, not a scheduled job: re-copy after making new clips (the folder is git-ignored).
 - **2026-11-12 (Hoard Chests: 15 pop-open prize chests + hub, DESIGNED, nothing built)** — owner asked for
   a candy system to pair with the Oracle, with all build files. First plan (3 bulk hopper dispensers) was
   dropped the same evening; owner's choice: **15 pop-open boxes, 5 per tier, reloaded between groups, each
