@@ -144,6 +144,21 @@ Read `crystal_oracle/README.md` first, then `crystal_oracle/docs/DESIGN.md` (con
   * **NAS backup of the clips (2026-11-15):** all 13 MP4s (5 live + tests/rejects, 38 MB) + a README (which is
     live, how to restore) at `\\192.168.1.180\test\Halloween\video-clips\`, SHA-256 verified against the PC. One-off
     copy, not a scheduled job: re-copy after making new clips (the folder is git-ignored).
+  * **ElevenLabs plan upgraded (2026-11-16, owner):** one tier up, billed yearly → **123,635 credits a month**
+    (was ~19k left on the old plan). The only still-based story beats left without video were chapter2_e and
+    chapter2_f (everything else is live-layered sprites over bg_cave, not a single still to animate).
+  * **chapter2_e + _f on a higher-end model (2026-11-16, owner: "use a higher end model"):** tested e on
+    **Runway Gen-4.5** (3,636) and **Seedance 2.5 US** (`bytedance-seedance-v2.5-us`, 720p 5 s, `generate_audio`
+    false = **16,803 credits**; audio on costs the same). Runway 4.5 morphed the lying sock into a giant upright
+    sock in the foreground within 0.5 s (rejected, `chapter2_e_runway45_test.mp4`). **Seedance 2.5 was the first
+    model to stay fully on-model:** e = Toffee peeks over the sock, smiles, snuggles back down; f = she loops the
+    sparkle trail, Butterscotch floats and cheers, Snuffwick claps, floor unchanged. Both one take, both live →
+    **all seven video beats now play video (no pans left).** Seedance takes negative prompts (used: "maintain
+    exact appearance from the reference image, consistent characters throughout, no deformation or drift, no
+    claws, no paw pads, no extra limbs, no new characters, no camera cuts, no colour shift") and returns
+    1238x744 (≈5:3, so the centre crop trims almost nothing). Spent 37,242 of the month. Both cards rebuilt
+    (`--check` 0 errors); the NAS video folder updated (18 MP4s + README, hashes verified).
+    **Default for any future still-to-video: Seedance 2.5** (Veo grows claws/pads, Runway drifts off-story).
 - **2026-11-12 (Hoard Chests: 15 pop-open prize chests + hub, DESIGNED, nothing built)** — owner asked for
   a candy system to pair with the Oracle, with all build files. First plan (3 bulk hopper dispensers) was
   dropped the same evening; owner's choice: **15 pop-open boxes, 5 per tier, reloaded between groups, each

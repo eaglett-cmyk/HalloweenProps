@@ -853,8 +853,8 @@
    "priority": "NICE",
    "desc": "Chapter 2 parts d/e: both dragons asleep - Butterscotch floating in the middle, Toffee curled in the sock on a candy pile at his left; the beacon a faint ember.",
    "used_by": [
-    "chapter2_e",
-    "chapter2_d"
+    "chapter2_d",
+    "chapter2_e"
    ],
    "prompt": "The Hoard Cave at night, very quiet. Butterscotch floats asleep in the middle; beside him, low on the left on a soft candy pile, tiny Toffee sleeps curled up in the striped sock. The Hoard Beacon in the upper-left glows only a faint ember. Format: wide landscape, 5:3 (1600x960 if you can choose; otherwise the widest landscape option). Dark midnight-indigo and plum colours (#140F2E, #2B1650). Keep the BOTTOM QUARTER of the image plain near-black and empty (the screen draws words there). Big simple shapes, clean smooth gradients. Cute storybook 3D-painted style like a modern family animated film; soft rounded chunky shapes; glossy candy-like materials; smooth clean shading; gentle rim light; no grain, no fine texture, no mist, no bokeh, no tiny stars, no text, no letters, no watermark. Spooky-cute and cozy, never scary.",
    "refs": [
@@ -3333,28 +3333,20 @@
   {
    "id": "chapter2_e",
    "priority": "NICE",
-   "recipe": "kenburns",
-   "image": "chapter2_nap",
+   "recipe": "video",
    "seconds": 4.5,
-   "zoom": [
-    1.05,
-    1.14
-   ],
-   "pan": "left",
-   "notes": "Every crystal wakes her a little more (slow push-in towards her)."
+   "notes": "Every crystal wakes her a little more (slow push-in towards her).",
+   "source": "chapter2_e",
+   "crop": "center"
   },
   {
    "id": "chapter2_f",
    "priority": "NICE",
-   "recipe": "kenburns",
-   "image": "chapter2_lesson",
+   "recipe": "video",
    "seconds": 5,
-   "zoom": [
-    1.04,
-    1.1
-   ],
-   "pan": "up",
-   "notes": "Fill the beacon, and Toffee gets flying lessons."
+   "notes": "Fill the beacon, and Toffee gets flying lessons.",
+   "source": "chapter2_f",
+   "crop": "center"
   }
  ],
  "voice": [
