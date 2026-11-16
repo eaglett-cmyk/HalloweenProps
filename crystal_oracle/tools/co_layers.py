@@ -655,7 +655,14 @@ def graph(c, stills, media):
 
     # ---- background -> [m0] (gbrp) ----
     bgp = p.get("bg") or {}
-    if res["bg"]:
+    if res["bg"] and c.get("video_src") and res["bg"] == bgp.get("image"):
+        # living background: the still's seamless <bg>_loop.mp4, looped as long as the clip needs
+        inputs.append(["-stream_loop", "-1", "-i", c["video_src"]])
+        src = "%d:v" % (len(inputs) - 1)
+        parts.append("[%s]fps=%s,scale=%d:%d:force_original_aspect_ratio=increase:flags=lanczos,"
+                     "crop=%d:%d,setsar=1,trim=end_frame=%d,%s,format=gbrp[m0]"
+                     % (src, num(fps), W, H, W, H, reps, retime))
+    elif res["bg"]:
         st = stills[res["bg"]]
         rot = bgp.get("rotate")
         k = _rotate_cover(max(abs(v) for v in rot)) if rot else 1.0

@@ -1094,6 +1094,14 @@ def resolve_sources(m, src_root, report):
                 report.warn("clips[%s]" % c["id"], "several video files match '%s' - using %s" % (c["video"], os.path.basename(path)))
         else:
             c["video_src"] = None
+        # A "living" background (2026-11-16): a layers clip whose bg still has a seamless loop
+        # assets/source/video/<bg still>_loop.mp4 plays that loop under its layers instead of the
+        # still (only for a plain bg - no zoom/rotate - and only when the primary still is used).
+        bgp = (c.get("params") or {}).get("bg") if c.get("recipe") == "layers" else None
+        if bgp and bgp.get("image") and not bgp.get("zoom") and not bgp.get("rotate"):
+            path, _ = dirs["video"].find(bgp["image"] + "_loop")
+            if path:
+                c["video_src"] = path
     for key in ("voice", "sfx", "music"):
         for e in getattr(m, key):
             e["src"] = pick("%s[%s]" % (key, e["id"]), dirs[key], e["id"])

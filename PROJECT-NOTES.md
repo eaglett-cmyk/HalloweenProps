@@ -159,6 +159,28 @@ Read `crystal_oracle/README.md` first, then `crystal_oracle/docs/DESIGN.md` (con
     1238x744 (≈5:3, so the centre crop trims almost nothing). Spent 37,242 of the month. Both cards rebuilt
     (`--check` 0 errors); the NAS video folder updated (18 MP4s + README, hashes verified).
     **Default for any future still-to-video: Seedance 2.5** (Veo grows claws/pads, Runway drifts off-story).
+  * **New cave background (2026-11-16, owner-picked):** `bg_cave` / `bg_cave_lit` replaced by the NEW hoard style:
+    a narrow winding walkway through a full candy hoard + candy-making tools, chocolate and wooden treasure chests
+    with glowing coin/star/gem emblems (Codex, refs = the chapter 2 stills; owner rejected "too much open floor",
+    then neat chest rows; picked take "F2"). `bg_cave_lit` = F2 as painted (lantern lit); `bg_cave` = a Codex
+    edit of F2 with the lantern dark (pixel-aligned with F2 except the lantern) graded darker with ffmpeg
+    `curves=all='0/0 0.25/0.10 0.5/0.25 0.75/0.52 0.9/0.82 1/1'` ("dim2", owner's pick). Old ones kept as
+    `.old2`; every take is in `assets/cave-options/`. The show draws the beacon glow onto the lantern, so the
+    unlit cave MUST keep a dark lantern.
+  * **Living backgrounds (2026-11-16):** `co_manifest.py` + `co_layers.py`: a layers clip whose bg still has
+    `assets/source/video/<bg still>_loop.mp4` plays that loop (`-stream_loop -1`, scaled/cropped to 800x480,
+    re-timed to the clip fps) under its layers instead of the still - only for a plain bg (no zoom/rotate) and
+    the primary still. Loops are 4 s so the 4 s and 12 s looping clips (greet, charge, attract) stay seamless.
+    Made with Seedance 2.5 US at **480p** (the screen is 800x480, so 480p is native) 4 s silent, start frame =
+    end frame = the cave, locked camera: **6,251 credits each.** The caves were uploaded for ElevenLabs (owner
+    approved) as `halloween.ciancio.cloud/img/anim/cave2026_{unlit,lit}.jpg` (public, unlinked).
+    Result: `bg_cave_loop.mp4` + `bg_cave_lit_loop.mp4` (826x496, 24 fps, 97 frames; last frame ≈ first, PSNR
+    ~31 dB - only sparkles differ). Emblems pulse, sparkles burst on the chests, motes drift; the unlit
+    lantern stayed dark. Both cards rebuilt, `--check` 0 errors; on the TF card a few busy clips raise q 5 -> 7
+    to fit 96 KB frames (the iPad build is unaffected). Previews in `assets/cave-options/preview/`.
+    `assets/cave-options/` is git-ignored; it + the two loops are on the NAS (`Halloween\cave-options\`,
+    `Halloween\video-clips\`, hashes verified). ~73.9k of 123,635 credits left this month (owner's 86,393 minus
+    12,502).
 - **2026-11-12 (Hoard Chests: 15 pop-open prize chests + hub, DESIGNED, nothing built)** — owner asked for
   a candy system to pair with the Oracle, with all build files. First plan (3 bulk hopper dispensers) was
   dropped the same evening; owner's choice: **15 pop-open boxes, 5 per tier, reloaded between groups, each
